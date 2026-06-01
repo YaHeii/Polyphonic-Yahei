@@ -326,7 +326,6 @@ type VisitorBackVO struct {
 }
 
 type WebsiteFeature struct {
-	IsChatRoom      int64 `json:"is_chat_room"`      // 是否开启聊天室
 	IsAiAssistant   int64 `json:"is_ai_assistant"`   // 是否开启AI助手
 	IsMusicPlayer   int64 `json:"is_music_player"`   // 是否开启音乐播放器
 	IsCommentReview int64 `json:"is_comment_review"` // 是否开启评论审核

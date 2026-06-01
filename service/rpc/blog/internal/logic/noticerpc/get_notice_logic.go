@@ -1,0 +1,31 @@
+package noticerpclogic
+
+import (
+	"context"
+
+	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/internal/pb/noticerpc"
+	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/internal/svc"
+
+	"github.com/zeromicro/go-zero/core/logx"
+)
+
+type GetNoticeLogic struct {
+	ctx    context.Context
+	svcCtx *svc.ServiceContext
+	logx.Logger
+}
+
+func NewGetNoticeLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetNoticeLogic {
+	return &GetNoticeLogic{
+		ctx:    ctx,
+		svcCtx: svcCtx,
+		Logger: logx.WithContext(ctx),
+	}
+}
+
+// 查询通知
+func (l *GetNoticeLogic) GetNotice(in *noticerpc.GetNoticeReq) (*noticerpc.GetNoticeResp, error) {
+	// todo: add your logic here and delete this line
+
+	return &noticerpc.GetNoticeResp{}, nil
+}
