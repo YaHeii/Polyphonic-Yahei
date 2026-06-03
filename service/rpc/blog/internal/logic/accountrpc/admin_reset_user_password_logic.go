@@ -5,7 +5,7 @@ import (
 
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/internal/pb/accountrpc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/internal/svc"
-
+	"github.com/YaHeii/Polyphonic-Yahei/kit/utils/cryptox"
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
@@ -26,6 +26,19 @@ func NewAdminResetUserPasswordLogic(ctx context.Context, svcCtx *svc.ServiceCont
 // 管理员重置用户密码
 func (l *AdminResetUserPasswordLogic) AdminResetUserPassword(in *accountrpc.AdminResetUserPasswordReq) (*accountrpc.AdminResetUserPasswordResp, error) {
 	// todo: add your logic here and delete this line
+	// 验证用户是否存在
+	user, err := l.svcCtx.TUserModel.FindOneByUserId(l.ctx, in.UserId)
+	if err != nil {
+		return nil, bizerr.NewBizError(bizcode.CodeUserNotExist, err.Error())
+	}
+
+	// 更新密码
+	user.Password = cryptox.BcryptHash(in.Password)
+
+	_, err = l.svcCtx.TUserModel.Save(l.ctx, user)
+	if err != nil {
+		return nil, err
+	}
 
 	return &accountrpc.AdminResetUserPasswordResp{}, nil
 }
