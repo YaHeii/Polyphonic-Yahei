@@ -3,6 +3,7 @@ package articlerpclogic
 import (
 	"context"
 
+	"github.com/lib/pq"
 	"github.com/spf13/cast"
 	"github.com/zeromicro/go-zero/core/logx"
 
@@ -50,26 +51,14 @@ func (l *ArticleHelperLogic) findArticleCountGroupCategory(list []*model.TCatego
 	for _, v := range list {
 		ids = append(ids, v.Id)
 	}
-
-	// 查询每个 category_id 的文章数量
-	var results []struct {
-		CategoryID   int64 `gorm:"column:category_id"`
-		ArticleCount int   `gorm:"column:article_count"`
-	}
-
-	err = l.svcCtx.Gorm.Model(&model.TArticle{}).
-		Select("category_id, COUNT(*) as article_count").
-		Where("category_id IN ?", ids).
-		Group("category_id").
-		Order("category_id").
-		Scan(&results).Error
+	result, err := l.svcCtx.TArticleModel.CountGroupByCategoryIDs(l.ctx, ids)
 	if err != nil {
 		return nil, err
 	}
 
 	acm = make(map[int64]int)
-	for _, result := range results {
-		acm[result.CategoryID] = result.ArticleCount
+	for categoryID, articleCount := range result {
+		acm[categoryID] = int(articleCount)
 	}
 
 	return acm, nil
@@ -77,29 +66,22 @@ func (l *ArticleHelperLogic) findArticleCountGroupCategory(list []*model.TCatego
 
 // 查询标签下的文章数量
 func (l *ArticleHelperLogic) findArticleCountGroupTag(list []*model.TTag) (acm map[int64]int, err error) {
-	var ids []int64
+	var names []string
+	tagNameIDMap := make(map[string]int64, len(list))
 	for _, v := range list {
-		ids = append(ids, v.Id)
+		names = append(names, v.TagName)
+		tagNameIDMap[v.TagName] = v.Id
 	}
-	// 查询每个 tag_id 的文章数量
-	var results []struct {
-		TagID        int64 `gorm:"column:tag_id"`
-		ArticleCount int   `gorm:"column:article_count"`
-	}
-
-	err = l.svcCtx.Gorm.Model(&model.TArticleTag{}).
-		Select("tag_id, COUNT(*) as article_count").
-		Where("tag_id IN ?", ids).
-		Group("tag_id").
-		Order("tag_id").
-		Scan(&results).Error
+	result, err := l.svcCtx.TArticleModel.CountGroupByTagNames(l.ctx, names)
 	if err != nil {
 		return nil, err
 	}
 
 	acm = make(map[int64]int)
-	for _, result := range results {
-		acm[result.TagID] = result.ArticleCount
+	for tagName, articleCount := range result {
+		if tagID, ok := tagNameIDMap[tagName]; ok {
+			acm[tagID] = int(articleCount)
+		}
 	}
 
 	return acm, nil
@@ -107,22 +89,33 @@ func (l *ArticleHelperLogic) findArticleCountGroupTag(list []*model.TTag) (acm m
 
 // 查询文章列表对应的分类
 func (l *ArticleHelperLogic) findCategoryGroupArticle(list []*model.TArticle) (acm map[int64]*model.TCategory, err error) {
-	var categoryIds []int64
+	categorySet := make(map[int64]struct{})
 	for _, v := range list {
-		categoryIds = append(categoryIds, v.CategoryId)
+		categorySet[v.CategoryId] = struct{}{}
 	}
 
-	cs, err := l.svcCtx.TCategoryModel.FindALL(l.ctx, "id IN ?", categoryIds)
+	categoryIDs := make([]int64, 0, len(categorySet))
+	for id := range categorySet {
+		categoryIDs = append(categoryIDs, id)
+	}
+	if len(categoryIDs) == 0 {
+		return map[int64]*model.TCategory{}, nil
+	}
+
+	cs, err := l.svcCtx.TCategoryModel.FindByIds(l.ctx, categoryIDs)
 	if err != nil {
 		return nil, err
 	}
 
+	categoryMap := make(map[int64]*model.TCategory, len(cs))
+	for _, category := range cs {
+		categoryMap[category.Id] = category
+	}
+
 	acm = make(map[int64]*model.TCategory)
 	for _, v := range list {
-		for _, category := range cs {
-			if category.Id == v.CategoryId {
-				acm[v.Id] = category
-			}
+		if category, ok := categoryMap[v.CategoryId]; ok {
+			acm[v.Id] = category
 		}
 	}
 
@@ -131,31 +124,38 @@ func (l *ArticleHelperLogic) findCategoryGroupArticle(list []*model.TArticle) (a
 
 // 查询文章列表对应的标签
 func (l *ArticleHelperLogic) findTagGroupArticle(list []*model.TArticle) (atm map[int64][]*model.TTag, err error) {
-	var articleIds []int64
+	tagNameSet := make(map[string]struct{})
 	for _, v := range list {
-		articleIds = append(articleIds, v.Id)
+		for _, tagName := range v.Tags {
+			if tagName != "" {
+				tagNameSet[tagName] = struct{}{}
+			}
+		}
+	}
+	if len(tagNameSet) == 0 {
+		return map[int64][]*model.TTag{}, nil
 	}
 
-	ats, err := l.svcCtx.TArticleTagModel.FindALL(l.ctx, "article_id in (?)", articleIds)
+	tagNames := make([]string, 0, len(tagNameSet))
+	for tagName := range tagNameSet {
+		tagNames = append(tagNames, tagName)
+	}
+
+	ts, err := l.svcCtx.TTagModel.FindByNames(l.ctx, tagNames)
 	if err != nil {
 		return nil, err
 	}
 
-	var tagIds []int64
-	for _, v := range ats {
-		tagIds = append(tagIds, v.TagId)
-	}
-
-	ts, err := l.svcCtx.TTagModel.FindALL(l.ctx, "id in (?)", tagIds)
-	if err != nil {
-		return nil, err
+	tagMap := make(map[string]*model.TTag, len(ts))
+	for _, tag := range ts {
+		tagMap[tag.TagName] = tag
 	}
 
 	atm = make(map[int64][]*model.TTag)
-	for _, v := range ats {
-		for _, tag := range ts {
-			if tag.Id == v.TagId {
-				atm[v.ArticleId] = append(atm[v.ArticleId], tag)
+	for _, article := range list {
+		for _, tagName := range article.Tags {
+			if tag, ok := tagMap[tagName]; ok {
+				atm[article.Id] = append(atm[article.Id], tag)
 			}
 		}
 	}
@@ -245,17 +245,7 @@ func (l *ArticleHelperLogic) convertArticleQuery(in *articlerpc.FindArticleListR
 	}
 
 	if in.TagName != "" {
-		tag, err := l.svcCtx.TTagModel.FindOneByTagName(l.ctx, in.TagName)
-		if err == nil {
-			ats, err := l.svcCtx.TArticleTagModel.FindALL(l.ctx, "tag_id = ?", tag.Id)
-			if err == nil {
-				var articleIds []int64
-				for _, v := range ats {
-					articleIds = append(articleIds, v.ArticleId)
-				}
-				opts = append(opts, query.WithCondition("id in (?)", articleIds))
-			}
-		}
+		opts = append(opts, query.WithCondition("tags @> ?", pq.StringArray{in.TagName}))
 	}
 
 	return query.NewQueryBuilder(opts...).Build()
@@ -295,8 +285,8 @@ func (l *ArticleHelperLogic) convertArticle(records []*model.TArticle) (out []*a
 			ArticleContent: entity.ArticleContent,
 			ArticleType:    entity.ArticleType,
 			OriginalUrl:    entity.OriginalUrl,
-			IsTop:          entity.IsTop,
-			IsDelete:       entity.IsDelete,
+			IsTop:          boolToInt64(entity.IsTop),
+			IsDelete:       boolToInt64(entity.IsDelete),
 			Status:         entity.Status,
 			CreatedAt:      entity.CreatedAt.UnixMilli(),
 			UpdatedAt:      entity.UpdatedAt.UnixMilli(),
@@ -413,8 +403,11 @@ func (l *ArticleHelperLogic) GetViewTopArticleList(count int64) (list []*model.T
 	for _, v := range ids {
 		idList = append(idList, cast.ToInt64(v))
 	}
+	if len(idList) == 0 {
+		return []*model.TArticle{}, nil
+	}
 
-	list, err = l.svcCtx.TArticleModel.FindALL(l.ctx, "id in (?)", idList)
+	list, err = l.svcCtx.TArticleModel.FindByIds(l.ctx, idList)
 	if err != nil {
 		return nil, err
 	}
@@ -424,20 +417,12 @@ func (l *ArticleHelperLogic) GetViewTopArticleList(count int64) (list []*model.T
 
 // 获取每日文章生产数量
 func (l *ArticleHelperLogic) GetArticleDailyStatistics() (out map[string]int64, err error) {
-	var results []struct {
-		Date         string `gorm:"column:date"`
-		ArticleCount int64  `gorm:"column:article_count"`
-	}
+	return l.svcCtx.TArticleModel.GetDailyStatistics(l.ctx)
+}
 
-	err = l.svcCtx.Gorm.Raw("SELECT DATE(created_at) AS date, COUNT(*) as article_count FROM t_article GROUP BY date order by date desc").Scan(&results).Error
-	if err != nil {
-		return nil, err
+func boolToInt64(v bool) int64 {
+	if v {
+		return 1
 	}
-
-	out = make(map[string]int64)
-	for _, result := range results {
-		out[result.Date] = result.ArticleCount
-	}
-
-	return out, nil
+	return 0
 }

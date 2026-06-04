@@ -25,7 +25,23 @@ func NewUpdateCategoryLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Up
 
 // 更新文章分类
 func (l *UpdateCategoryLogic) UpdateCategory(in *articlerpc.UpdateCategoryReq) (*articlerpc.UpdateCategoryResp, error) {
-	// todo: add your logic here and delete this line
+	entity, err := l.svcCtx.TCategoryModel.FindById(l.ctx, in.Id)
+	if err != nil {
+		return nil, err
+	}
 
-	return &articlerpc.UpdateCategoryResp{}, nil
+	entity.CategoryName = in.CategoryName
+	_, err = l.svcCtx.TCategoryModel.Insert(l.ctx, entity)
+	if err != nil {
+		return nil, err
+	}
+
+	return &articlerpc.UpdateCategoryResp{
+		Category: &articlerpc.Category{
+			Id:           entity.Id,
+			CategoryName: entity.CategoryName,
+			CreatedAt:    entity.CreatedAt.UnixMilli(),
+			UpdatedAt:    entity.UpdatedAt.UnixMilli(),
+		},
+	}, nil
 }

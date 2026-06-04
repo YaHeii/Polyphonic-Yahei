@@ -55,8 +55,8 @@ message ArticleDetails {
   string article_content = 6;// 内容
   int64 article_type = 7;// 文章类型 1原创 2转载 3翻译
   string original_url = 8;// 原文链接
-  int64 is_top = 9;// 是否置顶 1是
-  int64 is_delete = 10;// 是否删除 1是
+  bool is_top = 9;// 是否置顶 1是
+  bool is_delete = 10;// 是否删除 1是
   int64 status = 11;// 状态值 1公开 2私密 3草稿 4已删除
   int64 created_at = 12;// 发表时间
   int64 updated_at = 13;// 更新时间

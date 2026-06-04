@@ -25,7 +25,20 @@ func NewUpdateArticleTopLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 
 // 更新文章置顶
 func (l *UpdateArticleTopLogic) UpdateArticleTop(in *articlerpc.UpdateArticleTopReq) (*articlerpc.UpdateArticleTopResp, error) {
-	// todo: add your logic here and delete this line
 
-	return &articlerpc.UpdateArticleTopResp{}, nil
+	record, err := l.svcCtx.TArticleModel.FindById(l.ctx, in.ArticleId)
+	if err != nil {
+		return nil, err
+	}
+
+	record.IsTop = in.IsTop
+	_, err = l.svcCtx.TArticleModel.Insert(l.ctx, record)
+	if err != nil {
+		return nil, err
+	}
+
+	helper := NewArticleHelperLogic(l.ctx, l.svcCtx)
+	return &articlerpc.UpdateArticleTopResp{
+		Article: helper.convertArticlePreviewOut(record),
+	}, nil
 }
