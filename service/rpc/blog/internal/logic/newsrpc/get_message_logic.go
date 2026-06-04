@@ -25,7 +25,12 @@ func NewGetMessageLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetMes
 
 // 查询留言
 func (l *GetMessageLogic) GetMessage(in *newsrpc.GetMessageReq) (*newsrpc.GetMessageResp, error) {
-	// todo: add your logic here and delete this line
+	entity, err := l.svcCtx.TMessageModel.FindById(l.ctx, in.Id)
+	if err != nil {
+		return nil, err
+	}
 
-	return &newsrpc.GetMessageResp{}, nil
+	return &newsrpc.GetMessageResp{
+		Message: convertMessageOut(entity),
+	}, nil
 }

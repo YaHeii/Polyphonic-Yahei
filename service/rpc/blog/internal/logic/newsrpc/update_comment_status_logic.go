@@ -25,7 +25,14 @@ func NewUpdateCommentStatusLogic(ctx context.Context, svcCtx *svc.ServiceContext
 
 // 更新评论状态
 func (l *UpdateCommentStatusLogic) UpdateCommentStatus(in *newsrpc.UpdateCommentStatusReq) (*newsrpc.UpdateCommentStatusResp, error) {
-	// todo: add your logic here and delete this line
+	rows, err := l.svcCtx.TCommentModel.Updates(l.ctx, map[string]interface{}{
+		"status": in.Status,
+	}, "id in (?)", in.Ids)
+	if err != nil {
+		return nil, err
+	}
 
-	return &newsrpc.UpdateCommentStatusResp{}, nil
+	return &newsrpc.UpdateCommentStatusResp{
+		SuccessCount: rows,
+	}, nil
 }

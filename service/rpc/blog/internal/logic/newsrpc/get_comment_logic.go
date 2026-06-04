@@ -25,7 +25,12 @@ func NewGetCommentLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetCom
 
 // 查询评论
 func (l *GetCommentLogic) GetComment(in *newsrpc.GetCommentReq) (*newsrpc.GetCommentResp, error) {
-	// todo: add your logic here and delete this line
+	entity, err := l.svcCtx.TCommentModel.FindById(l.ctx, in.Id)
+	if err != nil {
+		return nil, err
+	}
 
-	return &newsrpc.GetCommentResp{}, nil
+	return &newsrpc.GetCommentResp{
+		Comment: convertCommentOut(entity),
+	}, nil
 }

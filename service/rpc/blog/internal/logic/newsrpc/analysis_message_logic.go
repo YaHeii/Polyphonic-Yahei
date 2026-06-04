@@ -25,7 +25,12 @@ func NewAnalysisMessageLogic(ctx context.Context, svcCtx *svc.ServiceContext) *A
 
 // 消息数据分析
 func (l *AnalysisMessageLogic) AnalysisMessage(in *newsrpc.AnalysisMessageReq) (*newsrpc.AnalysisMessageResp, error) {
-	// todo: add your logic here and delete this line
+	rc, err := l.svcCtx.TMessageModel.FindCount(l.ctx, "")
+	if err != nil {
+		return nil, err
+	}
 
-	return &newsrpc.AnalysisMessageResp{}, nil
+	return &newsrpc.AnalysisMessageResp{
+		MessageCount: rc,
+	}, nil
 }

@@ -3,6 +3,7 @@ package newsrpclogic
 import (
 	"context"
 
+	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/internal/common/query"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/internal/pb/newsrpc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/internal/svc"
 
@@ -25,7 +26,38 @@ func NewFindMessageListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *F
 
 // 查询留言列表
 func (l *FindMessageListLogic) FindMessageList(in *newsrpc.FindMessageListReq) (*newsrpc.FindMessageListResp, error) {
-	// todo: add your logic here and delete this line
+	var opts []query.Option
+	if in.Paginate != nil {
+		opts = append(opts, query.WithPage(int(in.Paginate.Page)))
+		opts = append(opts, query.WithSize(int(in.Paginate.PageSize)))
+		opts = append(opts, query.WithSorts(in.Paginate.Sorts...))
+	}
 
-	return &newsrpc.FindMessageListResp{}, nil
+	if in.UserId != "" {
+		opts = append(opts, query.WithCondition("user_id = ?", in.UserId))
+	}
+
+	if in.Status >= 0 {
+		opts = append(opts, query.WithCondition("status = ?", in.Status))
+	}
+
+	page, size, sorts, conditions, params := query.NewQueryBuilder(opts...).Build()
+	records, total, err := l.svcCtx.TMessageModel.FindListAndTotal(l.ctx, page, size, sorts, conditions, params...)
+	if err != nil {
+		return nil, err
+	}
+
+	var list []*newsrpc.Message
+	for _, v := range records {
+		list = append(list, convertMessageOut(v))
+	}
+
+	return &newsrpc.FindMessageListResp{
+		List: list,
+		Pagination: &newsrpc.PageResp{
+			Page:     int64(page),
+			PageSize: int64(size),
+			Total:    total,
+		},
+	}, nil
 }

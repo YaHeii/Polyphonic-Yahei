@@ -3,6 +3,9 @@ package newsrpclogic
 import (
 	"context"
 
+	"github.com/YaHeii/Polyphonic-Yahei/common/enums"
+	"github.com/YaHeii/Polyphonic-Yahei/service/model"
+	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/internal/common/rpcutils"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/internal/pb/newsrpc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/internal/svc"
 
@@ -25,7 +28,28 @@ func NewAddCommentLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddCom
 
 // 创建评论
 func (l *AddCommentLogic) AddComment(in *newsrpc.AddCommentReq) (*newsrpc.AddCommentResp, error) {
-	// todo: add your logic here and delete this line
+	uid, _ := rpcutils.GetUserIdFromCtx(l.ctx)
+	tid, _ := rpcutils.GetTerminalIdFromCtx(l.ctx)
 
-	return &newsrpc.AddCommentResp{}, nil
+	entity := &model.TComment{
+		Id:             0,
+		UserId:         uid,
+		TerminalId:     tid,
+		TopicId:        in.TopicId,
+		ParentId:       in.ParentId,
+		ReplyId:        in.ReplyId,
+		ReplyUserId:    in.ReplyUserId,
+		CommentContent: in.CommentContent,
+		Type:           in.Type,
+		Status:         enums.CommentStatusNormal,
+	}
+
+	_, err := l.svcCtx.TCommentModel.Insert(l.ctx, entity)
+	if err != nil {
+		return nil, err
+	}
+
+	return &newsrpc.AddCommentResp{
+		Comment: convertCommentOut(entity),
+	}, nil
 }

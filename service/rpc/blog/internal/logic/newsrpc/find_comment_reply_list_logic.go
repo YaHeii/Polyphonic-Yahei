@@ -3,6 +3,7 @@ package newsrpclogic
 import (
 	"context"
 
+	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/internal/common/query"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/internal/pb/newsrpc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/internal/svc"
 
@@ -25,7 +26,42 @@ func NewFindCommentReplyListLogic(ctx context.Context, svcCtx *svc.ServiceContex
 
 // 查询评论回复列表
 func (l *FindCommentReplyListLogic) FindCommentReplyList(in *newsrpc.FindCommentReplyListReq) (*newsrpc.FindCommentReplyListResp, error) {
-	// todo: add your logic here and delete this line
+	var opts []query.Option
+	if in.Paginate != nil {
+		opts = append(opts, query.WithPage(int(in.Paginate.Page)))
+		opts = append(opts, query.WithSize(int(in.Paginate.PageSize)))
+		opts = append(opts, query.WithSorts(in.Paginate.Sorts...))
+	}
 
-	return &newsrpc.FindCommentReplyListResp{}, nil
+	if in.Type != 0 {
+		opts = append(opts, query.WithCondition("type = ?", in.Type))
+	}
+
+	if in.TopicId != 0 {
+		opts = append(opts, query.WithCondition("topic_id = ?", in.TopicId))
+	}
+
+	if in.ParentId >= 0 {
+		opts = append(opts, query.WithCondition("parent_id = ?", in.ParentId))
+	}
+	page, size, sorts, conditions, params := query.NewQueryBuilder(opts...).Build()
+
+	records, total, err := l.svcCtx.TCommentModel.FindListAndTotal(l.ctx, page, size, sorts, conditions, params...)
+	if err != nil {
+		return nil, err
+	}
+
+	var list []*newsrpc.Comment
+	for _, v := range records {
+		list = append(list, convertCommentOut(v))
+	}
+
+	return &newsrpc.FindCommentReplyListResp{
+		List: list,
+		Pagination: &newsrpc.PageResp{
+			Page:     int64(page),
+			PageSize: int64(size),
+			Total:    total,
+		},
+	}, nil
 }

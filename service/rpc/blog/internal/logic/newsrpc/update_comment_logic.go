@@ -2,7 +2,9 @@ package newsrpclogic
 
 import (
 	"context"
+	"fmt"
 
+	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/internal/common/rpcutils"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/internal/pb/newsrpc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/internal/svc"
 
@@ -25,7 +27,30 @@ func NewUpdateCommentLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Upd
 
 // 更新评论
 func (l *UpdateCommentLogic) UpdateComment(in *newsrpc.UpdateCommentReq) (*newsrpc.UpdateCommentResp, error) {
-	// todo: add your logic here and delete this line
+	uid, err := rpcutils.GetUserIdFromCtx(l.ctx)
+	if err != nil {
+		return nil, err
+	}
 
-	return &newsrpc.UpdateCommentResp{}, nil
+	// 查找评论
+	comment, err := l.svcCtx.TCommentModel.FindById(l.ctx, in.Id)
+	if err != nil {
+		return nil, err
+	}
+
+	if comment.UserId != uid {
+		return nil, fmt.Errorf("无权限操作")
+	}
+
+	// 更新评论
+	comment.CommentContent = in.CommentContent
+	comment.Status = in.Status
+	_, err = l.svcCtx.TCommentModel.Save(l.ctx, comment)
+	if err != nil {
+		return nil, err
+	}
+
+	return &newsrpc.UpdateCommentResp{
+		Comment: convertCommentOut(comment),
+	}, nil
 }

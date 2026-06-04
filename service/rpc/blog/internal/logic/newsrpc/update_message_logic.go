@@ -2,7 +2,9 @@ package newsrpclogic
 
 import (
 	"context"
+	"fmt"
 
+	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/internal/common/rpcutils"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/internal/pb/newsrpc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/internal/svc"
 
@@ -25,7 +27,28 @@ func NewUpdateMessageLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Upd
 
 // 更新留言
 func (l *UpdateMessageLogic) UpdateMessage(in *newsrpc.UpdateMessageReq) (*newsrpc.UpdateMessageResp, error) {
-	// todo: add your logic here and delete this line
+	uid, err := rpcutils.GetUserIdFromCtx(l.ctx)
+	if err != nil {
+		return nil, err
+	}
 
-	return &newsrpc.UpdateMessageResp{}, nil
+	message, err := l.svcCtx.TMessageModel.FindById(l.ctx, in.Id)
+	if err != nil {
+		return nil, err
+	}
+
+	if message.UserId != uid {
+		return nil, fmt.Errorf("无权限操作")
+	}
+
+	message.MessageContent = in.MessageContent
+	message.Status = in.Status
+	_, err = l.svcCtx.TMessageModel.Save(l.ctx, message)
+	if err != nil {
+		return nil, err
+	}
+
+	return &newsrpc.UpdateMessageResp{
+		Message: convertMessageOut(message),
+	}, nil
 }

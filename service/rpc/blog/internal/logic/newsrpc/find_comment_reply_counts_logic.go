@@ -25,7 +25,17 @@ func NewFindCommentReplyCountsLogic(ctx context.Context, svcCtx *svc.ServiceCont
 
 // 查询评论回复数量
 func (l *FindCommentReplyCountsLogic) FindCommentReplyCounts(in *newsrpc.FindCommentReplyCountsReq) (*newsrpc.FindCommentReplyCountsResp, error) {
-	// todo: add your logic here and delete this line
+	cm := make(map[int64]int64)
+	for _, v := range in.TopicIds {
+		count, err := l.svcCtx.TCommentModel.FindCount(l.ctx, "topic_id=?", v)
+		if err != nil {
+			return nil, err
+		}
 
-	return &newsrpc.FindCommentReplyCountsResp{}, nil
+		cm[v] = count
+	}
+
+	return &newsrpc.FindCommentReplyCountsResp{
+		TopicCommentCounts: cm,
+	}, nil
 }

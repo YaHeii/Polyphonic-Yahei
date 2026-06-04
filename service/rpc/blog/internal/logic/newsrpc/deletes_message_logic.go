@@ -25,7 +25,12 @@ func NewDeletesMessageLogic(ctx context.Context, svcCtx *svc.ServiceContext) *De
 
 // 删除留言
 func (l *DeletesMessageLogic) DeletesMessage(in *newsrpc.DeletesMessageReq) (*newsrpc.DeletesMessageResp, error) {
-	// todo: add your logic here and delete this line
+	rows, err := l.svcCtx.TMessageModel.Deletes(l.ctx, "id in (?)", in.Ids)
+	if err != nil {
+		return nil, err
+	}
 
-	return &newsrpc.DeletesMessageResp{}, nil
+	return &newsrpc.DeletesMessageResp{
+		SuccessCount: rows,
+	}, nil
 }

@@ -25,7 +25,12 @@ func NewDeletesCommentLogic(ctx context.Context, svcCtx *svc.ServiceContext) *De
 
 // 删除评论
 func (l *DeletesCommentLogic) DeletesComment(in *newsrpc.DeletesCommentReq) (*newsrpc.DeletesCommentResp, error) {
-	// todo: add your logic here and delete this line
+	rows, err := l.svcCtx.TCommentModel.Deletes(l.ctx, "id in (?)", in.Ids)
+	if err != nil {
+		return nil, err
+	}
 
-	return &newsrpc.DeletesCommentResp{}, nil
+	return &newsrpc.DeletesCommentResp{
+		SuccessCount: rows,
+	}, nil
 }

@@ -2,7 +2,11 @@ package newsrpclogic
 
 import (
 	"context"
+	"time"
 
+	"github.com/YaHeii/Polyphonic-Yahei/common/enums"
+	"github.com/YaHeii/Polyphonic-Yahei/service/model"
+	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/internal/common/rpcutils"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/internal/pb/newsrpc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/internal/svc"
 
@@ -25,7 +29,25 @@ func NewAddMessageLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddMes
 
 // 创建留言
 func (l *AddMessageLogic) AddMessage(in *newsrpc.AddMessageReq) (*newsrpc.AddMessageResp, error) {
-	// todo: add your logic here and delete this line
+	uid, _ := rpcutils.GetUserIdFromCtx(l.ctx)
+	tid, _ := rpcutils.GetTerminalIdFromCtx(l.ctx)
 
-	return &newsrpc.AddMessageResp{}, nil
+	entity := &model.TMessage{
+		Id:             0,
+		UserId:         uid,
+		TerminalId:     tid,
+		MessageContent: in.MessageContent,
+		Status:         enums.MessageStatusNormal,
+		CreatedAt:      time.Time{},
+		UpdatedAt:      time.Time{},
+	}
+
+	_, err := l.svcCtx.TMessageModel.Insert(l.ctx, entity)
+	if err != nil {
+		return nil, err
+	}
+
+	return &newsrpc.AddMessageResp{
+		Message: convertMessageOut(entity),
+	}, nil
 }
