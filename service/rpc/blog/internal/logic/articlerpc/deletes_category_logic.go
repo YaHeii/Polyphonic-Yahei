@@ -25,7 +25,12 @@ func NewDeletesCategoryLogic(ctx context.Context, svcCtx *svc.ServiceContext) *D
 
 // 删除文章分类
 func (l *DeletesCategoryLogic) DeletesCategory(in *articlerpc.DeletesCategoryReq) (*articlerpc.DeletesCategoryResp, error) {
-	// todo: add your logic here and delete this line
+	rows, err := l.svcCtx.TCategoryModel.Deletes(l.ctx, "id in (?)", in.Ids)
+	if err != nil {
+		return nil, err
+	}
 
-	return &articlerpc.DeletesCategoryResp{}, nil
+	return &articlerpc.DeletesCategoryResp{
+		SuccessCount: rows,
+	}, nil
 }

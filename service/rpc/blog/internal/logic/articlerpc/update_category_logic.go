@@ -31,7 +31,7 @@ func (l *UpdateCategoryLogic) UpdateCategory(in *articlerpc.UpdateCategoryReq) (
 	}
 
 	entity.CategoryName = in.CategoryName
-	_, err = l.svcCtx.TCategoryModel.Insert(l.ctx, entity)
+	err = l.svcCtx.TCategoryModel.Update(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}

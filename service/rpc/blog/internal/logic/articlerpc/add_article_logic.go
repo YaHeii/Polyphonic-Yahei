@@ -3,6 +3,8 @@ package articlerpclogic
 import (
 	"context"
 
+	"github.com/YaHeii/Polyphonic-Yahei/common/enums"
+	"github.com/YaHeii/Polyphonic-Yahei/service/model"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/internal/pb/articlerpc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/internal/svc"
 
@@ -25,7 +27,42 @@ func NewAddArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddArt
 
 // 创建文章
 func (l *AddArticleLogic) AddArticle(in *articlerpc.AddArticleReq) (*articlerpc.AddArticleResp, error) {
-	// todo: add your logic here and delete this line
+	helper := NewArticleHelperLogic(l.ctx, l.svcCtx)
 
-	return &articlerpc.AddArticleResp{}, nil
+	tagNames, err := helper.ensureTags(in.TagNameList)
+	if err != nil {
+		return nil, err
+	}
+
+	entity := &model.TArticle{
+		Id:             in.Id,
+		UserId:         in.UserId,
+		CategoryId:     0,
+		ArticleCover:   in.ArticleCover,
+		ArticleTitle:   in.ArticleTitle,
+		ArticleContent: in.ArticleContent,
+		ArticleType:    in.ArticleType,
+		OriginalUrl:    in.OriginalUrl,
+		Tags:           tagNames,
+		IsTop:          enums.ArticleIsTop,
+		IsDelete:       enums.ArticleIsDelete,
+		Status:         in.Status,
+		LikeCount:      0,
+	}
+
+	// 插入文章分类
+	categoryId, err := helper.findOrAddCategory(in.CategoryName)
+	if err != nil {
+		return nil, err
+	}
+
+	entity.CategoryId = categoryId
+	_, err = l.svcCtx.TArticleModel.Insert(l.ctx, entity)
+	if err != nil {
+		return nil, err
+	}
+
+	return &articlerpc.AddArticleResp{
+		Article: helper.convertArticlePreviewOut(entity),
+	}, nil
 }

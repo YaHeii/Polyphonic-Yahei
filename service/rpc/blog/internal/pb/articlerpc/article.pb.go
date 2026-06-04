@@ -349,8 +349,8 @@ type ArticleDetails struct {
 	ArticleContent string                 `protobuf:"bytes,6,opt,name=article_content,json=articleContent,proto3" json:"article_content,omitempty"` // 内容
 	ArticleType    int64                  `protobuf:"varint,7,opt,name=article_type,json=articleType,proto3" json:"article_type,omitempty"`         // 文章类型 1原创 2转载 3翻译
 	OriginalUrl    string                 `protobuf:"bytes,8,opt,name=original_url,json=originalUrl,proto3" json:"original_url,omitempty"`          // 原文链接
-	IsTop          int64                  `protobuf:"varint,9,opt,name=is_top,json=isTop,proto3" json:"is_top,omitempty"`                           // 是否置顶 1是
-	IsDelete       int64                  `protobuf:"varint,10,opt,name=is_delete,json=isDelete,proto3" json:"is_delete,omitempty"`                 // 是否删除 1是
+	IsTop          bool                   `protobuf:"varint,9,opt,name=is_top,json=isTop,proto3" json:"is_top,omitempty"`                           // 是否置顶 1是
+	IsDelete       bool                   `protobuf:"varint,10,opt,name=is_delete,json=isDelete,proto3" json:"is_delete,omitempty"`                 // 是否删除 1是
 	Status         int64                  `protobuf:"varint,11,opt,name=status,proto3" json:"status,omitempty"`                                     // 状态值 1公开 2私密 3草稿 4已删除
 	CreatedAt      int64                  `protobuf:"varint,12,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`              // 发表时间
 	UpdatedAt      int64                  `protobuf:"varint,13,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`              // 更新时间
@@ -448,18 +448,18 @@ func (x *ArticleDetails) GetOriginalUrl() string {
 	return ""
 }
 
-func (x *ArticleDetails) GetIsTop() int64 {
+func (x *ArticleDetails) GetIsTop() bool {
 	if x != nil {
 		return x.IsTop
 	}
-	return 0
+	return false
 }
 
-func (x *ArticleDetails) GetIsDelete() int64 {
+func (x *ArticleDetails) GetIsDelete() bool {
 	if x != nil {
 		return x.IsDelete
 	}
-	return 0
+	return false
 }
 
 func (x *ArticleDetails) GetStatus() int64 {
@@ -1034,7 +1034,7 @@ type UpdateArticleReq struct {
 	ArticleContent string                 `protobuf:"bytes,6,opt,name=article_content,json=articleContent,proto3" json:"article_content,omitempty"` // 内容
 	ArticleType    int64                  `protobuf:"varint,7,opt,name=article_type,json=articleType,proto3" json:"article_type,omitempty"`         // 文章类型 1原创 2转载 3翻译
 	OriginalUrl    string                 `protobuf:"bytes,8,opt,name=original_url,json=originalUrl,proto3" json:"original_url,omitempty"`          // 原文链接
-	IsTop          int64                  `protobuf:"varint,9,opt,name=is_top,json=isTop,proto3" json:"is_top,omitempty"`                           // 是否置顶 1是
+	IsTop          bool                  `protobuf:"varint,9,opt,name=is_top,json=isTop,proto3" json:"is_top,omitempty"`                           // 是否置顶 1是
 	Status         int64                  `protobuf:"varint,11,opt,name=status,proto3" json:"status,omitempty"`                                     // 状态值 1 公开 2 私密 3 草稿 4 已删除
 	CategoryName   string                 `protobuf:"bytes,15,opt,name=category_name,json=categoryName,proto3" json:"category_name,omitempty"`      // 分类名
 	TagNameList    []string               `protobuf:"bytes,16,rep,name=tag_name_list,json=tagNameList,proto3" json:"tag_name_list,omitempty"`       // 标签名
@@ -1121,11 +1121,11 @@ func (x *UpdateArticleReq) GetOriginalUrl() string {
 	return ""
 }
 
-func (x *UpdateArticleReq) GetIsTop() int64 {
+func (x *UpdateArticleReq) GetIsTop() bool {
 	if x != nil {
 		return x.IsTop
 	}
-	return 0
+	return false
 }
 
 func (x *UpdateArticleReq) GetStatus() int64 {
@@ -1196,7 +1196,7 @@ func (x *UpdateArticleResp) GetArticle() *ArticlePreview {
 type UpdateArticleDeleteReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ArticleId     int64                  `protobuf:"varint,1,opt,name=article_id,json=articleId,proto3" json:"article_id,omitempty"`
-	IsDelete      int64                  `protobuf:"varint,2,opt,name=is_delete,json=isDelete,proto3" json:"is_delete,omitempty"` // 是否删除 1是
+	IsDelete      bool                  `protobuf:"varint,2,opt,name=is_delete,json=isDelete,proto3" json:"is_delete,omitempty"` // 是否删除 1是
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1238,11 +1238,11 @@ func (x *UpdateArticleDeleteReq) GetArticleId() int64 {
 	return 0
 }
 
-func (x *UpdateArticleDeleteReq) GetIsDelete() int64 {
+func (x *UpdateArticleDeleteReq) GetIsDelete() bool {
 	if x != nil {
 		return x.IsDelete
 	}
-	return 0
+	return false
 }
 
 type UpdateArticleDeleteResp struct {
@@ -1292,7 +1292,7 @@ func (x *UpdateArticleDeleteResp) GetArticle() *ArticlePreview {
 type UpdateArticleTopReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ArticleId     int64                  `protobuf:"varint,1,opt,name=article_id,json=articleId,proto3" json:"article_id,omitempty"`
-	IsTop         int64                  `protobuf:"varint,2,opt,name=is_top,json=isTop,proto3" json:"is_top,omitempty"` // 是否置顶 1是
+	IsTop         bool                  `protobuf:"varint,2,opt,name=is_top,json=isTop,proto3" json:"is_top,omitempty"` // 是否置顶 1是
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1334,11 +1334,11 @@ func (x *UpdateArticleTopReq) GetArticleId() int64 {
 	return 0
 }
 
-func (x *UpdateArticleTopReq) GetIsTop() int64 {
+func (x *UpdateArticleTopReq) GetIsTop() bool {
 	if x != nil {
 		return x.IsTop
 	}
-	return 0
+	return false
 }
 
 type UpdateArticleTopResp struct {
@@ -3249,9 +3249,9 @@ const file_blog_article_proto_rawDesc = "" +
 	"\x0farticle_content\x18\x06 \x01(\tR\x0earticleContent\x12!\n" +
 	"\farticle_type\x18\a \x01(\x03R\varticleType\x12!\n" +
 	"\foriginal_url\x18\b \x01(\tR\voriginalUrl\x12\x15\n" +
-	"\x06is_top\x18\t \x01(\x03R\x05isTop\x12\x1b\n" +
+	"\x06is_top\x18\t \x01(\bR\x05isTop\x12\x1b\n" +
 	"\tis_delete\x18\n" +
-	" \x01(\x03R\bisDelete\x12\x16\n" +
+	" \x01(\bR\bisDelete\x12\x16\n" +
 	"\x06status\x18\v \x01(\x03R\x06status\x12\x1d\n" +
 	"\n" +
 	"created_at\x18\f \x01(\x03R\tcreatedAt\x12\x1d\n" +

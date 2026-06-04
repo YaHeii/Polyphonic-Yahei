@@ -3,6 +3,7 @@ package articlerpclogic
 import (
 	"context"
 
+	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/internal/common/query"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/internal/pb/articlerpc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/internal/svc"
 
@@ -25,7 +26,36 @@ func NewFindTagListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindT
 
 // 查询标签列表
 func (l *FindTagListLogic) FindTagList(in *articlerpc.FindTagListReq) (*articlerpc.FindTagListResp, error) {
-	// todo: add your logic here and delete this line
+	helper := NewArticleHelperLogic(l.ctx, l.svcCtx)
 
-	return &articlerpc.FindTagListResp{}, nil
+	var opts []query.Option
+	if in.Paginate != nil {
+		opts = append(opts, query.WithPage(int(in.Paginate.Page)))
+		opts = append(opts, query.WithSize(int(in.Paginate.PageSize)))
+		opts = append(opts, query.WithSorts(in.Paginate.Sorts...))
+	}
+
+	if in.TagName != "" {
+		opts = append(opts, query.WithCondition("tag_name like ?", "%"+in.TagName+"%"))
+	}
+
+	page, size, sorts, conditions, params := query.NewQueryBuilder(opts...).Build()
+	records, total, err := l.svcCtx.TTagModel.FindListAndTotal(l.ctx, page, size, sorts, conditions, params...)
+	if err != nil {
+		return nil, err
+	}
+
+	list, err := helper.convertTag(records)
+	if err != nil {
+		return nil, err
+	}
+
+	return &articlerpc.FindTagListResp{
+		List: list,
+		Pagination: &articlerpc.PageResp{
+			Page:     int64(page),
+			PageSize: int64(size),
+			Total:    total,
+		},
+	}, nil
 }

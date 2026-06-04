@@ -25,7 +25,7 @@ func NewGetArticleRelationLogic(ctx context.Context, svcCtx *svc.ServiceContext)
 
 // 查询关联文章
 func (l *GetArticleRelationLogic) GetArticleRelation(in *articlerpc.GetArticleRelationReq) (*articlerpc.GetArticleRelationResp, error) {
-	// todo: add your logic here and delete this line
+	// todo: 使用标签关联来进行推荐
 
 	return &articlerpc.GetArticleRelationResp{}, nil
 }

@@ -25,7 +25,12 @@ func NewDeletesArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *De
 
 // 删除文章
 func (l *DeletesArticleLogic) DeletesArticle(in *articlerpc.DeletesArticleReq) (*articlerpc.DeletesArticleResp, error) {
-	// todo: add your logic here and delete this line
+	rows, err := l.svcCtx.TArticleModel.Deletes(l.ctx, "id in (?)", in.Ids)
+	if err != nil {
+		return nil, err
+	}
 
-	return &articlerpc.DeletesArticleResp{}, nil
+	return &articlerpc.DeletesArticleResp{
+		SuccessCount: rows,
+	}, nil
 }

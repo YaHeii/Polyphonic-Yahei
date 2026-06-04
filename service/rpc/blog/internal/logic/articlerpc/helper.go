@@ -205,6 +205,30 @@ func (l *ArticleHelperLogic) findOrAddTag(name string) (int64, error) {
 	return tag.Id, nil
 }
 
+func (l *ArticleHelperLogic) ensureTags(names []string) ([]string, error) {
+	if len(names) == 0 {
+		return []string{}, nil
+	}
+
+	result := make([]string, 0, len(names))
+	seen := make(map[string]struct{}, len(names))
+	for _, name := range names {
+		if name == "" {
+			continue
+		}
+		if _, exists := seen[name]; exists {
+			continue
+		}
+		if _, err := l.findOrAddTag(name); err != nil {
+			return nil, err
+		}
+		seen[name] = struct{}{}
+		result = append(result, name)
+	}
+
+	return result, nil
+}
+
 func (l *ArticleHelperLogic) convertArticleQuery(in *articlerpc.FindArticleListReq) (page int, size int, sorts string, conditions string, params []any) {
 	var opts []query.Option
 	if in.Paginate != nil {
@@ -214,15 +238,15 @@ func (l *ArticleHelperLogic) convertArticleQuery(in *articlerpc.FindArticleListR
 	}
 
 	if len(in.Ids) > 0 {
-		opts = append(opts, query.WithCondition("id in (?)", in.Ids))
+		opts = append(opts, query.WithCondition("id = any(?)", pq.Array(in.Ids)))
 	}
 
 	if in.IsTop >= 0 {
-		opts = append(opts, query.WithCondition("is_top = ?", in.IsTop))
+		opts = append(opts, query.WithCondition("is_top = ?", in.IsTop > 0))
 	}
 
 	if in.IsDelete >= 0 {
-		opts = append(opts, query.WithCondition("is_delete = ?", in.IsDelete))
+		opts = append(opts, query.WithCondition("is_delete = ?", in.IsDelete > 0))
 	}
 
 	if in.Status != 0 {
@@ -285,8 +309,8 @@ func (l *ArticleHelperLogic) convertArticle(records []*model.TArticle) (out []*a
 			ArticleContent: entity.ArticleContent,
 			ArticleType:    entity.ArticleType,
 			OriginalUrl:    entity.OriginalUrl,
-			IsTop:          boolToInt64(entity.IsTop),
-			IsDelete:       boolToInt64(entity.IsDelete),
+			IsTop:          entity.IsTop,
+			IsDelete:       entity.IsDelete,
 			Status:         entity.Status,
 			CreatedAt:      entity.CreatedAt.UnixMilli(),
 			UpdatedAt:      entity.UpdatedAt.UnixMilli(),

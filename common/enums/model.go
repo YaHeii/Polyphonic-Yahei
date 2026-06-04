@@ -33,21 +33,19 @@ const (
 	ArticleTypeReprint   = 2 // 转载
 	ArticleTypeTranslate = 3 // 翻译
 
-	// 文章置顶状态 (is_top)
-	ArticleIsTopALL = -1
-	ArticleIsTopNo  = 0 // 未置顶
-	ArticleIsTopYes = 1 // 已置顶
-
-	// 文章删除状态 (is_delete)
-	ArticleIsDeleteALL = -1
-	ArticleIsDeleteNo  = 0 // 未删除
-	ArticleIsDeleteYes = 1 // 已删除
-
 	// 文章状态 (status)
 	ArticleStatusPublic         = 1 // 公开
 	ArticleStatusPrivate        = 2 // 私密
 	ArticleStatusDraft          = 3 // 草稿
 	ArticleStatusCommentVisible = 4 // 评论可见
+)
+
+var(
+	// 文章置顶状态
+	ArticleIsTop  = false
+
+	// 文章删除状态 (is_delete)
+	ArticleIsDelete  = false
 )
 
 // 评论相关枚举 (t_comment)

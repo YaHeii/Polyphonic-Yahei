@@ -3,8 +3,10 @@ package articlerpclogic
 import (
 	"context"
 
+	"github.com/YaHeii/Polyphonic-Yahei/common/rediskey"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/internal/pb/articlerpc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/internal/svc"
+	"github.com/spf13/cast"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -25,7 +27,20 @@ func NewFindUserLikeArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext
 
 // 用户点赞的文章
 func (l *FindUserLikeArticleLogic) FindUserLikeArticle(in *articlerpc.FindUserLikeArticleReq) (*articlerpc.FindLikeArticleResp, error) {
-	// todo: add your logic here and delete this line
+	uid := cast.ToString(in.UserId)
+	likeKey := rediskey.GetUserLikeArticleKey(uid)
 
-	return &articlerpc.FindLikeArticleResp{}, nil
+	result, err := l.svcCtx.Redis.SMembers(l.ctx, likeKey).Result()
+	if err != nil {
+		return nil, err
+	}
+
+	ids := make([]int64, 0)
+	for _, v := range result {
+		ids = append(ids, cast.ToInt64(v))
+	}
+
+	return &articlerpc.FindLikeArticleResp{
+		LikeArticleList: ids,
+	}, nil
 }

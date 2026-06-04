@@ -25,7 +25,18 @@ func NewAddTagLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddTagLogi
 
 // 创建标签
 func (l *AddTagLogic) AddTag(in *articlerpc.AddTagReq) (*articlerpc.AddTagResp, error) {
-	// todo: add your logic here and delete this line
+	entity := convertTagIn(in)
+	_, err := l.svcCtx.TTagModel.Insert(l.ctx, entity)
+	if err != nil {
+		return nil, err
+	}
 
-	return &articlerpc.AddTagResp{}, nil
+	return &articlerpc.AddTagResp{
+		Tag: &articlerpc.Tag{
+			Id:        entity.Id,
+			TagName:   entity.TagName,
+			CreatedAt: entity.CreatedAt.UnixMilli(),
+			UpdatedAt: entity.UpdatedAt.UnixMilli(),
+		},
+	}, nil
 }

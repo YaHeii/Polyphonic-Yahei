@@ -31,7 +31,7 @@ func (l *UpdateTagLogic) UpdateTag(in *articlerpc.UpdateTagReq) (*articlerpc.Upd
 	}
 
 	entity.TagName = in.TagName
-	_, err = l.svcCtx.TTagModel.Insert(l.ctx, entity)
+	err = l.svcCtx.TTagModel.Update(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}

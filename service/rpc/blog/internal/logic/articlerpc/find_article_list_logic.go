@@ -25,7 +25,27 @@ func NewFindArticleListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *F
 
 // 查询文章列表
 func (l *FindArticleListLogic) FindArticleList(in *articlerpc.FindArticleListReq) (*articlerpc.FindArticleListResp, error) {
-	// todo: add your logic here and delete this line
+	helper := NewArticleHelperLogic(l.ctx, l.svcCtx)
 
-	return &articlerpc.FindArticleListResp{}, nil
+	page, size, sorts, conditions, params := helper.convertArticleQuery(in)
+
+	// 查询文章信息
+	records, total, err := l.svcCtx.TArticleModel.FindListAndTotal(l.ctx, page, size, sorts, conditions, params...)
+	if err != nil {
+		return nil, err
+	}
+
+	list, err := helper.convertArticle(records)
+	if err != nil {
+		return nil, err
+	}
+
+	return &articlerpc.FindArticleListResp{
+		List: list,
+		Pagination: &articlerpc.PageResp{
+			Page:     int64(page),
+			PageSize: int64(size),
+			Total:    total,
+		},
+	}, nil
 }

@@ -32,7 +32,7 @@ func (l *UpdateArticleTopLogic) UpdateArticleTop(in *articlerpc.UpdateArticleTop
 	}
 
 	record.IsTop = in.IsTop
-	_, err = l.svcCtx.TArticleModel.Insert(l.ctx, record)
+	err = l.svcCtx.TArticleModel.Update(l.ctx, record)
 	if err != nil {
 		return nil, err
 	}

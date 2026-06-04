@@ -3,8 +3,10 @@ package articlerpclogic
 import (
 	"context"
 
+	"github.com/YaHeii/Polyphonic-Yahei/common/rediskey"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/internal/pb/articlerpc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/internal/svc"
+	"github.com/spf13/cast"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -25,7 +27,28 @@ func NewAddArticleVisitsLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 
 // 添加文章访问量
 func (l *AddArticleVisitsLogic) AddArticleVisits(in *articlerpc.AddArticleVisitsReq) (*articlerpc.AddArticleVisitsResp, error) {
-	// todo: add your logic here and delete this line
+	record, err := l.svcCtx.TArticleModel.FindById(l.ctx, in.Id)
+	if err != nil {
+		return nil, err
+	}
+
+	record.ViewCount++
+	_, err = l.svcCtx.TArticleModel.Updates(l.ctx, map[string]interface{}{
+		"view_count": record.ViewCount,
+	},
+		"id = ?", record.Id,
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	id := cast.ToString(record.Id)
+	key := rediskey.GetArticleViewCountKey()
+	// 浏览量+1
+	_, err = l.svcCtx.Redis.ZIncrBy(l.ctx, key, 1, id).Result()
+	if err != nil {
+		return nil, err
+	}
 
 	return &articlerpc.AddArticleVisitsResp{}, nil
 }
