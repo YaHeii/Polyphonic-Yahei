@@ -25,7 +25,20 @@ func NewGetUserInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUs
 
 // 获取用户信息
 func (l *GetUserInfoLogic) GetUserInfo(in *accountrpc.GetUserInfoReq) (*accountrpc.GetUserInfoResp, error) {
-	// todo: add your logic here and delete this line
+	uid := in.UserId
 
-	return &accountrpc.GetUserInfoResp{}, nil
+	ui, err := l.svcCtx.TUserModel.FindOneByUserId(l.ctx, uid)
+	if err != nil {
+		return nil, err
+	}
+
+	// 查找用户角色
+	rList, err := getUserRoles(l.ctx, l.svcCtx, uid)
+	if err != nil {
+		return nil, err
+	}
+
+	return &accountrpc.GetUserInfoResp{
+		User: convertUserInfoOut(ui, rList),
+	}, nil
 }

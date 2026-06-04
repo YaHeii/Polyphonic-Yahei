@@ -25,7 +25,14 @@ func NewGenerateCaptchaCodeLogic(ctx context.Context, svcCtx *svc.ServiceContext
 
 // 生成验证码
 func (l *GenerateCaptchaCodeLogic) GenerateCaptchaCode(in *accountrpc.GenerateCaptchaCodeReq) (*accountrpc.GenerateCaptchaCodeResp, error) {
-	// todo: add your logic here and delete this line
+	key, base64, code, err := l.svcCtx.CaptchaHolder.GetMathImageCaptcha(int(in.Height), int(in.Width))
+	if err != nil {
+		return nil, err
+	}
 
-	return &accountrpc.GenerateCaptchaCodeResp{}, nil
+	return &accountrpc.GenerateCaptchaCodeResp{
+		CaptchaKey:    key,
+		CaptchaBase64: base64,
+		CaptchaCode:   code,
+	}, nil
 }

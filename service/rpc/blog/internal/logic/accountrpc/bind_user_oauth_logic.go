@@ -2,10 +2,12 @@ package accountrpclogic
 
 import (
 	"context"
+	"fmt"
 
+	"github.com/YaHeii/Polyphonic-Yahei/service/model"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/internal/pb/accountrpc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/internal/svc"
-
+	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/internal/common/rpcutils"
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
@@ -25,7 +27,47 @@ func NewBindUserOauthLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Bin
 
 // 修改用户第三方账号
 func (l *BindUserOauthLogic) BindUserOauth(in *accountrpc.BindUserOauthReq) (*accountrpc.BindUserOauthResp, error) {
-	// todo: add your logic here and delete this line
+	// 查找当前用户是否存在
+	userId, err := rpcutils.GetUserIdFromCtx(l.ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	app, err := rpcutils.GetAppNameFromCtx(l.ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	auth, err := GetPlatformOauth(l.ctx, l.svcCtx, app, in.Platform)
+	if err != nil {
+		return nil, err
+	}
+
+	// 获取第三方用户信息
+	info, err := auth.GetAuthUserInfo(in.Code)
+	if err != nil {
+		return nil, err
+	}
+
+	if info.OpenId == "" {
+		return nil, fmt.Errorf("open_id is empty")
+	}
+
+	// 查找这个第三方账号是否已绑定用户
+	oa, _ := l.svcCtx.TUserOauthModel.FindOneByOpenIdPlatform(l.ctx, info.OpenId, in.Platform)
+	if oa != nil {
+		return nil, fmt.Errorf("open_id %s is already exist", info.OpenId)
+	}
+
+	// 绑定第三方账号
+	_, err = l.svcCtx.TUserOauthModel.Insert(l.ctx, &model.TUserOauth{
+		Id:       0,
+		UserId:   userId,
+		Platform: in.Platform,
+		OpenId:   info.OpenId,
+		Nickname: info.NickName,
+		Avatar:   info.Avatar,
+	})
 
 	return &accountrpc.BindUserOauthResp{}, nil
 }

@@ -25,7 +25,19 @@ func NewAnalysisUserLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Anal
 
 // 查询用户数量
 func (l *AnalysisUserLogic) AnalysisUser(in *accountrpc.AnalysisUserReq) (*accountrpc.AnalysisUserResp, error) {
-	// todo: add your logic here and delete this line
+	tableName := `"public"."t_user"`
+	if in.UserType == 1 {
+		tableName = `"public"."t_visitor"`
+	}
 
-	return &accountrpc.AnalysisUserResp{}, nil
+	var result struct {
+		Count int64 `db:"count"`
+	}
+	if err := l.svcCtx.SqlConn.QueryRowCtx(l.ctx, &result, `select count(*) as count from `+tableName); err != nil {
+		return nil, err
+	}
+
+	return &accountrpc.AnalysisUserResp{
+		UserCount: result.Count,
+	}, nil
 }
