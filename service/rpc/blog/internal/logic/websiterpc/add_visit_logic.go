@@ -3,6 +3,7 @@ package websiterpclogic
 import (
 	"context"
 
+	"github.com/YaHeii/Polyphonic-Yahei/common/enums"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/internal/pb/websiterpc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/internal/svc"
 
@@ -25,7 +26,20 @@ func NewAddVisitLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddVisit
 
 // 添加用户访问记录
 func (l *AddVisitLogic) AddVisit(in *websiterpc.AddVisitReq) (*websiterpc.AddVisitResp, error) {
-	// todo: add your logic here and delete this line
+	date := currentVisitDate()
+	if _, err := l.svcCtx.TVisitDailyStatsModel.Increment(l.ctx, date, enums.VisitTypePv, 1); err != nil {
+		return nil, err
+	}
+
+	isNewVisitor, err := markDailyVisitor(l.ctx, l.svcCtx.Redis, date, resolveVisitorID(l.ctx))
+	if err != nil {
+		return nil, err
+	}
+	if isNewVisitor {
+		if _, err := l.svcCtx.TVisitDailyStatsModel.Increment(l.ctx, date, enums.VisitTypeUv, 1); err != nil {
+			return nil, err
+		}
+	}
 
 	return &websiterpc.AddVisitResp{}, nil
 }
