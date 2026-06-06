@@ -25,7 +25,12 @@ func NewDeletesNoticeLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Del
 
 // 删除通知
 func (l *DeletesNoticeLogic) DeletesNotice(in *noticerpc.DeletesNoticeReq) (*noticerpc.DeletesNoticeResp, error) {
-	// todo: add your logic here and delete this line
+	rows, err := l.svcCtx.TSystemNoticeModel.Deletes(l.ctx, "id in (?)", in.Ids)
+	if err != nil {
+		return nil, err
+	}
 
-	return &noticerpc.DeletesNoticeResp{}, nil
+	return &noticerpc.DeletesNoticeResp{
+		SuccessCount: rows,
+	}, nil
 }

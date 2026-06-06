@@ -25,7 +25,12 @@ func NewGetNoticeLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetNoti
 
 // 查询通知
 func (l *GetNoticeLogic) GetNotice(in *noticerpc.GetNoticeReq) (*noticerpc.GetNoticeResp, error) {
-	// todo: add your logic here and delete this line
+	entity, err := l.svcCtx.TSystemNoticeModel.FindById(l.ctx, in.Id)
+	if err != nil {
+		return nil, err
+	}
 
-	return &noticerpc.GetNoticeResp{}, nil
+	return &noticerpc.GetNoticeResp{
+		Notice: convertNoticeOut(entity),
+	}, nil
 }

@@ -3,6 +3,7 @@ package noticerpclogic
 import (
 	"context"
 
+	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/internal/common/query"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/internal/pb/noticerpc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/internal/svc"
 
@@ -25,7 +26,37 @@ func NewFindNoticeListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fi
 
 // 查询通知列表
 func (l *FindNoticeListLogic) FindNoticeList(in *noticerpc.FindNoticeListReq) (*noticerpc.FindNoticeListResp, error) {
-	// todo: add your logic here and delete this line
+	var opts []query.Option
+	if in.Paginate != nil {
+		opts = append(opts, query.WithPage(int(in.Paginate.Page)))
+		opts = append(opts, query.WithSize(int(in.Paginate.PageSize)))
+		opts = append(opts, query.WithSorts(in.Paginate.Sorts...))
+	}
+	if in.Type != "" {
+		opts = append(opts, query.WithCondition("type = ?", in.Type))
+	}
+	if in.Level != "" {
+		opts = append(opts, query.WithCondition("level = ?", in.Level))
+	}
+	if in.PublishStatus != 0 {
+		opts = append(opts, query.WithCondition("publish_status = ?", in.PublishStatus))
+	}
+	if in.AppName != "" {
+		opts = append(opts, query.WithCondition("app_name = ?", in.AppName))
+	}
 
-	return &noticerpc.FindNoticeListResp{}, nil
+	page, size, sorts, conditions, params := query.NewQueryBuilder(opts...).Build()
+	records, total, err := l.svcCtx.TSystemNoticeModel.FindListAndTotal(l.ctx, page, size, sorts, conditions, params...)
+	if err != nil {
+		return nil, err
+	}
+
+	return &noticerpc.FindNoticeListResp{
+		List: convertNoticeListOut(records),
+		Pagination: &noticerpc.PageResp{
+			Page:     int64(page),
+			PageSize: int64(size),
+			Total:    total,
+		},
+	}, nil
 }

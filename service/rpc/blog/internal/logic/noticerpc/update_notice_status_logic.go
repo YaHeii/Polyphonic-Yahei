@@ -25,7 +25,19 @@ func NewUpdateNoticeStatusLogic(ctx context.Context, svcCtx *svc.ServiceContext)
 
 // 更新通知状态
 func (l *UpdateNoticeStatusLogic) UpdateNoticeStatus(in *noticerpc.UpdateNoticeStatusReq) (*noticerpc.UpdateNoticeStatusResp, error) {
-	// todo: add your logic here and delete this line
+	entity, err := l.svcCtx.TSystemNoticeModel.FindById(l.ctx, in.Id)
+	if err != nil {
+		return nil, err
+	}
 
-	return &noticerpc.UpdateNoticeStatusResp{}, nil
+	entity.PublishStatus = in.PublishStatus
+	entity.PublishTime, entity.RevokeTime = buildNoticeStatusTimes(in.PublishStatus, entity.PublishTime, entity.RevokeTime)
+
+	if err = l.svcCtx.TSystemNoticeModel.Update(l.ctx, entity); err != nil {
+		return nil, err
+	}
+
+	return &noticerpc.UpdateNoticeStatusResp{
+		Notice: convertNoticeOut(entity),
+	}, nil
 }

@@ -25,7 +25,22 @@ func NewUpdateNoticeLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Upda
 
 // 更新通知
 func (l *UpdateNoticeLogic) UpdateNotice(in *noticerpc.UpdateNoticeReq) (*noticerpc.UpdateNoticeResp, error) {
-	// todo: add your logic here and delete this line
+	entity, err := l.svcCtx.TSystemNoticeModel.FindById(l.ctx, in.Id)
+	if err != nil {
+		return nil, err
+	}
 
-	return &noticerpc.UpdateNoticeResp{}, nil
+	entity.Title = in.Title
+	entity.Content = in.Content
+	entity.Type = in.Type
+	entity.Level = in.Level
+	entity.AppName = in.AppName
+
+	if err = l.svcCtx.TSystemNoticeModel.Update(l.ctx, entity); err != nil {
+		return nil, err
+	}
+
+	return &noticerpc.UpdateNoticeResp{
+		Notice: convertNoticeOut(entity),
+	}, nil
 }
