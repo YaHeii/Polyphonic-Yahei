@@ -25,7 +25,14 @@ func NewCleanApiListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Clea
 
 // 清空接口列表
 func (l *CleanApiListLogic) CleanApiList(in *permissionrpc.CleanApiListReq) (*permissionrpc.CleanApiListResp, error) {
-	// todo: add your logic here and delete this line
+	if _, err := l.svcCtx.TRoleApiModel.Clean(l.ctx); err != nil {
+		return nil, err
+	}
 
-	return &permissionrpc.CleanApiListResp{}, nil
+	rows, err := l.svcCtx.TApiModel.Clean(l.ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return &permissionrpc.CleanApiListResp{SuccessCount: rows}, nil
 }

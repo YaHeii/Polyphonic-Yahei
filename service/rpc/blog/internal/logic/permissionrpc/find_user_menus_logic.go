@@ -25,7 +25,10 @@ func NewFindUserMenusLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fin
 
 // 获取用户菜单权限
 func (l *FindUserMenusLogic) FindUserMenus(in *permissionrpc.FindUserMenusReq) (*permissionrpc.FindUserMenusResp, error) {
-	// todo: add your logic here and delete this line
+	records, err := l.svcCtx.TMenuModel.FindByUserID(l.ctx, in.UserId)
+	if err != nil {
+		return nil, err
+	}
 
-	return &permissionrpc.FindUserMenusResp{}, nil
+	return &permissionrpc.FindUserMenusResp{List: buildMenuTree(records)}, nil
 }

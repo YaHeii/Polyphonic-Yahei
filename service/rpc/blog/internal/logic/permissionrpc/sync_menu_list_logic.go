@@ -25,7 +25,16 @@ func NewSyncMenuListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Sync
 
 // 同步菜单列表
 func (l *SyncMenuListLogic) SyncMenuList(in *permissionrpc.SyncMenuListReq) (*permissionrpc.SyncMenuListResp, error) {
-	// todo: add your logic here and delete this line
+	helper := newPermissionHelper(l.ctx, l.svcCtx)
 
-	return &permissionrpc.SyncMenuListResp{}, nil
+	var count int64
+	for _, menu := range in.Menus {
+		_, saved, err := helper.saveAddMenuTree(menu, 0)
+		if err != nil {
+			return nil, err
+		}
+		count += saved
+	}
+
+	return &permissionrpc.SyncMenuListResp{SuccessCount: count}, nil
 }

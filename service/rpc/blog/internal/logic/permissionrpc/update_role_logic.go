@@ -25,7 +25,10 @@ func NewUpdateRoleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Update
 
 // 更新角色
 func (l *UpdateRoleLogic) UpdateRole(in *permissionrpc.UpdateRoleReq) (*permissionrpc.UpdateRoleResp, error) {
-	// todo: add your logic here and delete this line
+	entity := convertUpdateRoleIn(in)
+	if _, err := l.svcCtx.TRoleModel.Save(l.ctx, entity); err != nil {
+		return nil, err
+	}
 
-	return &permissionrpc.UpdateRoleResp{}, nil
+	return &permissionrpc.UpdateRoleResp{Role: convertRoleOut(entity)}, nil
 }

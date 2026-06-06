@@ -25,7 +25,14 @@ func NewDeletesApiLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Delete
 
 // 删除接口
 func (l *DeletesApiLogic) DeletesApi(in *permissionrpc.DeletesApiReq) (*permissionrpc.DeletesApiResp, error) {
-	// todo: add your logic here and delete this line
+	if _, err := l.svcCtx.TRoleApiModel.DeleteByApiIDs(l.ctx, in.Ids); err != nil {
+		return nil, err
+	}
 
-	return &permissionrpc.DeletesApiResp{}, nil
+	rows, err := l.svcCtx.TApiModel.Deletes(l.ctx, "id in (?)", in.Ids)
+	if err != nil {
+		return nil, err
+	}
+
+	return &permissionrpc.DeletesApiResp{SuccessCount: rows}, nil
 }

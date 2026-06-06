@@ -25,7 +25,14 @@ func NewDeletesMenuLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Delet
 
 // 删除菜单
 func (l *DeletesMenuLogic) DeletesMenu(in *permissionrpc.DeletesMenuReq) (*permissionrpc.DeletesMenuResp, error) {
-	// todo: add your logic here and delete this line
+	if _, err := l.svcCtx.TRoleMenuModel.DeleteByMenuIDs(l.ctx, in.Ids); err != nil {
+		return nil, err
+	}
 
-	return &permissionrpc.DeletesMenuResp{}, nil
+	rows, err := l.svcCtx.TMenuModel.Deletes(l.ctx, "id in (?)", in.Ids)
+	if err != nil {
+		return nil, err
+	}
+
+	return &permissionrpc.DeletesMenuResp{SuccessCount: rows}, nil
 }

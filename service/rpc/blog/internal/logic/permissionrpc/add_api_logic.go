@@ -25,7 +25,10 @@ func NewAddApiLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddApiLogi
 
 // 创建接口
 func (l *AddApiLogic) AddApi(in *permissionrpc.AddApiReq) (*permissionrpc.AddApiResp, error) {
-	// todo: add your logic here and delete this line
+	api, _, err := newPermissionHelper(l.ctx, l.svcCtx).saveAddApiTree(in, 0)
+	if err != nil {
+		return nil, err
+	}
 
-	return &permissionrpc.AddApiResp{}, nil
+	return &permissionrpc.AddApiResp{Api: api}, nil
 }

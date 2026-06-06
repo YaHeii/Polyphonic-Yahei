@@ -25,7 +25,10 @@ func NewFindAllApiLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindAl
 
 // 查找所有接口
 func (l *FindAllApiLogic) FindAllApi(in *permissionrpc.FindAllApiReq) (*permissionrpc.FindAllApiResp, error) {
-	// todo: add your logic here and delete this line
+	records, err := l.svcCtx.TApiModel.FindALL(l.ctx, "")
+	if err != nil {
+		return nil, err
+	}
 
-	return &permissionrpc.FindAllApiResp{}, nil
+	return &permissionrpc.FindAllApiResp{List: buildApiTree(records)}, nil
 }

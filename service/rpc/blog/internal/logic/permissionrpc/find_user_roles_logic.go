@@ -25,7 +25,10 @@ func NewFindUserRolesLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fin
 
 // 获取用户角色信息
 func (l *FindUserRolesLogic) FindUserRoles(in *permissionrpc.FindUserRolesReq) (*permissionrpc.FindUserRolesResp, error) {
-	// todo: add your logic here and delete this line
+	records, err := l.svcCtx.TRoleModel.FindRolesByUserID(l.ctx, in.UserId)
+	if err != nil {
+		return nil, err
+	}
 
-	return &permissionrpc.FindUserRolesResp{}, nil
+	return &permissionrpc.FindUserRolesResp{List: buildRoleTree(records)}, nil
 }

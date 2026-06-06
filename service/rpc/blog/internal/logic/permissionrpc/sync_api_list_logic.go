@@ -25,7 +25,16 @@ func NewSyncApiListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *SyncA
 
 // 同步接口列表
 func (l *SyncApiListLogic) SyncApiList(in *permissionrpc.SyncApiListReq) (*permissionrpc.SyncApiListResp, error) {
-	// todo: add your logic here and delete this line
+	helper := newPermissionHelper(l.ctx, l.svcCtx)
 
-	return &permissionrpc.SyncApiListResp{}, nil
+	var count int64
+	for _, api := range in.Apis {
+		_, saved, err := helper.saveAddApiTree(api, 0)
+		if err != nil {
+			return nil, err
+		}
+		count += saved
+	}
+
+	return &permissionrpc.SyncApiListResp{SuccessCount: count}, nil
 }

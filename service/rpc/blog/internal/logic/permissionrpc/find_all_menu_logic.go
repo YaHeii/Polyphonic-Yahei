@@ -25,7 +25,10 @@ func NewFindAllMenuLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindA
 
 // 查找所有菜单
 func (l *FindAllMenuLogic) FindAllMenu(in *permissionrpc.FindAllMenuReq) (*permissionrpc.FindAllMenuResp, error) {
-	// todo: add your logic here and delete this line
+	records, err := l.svcCtx.TMenuModel.FindALL(l.ctx, "")
+	if err != nil {
+		return nil, err
+	}
 
-	return &permissionrpc.FindAllMenuResp{}, nil
+	return &permissionrpc.FindAllMenuResp{List: buildMenuTree(records)}, nil
 }

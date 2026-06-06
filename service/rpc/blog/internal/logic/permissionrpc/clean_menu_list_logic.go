@@ -25,7 +25,14 @@ func NewCleanMenuListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Cle
 
 // 清空菜单列表
 func (l *CleanMenuListLogic) CleanMenuList(in *permissionrpc.CleanMenuListReq) (*permissionrpc.CleanMenuListResp, error) {
-	// todo: add your logic here and delete this line
+	if _, err := l.svcCtx.TRoleMenuModel.Clean(l.ctx); err != nil {
+		return nil, err
+	}
 
-	return &permissionrpc.CleanMenuListResp{}, nil
+	rows, err := l.svcCtx.TMenuModel.Clean(l.ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return &permissionrpc.CleanMenuListResp{SuccessCount: rows}, nil
 }

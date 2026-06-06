@@ -25,7 +25,19 @@ func NewFindRoleResourcesLogic(ctx context.Context, svcCtx *svc.ServiceContext) 
 
 // 查询角色资源权限
 func (l *FindRoleResourcesLogic) FindRoleResources(in *permissionrpc.FindRoleResourcesReq) (*permissionrpc.FindRoleResourcesResp, error) {
-	// todo: add your logic here and delete this line
+	apiIDs, err := l.svcCtx.TRoleApiModel.FindApiIDsByRoleID(l.ctx, in.Id)
+	if err != nil {
+		return nil, err
+	}
 
-	return &permissionrpc.FindRoleResourcesResp{}, nil
+	menuIDs, err := l.svcCtx.TRoleMenuModel.FindMenuIDsByRoleID(l.ctx, in.Id)
+	if err != nil {
+		return nil, err
+	}
+
+	return &permissionrpc.FindRoleResourcesResp{
+		RoleId:  in.Id,
+		ApiIds:  apiIDs,
+		MenuIds: menuIDs,
+	}, nil
 }

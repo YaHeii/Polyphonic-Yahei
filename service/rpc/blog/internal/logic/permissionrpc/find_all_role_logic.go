@@ -25,7 +25,10 @@ func NewFindAllRoleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindA
 
 // 查询所有角色
 func (l *FindAllRoleLogic) FindAllRole(in *permissionrpc.FindAllRoleReq) (*permissionrpc.FindAllRoleResp, error) {
-	// todo: add your logic here and delete this line
+	records, err := l.svcCtx.TRoleModel.FindALL(l.ctx, "")
+	if err != nil {
+		return nil, err
+	}
 
-	return &permissionrpc.FindAllRoleResp{}, nil
+	return &permissionrpc.FindAllRoleResp{List: buildRoleTree(records)}, nil
 }

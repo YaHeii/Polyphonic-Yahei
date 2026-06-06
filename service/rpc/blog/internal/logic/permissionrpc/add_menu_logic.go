@@ -25,7 +25,10 @@ func NewAddMenuLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddMenuLo
 
 // 创建菜单
 func (l *AddMenuLogic) AddMenu(in *permissionrpc.AddMenuReq) (*permissionrpc.AddMenuResp, error) {
-	// todo: add your logic here and delete this line
+	menu, _, err := newPermissionHelper(l.ctx, l.svcCtx).saveAddMenuTree(in, 0)
+	if err != nil {
+		return nil, err
+	}
 
-	return &permissionrpc.AddMenuResp{}, nil
+	return &permissionrpc.AddMenuResp{Menu: menu}, nil
 }

@@ -25,7 +25,20 @@ func NewDeletesRoleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Delet
 
 // 删除角色
 func (l *DeletesRoleLogic) DeletesRole(in *permissionrpc.DeletesRoleReq) (*permissionrpc.DeletesRoleResp, error) {
-	// todo: add your logic here and delete this line
+	if _, err := l.svcCtx.TRoleApiModel.DeleteByRoleIDs(l.ctx, in.Ids); err != nil {
+		return nil, err
+	}
+	if _, err := l.svcCtx.TRoleMenuModel.DeleteByRoleIDs(l.ctx, in.Ids); err != nil {
+		return nil, err
+	}
+	if _, err := l.svcCtx.TUserRoleModel.DeleteByRoleIDs(l.ctx, in.Ids); err != nil {
+		return nil, err
+	}
 
-	return &permissionrpc.DeletesRoleResp{}, nil
+	rows, err := l.svcCtx.TRoleModel.Deletes(l.ctx, "id in (?)", in.Ids)
+	if err != nil {
+		return nil, err
+	}
+
+	return &permissionrpc.DeletesRoleResp{SuccessCount: rows}, nil
 }

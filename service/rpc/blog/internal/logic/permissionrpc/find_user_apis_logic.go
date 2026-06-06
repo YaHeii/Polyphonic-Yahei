@@ -25,7 +25,10 @@ func NewFindUserApisLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Find
 
 // 获取用户接口权限
 func (l *FindUserApisLogic) FindUserApis(in *permissionrpc.FindUserApisReq) (*permissionrpc.FindUserApisResp, error) {
-	// todo: add your logic here and delete this line
+	records, err := l.svcCtx.TApiModel.FindByUserID(l.ctx, in.UserId)
+	if err != nil {
+		return nil, err
+	}
 
-	return &permissionrpc.FindUserApisResp{}, nil
+	return &permissionrpc.FindUserApisResp{List: buildApiTree(records)}, nil
 }

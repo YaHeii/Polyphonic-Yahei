@@ -25,7 +25,14 @@ func NewFindApiListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindA
 
 // 查询接口列表
 func (l *FindApiListLogic) FindApiList(in *permissionrpc.FindApiListReq) (*permissionrpc.FindApiListResp, error) {
-	// todo: add your logic here and delete this line
+	page, size, sorts, conditions, params := buildApiQuery(in)
+	records, total, err := l.svcCtx.TApiModel.FindListAndTotal(l.ctx, page, size, sorts, conditions, params...)
+	if err != nil {
+		return nil, err
+	}
 
-	return &permissionrpc.FindApiListResp{}, nil
+	return &permissionrpc.FindApiListResp{
+		Pagination: buildPageResp(page, size, total),
+		List:       buildApiTree(records),
+	}, nil
 }

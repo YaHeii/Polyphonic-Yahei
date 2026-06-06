@@ -25,7 +25,10 @@ func NewUpdateMenuLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Update
 
 // 更新菜单
 func (l *UpdateMenuLogic) UpdateMenu(in *permissionrpc.UpdateMenuReq) (*permissionrpc.UpdateMenuResp, error) {
-	// todo: add your logic here and delete this line
+	entity := convertUpdateMenuIn(in)
+	if _, err := l.svcCtx.TMenuModel.Save(l.ctx, entity); err != nil {
+		return nil, err
+	}
 
-	return &permissionrpc.UpdateMenuResp{}, nil
+	return &permissionrpc.UpdateMenuResp{Menu: convertMenuOut(entity)}, nil
 }

@@ -25,7 +25,10 @@ func NewUpdateApiLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UpdateA
 
 // 更新接口
 func (l *UpdateApiLogic) UpdateApi(in *permissionrpc.UpdateApiReq) (*permissionrpc.UpdateApiResp, error) {
-	// todo: add your logic here and delete this line
+	api, _, err := newPermissionHelper(l.ctx, l.svcCtx).saveUpdateApiTree(in, 0)
+	if err != nil {
+		return nil, err
+	}
 
-	return &permissionrpc.UpdateApiResp{}, nil
+	return &permissionrpc.UpdateApiResp{Api: api}, nil
 }

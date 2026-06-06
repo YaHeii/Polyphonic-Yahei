@@ -25,7 +25,14 @@ func NewFindMenuListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Find
 
 // 查询菜单列表
 func (l *FindMenuListLogic) FindMenuList(in *permissionrpc.FindMenuListReq) (*permissionrpc.FindMenuListResp, error) {
-	// todo: add your logic here and delete this line
+	page, size, sorts, conditions, params := buildMenuQuery(in)
+	records, total, err := l.svcCtx.TMenuModel.FindListAndTotal(l.ctx, page, size, sorts, conditions, params...)
+	if err != nil {
+		return nil, err
+	}
 
-	return &permissionrpc.FindMenuListResp{}, nil
+	return &permissionrpc.FindMenuListResp{
+		Pagination: buildPageResp(page, size, total),
+		List:       buildMenuTree(records),
+	}, nil
 }

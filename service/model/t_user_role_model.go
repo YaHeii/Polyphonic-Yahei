@@ -1,8 +1,11 @@
 package model
 
-import "context"
+import (
+	"context"
+	"fmt"
 
-import "github.com/zeromicro/go-zero/core/stores/sqlx"
+	"github.com/zeromicro/go-zero/core/stores/sqlx"
+)
 
 var _ TUserRoleModel = (*customTUserRoleModel)(nil)
 
@@ -12,6 +15,8 @@ type (
 	TUserRoleModel interface {
 		tUserRoleModel
 		FindByUserID(ctx context.Context, userID string) ([]*TUserRole, error)
+		ReplaceByUserID(ctx context.Context, userID string, roleIDs []int64) (int64, error)
+		DeleteByRoleIDs(ctx context.Context, roleIDs []int64) (int64, error)
 		withSession(session sqlx.Session) TUserRoleModel
 	}
 
@@ -40,4 +45,37 @@ func (m *customTUserRoleModel) FindByUserID(ctx context.Context, userID string) 
 	}
 
 	return list, nil
+}
+
+func (m *customTUserRoleModel) ReplaceByUserID(ctx context.Context, userID string, roleIDs []int64) (int64, error) {
+	if _, err := m.conn.ExecCtx(ctx, fmt.Sprintf("delete from %s where user_id = $1", m.tableName()), userID); err != nil {
+		return 0, err
+	}
+
+	var rows int64
+	for _, roleID := range roleIDs {
+		if roleID == 0 {
+			continue
+		}
+		result, err := m.conn.ExecCtx(ctx, fmt.Sprintf("insert into %s (user_id, role_id) values ($1, $2)", m.tableName()), userID, roleID)
+		if err != nil {
+			return rows, err
+		}
+		affected, err := result.RowsAffected()
+		if err != nil {
+			return rows, err
+		}
+		rows += affected
+	}
+
+	return rows, nil
+}
+
+func (m *customTUserRoleModel) DeleteByRoleIDs(ctx context.Context, roleIDs []int64) (int64, error) {
+	if len(roleIDs) == 0 {
+		return 0, nil
+	}
+
+	query := fmt.Sprintf("delete from %s where role_id = any($1)", m.tableName())
+	return rowsAffected(m.conn.ExecCtx(ctx, query, buildPermissionIDArray(roleIDs)))
 }

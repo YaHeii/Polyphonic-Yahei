@@ -25,7 +25,14 @@ func NewFindRoleListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Find
 
 // 查询角色列表
 func (l *FindRoleListLogic) FindRoleList(in *permissionrpc.FindRoleListReq) (*permissionrpc.FindRoleListResp, error) {
-	// todo: add your logic here and delete this line
+	page, size, sorts, conditions, params := buildRoleQuery(in)
+	records, total, err := l.svcCtx.TRoleModel.FindListAndTotal(l.ctx, page, size, sorts, conditions, params...)
+	if err != nil {
+		return nil, err
+	}
 
-	return &permissionrpc.FindRoleListResp{}, nil
+	return &permissionrpc.FindRoleListResp{
+		Pagination: buildPageResp(page, size, total),
+		List:       buildRoleTree(records),
+	}, nil
 }

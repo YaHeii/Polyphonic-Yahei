@@ -3,10 +3,12 @@ package permissionrpclogic
 import (
 	"context"
 
+	"github.com/YaHeii/Polyphonic-Yahei/service/model"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/internal/pb/permissionrpc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/logx"
+	"github.com/zeromicro/go-zero/core/stores/sqlx"
 )
 
 type UpdateRoleApisLogic struct {
@@ -25,7 +27,14 @@ func NewUpdateRoleApisLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Up
 
 // 更新角色资源
 func (l *UpdateRoleApisLogic) UpdateRoleApis(in *permissionrpc.UpdateRoleApisReq) (*permissionrpc.UpdateRoleApisResp, error) {
-	// todo: add your logic here and delete this line
+	err := l.svcCtx.SqlConn.TransactCtx(l.ctx, func(ctx context.Context, session sqlx.Session) error {
+		conn := sqlx.NewSqlConnFromSession(session)
+		_, err := model.NewTRoleApiModel(conn).ReplaceByRoleID(ctx, in.RoleId, in.ApiIds)
+		return err
+	})
+	if err != nil {
+		return nil, err
+	}
 
 	return &permissionrpc.UpdateRoleApisResp{}, nil
 }
