@@ -25,7 +25,14 @@ func NewDeletesTalkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Delet
 
 // 删除说说
 func (l *DeletesTalkLogic) DeletesTalk(in *socialrpc.DeletesTalkReq) (*socialrpc.DeletesTalkResp, error) {
-	// todo: add your logic here and delete this line
+	if _, err := l.svcCtx.TCommentModel.Deletes(l.ctx, "topic_id = any(?) and type = ?", in.Ids, talkCommentType()); err != nil {
+		return nil, err
+	}
 
-	return &socialrpc.DeletesTalkResp{}, nil
+	rows, err := l.svcCtx.TTalkModel.Deletes(l.ctx, "id in (?)", in.Ids)
+	if err != nil {
+		return nil, err
+	}
+
+	return &socialrpc.DeletesTalkResp{SuccessCount: rows}, nil
 }

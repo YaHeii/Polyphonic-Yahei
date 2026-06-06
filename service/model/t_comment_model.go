@@ -20,6 +20,7 @@ type (
 		FindById(ctx context.Context, id int64) (*TComment, error)
 		FindCount(ctx context.Context, conditions string, args ...interface{}) (int64, error)
 		FindListAndTotal(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*TComment, total int64, err error)
+		CountGroupByTopicIDs(ctx context.Context, topicIDs []int64, commentType int64) (map[int64]int64, error)
 		Deletes(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error)
 		Updates(ctx context.Context, columns map[string]interface{}, conditions string, args ...interface{}) (rows int64, err error)
 		Save(ctx context.Context, data *TComment) (rows int64, err error)
@@ -85,6 +86,28 @@ func (m *customTCommentModel) FindListAndTotal(ctx context.Context, page int, si
 	}
 
 	return list, total, nil
+}
+
+func (m *customTCommentModel) CountGroupByTopicIDs(ctx context.Context, topicIDs []int64, commentType int64) (map[int64]int64, error) {
+	if len(topicIDs) == 0 {
+		return map[int64]int64{}, nil
+	}
+
+	var rows []struct {
+		TopicID int64 `db:"topic_id"`
+		Total   int64 `db:"total"`
+	}
+	query := fmt.Sprintf("select topic_id, count(*) as total from %s where topic_id = any($1) and type = $2 and status != 2 group by topic_id", m.table)
+	if err := m.QueryRowsNoCacheCtx(ctx, &rows, query, pq.Array(topicIDs), commentType); err != nil {
+		return nil, err
+	}
+
+	result := make(map[int64]int64, len(rows))
+	for _, row := range rows {
+		result[row.TopicID] = row.Total
+	}
+
+	return result, nil
 }
 
 func (m *customTCommentModel) Deletes(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error) {

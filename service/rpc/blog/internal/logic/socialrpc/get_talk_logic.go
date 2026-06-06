@@ -25,7 +25,15 @@ func NewGetTalkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetTalkLo
 
 // 查询说说
 func (l *GetTalkLogic) GetTalk(in *socialrpc.GetTalkReq) (*socialrpc.GetTalkResp, error) {
-	// todo: add your logic here and delete this line
+	record, err := l.svcCtx.TTalkModel.FindById(l.ctx, in.Id)
+	if err != nil {
+		return nil, err
+	}
 
-	return &socialrpc.GetTalkResp{}, nil
+	commentCount, err := l.svcCtx.TCommentModel.FindCount(l.ctx, "topic_id = ? and type = ? and status != ?", in.Id, talkCommentType(), 2)
+	if err != nil {
+		return nil, err
+	}
+
+	return &socialrpc.GetTalkResp{Talk: convertTalkOut(record, commentCount)}, nil
 }

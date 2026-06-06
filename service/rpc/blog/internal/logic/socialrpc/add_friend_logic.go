@@ -3,6 +3,7 @@ package socialrpclogic
 import (
 	"context"
 
+	"github.com/YaHeii/Polyphonic-Yahei/service/model"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/internal/pb/socialrpc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/internal/svc"
 
@@ -25,7 +26,15 @@ func NewAddFriendLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddFrie
 
 // 创建友链
 func (l *AddFriendLogic) AddFriend(in *socialrpc.AddFriendReq) (*socialrpc.AddFriendResp, error) {
-	// todo: add your logic here and delete this line
+	entity := convertAddFriendIn(in)
+	if _, err := l.svcCtx.TFriendModel.Save(l.ctx, entity); err != nil {
+		return nil, err
+	}
 
-	return &socialrpc.AddFriendResp{}, nil
+	record, err := l.svcCtx.TFriendModel.FindById(l.ctx, entity.Id)
+	if err != nil && err != model.ErrNotFound {
+		return nil, err
+	}
+
+	return &socialrpc.AddFriendResp{Friend: convertFriendOut(record)}, nil
 }

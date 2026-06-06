@@ -25,7 +25,14 @@ func NewFindFriendListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fi
 
 // 查询友链列表
 func (l *FindFriendListLogic) FindFriendList(in *socialrpc.FindFriendListReq) (*socialrpc.FindFriendListResp, error) {
-	// todo: add your logic here and delete this line
+	page, size, sorts, conditions, params := buildFriendQuery(in)
+	records, total, err := l.svcCtx.TFriendModel.FindListAndTotal(l.ctx, page, size, sorts, conditions, params...)
+	if err != nil {
+		return nil, err
+	}
 
-	return &socialrpc.FindFriendListResp{}, nil
+	return &socialrpc.FindFriendListResp{
+		Pagination: buildPageResp(page, size, total),
+		List:       convertFriendListOut(records),
+	}, nil
 }

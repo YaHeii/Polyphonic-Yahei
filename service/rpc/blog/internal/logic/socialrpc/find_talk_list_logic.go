@@ -25,7 +25,19 @@ func NewFindTalkListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Find
 
 // 查询说说列表
 func (l *FindTalkListLogic) FindTalkList(in *socialrpc.FindTalkListReq) (*socialrpc.FindTalkListResp, error) {
-	// todo: add your logic here and delete this line
+	page, size, sorts, conditions, params := buildTalkQuery(in)
+	records, total, err := l.svcCtx.TTalkModel.FindListAndTotal(l.ctx, page, size, sorts, conditions, params...)
+	if err != nil {
+		return nil, err
+	}
 
-	return &socialrpc.FindTalkListResp{}, nil
+	commentCounts, err := l.svcCtx.TCommentModel.CountGroupByTopicIDs(l.ctx, collectTalkIDs(records), talkCommentType())
+	if err != nil {
+		return nil, err
+	}
+
+	return &socialrpc.FindTalkListResp{
+		Pagination: buildPageResp(page, size, total),
+		List:       convertTalkListOut(records, commentCounts),
+	}, nil
 }

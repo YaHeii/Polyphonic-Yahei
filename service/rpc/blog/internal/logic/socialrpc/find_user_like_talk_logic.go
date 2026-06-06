@@ -3,6 +3,9 @@ package socialrpclogic
 import (
 	"context"
 
+	"github.com/spf13/cast"
+
+	"github.com/YaHeii/Polyphonic-Yahei/common/rediskey"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/internal/pb/socialrpc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/internal/svc"
 
@@ -25,7 +28,17 @@ func NewFindUserLikeTalkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 
 // 用户点赞的说说
 func (l *FindUserLikeTalkLogic) FindUserLikeTalk(in *socialrpc.FindUserLikeTalkReq) (*socialrpc.FindUserLikeTalkResp, error) {
-	// todo: add your logic here and delete this line
+	values, err := l.svcCtx.Redis.SMembers(l.ctx, rediskey.GetUserLikeTalkKey(in.UserId)).Result()
+	if err != nil {
+		return nil, err
+	}
 
-	return &socialrpc.FindUserLikeTalkResp{}, nil
+	ids := make([]int64, 0, len(values))
+	for _, value := range values {
+		if id := cast.ToInt64(value); id != 0 {
+			ids = append(ids, id)
+		}
+	}
+
+	return &socialrpc.FindUserLikeTalkResp{LikeTalkList: ids}, nil
 }

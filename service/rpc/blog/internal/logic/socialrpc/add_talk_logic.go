@@ -3,6 +3,7 @@ package socialrpclogic
 import (
 	"context"
 
+	"github.com/YaHeii/Polyphonic-Yahei/service/model"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/internal/pb/socialrpc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/internal/svc"
 
@@ -25,7 +26,15 @@ func NewAddTalkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddTalkLo
 
 // 创建说说
 func (l *AddTalkLogic) AddTalk(in *socialrpc.AddTalkReq) (*socialrpc.AddTalkResp, error) {
-	// todo: add your logic here and delete this line
+	entity := convertAddTalkIn(in)
+	if _, err := l.svcCtx.TTalkModel.Save(l.ctx, entity); err != nil {
+		return nil, err
+	}
 
-	return &socialrpc.AddTalkResp{}, nil
+	record, err := l.svcCtx.TTalkModel.FindById(l.ctx, entity.Id)
+	if err != nil && err != model.ErrNotFound {
+		return nil, err
+	}
+
+	return &socialrpc.AddTalkResp{Talk: convertTalkOut(record, 0)}, nil
 }
