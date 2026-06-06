@@ -25,7 +25,14 @@ func NewFindVisitLogListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 
 // 查询操作访问列表
 func (l *FindVisitLogListLogic) FindVisitLogList(in *syslogrpc.FindVisitLogListReq) (*syslogrpc.FindVisitLogListResp, error) {
-	// todo: add your logic here and delete this line
+	page, size, sorts, conditions, params := buildVisitLogQuery(in)
+	records, total, err := l.svcCtx.TVisitLogModel.FindListAndTotal(l.ctx, page, size, sorts, conditions, params...)
+	if err != nil {
+		return nil, err
+	}
 
-	return &syslogrpc.FindVisitLogListResp{}, nil
+	return &syslogrpc.FindVisitLogListResp{
+		Pagination: buildPageResp(page, size, total),
+		List:       convertVisitLogListOut(records),
+	}, nil
 }

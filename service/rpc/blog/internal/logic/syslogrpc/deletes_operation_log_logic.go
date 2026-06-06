@@ -25,7 +25,10 @@ func NewDeletesOperationLogLogic(ctx context.Context, svcCtx *svc.ServiceContext
 
 // 批量删除操作记录
 func (l *DeletesOperationLogLogic) DeletesOperationLog(in *syslogrpc.DeletesOperationLogReq) (*syslogrpc.DeletesOperationLogResp, error) {
-	// todo: add your logic here and delete this line
+	rows, err := l.svcCtx.TOperationLogModel.Deletes(l.ctx, "id in (?)", in.Ids)
+	if err != nil {
+		return nil, err
+	}
 
-	return &syslogrpc.DeletesOperationLogResp{}, nil
+	return &syslogrpc.DeletesOperationLogResp{SuccessCount: rows}, nil
 }

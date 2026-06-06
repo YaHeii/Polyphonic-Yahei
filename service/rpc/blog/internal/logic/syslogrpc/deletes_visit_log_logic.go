@@ -25,7 +25,10 @@ func NewDeletesVisitLogLogic(ctx context.Context, svcCtx *svc.ServiceContext) *D
 
 // 批量删除访问记录
 func (l *DeletesVisitLogLogic) DeletesVisitLog(in *syslogrpc.DeletesVisitLogReq) (*syslogrpc.DeletesVisitLogResp, error) {
-	// todo: add your logic here and delete this line
+	rows, err := l.svcCtx.TVisitLogModel.Deletes(l.ctx, "id in (?)", in.Ids)
+	if err != nil {
+		return nil, err
+	}
 
-	return &syslogrpc.DeletesVisitLogResp{}, nil
+	return &syslogrpc.DeletesVisitLogResp{SuccessCount: rows}, nil
 }

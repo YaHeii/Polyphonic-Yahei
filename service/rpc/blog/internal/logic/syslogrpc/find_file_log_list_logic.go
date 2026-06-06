@@ -25,7 +25,14 @@ func NewFindFileLogListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *F
 
 // 查询文件记录列表
 func (l *FindFileLogListLogic) FindFileLogList(in *syslogrpc.FindFileLogListReq) (*syslogrpc.FindFileLogListResp, error) {
-	// todo: add your logic here and delete this line
+	page, size, sorts, conditions, params := buildFileLogQuery(in)
+	records, total, err := l.svcCtx.TFileLogModel.FindListAndTotal(l.ctx, page, size, sorts, conditions, params...)
+	if err != nil {
+		return nil, err
+	}
 
-	return &syslogrpc.FindFileLogListResp{}, nil
+	return &syslogrpc.FindFileLogListResp{
+		Pagination: buildPageResp(page, size, total),
+		List:       convertFileLogListOut(records),
+	}, nil
 }

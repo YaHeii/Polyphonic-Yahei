@@ -25,7 +25,17 @@ func NewAddVisitLogLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddVi
 
 // 创建访问记录
 func (l *AddVisitLogLogic) AddVisitLog(in *syslogrpc.AddVisitLogReq) (*syslogrpc.AddVisitLogResp, error) {
-	// todo: add your logic here and delete this line
+	entity := convertAddVisitLogIn(l.ctx, in)
+	if _, err := l.svcCtx.TVisitLogModel.Save(l.ctx, entity); err != nil {
+		return nil, err
+	}
 
-	return &syslogrpc.AddVisitLogResp{}, nil
+	record, err := l.svcCtx.TVisitLogModel.FindById(l.ctx, entity.Id)
+	if err != nil {
+		return nil, err
+	}
+
+	return &syslogrpc.AddVisitLogResp{
+		VisitLog: convertVisitLogOut(record),
+	}, nil
 }

@@ -25,7 +25,17 @@ func NewAddLoginLogLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddLo
 
 // 创建登录记录
 func (l *AddLoginLogLogic) AddLoginLog(in *syslogrpc.AddLoginLogReq) (*syslogrpc.AddLoginLogResp, error) {
-	// todo: add your logic here and delete this line
+	entity := convertAddLoginLogIn(l.ctx, in)
+	if _, err := l.svcCtx.TLoginLogModel.Save(l.ctx, entity); err != nil {
+		return nil, err
+	}
 
-	return &syslogrpc.AddLoginLogResp{}, nil
+	record, err := l.svcCtx.TLoginLogModel.FindById(l.ctx, entity.Id)
+	if err != nil {
+		return nil, err
+	}
+
+	return &syslogrpc.AddLoginLogResp{
+		LoginLog: convertLoginLogOut(record),
+	}, nil
 }

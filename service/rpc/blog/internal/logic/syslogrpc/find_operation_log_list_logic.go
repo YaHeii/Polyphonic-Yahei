@@ -25,7 +25,14 @@ func NewFindOperationLogListLogic(ctx context.Context, svcCtx *svc.ServiceContex
 
 // 查询操作记录列表
 func (l *FindOperationLogListLogic) FindOperationLogList(in *syslogrpc.FindOperationLogListReq) (*syslogrpc.FindOperationLogListResp, error) {
-	// todo: add your logic here and delete this line
+	page, size, sorts, conditions, params := buildOperationLogQuery(in)
+	records, total, err := l.svcCtx.TOperationLogModel.FindListAndTotal(l.ctx, page, size, sorts, conditions, params...)
+	if err != nil {
+		return nil, err
+	}
 
-	return &syslogrpc.FindOperationLogListResp{}, nil
+	return &syslogrpc.FindOperationLogListResp{
+		Pagination: buildPageResp(page, size, total),
+		List:       convertOperationLogListOut(records),
+	}, nil
 }

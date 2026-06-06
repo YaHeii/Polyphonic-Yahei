@@ -25,7 +25,14 @@ func NewFindLoginLogListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 
 // 查询登录记录列表
 func (l *FindLoginLogListLogic) FindLoginLogList(in *syslogrpc.FindLoginLogListReq) (*syslogrpc.FindLoginLogListResp, error) {
-	// todo: add your logic here and delete this line
+	page, size, sorts, conditions, params := buildLoginLogQuery(in)
+	records, total, err := l.svcCtx.TLoginLogModel.FindListAndTotal(l.ctx, page, size, sorts, conditions, params...)
+	if err != nil {
+		return nil, err
+	}
 
-	return &syslogrpc.FindLoginLogListResp{}, nil
+	return &syslogrpc.FindLoginLogListResp{
+		Pagination: buildPageResp(page, size, total),
+		List:       convertLoginLogListOut(records),
+	}, nil
 }

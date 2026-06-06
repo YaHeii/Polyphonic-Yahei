@@ -25,7 +25,10 @@ func NewDeletesFileLogLogic(ctx context.Context, svcCtx *svc.ServiceContext) *De
 
 // 批量删除文件记录
 func (l *DeletesFileLogLogic) DeletesFileLog(in *syslogrpc.DeletesFileLogReq) (*syslogrpc.DeletesFileLogResp, error) {
-	// todo: add your logic here and delete this line
+	rows, err := l.svcCtx.TFileLogModel.Deletes(l.ctx, "id in (?)", in.Ids)
+	if err != nil {
+		return nil, err
+	}
 
-	return &syslogrpc.DeletesFileLogResp{}, nil
+	return &syslogrpc.DeletesFileLogResp{SuccessCount: rows}, nil
 }

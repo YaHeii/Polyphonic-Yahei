@@ -25,7 +25,14 @@ func NewAddLogoutLogLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddL
 
 // 更新登录记录
 func (l *AddLogoutLogLogic) AddLogoutLog(in *syslogrpc.AddLogoutLogReq) (*syslogrpc.AddLogoutLogResp, error) {
-	// todo: add your logic here and delete this line
+	userID := in.UserId
+	if userID == "" {
+		userID = metadataUserID(l.ctx)
+	}
+
+	if _, err := l.svcCtx.TLoginLogModel.UpdateLatestLogout(l.ctx, userID, logoutTime(in)); err != nil {
+		return nil, err
+	}
 
 	return &syslogrpc.AddLogoutLogResp{}, nil
 }

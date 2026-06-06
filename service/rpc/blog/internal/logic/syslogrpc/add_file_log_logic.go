@@ -25,7 +25,17 @@ func NewAddFileLogLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddFil
 
 // 创建文件记录
 func (l *AddFileLogLogic) AddFileLog(in *syslogrpc.AddFileLogReq) (*syslogrpc.AddFileLogResp, error) {
-	// todo: add your logic here and delete this line
+	entity := convertAddFileLogIn(l.ctx, in)
+	if _, err := l.svcCtx.TFileLogModel.Save(l.ctx, entity); err != nil {
+		return nil, err
+	}
 
-	return &syslogrpc.AddFileLogResp{}, nil
+	record, err := l.svcCtx.TFileLogModel.FindById(l.ctx, entity.Id)
+	if err != nil {
+		return nil, err
+	}
+
+	return &syslogrpc.AddFileLogResp{
+		FileLog: convertFileLogOut(record),
+	}, nil
 }

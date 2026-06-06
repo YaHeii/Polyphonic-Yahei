@@ -25,7 +25,10 @@ func NewDeletesLoginLogLogic(ctx context.Context, svcCtx *svc.ServiceContext) *D
 
 // 批量删除登录记录
 func (l *DeletesLoginLogLogic) DeletesLoginLog(in *syslogrpc.DeletesLoginLogReq) (*syslogrpc.DeletesLoginLogResp, error) {
-	// todo: add your logic here and delete this line
+	rows, err := l.svcCtx.TLoginLogModel.Deletes(l.ctx, "id in (?)", in.Ids)
+	if err != nil {
+		return nil, err
+	}
 
-	return &syslogrpc.DeletesLoginLogResp{}, nil
+	return &syslogrpc.DeletesLoginLogResp{SuccessCount: rows}, nil
 }

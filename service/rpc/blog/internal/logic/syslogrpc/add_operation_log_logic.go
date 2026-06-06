@@ -25,7 +25,17 @@ func NewAddOperationLogLogic(ctx context.Context, svcCtx *svc.ServiceContext) *A
 
 // 创建操作记录
 func (l *AddOperationLogLogic) AddOperationLog(in *syslogrpc.AddOperationLogReq) (*syslogrpc.AddOperationLogResp, error) {
-	// todo: add your logic here and delete this line
+	entity := convertAddOperationLogIn(l.ctx, in)
+	if _, err := l.svcCtx.TOperationLogModel.Save(l.ctx, entity); err != nil {
+		return nil, err
+	}
 
-	return &syslogrpc.AddOperationLogResp{}, nil
+	record, err := l.svcCtx.TOperationLogModel.FindById(l.ctx, entity.Id)
+	if err != nil {
+		return nil, err
+	}
+
+	return &syslogrpc.AddOperationLogResp{
+		OperationLog: convertOperationLogOut(record),
+	}, nil
 }
