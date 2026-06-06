@@ -156,10 +156,10 @@ type MenuMeta struct {
 	Rank          int64                  `protobuf:"varint,14,opt,name=rank,proto3" json:"rank,omitempty"`                               // 菜单排序
 	Perm          string                 `protobuf:"bytes,15,opt,name=perm,proto3" json:"perm,omitempty"`                                // 权限标识
 	Params        string                 `protobuf:"bytes,16,opt,name=params,proto3" json:"params,omitempty"`                            // 路由参数(json)
-	KeepAlive     int64                  `protobuf:"varint,17,opt,name=keep_alive,json=keepAlive,proto3" json:"keep_alive,omitempty"`    // 是否缓存
-	AlwaysShow    int64                  `protobuf:"varint,18,opt,name=always_show,json=alwaysShow,proto3" json:"always_show,omitempty"` // 是否一直显示菜单
-	Visible       int64                  `protobuf:"varint,19,opt,name=visible,proto3" json:"visible,omitempty"`                         // 菜单是否可见
-	Status        int64                  `protobuf:"varint,20,opt,name=status,proto3" json:"status,omitempty"`                           // 状态  0正常 1禁用
+	KeepAlive     bool                   `protobuf:"varint,17,opt,name=keep_alive,json=keepAlive,proto3" json:"keep_alive,omitempty"`    // 是否缓存
+	AlwaysShow    bool                   `protobuf:"varint,18,opt,name=always_show,json=alwaysShow,proto3" json:"always_show,omitempty"` // 是否一直显示菜单
+	Visible       bool                   `protobuf:"varint,19,opt,name=visible,proto3" json:"visible,omitempty"`                         // 菜单是否可见
+	Status        bool                   `protobuf:"varint,20,opt,name=status,proto3" json:"status,omitempty"`                           // 是否禁用
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -236,32 +236,32 @@ func (x *MenuMeta) GetParams() string {
 	return ""
 }
 
-func (x *MenuMeta) GetKeepAlive() int64 {
+func (x *MenuMeta) GetKeepAlive() bool {
 	if x != nil {
 		return x.KeepAlive
 	}
-	return 0
+	return false
 }
 
-func (x *MenuMeta) GetAlwaysShow() int64 {
+func (x *MenuMeta) GetAlwaysShow() bool {
 	if x != nil {
 		return x.AlwaysShow
 	}
-	return 0
+	return false
 }
 
-func (x *MenuMeta) GetVisible() int64 {
+func (x *MenuMeta) GetVisible() bool {
 	if x != nil {
 		return x.Visible
 	}
-	return 0
+	return false
 }
 
-func (x *MenuMeta) GetStatus() int64 {
+func (x *MenuMeta) GetStatus() bool {
 	if x != nil {
 		return x.Status
 	}
-	return 0
+	return false
 }
 
 type Api struct {
@@ -1961,7 +1961,7 @@ type Role struct {
 	RoleKey       string                 `protobuf:"bytes,3,opt,name=role_key,json=roleKey,proto3" json:"role_key,omitempty"`             // 角色名
 	RoleLabel     string                 `protobuf:"bytes,4,opt,name=role_label,json=roleLabel,proto3" json:"role_label,omitempty"`       // 角色标签
 	RoleComment   string                 `protobuf:"bytes,5,opt,name=role_comment,json=roleComment,proto3" json:"role_comment,omitempty"` // 角色备注
-	IsDefault     int64                  `protobuf:"varint,6,opt,name=is_default,json=isDefault,proto3" json:"is_default,omitempty"`      // 是否默认角色 0否 1是
+	IsDefault     bool                   `protobuf:"varint,6,opt,name=is_default,json=isDefault,proto3" json:"is_default,omitempty"`      // 是否默认角色
 	Status        int64                  `protobuf:"varint,7,opt,name=status,proto3" json:"status,omitempty"`                             // 状态  0正常 1禁用
 	CreatedAt     int64                  `protobuf:"varint,8,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`      // 创建时间
 	UpdatedAt     int64                  `protobuf:"varint,9,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`      // 更新时间
@@ -2035,11 +2035,11 @@ func (x *Role) GetRoleComment() string {
 	return ""
 }
 
-func (x *Role) GetIsDefault() int64 {
+func (x *Role) GetIsDefault() bool {
 	if x != nil {
 		return x.IsDefault
 	}
-	return 0
+	return false
 }
 
 func (x *Role) GetStatus() int64 {
@@ -2077,7 +2077,7 @@ type AddRoleReq struct {
 	RoleKey       string                 `protobuf:"bytes,3,opt,name=role_key,json=roleKey,proto3" json:"role_key,omitempty"`             // 角色名
 	RoleLabel     string                 `protobuf:"bytes,4,opt,name=role_label,json=roleLabel,proto3" json:"role_label,omitempty"`       // 角色标签
 	RoleComment   string                 `protobuf:"bytes,5,opt,name=role_comment,json=roleComment,proto3" json:"role_comment,omitempty"` // 角色备注
-	IsDefault     int64                  `protobuf:"varint,6,opt,name=is_default,json=isDefault,proto3" json:"is_default,omitempty"`      // 是否默认角色 0否 1是
+	IsDefault     bool                   `protobuf:"varint,6,opt,name=is_default,json=isDefault,proto3" json:"is_default,omitempty"`      // 是否默认角色
 	Status        int64                  `protobuf:"varint,7,opt,name=status,proto3" json:"status,omitempty"`                             // 状态  0正常 1禁用
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -2148,11 +2148,11 @@ func (x *AddRoleReq) GetRoleComment() string {
 	return ""
 }
 
-func (x *AddRoleReq) GetIsDefault() int64 {
+func (x *AddRoleReq) GetIsDefault() bool {
 	if x != nil {
 		return x.IsDefault
 	}
-	return 0
+	return false
 }
 
 func (x *AddRoleReq) GetStatus() int64 {
@@ -2213,7 +2213,7 @@ type UpdateRoleReq struct {
 	RoleKey       string                 `protobuf:"bytes,3,opt,name=role_key,json=roleKey,proto3" json:"role_key,omitempty"`             // 角色名
 	RoleLabel     string                 `protobuf:"bytes,4,opt,name=role_label,json=roleLabel,proto3" json:"role_label,omitempty"`       // 角色标签
 	RoleComment   string                 `protobuf:"bytes,5,opt,name=role_comment,json=roleComment,proto3" json:"role_comment,omitempty"` // 角色备注
-	IsDefault     int64                  `protobuf:"varint,6,opt,name=is_default,json=isDefault,proto3" json:"is_default,omitempty"`      // 是否默认角色 0否 1是
+	IsDefault     bool                   `protobuf:"varint,6,opt,name=is_default,json=isDefault,proto3" json:"is_default,omitempty"`      // 是否默认角色
 	Status        int64                  `protobuf:"varint,7,opt,name=status,proto3" json:"status,omitempty"`                             // 状态  0正常 1禁用
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -2284,11 +2284,11 @@ func (x *UpdateRoleReq) GetRoleComment() string {
 	return ""
 }
 
-func (x *UpdateRoleReq) GetIsDefault() int64 {
+func (x *UpdateRoleReq) GetIsDefault() bool {
 	if x != nil {
 		return x.IsDefault
 	}
-	return 0
+	return false
 }
 
 func (x *UpdateRoleReq) GetStatus() int64 {
@@ -3283,11 +3283,11 @@ const file_blog_permission_proto_rawDesc = "" +
 	"\x04perm\x18\x0f \x01(\tR\x04perm\x12\x16\n" +
 	"\x06params\x18\x10 \x01(\tR\x06params\x12\x1d\n" +
 	"\n" +
-	"keep_alive\x18\x11 \x01(\x03R\tkeepAlive\x12\x1f\n" +
-	"\valways_show\x18\x12 \x01(\x03R\n" +
+	"keep_alive\x18\x11 \x01(\bR\tkeepAlive\x12\x1f\n" +
+	"\valways_show\x18\x12 \x01(\bR\n" +
 	"alwaysShow\x12\x18\n" +
-	"\avisible\x18\x13 \x01(\x03R\avisible\x12\x16\n" +
-	"\x06status\x18\x14 \x01(\x03R\x06status\"\x96\x02\n" +
+	"\avisible\x18\x13 \x01(\bR\avisible\x12\x16\n" +
+	"\x06status\x18\x14 \x01(\bR\x06status\"\x96\x02\n" +
 	"\x03Api\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x1b\n" +
 	"\tparent_id\x18\x02 \x01(\x03R\bparentId\x12\x12\n" +
@@ -3417,7 +3417,7 @@ const file_blog_permission_proto_rawDesc = "" +
 	"role_label\x18\x04 \x01(\tR\troleLabel\x12!\n" +
 	"\frole_comment\x18\x05 \x01(\tR\vroleComment\x12\x1d\n" +
 	"\n" +
-	"is_default\x18\x06 \x01(\x03R\tisDefault\x12\x16\n" +
+	"is_default\x18\x06 \x01(\bR\tisDefault\x12\x16\n" +
 	"\x06status\x18\a \x01(\x03R\x06status\x12\x1d\n" +
 	"\n" +
 	"created_at\x18\b \x01(\x03R\tcreatedAt\x12\x1d\n" +
@@ -3434,7 +3434,7 @@ const file_blog_permission_proto_rawDesc = "" +
 	"role_label\x18\x04 \x01(\tR\troleLabel\x12!\n" +
 	"\frole_comment\x18\x05 \x01(\tR\vroleComment\x12\x1d\n" +
 	"\n" +
-	"is_default\x18\x06 \x01(\x03R\tisDefault\x12\x16\n" +
+	"is_default\x18\x06 \x01(\bR\tisDefault\x12\x16\n" +
 	"\x06status\x18\a \x01(\x03R\x06status\"6\n" +
 	"\vAddRoleResp\x12'\n" +
 	"\x04role\x18\x01 \x01(\v2\x13.permissionrpc.RoleR\x04role\"\xd0\x01\n" +
@@ -3446,7 +3446,7 @@ const file_blog_permission_proto_rawDesc = "" +
 	"role_label\x18\x04 \x01(\tR\troleLabel\x12!\n" +
 	"\frole_comment\x18\x05 \x01(\tR\vroleComment\x12\x1d\n" +
 	"\n" +
-	"is_default\x18\x06 \x01(\x03R\tisDefault\x12\x16\n" +
+	"is_default\x18\x06 \x01(\bR\tisDefault\x12\x16\n" +
 	"\x06status\x18\a \x01(\x03R\x06status\"9\n" +
 	"\x0eUpdateRoleResp\x12'\n" +
 	"\x04role\x18\x01 \x01(\v2\x13.permissionrpc.RoleR\x04role\"\"\n" +

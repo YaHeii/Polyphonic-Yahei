@@ -30,10 +30,10 @@ message MenuMeta{
   int64 rank = 14;// 菜单排序
   string perm = 15;// 权限标识
   string params = 16;// 路由参数(json)
-  int64 keep_alive = 17;// 是否缓存
-  int64 always_show = 18;// 是否一直显示菜单
-  int64 visible = 19;// 菜单是否可见
-  int64 status = 20;// 状态  0正常 1禁用
+  bool keep_alive = 17;// 是否缓存
+  bool always_show = 18;// 是否一直显示菜单
+  bool visible = 19;// 菜单是否可见
+  bool status = 20;// 是否禁用
 }
 
 message Api {
@@ -210,7 +210,7 @@ message Role {
   string role_key = 3;// 角色名
   string role_label = 4;// 角色标签
   string role_comment = 5;// 角色备注
-  int64 is_default = 6;// 是否默认角色 0否 1是
+  bool is_default = 6;// 是否默认角色
   int64 status = 7;// 状态  0正常 1禁用
   int64 created_at = 8;// 创建时间
   int64 updated_at = 9;// 更新时间
@@ -223,7 +223,7 @@ message AddRoleReq {
   string role_key = 3;// 角色名
   string role_label = 4;// 角色标签
   string role_comment = 5;// 角色备注
-  int64 is_default = 6;// 是否默认角色 0否 1是
+  bool is_default = 6;// 是否默认角色
   int64 status = 7;// 状态  0正常 1禁用
 }
 
@@ -237,7 +237,7 @@ message UpdateRoleReq {
   string role_key = 3;// 角色名
   string role_label = 4;// 角色标签
   string role_comment = 5;// 角色备注
-  int64 is_default = 6;// 是否默认角色 0否 1是
+  bool is_default = 6;// 是否默认角色
   int64 status = 7;// 状态  0正常 1禁用
 }
 

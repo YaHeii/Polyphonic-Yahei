@@ -155,7 +155,7 @@ type Photo struct {
 	PhotoName     string                 `protobuf:"bytes,3,opt,name=photo_name,json=photoName,proto3" json:"photo_name,omitempty"`  // 照片名
 	PhotoDesc     string                 `protobuf:"bytes,4,opt,name=photo_desc,json=photoDesc,proto3" json:"photo_desc,omitempty"`  // 照片描述
 	PhotoSrc      string                 `protobuf:"bytes,5,opt,name=photo_src,json=photoSrc,proto3" json:"photo_src,omitempty"`     // 照片地址
-	IsDelete      int64                  `protobuf:"varint,6,opt,name=is_delete,json=isDelete,proto3" json:"is_delete,omitempty"`    // 是否删除
+	IsDelete      bool                   `protobuf:"varint,6,opt,name=is_delete,json=isDelete,proto3" json:"is_delete,omitempty"`    // 是否删除
 	CreatedAt     int64                  `protobuf:"varint,7,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"` // 创建时间
 	UpdatedAt     int64                  `protobuf:"varint,8,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"` // 更新时间
 	unknownFields protoimpl.UnknownFields
@@ -227,11 +227,11 @@ func (x *Photo) GetPhotoSrc() string {
 	return ""
 }
 
-func (x *Photo) GetIsDelete() int64 {
+func (x *Photo) GetIsDelete() bool {
 	if x != nil {
 		return x.IsDelete
 	}
-	return 0
+	return false
 }
 
 func (x *Photo) GetCreatedAt() int64 {
@@ -255,7 +255,7 @@ type AddPhotoReq struct {
 	PhotoName     string                 `protobuf:"bytes,3,opt,name=photo_name,json=photoName,proto3" json:"photo_name,omitempty"` // 照片名
 	PhotoDesc     string                 `protobuf:"bytes,4,opt,name=photo_desc,json=photoDesc,proto3" json:"photo_desc,omitempty"` // 照片描述
 	PhotoSrc      string                 `protobuf:"bytes,5,opt,name=photo_src,json=photoSrc,proto3" json:"photo_src,omitempty"`    // 照片地址
-	IsDelete      int64                  `protobuf:"varint,6,opt,name=is_delete,json=isDelete,proto3" json:"is_delete,omitempty"`   // 是否删除
+	IsDelete      bool                   `protobuf:"varint,6,opt,name=is_delete,json=isDelete,proto3" json:"is_delete,omitempty"`   // 是否删除
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -325,11 +325,11 @@ func (x *AddPhotoReq) GetPhotoSrc() string {
 	return ""
 }
 
-func (x *AddPhotoReq) GetIsDelete() int64 {
+func (x *AddPhotoReq) GetIsDelete() bool {
 	if x != nil {
 		return x.IsDelete
 	}
-	return 0
+	return false
 }
 
 type AddPhotoResp struct {
@@ -383,7 +383,7 @@ type UpdatePhotoReq struct {
 	PhotoName     string                 `protobuf:"bytes,3,opt,name=photo_name,json=photoName,proto3" json:"photo_name,omitempty"` // 照片名
 	PhotoDesc     string                 `protobuf:"bytes,4,opt,name=photo_desc,json=photoDesc,proto3" json:"photo_desc,omitempty"` // 照片描述
 	PhotoSrc      string                 `protobuf:"bytes,5,opt,name=photo_src,json=photoSrc,proto3" json:"photo_src,omitempty"`    // 照片地址
-	IsDelete      int64                  `protobuf:"varint,6,opt,name=is_delete,json=isDelete,proto3" json:"is_delete,omitempty"`   // 是否删除
+	IsDelete      bool                   `protobuf:"varint,6,opt,name=is_delete,json=isDelete,proto3" json:"is_delete,omitempty"`   // 是否删除
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -453,11 +453,11 @@ func (x *UpdatePhotoReq) GetPhotoSrc() string {
 	return ""
 }
 
-func (x *UpdatePhotoReq) GetIsDelete() int64 {
+func (x *UpdatePhotoReq) GetIsDelete() bool {
 	if x != nil {
 		return x.IsDelete
 	}
-	return 0
+	return false
 }
 
 type UpdatePhotoResp struct {
@@ -507,7 +507,7 @@ func (x *UpdatePhotoResp) GetPhoto() *Photo {
 type UpdatePhotoDeleteReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Ids           []int64                `protobuf:"varint,1,rep,packed,name=ids,proto3" json:"ids,omitempty"`                    // id
-	IsDelete      int64                  `protobuf:"varint,2,opt,name=is_delete,json=isDelete,proto3" json:"is_delete,omitempty"` // 是否删除
+	IsDelete      bool                   `protobuf:"varint,2,opt,name=is_delete,json=isDelete,proto3" json:"is_delete,omitempty"` // 是否删除
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -549,11 +549,11 @@ func (x *UpdatePhotoDeleteReq) GetIds() []int64 {
 	return nil
 }
 
-func (x *UpdatePhotoDeleteReq) GetIsDelete() int64 {
+func (x *UpdatePhotoDeleteReq) GetIsDelete() bool {
 	if x != nil {
 		return x.IsDelete
 	}
-	return 0
+	return false
 }
 
 type UpdatePhotoDeleteResp struct {
@@ -690,9 +690,9 @@ func (x *DeletesPhotoResp) GetSuccessCount() int64 {
 
 type FindPhotoListReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Paginate      *PageReq               `protobuf:"bytes,1,opt,name=paginate,proto3" json:"paginate,omitempty"`                  // 分页参数
-	AlbumId       int64                  `protobuf:"varint,2,opt,name=album_id,json=albumId,proto3" json:"album_id,omitempty"`    // 相册id
-	IsDelete      int64                  `protobuf:"varint,3,opt,name=is_delete,json=isDelete,proto3" json:"is_delete,omitempty"` // 是否删除
+	Paginate      *PageReq               `protobuf:"bytes,1,opt,name=paginate,proto3" json:"paginate,omitempty"`                        // 分页参数
+	AlbumId       int64                  `protobuf:"varint,2,opt,name=album_id,json=albumId,proto3" json:"album_id,omitempty"`          // 相册id
+	IsDelete      *bool                  `protobuf:"varint,3,opt,name=is_delete,json=isDelete,proto3,oneof" json:"is_delete,omitempty"` // 是否删除
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -741,11 +741,11 @@ func (x *FindPhotoListReq) GetAlbumId() int64 {
 	return 0
 }
 
-func (x *FindPhotoListReq) GetIsDelete() int64 {
-	if x != nil {
-		return x.IsDelete
+func (x *FindPhotoListReq) GetIsDelete() bool {
+	if x != nil && x.IsDelete != nil {
+		return *x.IsDelete
 	}
-	return 0
+	return false
 }
 
 type FindPhotoListResp struct {
@@ -807,7 +807,7 @@ type Album struct {
 	AlbumName     string                 `protobuf:"bytes,2,opt,name=album_name,json=albumName,proto3" json:"album_name,omitempty"`     // 相册名
 	AlbumDesc     string                 `protobuf:"bytes,3,opt,name=album_desc,json=albumDesc,proto3" json:"album_desc,omitempty"`     // 相册描述
 	AlbumCover    string                 `protobuf:"bytes,4,opt,name=album_cover,json=albumCover,proto3" json:"album_cover,omitempty"`  // 相册封面
-	IsDelete      int64                  `protobuf:"varint,5,opt,name=is_delete,json=isDelete,proto3" json:"is_delete,omitempty"`       // 是否删除
+	IsDelete      bool                   `protobuf:"varint,5,opt,name=is_delete,json=isDelete,proto3" json:"is_delete,omitempty"`       // 是否删除
 	Status        int64                  `protobuf:"varint,6,opt,name=status,proto3" json:"status,omitempty"`                           // 状态值 1公开 2私密
 	CreatedAt     int64                  `protobuf:"varint,7,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`    // 创建时间
 	UpdatedAt     int64                  `protobuf:"varint,8,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`    // 更新时间
@@ -874,11 +874,11 @@ func (x *Album) GetAlbumCover() string {
 	return ""
 }
 
-func (x *Album) GetIsDelete() int64 {
+func (x *Album) GetIsDelete() bool {
 	if x != nil {
 		return x.IsDelete
 	}
-	return 0
+	return false
 }
 
 func (x *Album) GetStatus() int64 {
@@ -915,7 +915,7 @@ type AddAlbumReq struct {
 	AlbumName     string                 `protobuf:"bytes,2,opt,name=album_name,json=albumName,proto3" json:"album_name,omitempty"`    // 相册名
 	AlbumDesc     string                 `protobuf:"bytes,3,opt,name=album_desc,json=albumDesc,proto3" json:"album_desc,omitempty"`    // 相册描述
 	AlbumCover    string                 `protobuf:"bytes,4,opt,name=album_cover,json=albumCover,proto3" json:"album_cover,omitempty"` // 相册封面
-	IsDelete      int64                  `protobuf:"varint,5,opt,name=is_delete,json=isDelete,proto3" json:"is_delete,omitempty"`      // 是否删除
+	IsDelete      bool                   `protobuf:"varint,5,opt,name=is_delete,json=isDelete,proto3" json:"is_delete,omitempty"`      // 是否删除
 	Status        int64                  `protobuf:"varint,6,opt,name=status,proto3" json:"status,omitempty"`                          // 状态值 1公开 2私密
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -979,11 +979,11 @@ func (x *AddAlbumReq) GetAlbumCover() string {
 	return ""
 }
 
-func (x *AddAlbumReq) GetIsDelete() int64 {
+func (x *AddAlbumReq) GetIsDelete() bool {
 	if x != nil {
 		return x.IsDelete
 	}
-	return 0
+	return false
 }
 
 func (x *AddAlbumReq) GetStatus() int64 {
@@ -1043,7 +1043,7 @@ type UpdateAlbumReq struct {
 	AlbumName     string                 `protobuf:"bytes,2,opt,name=album_name,json=albumName,proto3" json:"album_name,omitempty"`    // 相册名
 	AlbumDesc     string                 `protobuf:"bytes,3,opt,name=album_desc,json=albumDesc,proto3" json:"album_desc,omitempty"`    // 相册描述
 	AlbumCover    string                 `protobuf:"bytes,4,opt,name=album_cover,json=albumCover,proto3" json:"album_cover,omitempty"` // 相册封面
-	IsDelete      int64                  `protobuf:"varint,5,opt,name=is_delete,json=isDelete,proto3" json:"is_delete,omitempty"`      // 是否删除
+	IsDelete      bool                   `protobuf:"varint,5,opt,name=is_delete,json=isDelete,proto3" json:"is_delete,omitempty"`      // 是否删除
 	Status        int64                  `protobuf:"varint,6,opt,name=status,proto3" json:"status,omitempty"`                          // 状态值 1公开 2私密
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -1107,11 +1107,11 @@ func (x *UpdateAlbumReq) GetAlbumCover() string {
 	return ""
 }
 
-func (x *UpdateAlbumReq) GetIsDelete() int64 {
+func (x *UpdateAlbumReq) GetIsDelete() bool {
 	if x != nil {
 		return x.IsDelete
 	}
-	return 0
+	return false
 }
 
 func (x *UpdateAlbumReq) GetStatus() int64 {
@@ -1168,7 +1168,7 @@ func (x *UpdateAlbumResp) GetAlbum() *Album {
 type UpdateAlbumDeleteReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Ids           []int64                `protobuf:"varint,1,rep,packed,name=ids,proto3" json:"ids,omitempty"`                    // 相册id
-	IsDelete      int64                  `protobuf:"varint,2,opt,name=is_delete,json=isDelete,proto3" json:"is_delete,omitempty"` // 是否删除
+	IsDelete      bool                   `protobuf:"varint,2,opt,name=is_delete,json=isDelete,proto3" json:"is_delete,omitempty"` // 是否删除
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1210,11 +1210,11 @@ func (x *UpdateAlbumDeleteReq) GetIds() []int64 {
 	return nil
 }
 
-func (x *UpdateAlbumDeleteReq) GetIsDelete() int64 {
+func (x *UpdateAlbumDeleteReq) GetIsDelete() bool {
 	if x != nil {
 		return x.IsDelete
 	}
-	return 0
+	return false
 }
 
 type UpdateAlbumDeleteResp struct {
@@ -1439,9 +1439,9 @@ func (x *DeletesAlbumResp) GetSuccessCount() int64 {
 
 type FindAlbumListReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Paginate      *PageReq               `protobuf:"bytes,1,opt,name=paginate,proto3" json:"paginate,omitempty"`                    // 分页参数
-	AlbumName     string                 `protobuf:"bytes,2,opt,name=album_name,json=albumName,proto3" json:"album_name,omitempty"` // 相册名
-	IsDelete      int64                  `protobuf:"varint,3,opt,name=is_delete,json=isDelete,proto3" json:"is_delete,omitempty"`   // 是否删除
+	Paginate      *PageReq               `protobuf:"bytes,1,opt,name=paginate,proto3" json:"paginate,omitempty"`                        // 分页参数
+	AlbumName     string                 `protobuf:"bytes,2,opt,name=album_name,json=albumName,proto3" json:"album_name,omitempty"`     // 相册名
+	IsDelete      *bool                  `protobuf:"varint,3,opt,name=is_delete,json=isDelete,proto3,oneof" json:"is_delete,omitempty"` // 是否删除
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1490,11 +1490,11 @@ func (x *FindAlbumListReq) GetAlbumName() string {
 	return ""
 }
 
-func (x *FindAlbumListReq) GetIsDelete() int64 {
-	if x != nil {
-		return x.IsDelete
+func (x *FindAlbumListReq) GetIsDelete() bool {
+	if x != nil && x.IsDelete != nil {
+		return *x.IsDelete
 	}
-	return 0
+	return false
 }
 
 type FindAlbumListResp struct {
@@ -1556,7 +1556,7 @@ type Page struct {
 	PageName       string                 `protobuf:"bytes,2,opt,name=page_name,json=pageName,proto3" json:"page_name,omitempty"`                   // 页面名
 	PageLabel      string                 `protobuf:"bytes,3,opt,name=page_label,json=pageLabel,proto3" json:"page_label,omitempty"`                // 页面标签
 	PageCover      string                 `protobuf:"bytes,4,opt,name=page_cover,json=pageCover,proto3" json:"page_cover,omitempty"`                // 页面封面
-	IsCarousel     int64                  `protobuf:"varint,5,opt,name=is_carousel,json=isCarousel,proto3" json:"is_carousel,omitempty"`            // 是否轮播
+	IsCarousel     bool                   `protobuf:"varint,5,opt,name=is_carousel,json=isCarousel,proto3" json:"is_carousel,omitempty"`            // 是否轮播
 	CarouselCovers []string               `protobuf:"bytes,6,rep,name=carousel_covers,json=carouselCovers,proto3" json:"carousel_covers,omitempty"` // 轮播列表
 	CreatedAt      int64                  `protobuf:"varint,7,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`               // 创建时间
 	UpdatedAt      int64                  `protobuf:"varint,8,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`               // 更新时间
@@ -1622,11 +1622,11 @@ func (x *Page) GetPageCover() string {
 	return ""
 }
 
-func (x *Page) GetIsCarousel() int64 {
+func (x *Page) GetIsCarousel() bool {
 	if x != nil {
 		return x.IsCarousel
 	}
-	return 0
+	return false
 }
 
 func (x *Page) GetCarouselCovers() []string {
@@ -1656,7 +1656,7 @@ type AddPageReq struct {
 	PageName       string                 `protobuf:"bytes,2,opt,name=page_name,json=pageName,proto3" json:"page_name,omitempty"`                   // 页面名
 	PageLabel      string                 `protobuf:"bytes,3,opt,name=page_label,json=pageLabel,proto3" json:"page_label,omitempty"`                // 页面标签
 	PageCover      string                 `protobuf:"bytes,4,opt,name=page_cover,json=pageCover,proto3" json:"page_cover,omitempty"`                // 页面封面
-	IsCarousel     int64                  `protobuf:"varint,5,opt,name=is_carousel,json=isCarousel,proto3" json:"is_carousel,omitempty"`            // 是否轮播
+	IsCarousel     bool                   `protobuf:"varint,5,opt,name=is_carousel,json=isCarousel,proto3" json:"is_carousel,omitempty"`            // 是否轮播
 	CarouselCovers []string               `protobuf:"bytes,6,rep,name=carousel_covers,json=carouselCovers,proto3" json:"carousel_covers,omitempty"` // 轮播列表
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
@@ -1720,11 +1720,11 @@ func (x *AddPageReq) GetPageCover() string {
 	return ""
 }
 
-func (x *AddPageReq) GetIsCarousel() int64 {
+func (x *AddPageReq) GetIsCarousel() bool {
 	if x != nil {
 		return x.IsCarousel
 	}
-	return 0
+	return false
 }
 
 func (x *AddPageReq) GetCarouselCovers() []string {
@@ -1784,7 +1784,7 @@ type UpdatePageReq struct {
 	PageName       string                 `protobuf:"bytes,2,opt,name=page_name,json=pageName,proto3" json:"page_name,omitempty"`                   // 页面名
 	PageLabel      string                 `protobuf:"bytes,3,opt,name=page_label,json=pageLabel,proto3" json:"page_label,omitempty"`                // 页面标签
 	PageCover      string                 `protobuf:"bytes,4,opt,name=page_cover,json=pageCover,proto3" json:"page_cover,omitempty"`                // 页面封面
-	IsCarousel     int64                  `protobuf:"varint,5,opt,name=is_carousel,json=isCarousel,proto3" json:"is_carousel,omitempty"`            // 是否轮播
+	IsCarousel     bool                   `protobuf:"varint,5,opt,name=is_carousel,json=isCarousel,proto3" json:"is_carousel,omitempty"`            // 是否轮播
 	CarouselCovers []string               `protobuf:"bytes,6,rep,name=carousel_covers,json=carouselCovers,proto3" json:"carousel_covers,omitempty"` // 轮播列表
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
@@ -1848,11 +1848,11 @@ func (x *UpdatePageReq) GetPageCover() string {
 	return ""
 }
 
-func (x *UpdatePageReq) GetIsCarousel() int64 {
+func (x *UpdatePageReq) GetIsCarousel() bool {
 	if x != nil {
 		return x.IsCarousel
 	}
-	return 0
+	return false
 }
 
 func (x *UpdatePageReq) GetCarouselCovers() []string {
@@ -2119,7 +2119,7 @@ const file_blog_resource_proto_rawDesc = "" +
 	"\n" +
 	"photo_desc\x18\x04 \x01(\tR\tphotoDesc\x12\x1b\n" +
 	"\tphoto_src\x18\x05 \x01(\tR\bphotoSrc\x12\x1b\n" +
-	"\tis_delete\x18\x06 \x01(\x03R\bisDelete\x12\x1d\n" +
+	"\tis_delete\x18\x06 \x01(\bR\bisDelete\x12\x1d\n" +
 	"\n" +
 	"created_at\x18\a \x01(\x03R\tcreatedAt\x12\x1d\n" +
 	"\n" +
@@ -2132,7 +2132,7 @@ const file_blog_resource_proto_rawDesc = "" +
 	"\n" +
 	"photo_desc\x18\x04 \x01(\tR\tphotoDesc\x12\x1b\n" +
 	"\tphoto_src\x18\x05 \x01(\tR\bphotoSrc\x12\x1b\n" +
-	"\tis_delete\x18\x06 \x01(\x03R\bisDelete\"8\n" +
+	"\tis_delete\x18\x06 \x01(\bR\bisDelete\"8\n" +
 	"\fAddPhotoResp\x12(\n" +
 	"\x05photo\x18\x01 \x01(\v2\x12.resourcerpc.PhotoR\x05photo\"\xb3\x01\n" +
 	"\x0eUpdatePhotoReq\x12\x0e\n" +
@@ -2143,22 +2143,24 @@ const file_blog_resource_proto_rawDesc = "" +
 	"\n" +
 	"photo_desc\x18\x04 \x01(\tR\tphotoDesc\x12\x1b\n" +
 	"\tphoto_src\x18\x05 \x01(\tR\bphotoSrc\x12\x1b\n" +
-	"\tis_delete\x18\x06 \x01(\x03R\bisDelete\";\n" +
+	"\tis_delete\x18\x06 \x01(\bR\bisDelete\";\n" +
 	"\x0fUpdatePhotoResp\x12(\n" +
 	"\x05photo\x18\x01 \x01(\v2\x12.resourcerpc.PhotoR\x05photo\"E\n" +
 	"\x14UpdatePhotoDeleteReq\x12\x10\n" +
 	"\x03ids\x18\x01 \x03(\x03R\x03ids\x12\x1b\n" +
-	"\tis_delete\x18\x02 \x01(\x03R\bisDelete\"<\n" +
+	"\tis_delete\x18\x02 \x01(\bR\bisDelete\"<\n" +
 	"\x15UpdatePhotoDeleteResp\x12#\n" +
 	"\rsuccess_count\x18\x01 \x01(\x03R\fsuccessCount\"#\n" +
 	"\x0fDeletesPhotoReq\x12\x10\n" +
 	"\x03ids\x18\x01 \x03(\x03R\x03ids\"7\n" +
 	"\x10DeletesPhotoResp\x12#\n" +
-	"\rsuccess_count\x18\x01 \x01(\x03R\fsuccessCount\"|\n" +
+	"\rsuccess_count\x18\x01 \x01(\x03R\fsuccessCount\"\x8f\x01\n" +
 	"\x10FindPhotoListReq\x120\n" +
 	"\bpaginate\x18\x01 \x01(\v2\x14.resourcerpc.PageReqR\bpaginate\x12\x19\n" +
-	"\balbum_id\x18\x02 \x01(\x03R\aalbumId\x12\x1b\n" +
-	"\tis_delete\x18\x03 \x01(\x03R\bisDelete\"r\n" +
+	"\balbum_id\x18\x02 \x01(\x03R\aalbumId\x12 \n" +
+	"\tis_delete\x18\x03 \x01(\bH\x00R\bisDelete\x88\x01\x01B\f\n" +
+	"\n" +
+	"_is_delete\"r\n" +
 	"\x11FindPhotoListResp\x125\n" +
 	"\n" +
 	"pagination\x18\x01 \x01(\v2\x15.resourcerpc.PageRespR\n" +
@@ -2172,7 +2174,7 @@ const file_blog_resource_proto_rawDesc = "" +
 	"album_desc\x18\x03 \x01(\tR\talbumDesc\x12\x1f\n" +
 	"\valbum_cover\x18\x04 \x01(\tR\n" +
 	"albumCover\x12\x1b\n" +
-	"\tis_delete\x18\x05 \x01(\x03R\bisDelete\x12\x16\n" +
+	"\tis_delete\x18\x05 \x01(\bR\bisDelete\x12\x16\n" +
 	"\x06status\x18\x06 \x01(\x03R\x06status\x12\x1d\n" +
 	"\n" +
 	"created_at\x18\a \x01(\x03R\tcreatedAt\x12\x1d\n" +
@@ -2188,7 +2190,7 @@ const file_blog_resource_proto_rawDesc = "" +
 	"album_desc\x18\x03 \x01(\tR\talbumDesc\x12\x1f\n" +
 	"\valbum_cover\x18\x04 \x01(\tR\n" +
 	"albumCover\x12\x1b\n" +
-	"\tis_delete\x18\x05 \x01(\x03R\bisDelete\x12\x16\n" +
+	"\tis_delete\x18\x05 \x01(\bR\bisDelete\x12\x16\n" +
 	"\x06status\x18\x06 \x01(\x03R\x06status\"8\n" +
 	"\fAddAlbumResp\x12(\n" +
 	"\x05album\x18\x01 \x01(\v2\x12.resourcerpc.AlbumR\x05album\"\xb4\x01\n" +
@@ -2200,13 +2202,13 @@ const file_blog_resource_proto_rawDesc = "" +
 	"album_desc\x18\x03 \x01(\tR\talbumDesc\x12\x1f\n" +
 	"\valbum_cover\x18\x04 \x01(\tR\n" +
 	"albumCover\x12\x1b\n" +
-	"\tis_delete\x18\x05 \x01(\x03R\bisDelete\x12\x16\n" +
+	"\tis_delete\x18\x05 \x01(\bR\bisDelete\x12\x16\n" +
 	"\x06status\x18\x06 \x01(\x03R\x06status\";\n" +
 	"\x0fUpdateAlbumResp\x12(\n" +
 	"\x05album\x18\x01 \x01(\v2\x12.resourcerpc.AlbumR\x05album\"E\n" +
 	"\x14UpdateAlbumDeleteReq\x12\x10\n" +
 	"\x03ids\x18\x01 \x03(\x03R\x03ids\x12\x1b\n" +
-	"\tis_delete\x18\x02 \x01(\x03R\bisDelete\"<\n" +
+	"\tis_delete\x18\x02 \x01(\bR\bisDelete\"<\n" +
 	"\x15UpdateAlbumDeleteResp\x12#\n" +
 	"\rsuccess_count\x18\x01 \x01(\x03R\fsuccessCount\"\x1d\n" +
 	"\vGetAlbumReq\x12\x0e\n" +
@@ -2216,12 +2218,14 @@ const file_blog_resource_proto_rawDesc = "" +
 	"\x0fDeletesAlbumReq\x12\x10\n" +
 	"\x03ids\x18\x01 \x03(\x03R\x03ids\"7\n" +
 	"\x10DeletesAlbumResp\x12#\n" +
-	"\rsuccess_count\x18\x01 \x01(\x03R\fsuccessCount\"\x80\x01\n" +
+	"\rsuccess_count\x18\x01 \x01(\x03R\fsuccessCount\"\x93\x01\n" +
 	"\x10FindAlbumListReq\x120\n" +
 	"\bpaginate\x18\x01 \x01(\v2\x14.resourcerpc.PageReqR\bpaginate\x12\x1d\n" +
 	"\n" +
-	"album_name\x18\x02 \x01(\tR\talbumName\x12\x1b\n" +
-	"\tis_delete\x18\x03 \x01(\x03R\bisDelete\"r\n" +
+	"album_name\x18\x02 \x01(\tR\talbumName\x12 \n" +
+	"\tis_delete\x18\x03 \x01(\bH\x00R\bisDelete\x88\x01\x01B\f\n" +
+	"\n" +
+	"_is_delete\"r\n" +
 	"\x11FindAlbumListResp\x125\n" +
 	"\n" +
 	"pagination\x18\x01 \x01(\v2\x15.resourcerpc.PageRespR\n" +
@@ -2234,7 +2238,7 @@ const file_blog_resource_proto_rawDesc = "" +
 	"page_label\x18\x03 \x01(\tR\tpageLabel\x12\x1d\n" +
 	"\n" +
 	"page_cover\x18\x04 \x01(\tR\tpageCover\x12\x1f\n" +
-	"\vis_carousel\x18\x05 \x01(\x03R\n" +
+	"\vis_carousel\x18\x05 \x01(\bR\n" +
 	"isCarousel\x12'\n" +
 	"\x0fcarousel_covers\x18\x06 \x03(\tR\x0ecarouselCovers\x12\x1d\n" +
 	"\n" +
@@ -2249,7 +2253,7 @@ const file_blog_resource_proto_rawDesc = "" +
 	"page_label\x18\x03 \x01(\tR\tpageLabel\x12\x1d\n" +
 	"\n" +
 	"page_cover\x18\x04 \x01(\tR\tpageCover\x12\x1f\n" +
-	"\vis_carousel\x18\x05 \x01(\x03R\n" +
+	"\vis_carousel\x18\x05 \x01(\bR\n" +
 	"isCarousel\x12'\n" +
 	"\x0fcarousel_covers\x18\x06 \x03(\tR\x0ecarouselCovers\"4\n" +
 	"\vAddPageResp\x12%\n" +
@@ -2261,7 +2265,7 @@ const file_blog_resource_proto_rawDesc = "" +
 	"page_label\x18\x03 \x01(\tR\tpageLabel\x12\x1d\n" +
 	"\n" +
 	"page_cover\x18\x04 \x01(\tR\tpageCover\x12\x1f\n" +
-	"\vis_carousel\x18\x05 \x01(\x03R\n" +
+	"\vis_carousel\x18\x05 \x01(\bR\n" +
 	"isCarousel\x12'\n" +
 	"\x0fcarousel_covers\x18\x06 \x03(\tR\x0ecarouselCovers\"7\n" +
 	"\x0eUpdatePageResp\x12%\n" +
@@ -2405,6 +2409,8 @@ func file_blog_resource_proto_init() {
 	if File_blog_resource_proto != nil {
 		return
 	}
+	file_blog_resource_proto_msgTypes[11].OneofWrappers = []any{}
+	file_blog_resource_proto_msgTypes[24].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

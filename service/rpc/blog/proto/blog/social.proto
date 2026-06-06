@@ -81,7 +81,7 @@ message Talk {
   string user_id = 2;// 用户id
   string content = 3;// 说说内容
   repeated string img_list = 4;// 图片URL列表
-  int64 is_top = 5;// 是否置顶
+  bool is_top = 5;// 是否置顶
   int64 status = 6;// 状态 1.公开 2.私密
   int64 created_at = 7;// 创建时间
   int64 updated_at = 8;// 更新时间
@@ -94,7 +94,7 @@ message AddTalkReq {
   string user_id = 2;// 用户id
   string content = 3;// 说说内容
   repeated string img_list = 4;// 图片URL列表
-  int64 is_top = 5;// 是否置顶
+  bool is_top = 5;// 是否置顶
   int64 status = 6;// 状态 1.公开 2.私密
 }
 
@@ -107,7 +107,7 @@ message UpdateTalkReq {
   string user_id = 2;// 用户id
   string content = 3;// 说说内容
   repeated string img_list = 4;// 图片URL列表
-  int64 is_top = 5;// 是否置顶
+  bool is_top = 5;// 是否置顶
   int64 status = 6;// 状态 1.公开 2.私密
 }
 

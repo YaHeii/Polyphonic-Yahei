@@ -115,7 +115,7 @@ message AddArticleReq {
   string article_content = 6;// 内容
   int64 article_type = 7;// 文章类型 1原创 2转载 3翻译
   string original_url = 8;// 原文链接
-  int64 is_top = 9;// 是否置顶 1是
+  bool is_top = 9;// 是否置顶
   int64 status = 11;// 状态值 1 公开 2 私密 3 草稿 4 已删除
   string category_name = 15;// 分类名
   repeated string tag_name_list = 16; // 标签名
@@ -133,7 +133,7 @@ message UpdateArticleReq {
   string article_content = 6;// 内容
   int64 article_type = 7;// 文章类型 1原创 2转载 3翻译
   string original_url = 8;// 原文链接
-  int64 is_top = 9;// 是否置顶 1是
+  bool is_top = 9;// 是否置顶
   int64 status = 11;// 状态值 1 公开 2 私密 3 草稿 4 已删除
   string category_name = 15;// 分类名
   repeated string tag_name_list = 16; // 标签名
@@ -145,7 +145,7 @@ message UpdateArticleResp {
 
 message UpdateArticleDeleteReq{
   int64 article_id = 1;
-  int64 is_delete = 2;// 是否删除 1是
+  bool is_delete = 2;// 是否删除
 }
 
 message UpdateArticleDeleteResp {
@@ -154,7 +154,7 @@ message UpdateArticleDeleteResp {
 
 message UpdateArticleTopReq{
   int64 article_id = 1;
-  int64 is_top = 2;// 是否置顶 1是
+  bool is_top = 2;// 是否置顶
 }
 
 message UpdateArticleTopResp {
@@ -216,8 +216,8 @@ message FindArticleListReq{
   int64 article_type = 3;// 文章类型 1原创 2转载 3翻译
   string category_name = 4;// 分类名
   string tag_name = 5;// 标签名
-  int64 is_top = 6;// 是否置顶 1是
-  int64 is_delete = 7;// 是否删除 1是
+  optional bool is_top = 6;// 是否置顶
+  optional bool is_delete = 7;// 是否删除
   int64 status = 8;// 状态值 1公开 2私密 3草稿 4已删除
   repeated int64 ids = 9; //文章id列表
 }

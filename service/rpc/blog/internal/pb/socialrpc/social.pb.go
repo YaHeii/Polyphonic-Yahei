@@ -679,7 +679,7 @@ type Talk struct {
 	UserId        string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`                     // 用户id
 	Content       string                 `protobuf:"bytes,3,opt,name=content,proto3" json:"content,omitempty"`                                 // 说说内容
 	ImgList       []string               `protobuf:"bytes,4,rep,name=img_list,json=imgList,proto3" json:"img_list,omitempty"`                  // 图片URL列表
-	IsTop         int64                  `protobuf:"varint,5,opt,name=is_top,json=isTop,proto3" json:"is_top,omitempty"`                       // 是否置顶
+	IsTop         bool                   `protobuf:"varint,5,opt,name=is_top,json=isTop,proto3" json:"is_top,omitempty"`                       // 是否置顶
 	Status        int64                  `protobuf:"varint,6,opt,name=status,proto3" json:"status,omitempty"`                                  // 状态 1.公开 2.私密
 	CreatedAt     int64                  `protobuf:"varint,7,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`           // 创建时间
 	UpdatedAt     int64                  `protobuf:"varint,8,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`           // 更新时间
@@ -747,11 +747,11 @@ func (x *Talk) GetImgList() []string {
 	return nil
 }
 
-func (x *Talk) GetIsTop() int64 {
+func (x *Talk) GetIsTop() bool {
 	if x != nil {
 		return x.IsTop
 	}
-	return 0
+	return false
 }
 
 func (x *Talk) GetStatus() int64 {
@@ -795,7 +795,7 @@ type AddTalkReq struct {
 	UserId        string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`    // 用户id
 	Content       string                 `protobuf:"bytes,3,opt,name=content,proto3" json:"content,omitempty"`                // 说说内容
 	ImgList       []string               `protobuf:"bytes,4,rep,name=img_list,json=imgList,proto3" json:"img_list,omitempty"` // 图片URL列表
-	IsTop         int64                  `protobuf:"varint,5,opt,name=is_top,json=isTop,proto3" json:"is_top,omitempty"`      // 是否置顶
+	IsTop         bool                   `protobuf:"varint,5,opt,name=is_top,json=isTop,proto3" json:"is_top,omitempty"`      // 是否置顶
 	Status        int64                  `protobuf:"varint,6,opt,name=status,proto3" json:"status,omitempty"`                 // 状态 1.公开 2.私密
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -859,11 +859,11 @@ func (x *AddTalkReq) GetImgList() []string {
 	return nil
 }
 
-func (x *AddTalkReq) GetIsTop() int64 {
+func (x *AddTalkReq) GetIsTop() bool {
 	if x != nil {
 		return x.IsTop
 	}
-	return 0
+	return false
 }
 
 func (x *AddTalkReq) GetStatus() int64 {
@@ -923,7 +923,7 @@ type UpdateTalkReq struct {
 	UserId        string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`    // 用户id
 	Content       string                 `protobuf:"bytes,3,opt,name=content,proto3" json:"content,omitempty"`                // 说说内容
 	ImgList       []string               `protobuf:"bytes,4,rep,name=img_list,json=imgList,proto3" json:"img_list,omitempty"` // 图片URL列表
-	IsTop         int64                  `protobuf:"varint,5,opt,name=is_top,json=isTop,proto3" json:"is_top,omitempty"`      // 是否置顶
+	IsTop         bool                   `protobuf:"varint,5,opt,name=is_top,json=isTop,proto3" json:"is_top,omitempty"`      // 是否置顶
 	Status        int64                  `protobuf:"varint,6,opt,name=status,proto3" json:"status,omitempty"`                 // 状态 1.公开 2.私密
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -987,11 +987,11 @@ func (x *UpdateTalkReq) GetImgList() []string {
 	return nil
 }
 
-func (x *UpdateTalkReq) GetIsTop() int64 {
+func (x *UpdateTalkReq) GetIsTop() bool {
 	if x != nil {
 		return x.IsTop
 	}
-	return 0
+	return false
 }
 
 func (x *UpdateTalkReq) GetStatus() int64 {
@@ -1555,7 +1555,7 @@ const file_blog_social_proto_rawDesc = "" +
 	"\auser_id\x18\x02 \x01(\tR\x06userId\x12\x18\n" +
 	"\acontent\x18\x03 \x01(\tR\acontent\x12\x19\n" +
 	"\bimg_list\x18\x04 \x03(\tR\aimgList\x12\x15\n" +
-	"\x06is_top\x18\x05 \x01(\x03R\x05isTop\x12\x16\n" +
+	"\x06is_top\x18\x05 \x01(\bR\x05isTop\x12\x16\n" +
 	"\x06status\x18\x06 \x01(\x03R\x06status\x12\x1d\n" +
 	"\n" +
 	"created_at\x18\a \x01(\x03R\tcreatedAt\x12\x1d\n" +
@@ -1571,7 +1571,7 @@ const file_blog_social_proto_rawDesc = "" +
 	"\auser_id\x18\x02 \x01(\tR\x06userId\x12\x18\n" +
 	"\acontent\x18\x03 \x01(\tR\acontent\x12\x19\n" +
 	"\bimg_list\x18\x04 \x03(\tR\aimgList\x12\x15\n" +
-	"\x06is_top\x18\x05 \x01(\x03R\x05isTop\x12\x16\n" +
+	"\x06is_top\x18\x05 \x01(\bR\x05isTop\x12\x16\n" +
 	"\x06status\x18\x06 \x01(\x03R\x06status\"2\n" +
 	"\vAddTalkResp\x12#\n" +
 	"\x04talk\x18\x01 \x01(\v2\x0f.socialrpc.TalkR\x04talk\"\x9c\x01\n" +
@@ -1580,7 +1580,7 @@ const file_blog_social_proto_rawDesc = "" +
 	"\auser_id\x18\x02 \x01(\tR\x06userId\x12\x18\n" +
 	"\acontent\x18\x03 \x01(\tR\acontent\x12\x19\n" +
 	"\bimg_list\x18\x04 \x03(\tR\aimgList\x12\x15\n" +
-	"\x06is_top\x18\x05 \x01(\x03R\x05isTop\x12\x16\n" +
+	"\x06is_top\x18\x05 \x01(\bR\x05isTop\x12\x16\n" +
 	"\x06status\x18\x06 \x01(\x03R\x06status\"5\n" +
 	"\x0eUpdateTalkResp\x12#\n" +
 	"\x04talk\x18\x01 \x01(\v2\x0f.socialrpc.TalkR\x04talk\"\"\n" +

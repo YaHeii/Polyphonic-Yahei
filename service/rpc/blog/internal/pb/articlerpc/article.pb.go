@@ -866,7 +866,7 @@ type AddArticleReq struct {
 	ArticleContent string                 `protobuf:"bytes,6,opt,name=article_content,json=articleContent,proto3" json:"article_content,omitempty"` // 内容
 	ArticleType    int64                  `protobuf:"varint,7,opt,name=article_type,json=articleType,proto3" json:"article_type,omitempty"`         // 文章类型 1原创 2转载 3翻译
 	OriginalUrl    string                 `protobuf:"bytes,8,opt,name=original_url,json=originalUrl,proto3" json:"original_url,omitempty"`          // 原文链接
-	IsTop          int64                  `protobuf:"varint,9,opt,name=is_top,json=isTop,proto3" json:"is_top,omitempty"`                           // 是否置顶 1是
+	IsTop          bool                   `protobuf:"varint,9,opt,name=is_top,json=isTop,proto3" json:"is_top,omitempty"`                           // 是否置顶
 	Status         int64                  `protobuf:"varint,11,opt,name=status,proto3" json:"status,omitempty"`                                     // 状态值 1 公开 2 私密 3 草稿 4 已删除
 	CategoryName   string                 `protobuf:"bytes,15,opt,name=category_name,json=categoryName,proto3" json:"category_name,omitempty"`      // 分类名
 	TagNameList    []string               `protobuf:"bytes,16,rep,name=tag_name_list,json=tagNameList,proto3" json:"tag_name_list,omitempty"`       // 标签名
@@ -953,11 +953,11 @@ func (x *AddArticleReq) GetOriginalUrl() string {
 	return ""
 }
 
-func (x *AddArticleReq) GetIsTop() int64 {
+func (x *AddArticleReq) GetIsTop() bool {
 	if x != nil {
 		return x.IsTop
 	}
-	return 0
+	return false
 }
 
 func (x *AddArticleReq) GetStatus() int64 {
@@ -1034,7 +1034,7 @@ type UpdateArticleReq struct {
 	ArticleContent string                 `protobuf:"bytes,6,opt,name=article_content,json=articleContent,proto3" json:"article_content,omitempty"` // 内容
 	ArticleType    int64                  `protobuf:"varint,7,opt,name=article_type,json=articleType,proto3" json:"article_type,omitempty"`         // 文章类型 1原创 2转载 3翻译
 	OriginalUrl    string                 `protobuf:"bytes,8,opt,name=original_url,json=originalUrl,proto3" json:"original_url,omitempty"`          // 原文链接
-	IsTop          bool                  `protobuf:"varint,9,opt,name=is_top,json=isTop,proto3" json:"is_top,omitempty"`                           // 是否置顶 1是
+	IsTop          bool                   `protobuf:"varint,9,opt,name=is_top,json=isTop,proto3" json:"is_top,omitempty"`                           // 是否置顶
 	Status         int64                  `protobuf:"varint,11,opt,name=status,proto3" json:"status,omitempty"`                                     // 状态值 1 公开 2 私密 3 草稿 4 已删除
 	CategoryName   string                 `protobuf:"bytes,15,opt,name=category_name,json=categoryName,proto3" json:"category_name,omitempty"`      // 分类名
 	TagNameList    []string               `protobuf:"bytes,16,rep,name=tag_name_list,json=tagNameList,proto3" json:"tag_name_list,omitempty"`       // 标签名
@@ -1196,7 +1196,7 @@ func (x *UpdateArticleResp) GetArticle() *ArticlePreview {
 type UpdateArticleDeleteReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ArticleId     int64                  `protobuf:"varint,1,opt,name=article_id,json=articleId,proto3" json:"article_id,omitempty"`
-	IsDelete      bool                  `protobuf:"varint,2,opt,name=is_delete,json=isDelete,proto3" json:"is_delete,omitempty"` // 是否删除 1是
+	IsDelete      bool                   `protobuf:"varint,2,opt,name=is_delete,json=isDelete,proto3" json:"is_delete,omitempty"` // 是否删除
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1292,7 +1292,7 @@ func (x *UpdateArticleDeleteResp) GetArticle() *ArticlePreview {
 type UpdateArticleTopReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ArticleId     int64                  `protobuf:"varint,1,opt,name=article_id,json=articleId,proto3" json:"article_id,omitempty"`
-	IsTop         bool                  `protobuf:"varint,2,opt,name=is_top,json=isTop,proto3" json:"is_top,omitempty"` // 是否置顶 1是
+	IsTop         bool                   `protobuf:"varint,2,opt,name=is_top,json=isTop,proto3" json:"is_top,omitempty"` // 是否置顶
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1928,8 +1928,8 @@ type FindArticleListReq struct {
 	ArticleType   int64                  `protobuf:"varint,3,opt,name=article_type,json=articleType,proto3" json:"article_type,omitempty"`   // 文章类型 1原创 2转载 3翻译
 	CategoryName  string                 `protobuf:"bytes,4,opt,name=category_name,json=categoryName,proto3" json:"category_name,omitempty"` // 分类名
 	TagName       string                 `protobuf:"bytes,5,opt,name=tag_name,json=tagName,proto3" json:"tag_name,omitempty"`                // 标签名
-	IsTop         int64                  `protobuf:"varint,6,opt,name=is_top,json=isTop,proto3" json:"is_top,omitempty"`                     // 是否置顶 1是
-	IsDelete      int64                  `protobuf:"varint,7,opt,name=is_delete,json=isDelete,proto3" json:"is_delete,omitempty"`            // 是否删除 1是
+	IsTop         *bool                  `protobuf:"varint,6,opt,name=is_top,json=isTop,proto3,oneof" json:"is_top,omitempty"`               // 是否置顶
+	IsDelete      *bool                  `protobuf:"varint,7,opt,name=is_delete,json=isDelete,proto3,oneof" json:"is_delete,omitempty"`      // 是否删除
 	Status        int64                  `protobuf:"varint,8,opt,name=status,proto3" json:"status,omitempty"`                                // 状态值 1公开 2私密 3草稿 4已删除
 	Ids           []int64                `protobuf:"varint,9,rep,packed,name=ids,proto3" json:"ids,omitempty"`                               //文章id列表
 	unknownFields protoimpl.UnknownFields
@@ -2001,18 +2001,18 @@ func (x *FindArticleListReq) GetTagName() string {
 	return ""
 }
 
-func (x *FindArticleListReq) GetIsTop() int64 {
-	if x != nil {
-		return x.IsTop
+func (x *FindArticleListReq) GetIsTop() bool {
+	if x != nil && x.IsTop != nil {
+		return *x.IsTop
 	}
-	return 0
+	return false
 }
 
-func (x *FindArticleListReq) GetIsDelete() int64 {
-	if x != nil {
-		return x.IsDelete
+func (x *FindArticleListReq) GetIsDelete() bool {
+	if x != nil && x.IsDelete != nil {
+		return *x.IsDelete
 	}
-	return 0
+	return false
 }
 
 func (x *FindArticleListReq) GetStatus() int64 {
@@ -3305,7 +3305,7 @@ const file_blog_article_proto_rawDesc = "" +
 	"\x0farticle_content\x18\x06 \x01(\tR\x0earticleContent\x12!\n" +
 	"\farticle_type\x18\a \x01(\x03R\varticleType\x12!\n" +
 	"\foriginal_url\x18\b \x01(\tR\voriginalUrl\x12\x15\n" +
-	"\x06is_top\x18\t \x01(\x03R\x05isTop\x12\x16\n" +
+	"\x06is_top\x18\t \x01(\bR\x05isTop\x12\x16\n" +
 	"\x06status\x18\v \x01(\x03R\x06status\x12#\n" +
 	"\rcategory_name\x18\x0f \x01(\tR\fcategoryName\x12\"\n" +
 	"\rtag_name_list\x18\x10 \x03(\tR\vtagNameList\"F\n" +
@@ -3319,7 +3319,7 @@ const file_blog_article_proto_rawDesc = "" +
 	"\x0farticle_content\x18\x06 \x01(\tR\x0earticleContent\x12!\n" +
 	"\farticle_type\x18\a \x01(\x03R\varticleType\x12!\n" +
 	"\foriginal_url\x18\b \x01(\tR\voriginalUrl\x12\x15\n" +
-	"\x06is_top\x18\t \x01(\x03R\x05isTop\x12\x16\n" +
+	"\x06is_top\x18\t \x01(\bR\x05isTop\x12\x16\n" +
 	"\x06status\x18\v \x01(\x03R\x06status\x12#\n" +
 	"\rcategory_name\x18\x0f \x01(\tR\fcategoryName\x12\"\n" +
 	"\rtag_name_list\x18\x10 \x03(\tR\vtagNameList\"I\n" +
@@ -3328,13 +3328,13 @@ const file_blog_article_proto_rawDesc = "" +
 	"\x16UpdateArticleDeleteReq\x12\x1d\n" +
 	"\n" +
 	"article_id\x18\x01 \x01(\x03R\tarticleId\x12\x1b\n" +
-	"\tis_delete\x18\x02 \x01(\x03R\bisDelete\"O\n" +
+	"\tis_delete\x18\x02 \x01(\bR\bisDelete\"O\n" +
 	"\x17UpdateArticleDeleteResp\x124\n" +
 	"\aarticle\x18\x01 \x01(\v2\x1a.articlerpc.ArticlePreviewR\aarticle\"K\n" +
 	"\x13UpdateArticleTopReq\x12\x1d\n" +
 	"\n" +
 	"article_id\x18\x01 \x01(\x03R\tarticleId\x12\x15\n" +
-	"\x06is_top\x18\x02 \x01(\x03R\x05isTop\"L\n" +
+	"\x06is_top\x18\x02 \x01(\bR\x05isTop\"L\n" +
 	"\x14UpdateArticleTopResp\x124\n" +
 	"\aarticle\x18\x01 \x01(\v2\x1a.articlerpc.ArticlePreviewR\aarticle\"\x1f\n" +
 	"\rGetArticleReq\x12\x0e\n" +
@@ -3361,17 +3361,20 @@ const file_blog_article_proto_rawDesc = "" +
 	"\x16FindUserLikeArticleReq\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\"A\n" +
 	"\x13FindLikeArticleResp\x12*\n" +
-	"\x11like_article_list\x18\x01 \x03(\x03R\x0flikeArticleList\"\xab\x02\n" +
+	"\x11like_article_list\x18\x01 \x03(\x03R\x0flikeArticleList\"\xce\x02\n" +
 	"\x12FindArticleListReq\x12/\n" +
 	"\bpaginate\x18\x01 \x01(\v2\x13.articlerpc.PageReqR\bpaginate\x12#\n" +
 	"\rarticle_title\x18\x02 \x01(\tR\farticleTitle\x12!\n" +
 	"\farticle_type\x18\x03 \x01(\x03R\varticleType\x12#\n" +
 	"\rcategory_name\x18\x04 \x01(\tR\fcategoryName\x12\x19\n" +
-	"\btag_name\x18\x05 \x01(\tR\atagName\x12\x15\n" +
-	"\x06is_top\x18\x06 \x01(\x03R\x05isTop\x12\x1b\n" +
-	"\tis_delete\x18\a \x01(\x03R\bisDelete\x12\x16\n" +
+	"\btag_name\x18\x05 \x01(\tR\atagName\x12\x1a\n" +
+	"\x06is_top\x18\x06 \x01(\bH\x00R\x05isTop\x88\x01\x01\x12 \n" +
+	"\tis_delete\x18\a \x01(\bH\x01R\bisDelete\x88\x01\x01\x12\x16\n" +
 	"\x06status\x18\b \x01(\x03R\x06status\x12\x10\n" +
-	"\x03ids\x18\t \x03(\x03R\x03ids\"{\n" +
+	"\x03ids\x18\t \x03(\x03R\x03idsB\t\n" +
+	"\a_is_topB\f\n" +
+	"\n" +
+	"_is_delete\"{\n" +
 	"\x13FindArticleListResp\x124\n" +
 	"\n" +
 	"pagination\x18\x01 \x01(\v2\x14.articlerpc.PageRespR\n" +
@@ -3636,6 +3639,7 @@ func file_blog_article_proto_init() {
 	if File_blog_article_proto != nil {
 		return
 	}
+	file_blog_article_proto_msgTypes[31].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

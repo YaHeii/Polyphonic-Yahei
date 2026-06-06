@@ -241,12 +241,12 @@ func (l *ArticleHelperLogic) convertArticleQuery(in *articlerpc.FindArticleListR
 		opts = append(opts, query.WithCondition("id = any(?)", pq.Array(in.Ids)))
 	}
 
-	if in.IsTop >= 0 {
-		opts = append(opts, query.WithCondition("is_top = ?", in.IsTop > 0))
+	if in.IsTop != nil {
+		opts = append(opts, query.WithCondition("is_top = ?", *in.IsTop))
 	}
 
-	if in.IsDelete >= 0 {
-		opts = append(opts, query.WithCondition("is_delete = ?", in.IsDelete > 0))
+	if in.IsDelete != nil {
+		opts = append(opts, query.WithCondition("is_delete = ?", *in.IsDelete))
 	}
 
 	if in.Status != 0 {
