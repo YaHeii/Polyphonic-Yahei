@@ -25,7 +25,14 @@ func NewFindPageListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Find
 
 // 查询页面列表
 func (l *FindPageListLogic) FindPageList(in *resourcerpc.FindPageListReq) (*resourcerpc.FindPageListResp, error) {
-	// todo: add your logic here and delete this line
+	page, size, sorts, conditions, params := buildPageQuery(in)
+	records, total, err := l.svcCtx.TPageModel.FindListAndTotal(l.ctx, page, size, sorts, conditions, params...)
+	if err != nil {
+		return nil, err
+	}
 
-	return &resourcerpc.FindPageListResp{}, nil
+	return &resourcerpc.FindPageListResp{
+		Pagination: buildPageResp(page, size, total),
+		List:       convertPageListOut(records),
+	}, nil
 }

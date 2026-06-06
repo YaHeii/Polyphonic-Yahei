@@ -25,7 +25,14 @@ func NewFindPhotoListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fin
 
 // 查询照片列表
 func (l *FindPhotoListLogic) FindPhotoList(in *resourcerpc.FindPhotoListReq) (*resourcerpc.FindPhotoListResp, error) {
-	// todo: add your logic here and delete this line
+	page, size, sorts, conditions, params := buildPhotoQuery(in)
+	records, total, err := l.svcCtx.TPhotoModel.FindListAndTotal(l.ctx, page, size, sorts, conditions, params...)
+	if err != nil {
+		return nil, err
+	}
 
-	return &resourcerpc.FindPhotoListResp{}, nil
+	return &resourcerpc.FindPhotoListResp{
+		Pagination: buildPageResp(page, size, total),
+		List:       convertPhotoListOut(records),
+	}, nil
 }

@@ -25,7 +25,10 @@ func NewDeletesPageLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Delet
 
 // 删除页面
 func (l *DeletesPageLogic) DeletesPage(in *resourcerpc.DeletesPageReq) (*resourcerpc.DeletesPageResp, error) {
-	// todo: add your logic here and delete this line
+	rows, err := l.svcCtx.TPageModel.Deletes(l.ctx, "id in (?)", in.Ids)
+	if err != nil {
+		return nil, err
+	}
 
-	return &resourcerpc.DeletesPageResp{}, nil
+	return &resourcerpc.DeletesPageResp{SuccessCount: rows}, nil
 }

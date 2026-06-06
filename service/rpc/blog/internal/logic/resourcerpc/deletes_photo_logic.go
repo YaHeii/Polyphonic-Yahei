@@ -25,7 +25,10 @@ func NewDeletesPhotoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Dele
 
 // 删除照片
 func (l *DeletesPhotoLogic) DeletesPhoto(in *resourcerpc.DeletesPhotoReq) (*resourcerpc.DeletesPhotoResp, error) {
-	// todo: add your logic here and delete this line
+	rows, err := l.svcCtx.TPhotoModel.Deletes(l.ctx, "id in (?)", in.Ids)
+	if err != nil {
+		return nil, err
+	}
 
-	return &resourcerpc.DeletesPhotoResp{}, nil
+	return &resourcerpc.DeletesPhotoResp{SuccessCount: rows}, nil
 }

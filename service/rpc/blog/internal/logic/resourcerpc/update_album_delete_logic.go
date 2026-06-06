@@ -25,7 +25,12 @@ func NewUpdateAlbumDeleteLogic(ctx context.Context, svcCtx *svc.ServiceContext) 
 
 // 更新相册删除状态
 func (l *UpdateAlbumDeleteLogic) UpdateAlbumDelete(in *resourcerpc.UpdateAlbumDeleteReq) (*resourcerpc.UpdateAlbumDeleteResp, error) {
-	// todo: add your logic here and delete this line
+	rows, err := l.svcCtx.TAlbumModel.Updates(l.ctx, map[string]interface{}{
+		"is_delete": in.IsDelete,
+	}, "id in (?)", in.Ids)
+	if err != nil {
+		return nil, err
+	}
 
-	return &resourcerpc.UpdateAlbumDeleteResp{}, nil
+	return &resourcerpc.UpdateAlbumDeleteResp{SuccessCount: rows}, nil
 }

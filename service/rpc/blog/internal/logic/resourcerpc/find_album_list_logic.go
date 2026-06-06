@@ -25,7 +25,19 @@ func NewFindAlbumListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fin
 
 // 查询相册列表
 func (l *FindAlbumListLogic) FindAlbumList(in *resourcerpc.FindAlbumListReq) (*resourcerpc.FindAlbumListResp, error) {
-	// todo: add your logic here and delete this line
+	page, size, sorts, conditions, params := buildAlbumQuery(in)
+	records, total, err := l.svcCtx.TAlbumModel.FindListAndTotal(l.ctx, page, size, sorts, conditions, params...)
+	if err != nil {
+		return nil, err
+	}
 
-	return &resourcerpc.FindAlbumListResp{}, nil
+	photoCounts, err := l.svcCtx.TPhotoModel.CountByAlbumIDs(l.ctx, collectAlbumIDs(records))
+	if err != nil {
+		return nil, err
+	}
+
+	return &resourcerpc.FindAlbumListResp{
+		Pagination: buildPageResp(page, size, total),
+		List:       convertAlbumListOut(records, photoCounts),
+	}, nil
 }
