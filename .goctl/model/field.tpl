@@ -1,1 +1,1 @@
-{{.name}} {{.type}} {{.tag}} {{if .hasComment}}// {{.comment}}{{end}}
+{{.name}} {{if eq .type "pq.StringArray"}}[]string{{else if eq .type "pq.Int64Array"}}[]int64{{else if eq .type "pq.Float64Array"}}[]float64{{else}}{{.type}}{{end}} {{.tag}} {{if .hasComment}}// {{.comment}}{{end}}

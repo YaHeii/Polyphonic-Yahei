@@ -2,6 +2,7 @@ ADMIN_API_DIR := service/api/admin
 ADMIN_API_DOCS_DIR := $(ADMIN_API_DIR)/internal/docs
 ADMIN_API_SWAGGER_FILENAME := swagger
 MODEL_DIR := ./service/model
+GOCTL_TEMPLATE_HOME := ./.goctl
 PG_DSN := postgres://root:root@127.0.0.1:5432/blog-init?sslmode=disable
 MODEL_STYLE := go_zero
 MODEL_CORE_TABLES := t_user,t_user_oauth,t_role,t_menu,t_api,t_article,t_category,t_tag,t_talk,t_page,t_album,t_photo,t_friend,t_comment,t_message,t_system_notice,t_website_config
@@ -41,6 +42,7 @@ goctl-rpc-blog:
 
 goctl-model-core:
 	goctl model pg datasource \
+		--home="$(GOCTL_TEMPLATE_HOME)" \
 		--url="$(PG_DSN)" \
 		--table="$(MODEL_CORE_TABLES)" \
 		--dir="$(MODEL_DIR)" \
@@ -49,6 +51,7 @@ goctl-model-core:
 
 goctl-model-relation:
 	goctl model pg datasource \
+		--home="$(GOCTL_TEMPLATE_HOME)" \
 		--url="$(PG_DSN)" \
 		--table="$(MODEL_RELATION_TABLES)" \
 		--dir="$(MODEL_DIR)" \
@@ -56,6 +59,7 @@ goctl-model-relation:
 
 goctl-model-log:
 	goctl model pg datasource \
+		--home="$(GOCTL_TEMPLATE_HOME)" \
 		--url="$(PG_DSN)" \
 		--table="$(MODEL_LOG_TABLES)" \
 		--dir="$(MODEL_DIR)" \
