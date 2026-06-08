@@ -122,16 +122,17 @@ func (s *stubAuthSyslogRPC) AddLogoutLog(_ context.Context, in *syslogrpc.AddLog
 	return &syslogrpc.AddLogoutLogResp{}, nil
 }
 
-type stubAuthTokenManager struct {
-	generateUID          string
-	generateTokenResp    *tokenx.Token
-	generateTokenErr     error
-	refreshUID           string
-	refreshTokenValue    string
-	refreshTokenResp     *tokenx.Token
-	refreshTokenErr      error
-	revokeCalls          []revokeCall
-	revokeErr            error
+type stubAuthTokenStore struct {
+	data        map[string]string
+	setCalls    []setCall
+	deleteCalls []string
+	setErr      error
+}
+
+type setCall struct {
+	key    string
+	value  string
+	expire int
 }
 
 type revokeCall struct {
@@ -139,24 +140,43 @@ type revokeCall struct {
 	isRefresh bool
 }
 
-func (s *stubAuthTokenManager) GenerateToken(uid string) (*tokenx.Token, error) {
-	s.generateUID = uid
-	return s.generateTokenResp, s.generateTokenErr
-}
-
-func (s *stubAuthTokenManager) ValidateToken(_, _ string) error {
+func (s *stubAuthTokenStore) Set(key string, value string, expireSeconds int) error {
+	if s.setErr != nil {
+		return s.setErr
+	}
+	if s.data == nil {
+		s.data = make(map[string]string)
+	}
+	s.setCalls = append(s.setCalls, setCall{key: key, value: value, expire: expireSeconds})
+	s.data[key] = value
 	return nil
 }
 
-func (s *stubAuthTokenManager) RefreshToken(uid, refreshToken string) (*tokenx.Token, error) {
-	s.refreshUID = uid
-	s.refreshTokenValue = refreshToken
-	return s.refreshTokenResp, s.refreshTokenErr
+func (s *stubAuthTokenStore) Get(key string) (string, error) {
+	if s.data == nil {
+		return "", nil
+	}
+	return s.data[key], nil
 }
 
-func (s *stubAuthTokenManager) RevokeToken(uid string, isRefresh bool) error {
-	s.revokeCalls = append(s.revokeCalls, revokeCall{uid: uid, isRefresh: isRefresh})
-	return s.revokeErr
+func (s *stubAuthTokenStore) Delete(key string) error {
+	s.deleteCalls = append(s.deleteCalls, key)
+	if s.data != nil {
+		delete(s.data, key)
+	}
+	return nil
+}
+
+func (s *stubAuthTokenStore) Exists(key string) (bool, error) {
+	if s.data == nil {
+		return false, nil
+	}
+	_, ok := s.data[key]
+	return ok, nil
+}
+
+func (s *stubAuthTokenStore) SetExpire(string, int) error {
+	return nil
 }
 
 func TestAuthUtilityRPCMapping(t *testing.T) {
@@ -284,33 +304,32 @@ func TestAuthUtilityWriteRPCMapping(t *testing.T) {
 }
 
 func TestAuthUtilityTokenMapping(t *testing.T) {
-	manager := &stubAuthTokenManager{
-		refreshTokenResp: &tokenx.Token{
-			TokenType:        tokenx.TokenTypeBearer,
-			AccessToken:      "access-2",
-			ExpiresIn:        7200,
-			RefreshToken:     "refresh-2",
-			RefreshExpiresIn: 86400,
-			RefreshExpiresAt: 1700000000,
-		},
+	store := &stubAuthTokenStore{}
+	manager := tokenx.NewJwtTokenManager(store, "secret", "admin", 7200, 86400)
+	seed, err := manager.GenerateToken("u-1")
+	if err != nil {
+		t.Fatalf("GenerateToken returned error: %v", err)
 	}
 	logic := NewRefreshTokenLogic(context.Background(), &svc.ServiceContext{
-		Config:       config.Config{RestConf: rest.RestConf{ServiceConf: service.ServiceConf{Name: "admin"}}},
-		TokenManager: manager,
+		Config:          config.Config{RestConf: rest.RestConf{ServiceConf: service.ServiceConf{Name: "admin"}}},
+		JwtTokenManager: manager,
 	})
 
 	resp, err := logic.RefreshToken(&types.RefreshTokenReq{
 		UserId:       "u-1",
-		RefreshToken: "refresh-old",
+		RefreshToken: seed.RefreshToken,
 	})
 	if err != nil {
 		t.Fatalf("RefreshToken returned error: %v", err)
 	}
-	if manager.refreshUID != "u-1" || manager.refreshTokenValue != "refresh-old" {
-		t.Fatalf("unexpected refresh call: uid=%s token=%s", manager.refreshUID, manager.refreshTokenValue)
-	}
-	if resp.UserId != "u-1" || resp.Scope != "admin" || resp.Token == nil || resp.Token.AccessToken != "access-2" {
+	if resp.UserId != "u-1" || resp.Scope != "admin" || resp.Token == nil {
 		t.Fatalf("unexpected refresh response: %#v", resp)
+	}
+	if resp.Token.AccessToken == "" || resp.Token.RefreshToken == "" {
+		t.Fatalf("unexpected refresh response: %#v", resp)
+	}
+	if store.data[tokenx.JwtAccessKey("u-1")] != resp.Token.AccessToken || store.data[tokenx.JwtRefreshKey("u-1")] != resp.Token.RefreshToken {
+		t.Fatalf("unexpected token store state: %#v", store.data)
 	}
 }
 
@@ -322,21 +341,13 @@ func TestAuthLoginLifecycleMapping(t *testing.T) {
 		thirdLoginResp: newLoginRPCResp("u-4", "github"),
 	}
 	syslogRPC := &stubAuthSyslogRPC{}
-	manager := &stubAuthTokenManager{
-		generateTokenResp: &tokenx.Token{
-			TokenType:        tokenx.TokenTypeBearer,
-			AccessToken:      "access",
-			ExpiresIn:        7200,
-			RefreshToken:     "refresh",
-			RefreshExpiresIn: 86400,
-			RefreshExpiresAt: 1700000000,
-		},
-	}
+	store := &stubAuthTokenStore{}
+	manager := tokenx.NewJwtTokenManager(store, "secret", "admin", 7200, 86400)
 	svcCtx := &svc.ServiceContext{
-		Config:       config.Config{RestConf: rest.RestConf{ServiceConf: service.ServiceConf{Name: "admin"}}},
-		AccountRpc:   accountRPC,
-		SyslogRpc:    syslogRPC,
-		TokenManager: manager,
+		Config:          config.Config{RestConf: rest.RestConf{ServiceConf: service.ServiceConf{Name: "admin"}}},
+		AccountRpc:      accountRPC,
+		SyslogRpc:       syslogRPC,
+		JwtTokenManager: manager,
 	}
 	ctx := context.Background()
 
@@ -350,7 +361,7 @@ func TestAuthLoginLifecycleMapping(t *testing.T) {
 	if syslogRPC.loginReq == nil || syslogRPC.loginReq.UserId != "u-1" || syslogRPC.loginReq.LoginType != "password" {
 		t.Fatalf("unexpected login log request: %#v", syslogRPC.loginReq)
 	}
-	if manager.generateUID != "u-1" || loginResp.UserId != "u-1" || loginResp.Scope != "admin" {
+	if loginResp.UserId != "u-1" || loginResp.Scope != "admin" || loginResp.Token == nil {
 		t.Fatalf("unexpected login response: %#v", loginResp)
 	}
 
@@ -391,12 +402,18 @@ func TestAuthLoginLifecycleMapping(t *testing.T) {
 func TestAuthLogoutLifecycleMapping(t *testing.T) {
 	accountRPC := &stubAuthAccountRPC{}
 	syslogRPC := &stubAuthSyslogRPC{}
-	manager := &stubAuthTokenManager{}
+	store := &stubAuthTokenStore{
+		data: map[string]string{
+			tokenx.JwtAccessKey("u-9"):  "access",
+			tokenx.JwtRefreshKey("u-9"): "refresh",
+		},
+	}
+	manager := tokenx.NewJwtTokenManager(store, "secret", "admin", 7200, 86400)
 	ctx := context.WithValue(context.Background(), bizheader.HeaderUid, "u-9")
 	svcCtx := &svc.ServiceContext{
-		AccountRpc:   accountRPC,
-		SyslogRpc:    syslogRPC,
-		TokenManager: manager,
+		AccountRpc:      accountRPC,
+		SyslogRpc:       syslogRPC,
+		JwtTokenManager: manager,
 	}
 
 	logoutResp, err := NewLogoutLogic(ctx, svcCtx).Logout(&types.EmptyReq{})
@@ -412,11 +429,13 @@ func TestAuthLogoutLifecycleMapping(t *testing.T) {
 	if syslogRPC.logoutReq == nil || syslogRPC.logoutReq.UserId != "u-9" || syslogRPC.logoutReq.LogoutAt <= 0 {
 		t.Fatalf("unexpected logout log request: %#v", syslogRPC.logoutReq)
 	}
-	if len(manager.revokeCalls) != 1 || manager.revokeCalls[0].uid != "u-9" || manager.revokeCalls[0].isRefresh {
-		t.Fatalf("unexpected revoke calls: %#v", manager.revokeCalls)
+	if len(store.deleteCalls) != 1 || store.deleteCalls[0] != tokenx.JwtAccessKey("u-9") {
+		t.Fatalf("unexpected delete calls: %#v", store.deleteCalls)
 	}
 
-	manager.revokeCalls = nil
+	store.deleteCalls = nil
+	store.data[tokenx.JwtAccessKey("u-9")] = "access"
+	store.data[tokenx.JwtRefreshKey("u-9")] = "refresh"
 	logoffResp, err := NewLogoffLogic(ctx, svcCtx).Logoff(&types.EmptyReq{})
 	if err != nil {
 		t.Fatalf("Logoff returned error: %v", err)
@@ -430,19 +449,19 @@ func TestAuthLogoutLifecycleMapping(t *testing.T) {
 	if syslogRPC.logoutReq == nil || syslogRPC.logoutReq.UserId != "u-9" || syslogRPC.logoutReq.LogoutAt <= 0 {
 		t.Fatalf("unexpected logoff log request: %#v", syslogRPC.logoutReq)
 	}
-	if len(manager.revokeCalls) != 2 {
-		t.Fatalf("unexpected revoke calls: %#v", manager.revokeCalls)
+	if len(store.deleteCalls) != 2 {
+		t.Fatalf("unexpected delete calls: %#v", store.deleteCalls)
 	}
-	if manager.revokeCalls[0] != (revokeCall{uid: "u-9", isRefresh: false}) || manager.revokeCalls[1] != (revokeCall{uid: "u-9", isRefresh: true}) {
-		t.Fatalf("unexpected revoke order: %#v", manager.revokeCalls)
+	if store.deleteCalls[0] != tokenx.JwtAccessKey("u-9") || store.deleteCalls[1] != tokenx.JwtRefreshKey("u-9") {
+		t.Fatalf("unexpected delete order: %#v", store.deleteCalls)
 	}
 }
 
 func TestOnLoginPropagatesTokenErrors(t *testing.T) {
-	manager := &stubAuthTokenManager{generateTokenErr: errors.New("token failed")}
+	manager := tokenx.NewJwtTokenManager(&stubAuthTokenStore{setErr: errors.New("store failed")}, "secret", "admin", 7200, 86400)
 	_, err := onLogin(context.Background(), &svc.ServiceContext{
-		Config:       config.Config{RestConf: rest.RestConf{ServiceConf: service.ServiceConf{Name: "admin"}}},
-		TokenManager: manager,
+		Config:          config.Config{RestConf: rest.RestConf{ServiceConf: service.ServiceConf{Name: "admin"}}},
+		JwtTokenManager: manager,
 	}, newLoginRPCResp("u-err", "password"))
 	if err == nil {
 		t.Fatal("expected onLogin error")

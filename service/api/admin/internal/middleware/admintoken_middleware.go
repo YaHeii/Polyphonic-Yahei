@@ -17,10 +17,10 @@ import (
 )
 
 type AdminTokenMiddleware struct {
-	verifier tokenx.TokenManager
+	verifier *tokenx.JwtTokenManager
 }
 
-func NewAdminTokenMiddleware(verifier tokenx.TokenManager) *AdminTokenMiddleware {
+func NewAdminTokenMiddleware(verifier *tokenx.JwtTokenManager) *AdminTokenMiddleware {
 	return &AdminTokenMiddleware{
 		verifier: verifier,
 	}

@@ -48,10 +48,10 @@ func (l *LogoffLogic) Logoff(req *types.EmptyReq) (resp *types.EmptyResp, err er
 		return nil, err
 	}
 
-	if err := l.svcCtx.TokenManager.RevokeToken(uid, false); err != nil {
+	if err := l.svcCtx.JwtTokenManager.RevokeToken(uid, false); err != nil {
 		return nil, err
 	}
-	if err := l.svcCtx.TokenManager.RevokeToken(uid, true); err != nil {
+	if err := l.svcCtx.JwtTokenManager.RevokeToken(uid, true); err != nil {
 		return nil, err
 	}
 

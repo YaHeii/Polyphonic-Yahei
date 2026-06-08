@@ -12,7 +12,7 @@ import (
 )
 
 func onLogin(_ context.Context, svcCtx *svc.ServiceContext, login *accountrpc.LoginResp) (*types.LoginResp, error) {
-	tk, err := svcCtx.TokenManager.GenerateToken(login.GetUser().GetUserId())
+	tk, err := svcCtx.JwtTokenManager.GenerateToken(login.GetUser().GetUserId())
 	if err != nil {
 		return nil, err
 	}

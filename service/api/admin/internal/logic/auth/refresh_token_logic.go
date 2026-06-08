@@ -28,7 +28,7 @@ func NewRefreshTokenLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Refr
 }
 
 func (l *RefreshTokenLogic) RefreshToken(req *types.RefreshTokenReq) (resp *types.LoginResp, err error) {
-	tk, err := l.svcCtx.TokenManager.RefreshToken(req.UserId, req.RefreshToken)
+	tk, err := l.svcCtx.JwtTokenManager.RefreshToken(req.UserId, req.RefreshToken)
 	if err != nil {
 		return nil, err
 	}

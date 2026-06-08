@@ -60,10 +60,10 @@ func (m *JwtTokenManager) GenerateToken(uid string) (*Token, error) {
 	}
 
 	// 分开存储 AccessToken 和 RefreshToken
-	if err := m.store.Set(fmt.Sprintf("%s:%s", TokenPrefixAccess, uid), accessToken, int(m.accessExpireTime)); err != nil {
+	if err := m.store.Set(JwtAccessKey(uid), accessToken, int(m.accessExpireTime)); err != nil {
 		return nil, err
 	}
-	if err := m.store.Set(fmt.Sprintf("%s:%s", TokenPrefixRefresh, uid), refreshToken, int(m.refreshExpireTime)); err != nil {
+	if err := m.store.Set(JwtRefreshKey(uid), refreshToken, int(m.refreshExpireTime)); err != nil {
 		return nil, err
 	}
 
@@ -88,7 +88,7 @@ func (m *JwtTokenManager) ValidateToken(uid, accessToken string) error {
 	}
 
 	// 检查存储中的 AccessToken 是否匹配
-	storedToken, err := m.store.Get(fmt.Sprintf("%s:%s", TokenPrefixAccess, uid))
+	storedToken, err := m.store.Get(JwtAccessKey(uid))
 	if err != nil {
 		return err
 	}
@@ -113,7 +113,7 @@ func (m *JwtTokenManager) RefreshToken(uid, refreshToken string) (*Token, error)
 	}
 
 	// 检查存储中的 RefreshToken 是否匹配
-	storedToken, err := m.store.Get(fmt.Sprintf("%s:%s", TokenPrefixRefresh, uid))
+	storedToken, err := m.store.Get(JwtRefreshKey(uid))
 	if err != nil || storedToken == "" {
 		return nil, ErrTokenExpired
 	}
@@ -128,7 +128,7 @@ func (m *JwtTokenManager) RefreshToken(uid, refreshToken string) (*Token, error)
 // RevokeToken 撤销 Token
 func (m *JwtTokenManager) RevokeToken(uid string, isRefresh bool) error {
 	if isRefresh {
-		return m.store.Delete(fmt.Sprintf("%s:%s", TokenPrefixRefresh, uid))
+		return m.store.Delete(JwtRefreshKey(uid))
 	}
-	return m.store.Delete(fmt.Sprintf("%s:%s", TokenPrefixAccess, uid))
+	return m.store.Delete(JwtAccessKey(uid))
 }

@@ -46,7 +46,7 @@ type ServiceContext struct {
 
 	Redis            *redis.Redis
 	Uploader         oss.Uploader //TODO
-	TokenManager     tokenx.TokenManager
+	JwtTokenManager  *tokenx.JwtTokenManager
 	PermissionHolder permissionx.PermissionHolder
 
 	AdminToken   rest.Middleware
@@ -114,7 +114,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 
 		Redis:            rds,
 		Uploader:         uploader,
-		TokenManager:     th,
+		JwtTokenManager:  th,
 		PermissionHolder: ph,
 
 		AdminToken:   middleware.NewAdminTokenMiddleware(th).Handle,
