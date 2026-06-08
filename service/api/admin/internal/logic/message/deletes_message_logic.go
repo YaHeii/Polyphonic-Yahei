@@ -8,6 +8,7 @@ import (
 
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/svc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/types"
+	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/newsrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -28,7 +29,14 @@ func NewDeletesMessageLogic(ctx context.Context, svcCtx *svc.ServiceContext) *De
 }
 
 func (l *DeletesMessageLogic) DeletesMessage(req *types.IdsReq) (resp *types.BatchResp, err error) {
-	// todo: add your logic here and delete this line
+	in := &newsrpc.DeletesMessageReq{
+		Ids: req.Ids,
+	}
 
-	return
+	out, err := l.svcCtx.NewsRpc.DeletesMessage(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	return &types.BatchResp{SuccessCount: out.SuccessCount}, nil
 }

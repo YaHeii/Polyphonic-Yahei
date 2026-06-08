@@ -8,6 +8,7 @@ import (
 
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/svc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/types"
+	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/newsrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -28,7 +29,15 @@ func NewUpdateMessageStatusLogic(ctx context.Context, svcCtx *svc.ServiceContext
 }
 
 func (l *UpdateMessageStatusLogic) UpdateMessageStatus(req *types.UpdateMessageStatusReq) (resp *types.BatchResp, err error) {
-	// todo: add your logic here and delete this line
+	in := &newsrpc.UpdateMessageStatusReq{
+		Ids:    req.Ids,
+		Status: req.Status,
+	}
 
-	return
+	out, err := l.svcCtx.NewsRpc.UpdateMessageStatus(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	return &types.BatchResp{SuccessCount: out.SuccessCount}, nil
 }
