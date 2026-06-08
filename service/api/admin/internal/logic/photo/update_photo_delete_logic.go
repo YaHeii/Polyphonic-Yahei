@@ -8,6 +8,7 @@ import (
 
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/svc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/types"
+	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/resourcerpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -28,7 +29,15 @@ func NewUpdatePhotoDeleteLogic(ctx context.Context, svcCtx *svc.ServiceContext) 
 }
 
 func (l *UpdatePhotoDeleteLogic) UpdatePhotoDelete(req *types.UpdatePhotoDeleteReq) (resp *types.BatchResp, err error) {
-	// todo: add your logic here and delete this line
+	in := &resourcerpc.UpdatePhotoDeleteReq{
+		Ids:      req.Ids,
+		IsDelete: req.IsDelete,
+	}
 
-	return
+	out, err := l.svcCtx.ResourceRpc.UpdatePhotoDelete(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	return &types.BatchResp{SuccessCount: out.SuccessCount}, nil
 }

@@ -9,4 +9,5 @@ type (
 	Page     = resourcerpc.Page
 	PageReq  = resourcerpc.PageReq
 	PageResp = resourcerpc.PageResp
+	Photo    = resourcerpc.Photo
 )
