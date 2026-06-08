@@ -8,6 +8,7 @@ import (
 
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/svc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/types"
+	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/socialrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -28,7 +29,18 @@ func NewUpdateFriendLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Upda
 }
 
 func (l *UpdateFriendLogic) UpdateFriend(req *types.NewFriendReq) (resp *types.FriendBackVO, err error) {
-	// todo: add your logic here and delete this line
+	in := &socialrpc.UpdateFriendReq{
+		Id:          req.Id,
+		LinkName:    req.LinkName,
+		LinkAvatar:  req.LinkAvatar,
+		LinkAddress: req.LinkAddress,
+		LinkIntro:   req.LinkIntro,
+	}
 
-	return
+	out, err := l.svcCtx.SocialRpc.UpdateFriend(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	return convertFriendTypes(out.Friend), nil
 }

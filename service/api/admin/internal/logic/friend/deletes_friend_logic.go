@@ -8,6 +8,7 @@ import (
 
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/svc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/types"
+	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/socialrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -28,7 +29,16 @@ func NewDeletesFriendLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Del
 }
 
 func (l *DeletesFriendLogic) DeletesFriend(req *types.IdsReq) (resp *types.BatchResp, err error) {
-	// todo: add your logic here and delete this line
+	in := &socialrpc.DeletesFriendReq{
+		Ids: req.Ids,
+	}
 
-	return
+	out, err := l.svcCtx.SocialRpc.DeletesFriend(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	return &types.BatchResp{
+		SuccessCount: out.SuccessCount,
+	}, nil
 }

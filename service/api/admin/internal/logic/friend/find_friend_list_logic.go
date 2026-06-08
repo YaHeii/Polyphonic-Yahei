@@ -8,6 +8,7 @@ import (
 
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/svc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/types"
+	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/socialrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -28,7 +29,29 @@ func NewFindFriendListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fi
 }
 
 func (l *FindFriendListLogic) FindFriendList(req *types.QueryFriendReq) (resp *types.PageResp, err error) {
-	// todo: add your logic here and delete this line
+	in := &socialrpc.FindFriendListReq{
+		Paginate: &socialrpc.PageReq{
+			Page:     req.Page,
+			PageSize: req.PageSize,
+			Sorts:    req.Sorts,
+		},
+		LinkName: req.LinkName,
+	}
 
-	return
+	out, err := l.svcCtx.SocialRpc.FindFriendList(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	list := make([]*types.FriendBackVO, 0, len(out.List))
+	for _, item := range out.List {
+		list = append(list, convertFriendTypes(item))
+	}
+
+	return &types.PageResp{
+		Page:     out.Pagination.Page,
+		PageSize: out.Pagination.PageSize,
+		Total:    out.Pagination.Total,
+		List:     list,
+	}, nil
 }
