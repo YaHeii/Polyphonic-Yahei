@@ -45,21 +45,36 @@ type (
 	}
 
 	TUser struct {
-		Id           int64     `db:"id"`            // id
-		UserId       string    `db:"user_id"`       // 用户id
-		Username     string    `db:"username"`      // 用户名
-		Password     string    `db:"password"`      // 用户密码
-		Nickname     string    `db:"nickname"`      // 用户昵称
-		Avatar       string    `db:"avatar"`        // 用户头像
-		Email        string    `db:"email"`         // 邮箱
-		Phone        string    `db:"phone"`         // 手机号
-		Info         string    `db:"info"`          // 用户信息
-		Status       int64     `db:"status"`        // 状态: -1删除 0正常 1禁用
-		RegisterType string    `db:"register_type"` // 注册方式
-		IpAddress    string    `db:"ip_address"`    // 注册ip
-		IpSource     string    `db:"ip_source"`     // 注册ip 源
-		CreatedAt    time.Time `db:"created_at"`    // 创建时间
-		UpdatedAt    time.Time `db:"updated_at"`    // 更新时间
+		Id int64 `db:"id"` // id
+
+		UserId string `db:"user_id"` // 用户id
+
+		Username string `db:"username"` // 用户名
+
+		Password string `db:"password"` // 用户密码
+
+		Nickname string `db:"nickname"` // 用户昵称
+
+		Avatar string `db:"avatar"` // 用户头像
+
+		Email string `db:"email"` // 邮箱
+
+		Phone string `db:"phone"` // 手机号
+
+		Info string `db:"info"` // 用户信息
+
+		Status int64 `db:"status"` // 状态: -1删除 0正常 1禁用
+
+		RegisterType string `db:"register_type"` // 注册方式
+
+		IpAddress string `db:"ip_address"` // 注册ip
+
+		IpSource string `db:"ip_source"` // 注册ip 源
+
+		CreatedAt time.Time `db:"created_at"` // 创建时间
+
+		UpdatedAt time.Time `db:"updated_at"` // 更新时间
+
 	}
 )
 

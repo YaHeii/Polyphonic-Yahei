@@ -43,13 +43,20 @@ type (
 	}
 
 	TFriend struct {
-		Id          int64     `db:"id"`           // id
-		LinkName    string    `db:"link_name"`    // 链接名
-		LinkAvatar  string    `db:"link_avatar"`  // 链接头像
-		LinkAddress string    `db:"link_address"` // 链接地址
-		LinkIntro   string    `db:"link_intro"`   // 链接介绍
-		CreatedAt   time.Time `db:"created_at"`   // 创建时间
-		UpdatedAt   time.Time `db:"updated_at"`   // 更新时间
+		Id int64 `db:"id"` // id
+
+		LinkName string `db:"link_name"` // 链接名
+
+		LinkAvatar string `db:"link_avatar"` // 链接头像
+
+		LinkAddress string `db:"link_address"` // 链接地址
+
+		LinkIntro string `db:"link_intro"` // 链接介绍
+
+		CreatedAt time.Time `db:"created_at"` // 创建时间
+
+		UpdatedAt time.Time `db:"updated_at"` // 更新时间
+
 	}
 )
 

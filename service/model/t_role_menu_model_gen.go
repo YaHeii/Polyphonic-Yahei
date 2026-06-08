@@ -36,9 +36,12 @@ type (
 	}
 
 	TRoleMenu struct {
-		Id     int64 `db:"id"`      // 主键id
+		Id int64 `db:"id"` // 主键id
+
 		RoleId int64 `db:"role_id"` // 角色id
+
 		MenuId int64 `db:"menu_id"` // 菜单id
+
 	}
 )
 

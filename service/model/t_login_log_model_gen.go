@@ -37,15 +37,24 @@ type (
 	}
 
 	TLoginLog struct {
-		Id         int64        `db:"id"`          // id
-		UserId     string       `db:"user_id"`     // 用户id
-		TerminalId string       `db:"terminal_id"` // 设备id
-		LoginType  string       `db:"login_type"`  // 登录类型
-		AppName    string       `db:"app_name"`    // app名称
-		LoginAt    time.Time    `db:"login_at"`    // 登录时间
-		LogoutAt   sql.NullTime `db:"logout_at"`   // 登出时间
-		CreatedAt  time.Time    `db:"created_at"`  // 创建时间
-		UpdatedAt  time.Time    `db:"updated_at"`  // 更新时间
+		Id int64 `db:"id"` // id
+
+		UserId string `db:"user_id"` // 用户id
+
+		TerminalId string `db:"terminal_id"` // 设备id
+
+		LoginType string `db:"login_type"` // 登录类型
+
+		AppName string `db:"app_name"` // app名称
+
+		LoginAt time.Time `db:"login_at"` // 登录时间
+
+		LogoutAt sql.NullTime `db:"logout_at"` // 登出时间
+
+		CreatedAt time.Time `db:"created_at"` // 创建时间
+
+		UpdatedAt time.Time `db:"updated_at"` // 更新时间
+
 	}
 )
 

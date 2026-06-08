@@ -43,10 +43,14 @@ type (
 	}
 
 	TCategory struct {
-		Id           int64     `db:"id"`            // id
-		CategoryName string    `db:"category_name"` // 分类名
-		CreatedAt    time.Time `db:"created_at"`    // 创建时间
-		UpdatedAt    time.Time `db:"updated_at"`    // 更新时间
+		Id int64 `db:"id"` // id
+
+		CategoryName string `db:"category_name"` // 分类名
+
+		CreatedAt time.Time `db:"created_at"` // 创建时间
+
+		UpdatedAt time.Time `db:"updated_at"` // 更新时间
+
 	}
 )
 

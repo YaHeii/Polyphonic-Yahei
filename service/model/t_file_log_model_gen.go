@@ -37,17 +37,28 @@ type (
 	}
 
 	TFileLog struct {
-		Id         int64     `db:"id"`          // id
-		UserId     string    `db:"user_id"`     // 用户id
-		TerminalId string    `db:"terminal_id"` // 设备id
-		FilePath   string    `db:"file_path"`   // 文件路径
-		FileName   string    `db:"file_name"`   // 文件名称
-		FileType   string    `db:"file_type"`   // 文件类型
-		FileSize   int64     `db:"file_size"`   // 文件大小
-		FileMd5    string    `db:"file_md5"`    // 文件md5值
-		FileUrl    string    `db:"file_url"`    // 上传路径
-		CreatedAt  time.Time `db:"created_at"`  // 创建时间
-		UpdatedAt  time.Time `db:"updated_at"`  // 更新时间
+		Id int64 `db:"id"` // id
+
+		UserId string `db:"user_id"` // 用户id
+
+		TerminalId string `db:"terminal_id"` // 设备id
+
+		FilePath string `db:"file_path"` // 文件路径
+
+		FileName string `db:"file_name"` // 文件名称
+
+		FileType string `db:"file_type"` // 文件类型
+
+		FileSize int64 `db:"file_size"` // 文件大小
+
+		FileMd5 string `db:"file_md5"` // 文件md5值
+
+		FileUrl string `db:"file_url"` // 上传路径
+
+		CreatedAt time.Time `db:"created_at"` // 创建时间
+
+		UpdatedAt time.Time `db:"updated_at"` // 更新时间
+
 	}
 )
 

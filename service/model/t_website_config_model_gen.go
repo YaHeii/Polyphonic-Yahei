@@ -43,11 +43,16 @@ type (
 	}
 
 	TWebsiteConfig struct {
-		Id        int64     `db:"id"`         // id
-		Key       string    `db:"key"`        // 关键词
-		Config    string    `db:"config"`     // 配置信息
+		Id int64 `db:"id"` // id
+
+		Key string `db:"key"` // 关键词
+
+		Config string `db:"config"` // 配置信息
+
 		CreatedAt time.Time `db:"created_at"` // 创建时间
+
 		UpdatedAt time.Time `db:"updated_at"` // 更新时间
+
 	}
 )
 

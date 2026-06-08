@@ -43,10 +43,14 @@ type (
 	}
 
 	TTag struct {
-		Id        int64     `db:"id"`         // id
-		TagName   string    `db:"tag_name"`   // 标签名
+		Id int64 `db:"id"` // id
+
+		TagName string `db:"tag_name"` // 标签名
+
 		CreatedAt time.Time `db:"created_at"` // 创建时间
+
 		UpdatedAt time.Time `db:"updated_at"` // 更新时间
+
 	}
 )
 

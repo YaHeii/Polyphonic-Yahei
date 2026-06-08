@@ -43,25 +43,44 @@ type (
 	}
 
 	TMenu struct {
-		Id         int64     `db:"id"`          // 主键
-		ParentId   int64     `db:"parent_id"`   // 父id
-		Path       string    `db:"path"`        // 路由路径
-		Name       string    `db:"name"`        // 路由名称
-		Component  string    `db:"component"`   // 路由组件
-		Redirect   string    `db:"redirect"`    // 路由重定向
-		Type       string    `db:"type"`        // 菜单类型
-		Title      string    `db:"title"`       // 菜单标题
-		Icon       string    `db:"icon"`        // 菜单图标
-		Rank       int64     `db:"rank"`        // 排序
-		Perm       string    `db:"perm"`        // 权限标识
-		Params     string    `db:"params"`      // 路由参数
-		KeepAlive  bool      `db:"keep_alive"`  // 是否缓存
-		AlwaysShow bool      `db:"always_show"` // 是否一直显示菜单
-		Visible    bool      `db:"visible"`     // 菜单是否可见
-		Status     bool      `db:"status"`      // 是否禁用
-		Extra      string    `db:"extra"`       // 菜单元数据
-		CreatedAt  time.Time `db:"created_at"`  // 创建时间
-		UpdatedAt  time.Time `db:"updated_at"`  // 更新时间
+		Id int64 `db:"id"` // 主键
+
+		ParentId int64 `db:"parent_id"` // 父id
+
+		Path string `db:"path"` // 路由路径
+
+		Name string `db:"name"` // 路由名称
+
+		Component string `db:"component"` // 路由组件
+
+		Redirect string `db:"redirect"` // 路由重定向
+
+		Type string `db:"type"` // 菜单类型
+
+		Title string `db:"title"` // 菜单标题
+
+		Icon string `db:"icon"` // 菜单图标
+
+		Rank int64 `db:"rank"` // 排序
+
+		Perm string `db:"perm"` // 权限标识
+
+		Params string `db:"params"` // 路由参数
+
+		KeepAlive bool `db:"keep_alive"` // 是否缓存
+
+		AlwaysShow bool `db:"always_show"` // 是否一直显示菜单
+
+		Visible bool `db:"visible"` // 菜单是否可见
+
+		Status bool `db:"status"` // 是否禁用
+
+		Extra string `db:"extra"` // 菜单元数据
+
+		CreatedAt time.Time `db:"created_at"` // 创建时间
+
+		UpdatedAt time.Time `db:"updated_at"` // 更新时间
+
 	}
 )
 

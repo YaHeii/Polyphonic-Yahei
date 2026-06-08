@@ -41,19 +41,32 @@ type (
 	}
 
 	TComment struct {
-		Id             int64     `db:"id"`              // 主键
-		UserId         string    `db:"user_id"`         // 评论用户id
-		TerminalId     string    `db:"terminal_id"`     // 设备id
-		TopicId        int64     `db:"topic_id"`        // 主题id
-		ParentId       int64     `db:"parent_id"`       // 父评论id
-		ReplyId        int64     `db:"reply_id"`        // 回复评论id
-		ReplyUserId    string    `db:"reply_user_id"`   // 评论回复用户id
-		CommentContent string    `db:"comment_content"` // 评论内容
-		Type           int64     `db:"type"`            // 评论类型 1.文章 2.友链 3.说说
-		Status         int64     `db:"status"`          // 状态 0.正常 1.已编辑 2.已删除
-		LikeCount      int64     `db:"like_count"`      // 评论点赞数量
-		CreatedAt      time.Time `db:"created_at"`      // 创建时间
-		UpdatedAt      time.Time `db:"updated_at"`      // 更新时间
+		Id int64 `db:"id"` // 主键
+
+		UserId string `db:"user_id"` // 评论用户id
+
+		TerminalId string `db:"terminal_id"` // 设备id
+
+		TopicId int64 `db:"topic_id"` // 主题id
+
+		ParentId int64 `db:"parent_id"` // 父评论id
+
+		ReplyId int64 `db:"reply_id"` // 回复评论id
+
+		ReplyUserId string `db:"reply_user_id"` // 评论回复用户id
+
+		CommentContent string `db:"comment_content"` // 评论内容
+
+		Type int64 `db:"type"` // 评论类型 1.文章 2.友链 3.说说
+
+		Status int64 `db:"status"` // 状态 0.正常 1.已编辑 2.已删除
+
+		LikeCount int64 `db:"like_count"` // 评论点赞数量
+
+		CreatedAt time.Time `db:"created_at"` // 创建时间
+
+		UpdatedAt time.Time `db:"updated_at"` // 更新时间
+
 	}
 )
 

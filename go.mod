@@ -11,7 +11,6 @@ require (
 	github.com/golang-jwt/jwt/v5 v5.3.1
 	github.com/jackc/pgx/v5 v5.9.2
 	github.com/json-iterator/go v1.1.12
-	github.com/lib/pq v1.12.3
 	github.com/qiniu/go-sdk/v7 v7.26.12
 	github.com/redis/go-redis/v9 v9.19.0
 	github.com/shirou/gopsutil/v3 v3.24.5
@@ -85,7 +84,7 @@ require (
 	github.com/go-openapi/jsonreference v0.21.6 // indirect
 	github.com/go-openapi/loads v0.24.0
 	github.com/go-openapi/swag v0.23.0 // indirect
-	github.com/go-sql-driver/mysql v1.10.0
+	github.com/go-sql-driver/mysql v1.10.0 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/golang-jwt/jwt/v4 v4.5.2 // indirect
 	github.com/golang/protobuf v1.5.4 // indirect

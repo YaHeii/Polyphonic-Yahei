@@ -38,14 +38,22 @@ type (
 	}
 
 	TVisitor struct {
-		Id         int64     `db:"id"`          // id
-		TerminalId string    `db:"terminal_id"` // 设备id
-		Os         string    `db:"os"`          // 操作系统
-		Browser    string    `db:"browser"`     // 浏览器
-		IpAddress  string    `db:"ip_address"`  // 操作ip
-		IpSource   string    `db:"ip_source"`   // 操作地址
-		CreatedAt  time.Time `db:"created_at"`  // 创建时间
-		UpdatedAt  time.Time `db:"updated_at"`  // 更新时间
+		Id int64 `db:"id"` // id
+
+		TerminalId string `db:"terminal_id"` // 设备id
+
+		Os string `db:"os"` // 操作系统
+
+		Browser string `db:"browser"` // 浏览器
+
+		IpAddress string `db:"ip_address"` // 操作ip
+
+		IpSource string `db:"ip_source"` // 操作地址
+
+		CreatedAt time.Time `db:"created_at"` // 创建时间
+
+		UpdatedAt time.Time `db:"updated_at"` // 更新时间
+
 	}
 )
 

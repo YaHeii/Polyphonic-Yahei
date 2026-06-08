@@ -41,13 +41,20 @@ type (
 	}
 
 	TMessage struct {
-		Id             int64     `db:"id"`              // 主键id
-		UserId         string    `db:"user_id"`         // 用户id
-		TerminalId     string    `db:"terminal_id"`     // 终端id
-		MessageContent string    `db:"message_content"` // 留言内容
-		Status         int64     `db:"status"`          // 状态:0正常 1编辑 2撤回 3删除
-		CreatedAt      time.Time `db:"created_at"`      // 发布时间
-		UpdatedAt      time.Time `db:"updated_at"`      // 更新时间
+		Id int64 `db:"id"` // 主键id
+
+		UserId string `db:"user_id"` // 用户id
+
+		TerminalId string `db:"terminal_id"` // 终端id
+
+		MessageContent string `db:"message_content"` // 留言内容
+
+		Status int64 `db:"status"` // 状态:0正常 1编辑 2撤回 3删除
+
+		CreatedAt time.Time `db:"created_at"` // 发布时间
+
+		UpdatedAt time.Time `db:"updated_at"` // 更新时间
+
 	}
 )
 

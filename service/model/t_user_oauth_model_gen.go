@@ -45,14 +45,22 @@ type (
 	}
 
 	TUserOauth struct {
-		Id        int64     `db:"id"`         // id
-		UserId    string    `db:"user_id"`    // 用户id
-		Platform  string    `db:"platform"`   // 平台:手机号、邮箱、微信、飞书
-		OpenId    string    `db:"open_id"`    // 第三方平台id，标识唯一用户
-		Nickname  string    `db:"nickname"`   // 第三方平台昵称
-		Avatar    string    `db:"avatar"`     // 第三方平台头像
+		Id int64 `db:"id"` // id
+
+		UserId string `db:"user_id"` // 用户id
+
+		Platform string `db:"platform"` // 平台:手机号、邮箱、微信、飞书
+
+		OpenId string `db:"open_id"` // 第三方平台id，标识唯一用户
+
+		Nickname string `db:"nickname"` // 第三方平台昵称
+
+		Avatar string `db:"avatar"` // 第三方平台头像
+
 		CreatedAt time.Time `db:"created_at"` // 创建时间
+
 		UpdatedAt time.Time `db:"updated_at"` // 更新时间
+
 	}
 )
 

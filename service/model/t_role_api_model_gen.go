@@ -36,9 +36,12 @@ type (
 	}
 
 	TRoleApi struct {
-		Id     int64 `db:"id"`      // 主键id
+		Id int64 `db:"id"` // 主键id
+
 		RoleId int64 `db:"role_id"` // 角色id
-		ApiId  int64 `db:"api_id"`  // 接口id
+
+		ApiId int64 `db:"api_id"` // 接口id
+
 	}
 )
 

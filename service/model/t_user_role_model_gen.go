@@ -36,9 +36,12 @@ type (
 	}
 
 	TUserRole struct {
-		Id     int64  `db:"id"`      // 主键id
+		Id int64 `db:"id"` // 主键id
+
 		UserId string `db:"user_id"` // 用户id
-		RoleId int64  `db:"role_id"` // 角色id
+
+		RoleId int64 `db:"role_id"` // 角色id
+
 	}
 )
 

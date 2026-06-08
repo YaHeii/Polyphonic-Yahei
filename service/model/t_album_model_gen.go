@@ -41,14 +41,22 @@ type (
 	}
 
 	TAlbum struct {
-		Id         int64     `db:"id"`          // 主键
-		AlbumName  string    `db:"album_name"`  // 相册名
-		AlbumDesc  string    `db:"album_desc"`  // 相册描述
-		AlbumCover string    `db:"album_cover"` // 相册封面
-		IsDelete   bool      `db:"is_delete"`   // 是否删除
-		Status     int64     `db:"status"`      // 状态值 1公开 2私密
-		CreatedAt  time.Time `db:"created_at"`  // 创建时间
-		UpdatedAt  time.Time `db:"updated_at"`  // 更新时间
+		Id int64 `db:"id"` // 主键
+
+		AlbumName string `db:"album_name"` // 相册名
+
+		AlbumDesc string `db:"album_desc"` // 相册描述
+
+		AlbumCover string `db:"album_cover"` // 相册封面
+
+		IsDelete bool `db:"is_delete"` // 是否删除
+
+		Status int64 `db:"status"` // 状态值 1公开 2私密
+
+		CreatedAt time.Time `db:"created_at"` // 创建时间
+
+		UpdatedAt time.Time `db:"updated_at"` // 更新时间
+
 	}
 )
 

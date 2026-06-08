@@ -41,15 +41,24 @@ type (
 	}
 
 	TRole struct {
-		Id          int64     `db:"id"`           // 主键id
-		ParentId    int64     `db:"parent_id"`    // 父角色id
-		RoleKey     string    `db:"role_key"`     // 角色标识
-		RoleLabel   string    `db:"role_label"`   // 角色标签
-		RoleComment string    `db:"role_comment"` // 角色备注
-		IsDefault   bool      `db:"is_default"`   // 是否默认角色 0否 1是
-		Status      int64     `db:"status"`       // 状态 0正常 1禁用
-		CreatedAt   time.Time `db:"created_at"`   // 创建时间
-		UpdatedAt   time.Time `db:"updated_at"`   // 更新时间
+		Id int64 `db:"id"` // 主键id
+
+		ParentId int64 `db:"parent_id"` // 父角色id
+
+		RoleKey string `db:"role_key"` // 角色标识
+
+		RoleLabel string `db:"role_label"` // 角色标签
+
+		RoleComment string `db:"role_comment"` // 角色备注
+
+		IsDefault bool `db:"is_default"` // 是否默认角色 0否 1是
+
+		Status int64 `db:"status"` // 状态 0正常 1禁用
+
+		CreatedAt time.Time `db:"created_at"` // 创建时间
+
+		UpdatedAt time.Time `db:"updated_at"` // 更新时间
+
 	}
 )
 

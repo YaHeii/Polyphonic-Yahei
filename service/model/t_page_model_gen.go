@@ -41,14 +41,22 @@ type (
 	}
 
 	TPage struct {
-		Id             int64     `db:"id"`              // 页面id
-		PageName       string    `db:"page_name"`       // 页面名
-		PageLabel      string    `db:"page_label"`      // 页面标签
-		PageCover      string    `db:"page_cover"`      // 页面封面
-		IsCarousel     bool      `db:"is_carousel"`     // 是否轮播
-		CarouselCovers string    `db:"carousel_covers"` // 轮播图片列表
-		CreatedAt      time.Time `db:"created_at"`      // 创建时间
-		UpdatedAt      time.Time `db:"updated_at"`      // 更新时间
+		Id int64 `db:"id"` // 页面id
+
+		PageName string `db:"page_name"` // 页面名
+
+		PageLabel string `db:"page_label"` // 页面标签
+
+		PageCover string `db:"page_cover"` // 页面封面
+
+		IsCarousel bool `db:"is_carousel"` // 是否轮播
+
+		CarouselCovers string `db:"carousel_covers"` // 轮播图片列表
+
+		CreatedAt time.Time `db:"created_at"` // 创建时间
+
+		UpdatedAt time.Time `db:"updated_at"` // 更新时间
+
 	}
 )
 

@@ -41,14 +41,22 @@ type (
 	}
 
 	TPhoto struct {
-		Id        int64     `db:"id"`         // 主键
-		AlbumId   int64     `db:"album_id"`   // 相册id
-		PhotoName string    `db:"photo_name"` // 照片名
-		PhotoDesc string    `db:"photo_desc"` // 照片描述
-		PhotoSrc  string    `db:"photo_src"`  // 照片地址
-		IsDelete  bool      `db:"is_delete"`  // 是否删除
+		Id int64 `db:"id"` // 主键
+
+		AlbumId int64 `db:"album_id"` // 相册id
+
+		PhotoName string `db:"photo_name"` // 照片名
+
+		PhotoDesc string `db:"photo_desc"` // 照片描述
+
+		PhotoSrc string `db:"photo_src"` // 照片地址
+
+		IsDelete bool `db:"is_delete"` // 是否删除
+
 		CreatedAt time.Time `db:"created_at"` // 创建时间
+
 		UpdatedAt time.Time `db:"updated_at"` // 更新时间
+
 	}
 )
 

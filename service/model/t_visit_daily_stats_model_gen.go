@@ -38,12 +38,18 @@ type (
 	}
 
 	TVisitDailyStats struct {
-		Id        int64     `db:"id"`         // id
-		Date      string    `db:"date"`       // 日期
-		ViewCount int64     `db:"view_count"` // 访问量
-		VisitType int64     `db:"visit_type"` // 1 访客数 2 浏览数
+		Id int64 `db:"id"` // id
+
+		Date string `db:"date"` // 日期
+
+		ViewCount int64 `db:"view_count"` // 访问量
+
+		VisitType int64 `db:"visit_type"` // 1 访客数 2 浏览数
+
 		CreatedAt time.Time `db:"created_at"` // 创建时间
+
 		UpdatedAt time.Time `db:"updated_at"` // 更新时间
+
 	}
 )
 

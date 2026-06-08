@@ -37,19 +37,32 @@ type (
 	}
 
 	TOperationLog struct {
-		Id             int64     `db:"id"`              // 主键id
-		UserId         string    `db:"user_id"`         // 用户id
-		TerminalId     string    `db:"terminal_id"`     // 设备id
-		OptModule      string    `db:"opt_module"`      // 操作模块
-		OptDesc        string    `db:"opt_desc"`        // 操作描述
-		RequestUri     string    `db:"request_uri"`     // 请求地址
-		RequestMethod  string    `db:"request_method"`  // 请求方式
-		RequestData    string    `db:"request_data"`    // 请求参数
-		ResponseData   string    `db:"response_data"`   // 返回数据
-		ResponseStatus int64     `db:"response_status"` // 响应状态码
-		Cost           string    `db:"cost"`            // 耗时（ms）
-		CreatedAt      time.Time `db:"created_at"`      // 创建时间
-		UpdatedAt      time.Time `db:"updated_at"`      // 更新时间
+		Id int64 `db:"id"` // 主键id
+
+		UserId string `db:"user_id"` // 用户id
+
+		TerminalId string `db:"terminal_id"` // 设备id
+
+		OptModule string `db:"opt_module"` // 操作模块
+
+		OptDesc string `db:"opt_desc"` // 操作描述
+
+		RequestUri string `db:"request_uri"` // 请求地址
+
+		RequestMethod string `db:"request_method"` // 请求方式
+
+		RequestData string `db:"request_data"` // 请求参数
+
+		ResponseData string `db:"response_data"` // 返回数据
+
+		ResponseStatus int64 `db:"response_status"` // 响应状态码
+
+		Cost string `db:"cost"` // 耗时（ms）
+
+		CreatedAt time.Time `db:"created_at"` // 创建时间
+
+		UpdatedAt time.Time `db:"updated_at"` // 更新时间
+
 	}
 )
 

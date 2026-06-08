@@ -37,12 +37,18 @@ type (
 	}
 
 	TVisitLog struct {
-		Id         int64     `db:"id"`          // id
-		UserId     string    `db:"user_id"`     // 用户id
-		TerminalId string    `db:"terminal_id"` // 设备id
-		PageName   string    `db:"page_name"`   // 访问页面
-		CreatedAt  time.Time `db:"created_at"`  // 创建时间
-		UpdatedAt  time.Time `db:"updated_at"`  // 更新时间
+		Id int64 `db:"id"` // id
+
+		UserId string `db:"user_id"` // 用户id
+
+		TerminalId string `db:"terminal_id"` // 设备id
+
+		PageName string `db:"page_name"` // 访问页面
+
+		CreatedAt time.Time `db:"created_at"` // 创建时间
+
+		UpdatedAt time.Time `db:"updated_at"` // 更新时间
+
 	}
 )
 

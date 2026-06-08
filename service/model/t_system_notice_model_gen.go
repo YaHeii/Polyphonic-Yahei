@@ -41,18 +41,30 @@ type (
 	}
 
 	TSystemNotice struct {
-		Id            int64        `db:"id"`             // 主键ID
-		Title         string       `db:"title"`          // 通知标题
-		Content       string       `db:"content"`        // 通知内容
-		Type          string       `db:"type"`           // 通知类型 system-系统公告 maintenance-维护通知 update-功能更新 remind-重要提醒
-		Level         string       `db:"level"`          // 通知等级 info-普通 notice-提醒 warning-警告 error-紧急
-		AppName       string       `db:"app_name"`       // 目标应用名称（如：blog-前台、admin-后台）
-		PublisherId   string       `db:"publisher_id"`   // 发布人ID
-		PublishStatus int64        `db:"publish_status"` // 发布状态 1-草稿 2-已发布 3-已撤回
-		PublishTime   sql.NullTime `db:"publish_time"`   // 发布时间
-		RevokeTime    sql.NullTime `db:"revoke_time"`    // 撤回时间
-		CreatedAt     time.Time    `db:"created_at"`     // 创建时间
-		UpdatedAt     time.Time    `db:"updated_at"`     // 更新时间
+		Id int64 `db:"id"` // 主键ID
+
+		Title string `db:"title"` // 通知标题
+
+		Content string `db:"content"` // 通知内容
+
+		Type string `db:"type"` // 通知类型 system-系统公告 maintenance-维护通知 update-功能更新 remind-重要提醒
+
+		Level string `db:"level"` // 通知等级 info-普通 notice-提醒 warning-警告 error-紧急
+
+		AppName string `db:"app_name"` // 目标应用名称（如：blog-前台、admin-后台）
+
+		PublisherId string `db:"publisher_id"` // 发布人ID
+
+		PublishStatus int64 `db:"publish_status"` // 发布状态 1-草稿 2-已发布 3-已撤回
+
+		PublishTime sql.NullTime `db:"publish_time"` // 发布时间
+
+		RevokeTime sql.NullTime `db:"revoke_time"` // 撤回时间
+
+		CreatedAt time.Time `db:"created_at"` // 创建时间
+
+		UpdatedAt time.Time `db:"updated_at"` // 更新时间
+
 	}
 )
 

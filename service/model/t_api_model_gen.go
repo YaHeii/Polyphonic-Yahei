@@ -43,15 +43,24 @@ type (
 	}
 
 	TApi struct {
-		Id        int64     `db:"id"`         // 主键id
-		ParentId  int64     `db:"parent_id"`  // 分组id
-		Name      string    `db:"name"`       // api名称
-		Path      string    `db:"path"`       // api路径
-		Method    string    `db:"method"`     // api请求方法
-		Traceable int64     `db:"traceable"`  // 是否追溯操作记录 0需要，1是
-		Status    int64     `db:"status"`     // 是否禁用 0否 1是
+		Id int64 `db:"id"` // 主键id
+
+		ParentId int64 `db:"parent_id"` // 分组id
+
+		Name string `db:"name"` // api名称
+
+		Path string `db:"path"` // api路径
+
+		Method string `db:"method"` // api请求方法
+
+		Traceable int64 `db:"traceable"` // 是否追溯操作记录 0需要，1是
+
+		Status int64 `db:"status"` // 是否禁用 0否 1是
+
 		CreatedAt time.Time `db:"created_at"` // 创建时间
+
 		UpdatedAt time.Time `db:"updated_at"` // 更新时间
+
 	}
 )
 
