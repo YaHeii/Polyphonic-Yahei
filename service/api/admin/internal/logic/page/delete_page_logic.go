@@ -8,6 +8,7 @@ import (
 
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/svc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/types"
+	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/resourcerpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -28,7 +29,16 @@ func NewDeletePageLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Delete
 }
 
 func (l *DeletePageLogic) DeletePage(req *types.IdReq) (resp *types.BatchResp, err error) {
-	// todo: add your logic here and delete this line
+	in := &resourcerpc.DeletesPageReq{
+		Ids: []int64{req.Id},
+	}
 
-	return
+	out, err := l.svcCtx.ResourceRpc.DeletesPage(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	return &types.BatchResp{
+		SuccessCount: out.SuccessCount,
+	}, nil
 }

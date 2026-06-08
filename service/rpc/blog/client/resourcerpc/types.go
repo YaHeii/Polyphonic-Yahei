@@ -5,6 +5,8 @@ import (
 )
 
 type (
-	PageReq = resourcerpc.PageReq
-	Album = resourcerpc.Album
+	Album    = resourcerpc.Album
+	Page     = resourcerpc.Page
+	PageReq  = resourcerpc.PageReq
+	PageResp = resourcerpc.PageResp
 )

@@ -8,6 +8,7 @@ import (
 
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/svc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/types"
+	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/resourcerpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -28,7 +29,19 @@ func NewUpdatePageLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Update
 }
 
 func (l *UpdatePageLogic) UpdatePage(req *types.NewPageReq) (resp *types.PageBackVO, err error) {
-	// todo: add your logic here and delete this line
+	in := &resourcerpc.UpdatePageReq{
+		Id:             req.Id,
+		PageName:       req.PageName,
+		PageLabel:      req.PageLabel,
+		PageCover:      req.PageCover,
+		IsCarousel:     req.IsCarousel != 0,
+		CarouselCovers: req.CarouselCovers,
+	}
 
-	return
+	out, err := l.svcCtx.ResourceRpc.UpdatePage(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	return convertPageTypes(out.Page), nil
 }
