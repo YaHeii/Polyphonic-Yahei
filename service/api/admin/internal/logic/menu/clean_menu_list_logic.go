@@ -8,6 +8,7 @@ import (
 
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/svc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/types"
+	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/permissionrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -28,7 +29,10 @@ func NewCleanMenuListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Cle
 }
 
 func (l *CleanMenuListLogic) CleanMenuList(req *types.CleanMenuReq) (resp *types.BatchResp, err error) {
-	// todo: add your logic here and delete this line
+	out, err := l.svcCtx.PermissionRpc.CleanMenuList(l.ctx, &permissionrpc.CleanMenuListReq{})
+	if err != nil {
+		return nil, err
+	}
 
-	return
+	return &types.BatchResp{SuccessCount: out.SuccessCount}, nil
 }

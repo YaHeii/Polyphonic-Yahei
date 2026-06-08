@@ -28,7 +28,10 @@ func NewAddMenuLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddMenuLo
 }
 
 func (l *AddMenuLogic) AddMenu(req *types.NewMenuReq) (resp *types.MenuBackVO, err error) {
-	// todo: add your logic here and delete this line
+	out, err := l.svcCtx.PermissionRpc.AddMenu(l.ctx, convertMenuPb(req))
+	if err != nil {
+		return nil, err
+	}
 
-	return
+	return convertMenuTypes(out.Menu), nil
 }

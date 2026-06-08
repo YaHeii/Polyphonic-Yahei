@@ -8,6 +8,7 @@ import (
 
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/svc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/types"
+	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/permissionrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -28,7 +29,17 @@ func NewSyncMenuListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Sync
 }
 
 func (l *SyncMenuListLogic) SyncMenuList(req *types.SyncMenuReq) (resp *types.BatchResp, err error) {
-	// todo: add your logic here and delete this line
+	menus := make([]*permissionrpc.AddMenuReq, 0, len(req.Menus))
+	for _, menu := range req.Menus {
+		menus = append(menus, convertMenuPb(menu))
+	}
 
-	return
+	out, err := l.svcCtx.PermissionRpc.SyncMenuList(l.ctx, &permissionrpc.SyncMenuListReq{
+		Menus: menus,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	return &types.BatchResp{SuccessCount: out.SuccessCount}, nil
 }

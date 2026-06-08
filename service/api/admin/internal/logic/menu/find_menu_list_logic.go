@@ -8,6 +8,7 @@ import (
 
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/svc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/types"
+	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/permissionrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -28,7 +29,23 @@ func NewFindMenuListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Find
 }
 
 func (l *FindMenuListLogic) FindMenuList(req *types.QueryMenuReq) (resp *types.PageResp, err error) {
-	// todo: add your logic here and delete this line
+	out, err := l.svcCtx.PermissionRpc.FindMenuList(l.ctx, &permissionrpc.FindMenuListReq{
+		Name:  req.Name,
+		Title: req.Title,
+	})
+	if err != nil {
+		return nil, err
+	}
 
-	return
+	list := make([]*types.MenuBackVO, 0, len(out.List))
+	for _, item := range out.List {
+		list = append(list, convertMenuTypes(item))
+	}
+
+	return &types.PageResp{
+		Page:     0,
+		PageSize: int64(len(list)),
+		Total:    int64(len(list)),
+		List:     list,
+	}, nil
 }

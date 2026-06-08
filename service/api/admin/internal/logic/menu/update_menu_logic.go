@@ -8,6 +8,7 @@ import (
 
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/svc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/types"
+	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/permissionrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -28,7 +29,29 @@ func NewUpdateMenuLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Update
 }
 
 func (l *UpdateMenuLogic) UpdateMenu(req *types.NewMenuReq) (resp *types.MenuBackVO, err error) {
-	// todo: add your logic here and delete this line
+	out, err := l.svcCtx.PermissionRpc.UpdateMenu(l.ctx, &permissionrpc.UpdateMenuReq{
+		Id:        req.Id,
+		ParentId:  req.ParentId,
+		Path:      req.Path,
+		Name:      req.Name,
+		Component: req.Component,
+		Redirect:  req.Redirect,
+		Meta: &permissionrpc.MenuMeta{
+			Type:       req.Type,
+			Title:      req.Title,
+			Icon:       req.Icon,
+			Rank:       req.Rank,
+			Perm:       req.Perm,
+			Params:     convertMenuPb(req).Meta.Params,
+			KeepAlive:  req.KeepAlive == 1,
+			AlwaysShow: req.AlwaysShow == 1,
+			Visible:    req.Visible == 1,
+			Status:     req.Status == 1,
+		},
+	})
+	if err != nil {
+		return nil, err
+	}
 
-	return
+	return convertMenuTypes(out.Menu), nil
 }
