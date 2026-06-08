@@ -9,15 +9,23 @@ import (
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/types"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/accountrpc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/permissionrpc"
+	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/syslogrpc"
 	"google.golang.org/grpc"
 )
 
 type stubUserAccountRPC struct {
 	accountrpc.AccountRpc
-	getUserInfoReq  *accountrpc.GetUserInfoReq
-	getUserInfoResp *accountrpc.GetUserInfoResp
-	getOauthReq     *accountrpc.GetUserOauthInfoReq
-	getOauthResp    *accountrpc.GetUserOauthInfoResp
+	getUserInfoReq    *accountrpc.GetUserInfoReq
+	getUserInfoResp   *accountrpc.GetUserInfoResp
+	getOauthReq       *accountrpc.GetUserOauthInfoReq
+	getOauthResp      *accountrpc.GetUserOauthInfoResp
+	updateAvatarReq   *accountrpc.UpdateUserAvatarReq
+	updateInfoReq     *accountrpc.UpdateUserInfoReq
+	updatePasswordReq *accountrpc.UpdateUserPasswordReq
+	bindEmailReq      *accountrpc.BindUserEmailReq
+	bindPhoneReq      *accountrpc.BindUserPhoneReq
+	bindOauthReq      *accountrpc.BindUserOauthReq
+	unbindOauthReq    *accountrpc.UnbindUserOauthReq
 }
 
 func (s *stubUserAccountRPC) GetUserInfo(_ context.Context, in *accountrpc.GetUserInfoReq, _ ...grpc.CallOption) (*accountrpc.GetUserInfoResp, error) {
@@ -28,6 +36,41 @@ func (s *stubUserAccountRPC) GetUserInfo(_ context.Context, in *accountrpc.GetUs
 func (s *stubUserAccountRPC) GetUserOauthInfo(_ context.Context, in *accountrpc.GetUserOauthInfoReq, _ ...grpc.CallOption) (*accountrpc.GetUserOauthInfoResp, error) {
 	s.getOauthReq = in
 	return s.getOauthResp, nil
+}
+
+func (s *stubUserAccountRPC) UpdateUserAvatar(_ context.Context, in *accountrpc.UpdateUserAvatarReq, _ ...grpc.CallOption) (*accountrpc.UpdateUserAvatarResp, error) {
+	s.updateAvatarReq = in
+	return &accountrpc.UpdateUserAvatarResp{}, nil
+}
+
+func (s *stubUserAccountRPC) UpdateUserInfo(_ context.Context, in *accountrpc.UpdateUserInfoReq, _ ...grpc.CallOption) (*accountrpc.UpdateUserInfoResp, error) {
+	s.updateInfoReq = in
+	return &accountrpc.UpdateUserInfoResp{}, nil
+}
+
+func (s *stubUserAccountRPC) UpdateUserPassword(_ context.Context, in *accountrpc.UpdateUserPasswordReq, _ ...grpc.CallOption) (*accountrpc.UpdateUserPasswordResp, error) {
+	s.updatePasswordReq = in
+	return &accountrpc.UpdateUserPasswordResp{}, nil
+}
+
+func (s *stubUserAccountRPC) BindUserEmail(_ context.Context, in *accountrpc.BindUserEmailReq, _ ...grpc.CallOption) (*accountrpc.BindUserEmailResp, error) {
+	s.bindEmailReq = in
+	return &accountrpc.BindUserEmailResp{}, nil
+}
+
+func (s *stubUserAccountRPC) BindUserPhone(_ context.Context, in *accountrpc.BindUserPhoneReq, _ ...grpc.CallOption) (*accountrpc.BindUserPhoneResp, error) {
+	s.bindPhoneReq = in
+	return &accountrpc.BindUserPhoneResp{}, nil
+}
+
+func (s *stubUserAccountRPC) BindUserOauth(_ context.Context, in *accountrpc.BindUserOauthReq, _ ...grpc.CallOption) (*accountrpc.BindUserOauthResp, error) {
+	s.bindOauthReq = in
+	return &accountrpc.BindUserOauthResp{}, nil
+}
+
+func (s *stubUserAccountRPC) UnbindUserOauth(_ context.Context, in *accountrpc.UnbindUserOauthReq, _ ...grpc.CallOption) (*accountrpc.UnbindUserOauthResp, error) {
+	s.unbindOauthReq = in
+	return &accountrpc.UnbindUserOauthResp{}, nil
 }
 
 type stubUserPermissionRPC struct {
@@ -53,6 +96,17 @@ func (s *stubUserPermissionRPC) FindUserMenus(_ context.Context, in *permissionr
 func (s *stubUserPermissionRPC) FindUserRoles(_ context.Context, in *permissionrpc.FindUserRolesReq, _ ...grpc.CallOption) (*permissionrpc.FindUserRolesResp, error) {
 	s.rolesReq = in
 	return s.rolesResp, nil
+}
+
+type stubUserSyslogRPC struct {
+	syslogrpc.SyslogRpc
+	findReq  *syslogrpc.FindLoginLogListReq
+	findResp *syslogrpc.FindLoginLogListResp
+}
+
+func (s *stubUserSyslogRPC) FindLoginLogList(_ context.Context, in *syslogrpc.FindLoginLogListReq, _ ...grpc.CallOption) (*syslogrpc.FindLoginLogListResp, error) {
+	s.findReq = in
+	return s.findResp, nil
 }
 
 func TestGetUserApisBuildsRequestAndMapsTree(t *testing.T) {
@@ -207,5 +261,107 @@ func TestGetUserInfoBuildsRequestsAndAggregatesResponse(t *testing.T) {
 	}
 	if resp.UserId != "u-1" || resp.UserInfoExt.Intro != "hello" || len(resp.ThirdParty) != 1 || len(resp.Roles) != 1 || len(resp.Perms) != 2 {
 		t.Fatalf("unexpected user info response: %#v", resp)
+	}
+}
+
+func TestGetUserLoginHistoryListBuildsRequestAndMapsPage(t *testing.T) {
+	ctx := context.WithValue(context.Background(), bizheader.HeaderUid, "u-1")
+	syslogRPC := &stubUserSyslogRPC{
+		findResp: &syslogrpc.FindLoginLogListResp{
+			Pagination: &syslogrpc.PageResp{Page: 1, PageSize: 10, Total: 1},
+			List: []*syslogrpc.LoginLog{
+				{Id: 1, UserId: "u-1", TerminalId: "t-1", LoginType: "password", AppName: "admin", LoginAt: 10, LogoutAt: 20},
+			},
+		},
+	}
+	logic := NewGetUserLoginHistoryListLogic(ctx, &svc.ServiceContext{SyslogRpc: syslogRPC})
+
+	resp, err := logic.GetUserLoginHistoryList(&types.QueryUserLoginHistoryReq{
+		PageQuery: types.PageQuery{Page: 1, PageSize: 10, Sorts: []string{"login_at desc"}},
+	})
+	if err != nil {
+		t.Fatalf("GetUserLoginHistoryList returned error: %v", err)
+	}
+	if syslogRPC.findReq == nil || syslogRPC.findReq.UserId != "u-1" {
+		t.Fatalf("unexpected login history request: %#v", syslogRPC.findReq)
+	}
+	list, ok := resp.List.([]*types.UserLoginHistory)
+	if !ok || len(list) != 1 || list[0].Id != 1 {
+		t.Fatalf("unexpected login history response: %#v", resp)
+	}
+}
+
+func TestUserUpdateOperationsBuildRequests(t *testing.T) {
+	accountRPC := &stubUserAccountRPC{}
+	ctx := context.Background()
+
+	avatarLogic := NewUpdateUserAvatarLogic(ctx, &svc.ServiceContext{AccountRpc: accountRPC})
+	if _, err := avatarLogic.UpdateUserAvatar(&types.UpdateUserAvatarReq{Avatar: "avatar"}); err != nil {
+		t.Fatalf("UpdateUserAvatar returned error: %v", err)
+	}
+	if accountRPC.updateAvatarReq == nil || accountRPC.updateAvatarReq.Avatar != "avatar" {
+		t.Fatalf("unexpected avatar request: %#v", accountRPC.updateAvatarReq)
+	}
+
+	infoLogic := NewUpdateUserInfoLogic(ctx, &svc.ServiceContext{AccountRpc: accountRPC})
+	if _, err := infoLogic.UpdateUserInfo(&types.UpdateUserInfoReq{
+		Nickname: "demo",
+		UserInfoExt: types.UserInfoExt{
+			Intro:   "hello",
+			Website: "https://example.com",
+		},
+	}); err != nil {
+		t.Fatalf("UpdateUserInfo returned error: %v", err)
+	}
+	if accountRPC.updateInfoReq == nil || accountRPC.updateInfoReq.Nickname != "demo" || accountRPC.updateInfoReq.Info == "" {
+		t.Fatalf("unexpected user info request: %#v", accountRPC.updateInfoReq)
+	}
+
+	passwordLogic := NewUpdateUserPasswordLogic(ctx, &svc.ServiceContext{AccountRpc: accountRPC})
+	if _, err := passwordLogic.UpdateUserPassword(&types.UpdateUserPasswordReq{
+		OldPassword: "old",
+		NewPassword: "new",
+	}); err != nil {
+		t.Fatalf("UpdateUserPassword returned error: %v", err)
+	}
+	if accountRPC.updatePasswordReq == nil || accountRPC.updatePasswordReq.OldPassword != "old" || accountRPC.updatePasswordReq.NewPassword != "new" {
+		t.Fatalf("unexpected password request: %#v", accountRPC.updatePasswordReq)
+	}
+}
+
+func TestUserBindOperationsBuildRequests(t *testing.T) {
+	accountRPC := &stubUserAccountRPC{}
+	ctx := context.Background()
+
+	emailLogic := NewUpdateUserBindEmailLogic(ctx, &svc.ServiceContext{AccountRpc: accountRPC})
+	if _, err := emailLogic.UpdateUserBindEmail(&types.UpdateUserBindEmailReq{Email: "demo@example.com", VerifyCode: "1234"}); err != nil {
+		t.Fatalf("UpdateUserBindEmail returned error: %v", err)
+	}
+	if accountRPC.bindEmailReq == nil || accountRPC.bindEmailReq.Email != "demo@example.com" {
+		t.Fatalf("unexpected bind email request: %#v", accountRPC.bindEmailReq)
+	}
+
+	phoneLogic := NewUpdateUserBindPhoneLogic(ctx, &svc.ServiceContext{AccountRpc: accountRPC})
+	if _, err := phoneLogic.UpdateUserBindPhone(&types.UpdateUserBindPhoneReq{Phone: "188", VerifyCode: "5678"}); err != nil {
+		t.Fatalf("UpdateUserBindPhone returned error: %v", err)
+	}
+	if accountRPC.bindPhoneReq == nil || accountRPC.bindPhoneReq.Phone != "188" {
+		t.Fatalf("unexpected bind phone request: %#v", accountRPC.bindPhoneReq)
+	}
+
+	oauthLogic := NewUpdateUserBindThirdPartyLogic(ctx, &svc.ServiceContext{AccountRpc: accountRPC})
+	if _, err := oauthLogic.UpdateUserBindThirdParty(&types.UpdateUserBindThirdPartyReq{Platform: "github", Code: "code", State: "state"}); err != nil {
+		t.Fatalf("UpdateUserBindThirdParty returned error: %v", err)
+	}
+	if accountRPC.bindOauthReq == nil || accountRPC.bindOauthReq.Platform != "github" || accountRPC.bindOauthReq.Code != "code" {
+		t.Fatalf("unexpected bind oauth request: %#v", accountRPC.bindOauthReq)
+	}
+
+	unbindLogic := NewDeleteUserBindThirdPartyLogic(ctx, &svc.ServiceContext{AccountRpc: accountRPC})
+	if _, err := unbindLogic.DeleteUserBindThirdParty(&types.DeleteUserBindThirdPartyReq{Platform: "github"}); err != nil {
+		t.Fatalf("DeleteUserBindThirdParty returned error: %v", err)
+	}
+	if accountRPC.unbindOauthReq == nil || accountRPC.unbindOauthReq.Platform != "github" {
+		t.Fatalf("unexpected unbind oauth request: %#v", accountRPC.unbindOauthReq)
 	}
 }

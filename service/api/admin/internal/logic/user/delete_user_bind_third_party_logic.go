@@ -8,6 +8,7 @@ import (
 
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/svc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/types"
+	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/accountrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -28,7 +29,12 @@ func NewDeleteUserBindThirdPartyLogic(ctx context.Context, svcCtx *svc.ServiceCo
 }
 
 func (l *DeleteUserBindThirdPartyLogic) DeleteUserBindThirdParty(req *types.DeleteUserBindThirdPartyReq) (resp *types.EmptyResp, err error) {
-	// todo: add your logic here and delete this line
+	_, err = l.svcCtx.AccountRpc.UnbindUserOauth(l.ctx, &accountrpc.UnbindUserOauthReq{
+		Platform: req.Platform,
+	})
+	if err != nil {
+		return nil, err
+	}
 
-	return
+	return &types.EmptyResp{}, nil
 }

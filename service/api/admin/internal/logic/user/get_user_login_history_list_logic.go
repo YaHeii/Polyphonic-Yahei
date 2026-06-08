@@ -6,8 +6,11 @@ package user
 import (
 	"context"
 
+	"github.com/YaHeii/Polyphonic-Yahei/pkg/infra/biz/bizheader"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/svc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/types"
+	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/syslogrpc"
+	"github.com/spf13/cast"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -28,7 +31,35 @@ func NewGetUserLoginHistoryListLogic(ctx context.Context, svcCtx *svc.ServiceCon
 }
 
 func (l *GetUserLoginHistoryListLogic) GetUserLoginHistoryList(req *types.QueryUserLoginHistoryReq) (resp *types.PageResp, err error) {
-	// todo: add your logic here and delete this line
+	out, err := l.svcCtx.SyslogRpc.FindLoginLogList(l.ctx, &syslogrpc.FindLoginLogListReq{
+		Paginate: &syslogrpc.PageReq{
+			Page:     req.Page,
+			PageSize: req.PageSize,
+			Sorts:    req.Sorts,
+		},
+		UserId: cast.ToString(l.ctx.Value(bizheader.HeaderUid)),
+	})
+	if err != nil {
+		return nil, err
+	}
 
-	return
+	list := make([]*types.UserLoginHistory, 0, len(out.List))
+	for _, item := range out.List {
+		list = append(list, &types.UserLoginHistory{
+			Id:         item.Id,
+			UserId:     item.UserId,
+			TerminalId: item.TerminalId,
+			LoginType:  item.LoginType,
+			AppName:    item.AppName,
+			LoginAt:    item.LoginAt,
+			LogoutAt:   item.LogoutAt,
+		})
+	}
+
+	return &types.PageResp{
+		Page:     out.Pagination.Page,
+		PageSize: out.Pagination.PageSize,
+		Total:    out.Pagination.Total,
+		List:     list,
+	}, nil
 }
