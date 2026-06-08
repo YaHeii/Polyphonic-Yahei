@@ -1,4 +1,6 @@
 ADMIN_API_DIR := service/api/admin
+ADMIN_API_DOCS_DIR := $(ADMIN_API_DIR)/internal/docs
+ADMIN_API_SWAGGER_FILENAME := swagger
 MODEL_DIR := ./service/model
 PG_DSN := postgres://root:root@127.0.0.1:5432/blog-init?sslmode=disable
 MODEL_STYLE := go_zero
@@ -11,7 +13,7 @@ ETC_DIR := service/rpc/blog/etc
 BLOG_RPC_PROTO_DIR := service/rpc/blog/proto
 
 
-.PHONY: goctl-api-admin goctl-api-admin-clean-generated goctl-api-admin-reset goctl-model goctl-model-core goctl-model-relation goctl-model-log goctl-model-all goctl-rpc-blog
+.PHONY: goctl-api-admin goctl-api-admin-swagger goctl-api-admin-clean-generated goctl-api-admin-reset goctl-model goctl-model-core goctl-model-relation goctl-model-log goctl-model-all goctl-rpc-blog
 
 goctl-api-admin:
 	goctl api go \
@@ -60,3 +62,11 @@ goctl-model-log:
 		--style="$(MODEL_STYLE)"
 
 goctl-model-all: goctl-model-core goctl-model-relation goctl-model-log
+
+
+goctl-api-admin-swagger:
+	mkdir -p $(ADMIN_API_DOCS_DIR)
+	goctl api swagger \
+		--api $(ADMIN_API_DIR)/proto/admin.api \
+		--dir $(ADMIN_API_DOCS_DIR) \
+		--filename $(ADMIN_API_SWAGGER_FILENAME)
