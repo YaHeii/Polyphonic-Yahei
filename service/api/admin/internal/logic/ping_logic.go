@@ -5,12 +5,15 @@ package logic
 
 import (
 	"context"
+	"time"
 
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/svc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/types"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
+
+var runtime = time.Now()
 
 type PingLogic struct {
 	logx.Logger
@@ -28,7 +31,11 @@ func NewPingLogic(ctx context.Context, svcCtx *svc.ServiceContext) *PingLogic {
 }
 
 func (l *PingLogic) Ping(req *types.PingReq) (resp *types.PingResp, err error) {
-	// todo: add your logic here and delete this line
-
-	return
+	return &types.PingResp{
+		Env:         l.svcCtx.Config.Mode,
+		Name:        l.svcCtx.Config.Name,
+		Version:     "v1.0.0",
+		Description: "",
+		Runtime:     runtime.String(),
+	}, nil
 }
