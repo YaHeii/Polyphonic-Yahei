@@ -6,8 +6,11 @@ package user
 import (
 	"context"
 
+	"github.com/YaHeii/Polyphonic-Yahei/pkg/infra/biz/bizheader"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/svc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/types"
+	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/permissionrpc"
+	"github.com/spf13/cast"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -28,7 +31,17 @@ func NewGetUserApisLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUs
 }
 
 func (l *GetUserApisLogic) GetUserApis(req *types.EmptyReq) (resp *types.UserApisResp, err error) {
-	// todo: add your logic here and delete this line
+	out, err := l.svcCtx.PermissionRpc.FindUserApis(l.ctx, &permissionrpc.FindUserApisReq{
+		UserId: cast.ToString(l.ctx.Value(bizheader.HeaderUid)),
+	})
+	if err != nil {
+		return nil, err
+	}
 
-	return
+	list := make([]*types.UserApi, 0, len(out.List))
+	for _, item := range out.List {
+		list = append(list, convertUserApi(item))
+	}
+
+	return &types.UserApisResp{List: list}, nil
 }
