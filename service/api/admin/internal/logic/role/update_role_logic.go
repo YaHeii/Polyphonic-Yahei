@@ -8,6 +8,7 @@ import (
 
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/svc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/types"
+	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/permissionrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -28,7 +29,20 @@ func NewUpdateRoleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Update
 }
 
 func (l *UpdateRoleLogic) UpdateRole(req *types.NewRoleReq) (resp *types.RoleBackVO, err error) {
-	// todo: add your logic here and delete this line
+	in := &permissionrpc.UpdateRoleReq{
+		Id:          req.Id,
+		ParentId:    req.ParentId,
+		RoleKey:     req.RoleKey,
+		RoleLabel:   req.RoleLabel,
+		RoleComment: req.RoleComment,
+		Status:      req.Status,
+		IsDefault:   req.IsDefault,
+	}
 
-	return
+	out, err := l.svcCtx.PermissionRpc.UpdateRole(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	return convertRoleTypes(out.Role), nil
 }

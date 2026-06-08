@@ -8,6 +8,7 @@ import (
 
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/svc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/types"
+	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/permissionrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -28,7 +29,18 @@ func NewUpdateRoleMenusLogic(ctx context.Context, svcCtx *svc.ServiceContext) *U
 }
 
 func (l *UpdateRoleMenusLogic) UpdateRoleMenus(req *types.UpdateRoleMenusReq) (resp *types.EmptyResp, err error) {
-	// todo: add your logic here and delete this line
+	in := &permissionrpc.UpdateRoleMenusReq{
+		RoleId:  req.RoleId,
+		MenuIds: req.MenuIds,
+	}
 
-	return
+	if _, err = l.svcCtx.PermissionRpc.UpdateRoleMenus(l.ctx, in); err != nil {
+		return nil, err
+	}
+
+	if err = l.svcCtx.PermissionHolder.ReloadPolicy(); err != nil {
+		return nil, err
+	}
+
+	return &types.EmptyResp{}, nil
 }
