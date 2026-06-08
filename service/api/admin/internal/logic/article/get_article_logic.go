@@ -8,6 +8,7 @@ import (
 
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/svc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/types"
+	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/articlerpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -28,7 +29,14 @@ func NewGetArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetArt
 }
 
 func (l *GetArticleLogic) GetArticle(req *types.IdReq) (resp *types.ArticleBackVO, err error) {
-	// todo: add your logic here and delete this line
+	in := &articlerpc.GetArticleReq{
+		Id: req.Id,
+	}
 
-	return
+	out, err := l.svcCtx.ArticleRpc.GetArticle(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	return convertArticleTypes(out.Article), nil
 }

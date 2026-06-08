@@ -8,6 +8,7 @@ import (
 
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/svc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/types"
+	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/articlerpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -28,7 +29,15 @@ func NewUpdateArticleTopLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 }
 
 func (l *UpdateArticleTopLogic) UpdateArticleTop(req *types.UpdateArticleTopReq) (resp *types.EmptyResp, err error) {
-	// todo: add your logic here and delete this line
+	in := &articlerpc.UpdateArticleTopReq{
+		ArticleId: req.Id,
+		IsTop:     req.IsTop,
+	}
 
-	return
+	_, err = l.svcCtx.ArticleRpc.UpdateArticleTop(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	return &types.EmptyResp{}, nil
 }
