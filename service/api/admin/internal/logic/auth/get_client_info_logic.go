@@ -8,6 +8,7 @@ import (
 
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/svc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/types"
+	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/accountrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -28,7 +29,18 @@ func NewGetClientInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Get
 }
 
 func (l *GetClientInfoLogic) GetClientInfo(req *types.GetClientInfoReq) (resp *types.GetClientInfoResp, err error) {
-	// todo: add your logic here and delete this line
+	out, err := l.svcCtx.AccountRpc.GetClientInfo(l.ctx, &accountrpc.GetClientInfoReq{})
+	if err != nil {
+		return nil, err
+	}
 
-	return
+	visitor := out.GetVisitor()
+	return &types.GetClientInfoResp{
+		Id:         visitor.GetId(),
+		TerminalId: visitor.GetTerminalId(),
+		Os:         visitor.GetOs(),
+		Browser:    visitor.GetBrowser(),
+		IpAddress:  visitor.GetIpAddress(),
+		IpSource:   visitor.GetIpSource(),
+	}, nil
 }

@@ -8,6 +8,7 @@ import (
 
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/svc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/types"
+	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/accountrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -28,7 +29,13 @@ func NewSendEmailVerifyCodeLogic(ctx context.Context, svcCtx *svc.ServiceContext
 }
 
 func (l *SendEmailVerifyCodeLogic) SendEmailVerifyCode(req *types.SendEmailVerifyCodeReq) (resp *types.EmptyResp, err error) {
-	// todo: add your logic here and delete this line
+	_, err = l.svcCtx.AccountRpc.SendEmailVerifyCode(l.ctx, &accountrpc.SendEmailVerifyCodeReq{
+		Email: req.Email,
+		Type:  req.Type,
+	})
+	if err != nil {
+		return nil, err
+	}
 
-	return
+	return &types.EmptyResp{}, nil
 }

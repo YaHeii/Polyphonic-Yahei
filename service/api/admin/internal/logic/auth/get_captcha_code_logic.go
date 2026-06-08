@@ -8,6 +8,7 @@ import (
 
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/svc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/types"
+	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/accountrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -28,7 +29,17 @@ func NewGetCaptchaCodeLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Ge
 }
 
 func (l *GetCaptchaCodeLogic) GetCaptchaCode(req *types.GetCaptchaCodeReq) (resp *types.GetCaptchaCodeResp, err error) {
-	// todo: add your logic here and delete this line
+	out, err := l.svcCtx.AccountRpc.GenerateCaptchaCode(l.ctx, &accountrpc.GenerateCaptchaCodeReq{
+		Width:  req.Width,
+		Height: req.Height,
+	})
+	if err != nil {
+		return nil, err
+	}
 
-	return
+	return &types.GetCaptchaCodeResp{
+		CaptchaKey:    out.GetCaptchaKey(),
+		CaptchaBase64: out.GetCaptchaBase64(),
+		CaptchaCode:   out.GetCaptchaCode(),
+	}, nil
 }

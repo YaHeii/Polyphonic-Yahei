@@ -28,7 +28,14 @@ func NewRefreshTokenLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Refr
 }
 
 func (l *RefreshTokenLogic) RefreshToken(req *types.RefreshTokenReq) (resp *types.LoginResp, err error) {
-	// todo: add your logic here and delete this line
+	tk, err := l.svcCtx.TokenManager.RefreshToken(req.UserId, req.RefreshToken)
+	if err != nil {
+		return nil, err
+	}
 
-	return
+	return &types.LoginResp{
+		UserId: req.UserId,
+		Scope:  l.svcCtx.Config.Name,
+		Token:  convertToken(tk),
+	}, nil
 }

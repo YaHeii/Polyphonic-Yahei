@@ -8,6 +8,7 @@ import (
 
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/svc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/types"
+	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/accountrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -28,7 +29,15 @@ func NewRegisterLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Register
 }
 
 func (l *RegisterLogic) Register(req *types.RegisterReq) (resp *types.EmptyResp, err error) {
-	// todo: add your logic here and delete this line
+	_, err = l.svcCtx.AccountRpc.Register(l.ctx, &accountrpc.RegisterReq{
+		Username:   req.Username,
+		Password:   req.Password,
+		Email:      req.Email,
+		VerifyCode: req.VerifyCode,
+	})
+	if err != nil {
+		return nil, err
+	}
 
-	return
+	return &types.EmptyResp{}, nil
 }
