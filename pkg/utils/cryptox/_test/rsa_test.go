@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/ve-weiyi/ve-blog-golang/pkg/utils/cryptox"
+	"github.com/YaHeii/Polyphonic-Yahei/pkg/utils/cryptox"
 )
 
 func TestRSA(t *testing.T) {

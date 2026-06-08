@@ -8,7 +8,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ve-weiyi/ve-blog-golang/pkg/kit/mq/kafkax"
+	"github.com/YaHeii/Polyphnic-Yahei/pkg/kit/mq/kafkax"
 )
 
 var c = &kafkax.KafkaConf{

@@ -6,7 +6,7 @@ import (
 
 	"golang.org/x/crypto/bcrypt"
 
-	"github.com/ve-weiyi/ve-blog-golang/pkg/utils/cryptox"
+	"github.com/YaHeii/Polyphonic-Yahei/pkg/utils/cryptox"
 )
 
 // 一个字节Byte由8位bit。8*64=512
