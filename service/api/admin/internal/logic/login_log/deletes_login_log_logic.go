@@ -8,6 +8,7 @@ import (
 
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/svc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/types"
+	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/syslogrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -28,7 +29,14 @@ func NewDeletesLoginLogLogic(ctx context.Context, svcCtx *svc.ServiceContext) *D
 }
 
 func (l *DeletesLoginLogLogic) DeletesLoginLog(req *types.IdsReq) (resp *types.BatchResp, err error) {
-	// todo: add your logic here and delete this line
+	in := &syslogrpc.DeletesLoginLogReq{
+		Ids: req.Ids,
+	}
 
-	return
+	out, err := l.svcCtx.SyslogRpc.DeletesLoginLog(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	return &types.BatchResp{SuccessCount: out.SuccessCount}, nil
 }
