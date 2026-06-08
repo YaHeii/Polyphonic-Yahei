@@ -8,6 +8,7 @@ import (
 
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/svc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/types"
+	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/permissionrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -28,7 +29,21 @@ func NewAddApiLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddApiLogi
 }
 
 func (l *AddApiLogic) AddApi(req *types.NewApiReq) (resp *types.ApiBackVO, err error) {
-	// todo: add your logic here and delete this line
+	in := &permissionrpc.AddApiReq{
+		Id:        req.Id,
+		ParentId:  req.ParentId,
+		Path:      req.Path,
+		Name:      req.Name,
+		Method:    req.Method,
+		Traceable: req.Traceable,
+		Status:    req.Status,
+		Children:  nil,
+	}
 
-	return
+	out, err := l.svcCtx.PermissionRpc.AddApi(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	return convertApiTypes(out.Api), nil
 }

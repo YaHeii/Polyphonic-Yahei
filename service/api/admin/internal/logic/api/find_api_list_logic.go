@@ -8,6 +8,7 @@ import (
 
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/svc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/types"
+	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/permissionrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -28,7 +29,27 @@ func NewFindApiListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindA
 }
 
 func (l *FindApiListLogic) FindApiList(req *types.QueryApiReq) (resp *types.PageResp, err error) {
-	// todo: add your logic here and delete this line
+	in := &permissionrpc.FindApiListReq{
+		Name:   req.Name,
+		Path:   req.Path,
+		Method: req.Method,
+	}
 
-	return
+	out, err := l.svcCtx.PermissionRpc.FindApiList(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	var list []*types.ApiBackVO
+	for _, v := range out.List {
+		m := convertApiTypes(v)
+		list = append(list, m)
+	}
+
+	resp = &types.PageResp{}
+	resp.Page = 0
+	resp.PageSize = int64(len(list))
+	resp.Total = int64(len(list))
+	resp.List = list
+	return resp, nil
 }
