@@ -8,6 +8,7 @@ import (
 
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/svc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/types"
+	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/articlerpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -28,7 +29,15 @@ func NewAddCategoryLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddCa
 }
 
 func (l *AddCategoryLogic) AddCategory(req *types.NewCategoryReq) (resp *types.CategoryBackVO, err error) {
-	// todo: add your logic here and delete this line
+	in := &articlerpc.AddCategoryReq{
+		Id:           req.Id,
+		CategoryName: req.CategoryName,
+	}
 
-	return
+	out, err := l.svcCtx.ArticleRpc.AddCategory(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	return convertCategoryTypes(out.Category), nil
 }
