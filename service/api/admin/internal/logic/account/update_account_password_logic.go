@@ -8,6 +8,7 @@ import (
 
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/svc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/types"
+	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/accountrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -28,7 +29,15 @@ func NewUpdateAccountPasswordLogic(ctx context.Context, svcCtx *svc.ServiceConte
 }
 
 func (l *UpdateAccountPasswordLogic) UpdateAccountPassword(req *types.UpdateAccountPasswordReq) (resp *types.EmptyResp, err error) {
-	// todo: add your logic here and delete this line
+	in := &accountrpc.AdminResetUserPasswordReq{
+		UserId:   req.UserId,
+		Password: req.Password,
+	}
 
-	return
+	_, err = l.svcCtx.AccountRpc.AdminResetUserPassword(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	return &types.EmptyResp{}, nil
 }
