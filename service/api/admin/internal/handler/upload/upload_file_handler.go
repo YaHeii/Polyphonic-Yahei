@@ -22,7 +22,7 @@ func UploadFileHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := upload.NewUploadFileLogic(r.Context(), svcCtx)
-		resp, err := l.UploadFile(&req)
+		resp, err := l.UploadFile(&req, r)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 		} else {

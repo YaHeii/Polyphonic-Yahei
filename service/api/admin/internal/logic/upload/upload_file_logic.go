@@ -5,6 +5,7 @@ package upload
 
 import (
 	"context"
+	"net/http"
 
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/svc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/types"
@@ -27,8 +28,11 @@ func NewUploadFileLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Upload
 	}
 }
 
-func (l *UploadFileLogic) UploadFile(req *types.UploadFileReq) (resp *types.FileInfoVO, err error) {
-	// todo: add your logic here and delete this line
+func (l *UploadFileLogic) UploadFile(req *types.UploadFileReq, r *http.Request) (resp *types.FileInfoVO, err error) {
+	_, header, err := r.FormFile("file")
+	if err != nil {
+		return nil, err
+	}
 
-	return
+	return uploadMultipartFile(l.ctx, l.svcCtx.Uploader, l.svcCtx.SyslogRpc, req.FilePath, header)
 }

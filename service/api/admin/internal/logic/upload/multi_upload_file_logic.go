@@ -5,6 +5,7 @@ package upload
 
 import (
 	"context"
+	"net/http"
 
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/svc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/types"
@@ -27,8 +28,22 @@ func NewMultiUploadFileLogic(ctx context.Context, svcCtx *svc.ServiceContext) *M
 	}
 }
 
-func (l *MultiUploadFileLogic) MultiUploadFile(req *types.MultiUploadFileReq) (resp []*types.FileInfoVO, err error) {
-	// todo: add your logic here and delete this line
+func (l *MultiUploadFileLogic) MultiUploadFile(req *types.MultiUploadFileReq, r *http.Request) (resp []*types.FileInfoVO, err error) {
+	if r.MultipartForm == nil {
+		if err := r.ParseMultipartForm(32 << 20); err != nil {
+			return nil, err
+		}
+	}
 
-	return
+	files := r.MultipartForm.File["files"]
+	resp = make([]*types.FileInfoVO, 0, len(files))
+	for _, header := range files {
+		info, err := uploadMultipartFile(l.ctx, l.svcCtx.Uploader, l.svcCtx.SyslogRpc, req.FilePath, header)
+		if err != nil {
+			return nil, err
+		}
+		resp = append(resp, info)
+	}
+
+	return resp, nil
 }

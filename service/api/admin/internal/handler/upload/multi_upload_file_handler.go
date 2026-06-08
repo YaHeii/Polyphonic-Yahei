@@ -22,7 +22,7 @@ func MultiUploadFileHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := upload.NewMultiUploadFileLogic(r.Context(), svcCtx)
-		resp, err := l.MultiUploadFile(&req)
+		resp, err := l.MultiUploadFile(&req, r)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 		} else {

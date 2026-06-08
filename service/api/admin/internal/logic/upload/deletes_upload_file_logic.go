@@ -28,7 +28,13 @@ func NewDeletesUploadFileLogic(ctx context.Context, svcCtx *svc.ServiceContext) 
 }
 
 func (l *DeletesUploadFileLogic) DeletesUploadFile(req *types.DeletesUploadFileReq) (resp *types.BatchResp, err error) {
-	// todo: add your logic here and delete this line
+	for _, filePath := range req.FilePaths {
+		if err := l.svcCtx.Uploader.DeleteFile(filePath); err != nil {
+			return nil, err
+		}
+	}
 
-	return
+	return &types.BatchResp{
+		SuccessCount: int64(len(req.FilePaths)),
+	}, nil
 }

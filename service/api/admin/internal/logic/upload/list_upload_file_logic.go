@@ -28,7 +28,27 @@ func NewListUploadFileLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Li
 }
 
 func (l *ListUploadFileLogic) ListUploadFile(req *types.ListUploadFileReq) (resp *types.PageResp, err error) {
-	// todo: add your logic here and delete this line
+	files, err := l.svcCtx.Uploader.ListFiles(req.FilePath, int(req.Limit))
+	if err != nil {
+		return nil, err
+	}
 
-	return
+	list := make([]*types.FileInfoVO, 0, len(files))
+	for _, file := range files {
+		list = append(list, &types.FileInfoVO{
+			FilePath:  file.FilePath,
+			FileName:  file.FileName,
+			FileType:  file.FileType,
+			FileSize:  file.FileSize,
+			FileUrl:   file.FileUrl,
+			UpdatedAt: file.UpTime,
+		})
+	}
+
+	return &types.PageResp{
+		Page:     1,
+		PageSize: req.Limit,
+		Total:    int64(len(list)),
+		List:     list,
+	}, nil
 }
