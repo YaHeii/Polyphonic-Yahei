@@ -6,8 +6,11 @@ package website
 import (
 	"context"
 
+	"github.com/YaHeii/Polyphonic-Yahei/common/constant"
+	"github.com/YaHeii/Polyphonic-Yahei/pkg/utils/jsonconv"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/svc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/types"
+	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/configrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -28,7 +31,17 @@ func NewGetAboutMeLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetAbo
 }
 
 func (l *GetAboutMeLogic) GetAboutMe(req *types.EmptyReq) (resp *types.AboutMeVO, err error) {
-	// todo: add your logic here and delete this line
+	out, err := l.svcCtx.ConfigRpc.FindConfig(l.ctx, &configrpc.FindConfigReq{
+		ConfigKey: constant.ConfigKeyAboutMe,
+	})
+	if err != nil {
+		return nil, err
+	}
 
-	return
+	resp = &types.AboutMeVO{}
+	if err := jsonconv.JsonToAny(out.ConfigValue, resp); err != nil {
+		return nil, err
+	}
+
+	return resp, nil
 }

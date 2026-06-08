@@ -6,6 +6,7 @@ package website
 import (
 	"context"
 
+	"github.com/YaHeii/Polyphonic-Yahei/pkg/utils/systemx"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/svc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/types"
 
@@ -28,7 +29,17 @@ func NewGetSystemStateLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Ge
 }
 
 func (l *GetSystemStateLogic) GetSystemState(req *types.EmptyReq) (resp *types.Server, err error) {
-	// todo: add your logic here and delete this line
+	server := &types.Server{}
+	server.Os = systemx.InitOS()
+	if server.Cpu, err = systemx.InitCPU(); err != nil {
+		return server, err
+	}
+	if server.Ram, err = systemx.InitRAM(); err != nil {
+		return server, err
+	}
+	if server.Disk, err = systemx.InitDisk(); err != nil {
+		return server, err
+	}
 
-	return
+	return server, nil
 }

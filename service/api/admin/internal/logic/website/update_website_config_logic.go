@@ -6,8 +6,11 @@ package website
 import (
 	"context"
 
+	"github.com/YaHeii/Polyphonic-Yahei/common/constant"
+	"github.com/YaHeii/Polyphonic-Yahei/pkg/utils/jsonconv"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/svc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/types"
+	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/configrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -28,7 +31,13 @@ func NewUpdateWebsiteConfigLogic(ctx context.Context, svcCtx *svc.ServiceContext
 }
 
 func (l *UpdateWebsiteConfigLogic) UpdateWebsiteConfig(req *types.WebsiteConfigVO) (resp *types.EmptyResp, err error) {
-	// todo: add your logic here and delete this line
+	_, err = l.svcCtx.ConfigRpc.SaveConfig(l.ctx, &configrpc.SaveConfigReq{
+		ConfigKey:   constant.ConfigKeyWebsite,
+		ConfigValue: jsonconv.AnyToJsonNE(req),
+	})
+	if err != nil {
+		return nil, err
+	}
 
-	return
+	return &types.EmptyResp{}, nil
 }

@@ -6,6 +6,7 @@ type (
 	PageReq       = accountrpc.PageReq
 	PageResp      = accountrpc.PageResp
 	User          = accountrpc.User
+	UserArea      = accountrpc.UserArea
 	UserInfo      = accountrpc.UserInfo
 	UserRoleLabel = accountrpc.UserRoleLabel
 	UserOauthInfo = accountrpc.UserOauthInfo

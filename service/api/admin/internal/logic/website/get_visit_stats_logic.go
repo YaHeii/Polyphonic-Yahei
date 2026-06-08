@@ -8,6 +8,7 @@ import (
 
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/svc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/types"
+	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/websiterpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -28,7 +29,17 @@ func NewGetVisitStatsLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Get
 }
 
 func (l *GetVisitStatsLogic) GetVisitStats(req *types.EmptyReq) (resp *types.GetVisitStatsResp, err error) {
-	// todo: add your logic here and delete this line
+	out, err := l.svcCtx.WebsiteRpc.AnalysisVisit(l.ctx, &websiterpc.AnalysisVisitReq{})
+	if err != nil {
+		return nil, err
+	}
 
-	return
+	return &types.GetVisitStatsResp{
+		TodayUvCount: out.TodayUvCount,
+		TotalUvCount: out.TotalUvCount,
+		UvGrowthRate: out.UvGrowthRate,
+		TodayPvCount: out.TodayPvCount,
+		TotalPvCount: out.TotalPvCount,
+		PvGrowthRate: out.PvGrowthRate,
+	}, nil
 }

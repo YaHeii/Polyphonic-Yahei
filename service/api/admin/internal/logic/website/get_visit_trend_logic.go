@@ -8,6 +8,7 @@ import (
 
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/svc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/types"
+	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/websiterpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -28,7 +29,15 @@ func NewGetVisitTrendLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Get
 }
 
 func (l *GetVisitTrendLogic) GetVisitTrend(req *types.GetVisitTrendReq) (resp *types.GetVisitTrendResp, err error) {
-	// todo: add your logic here and delete this line
+	out, err := l.svcCtx.WebsiteRpc.FindVisitTrend(l.ctx, &websiterpc.FindVisitTrendReq{
+		StartDate: req.StartDate,
+		EndDate:   req.EndDate,
+	})
+	if err != nil {
+		return nil, err
+	}
 
-	return
+	return &types.GetVisitTrendResp{
+		VisitTrend: mergeVisitTrend(out.PvTrend, out.UvTrend),
+	}, nil
 }
