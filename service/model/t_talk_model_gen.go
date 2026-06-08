@@ -11,7 +11,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/lib/pq"
 	"github.com/zeromicro/go-zero/core/stores/builder"
 	"github.com/zeromicro/go-zero/core/stores/cache"
 	"github.com/zeromicro/go-zero/core/stores/sqlc"
@@ -42,15 +41,24 @@ type (
 	}
 
 	TTalk struct {
-		Id        int64          `db:"id"`         // 说说id
-		UserId    string         `db:"user_id"`    // 用户id
-		Content   string         `db:"content"`    // 说说内容
-		Images    pq.StringArray `db:"images"`     // 图片
-		IsTop     bool           `db:"is_top"`     // 是否置顶
-		Status    int64          `db:"status"`     // 状态 1.公开 2.私密
-		LikeCount int64          `db:"like_count"` // 点赞数
-		CreatedAt time.Time      `db:"created_at"` // 创建时间
-		UpdatedAt time.Time      `db:"updated_at"` // 更新时间
+		Id int64 `db:"id"` // 说说id
+
+		UserId string `db:"user_id"` // 用户id
+
+		Content string `db:"content"` // 说说内容
+
+		Images []string `db:"images"` // 图片
+
+		IsTop bool `db:"is_top"` // 是否置顶
+
+		Status int64 `db:"status"` // 状态 1.公开 2.私密
+
+		LikeCount int64 `db:"like_count"` // 点赞数
+
+		CreatedAt time.Time `db:"created_at"` // 创建时间
+
+		UpdatedAt time.Time `db:"updated_at"` // 更新时间
+
 	}
 )
 

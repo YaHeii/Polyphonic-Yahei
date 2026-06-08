@@ -11,7 +11,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/lib/pq"
 	"github.com/zeromicro/go-zero/core/stores/builder"
 	"github.com/zeromicro/go-zero/core/stores/cache"
 	"github.com/zeromicro/go-zero/core/stores/sqlc"
@@ -42,23 +41,40 @@ type (
 	}
 
 	TArticle struct {
-		Id             int64          `db:"id"`              // id
-		UserId         string         `db:"user_id"`         // 作者
-		CategoryId     int64          `db:"category_id"`     // 文章分类
-		ArticleCover   string         `db:"article_cover"`   // 文章缩略图
-		ArticleTitle   string         `db:"article_title"`   // 标题
-		ArticleContent string         `db:"article_content"` // 内容
-		ArticleType    int64          `db:"article_type"`    // 文章类型 1原创 2转载 3翻译
-		OriginalUrl    string         `db:"original_url"`    // 原文链接
-		Tags           pq.StringArray `db:"tags"`            // 标签列表
-		Metadata       string         `db:"metadata"`        // 文章扩展元数据
-		IsTop          bool           `db:"is_top"`          // 是否置顶 0否 1是
-		IsDelete       bool           `db:"is_delete"`       // 是否删除 0否 1是
-		Status         int64          `db:"status"`          // 状态值 1公开 2私密 3草稿 4评论可见
-		LikeCount      int64          `db:"like_count"`      // 点赞数
-		ViewCount      int64          `db:"view_count"`      // 查看数
-		CreatedAt      time.Time      `db:"created_at"`      // 发表时间
-		UpdatedAt      time.Time      `db:"updated_at"`      // 更新时间
+		Id int64 `db:"id"` // id
+
+		UserId string `db:"user_id"` // 作者
+
+		CategoryId int64 `db:"category_id"` // 文章分类
+
+		ArticleCover string `db:"article_cover"` // 文章缩略图
+
+		ArticleTitle string `db:"article_title"` // 标题
+
+		ArticleContent string `db:"article_content"` // 内容
+
+		ArticleType int64 `db:"article_type"` // 文章类型 1原创 2转载 3翻译
+
+		OriginalUrl string `db:"original_url"` // 原文链接
+
+		Tags []string `db:"tags"` // 标签列表
+
+		Metadata string `db:"metadata"` // 文章扩展元数据
+
+		IsTop bool `db:"is_top"` // 是否置顶 0否 1是
+
+		IsDelete bool `db:"is_delete"` // 是否删除 0否 1是
+
+		Status int64 `db:"status"` // 状态值 1公开 2私密 3草稿 4评论可见
+
+		LikeCount int64 `db:"like_count"` // 点赞数
+
+		ViewCount int64 `db:"view_count"` // 查看数
+
+		CreatedAt time.Time `db:"created_at"` // 发表时间
+
+		UpdatedAt time.Time `db:"updated_at"` // 更新时间
+
 	}
 )
 
