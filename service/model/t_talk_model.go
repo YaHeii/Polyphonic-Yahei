@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/lib/pq"
 	"github.com/zeromicro/go-zero/core/stores/cache"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 )
@@ -73,7 +72,7 @@ func (m *customTTalkModel) FindListAndTotal(ctx context.Context, page int, size 
 
 func (m *customTTalkModel) Save(ctx context.Context, data *TTalk) (int64, error) {
 	if data.Images == nil {
-		data.Images = pq.StringArray{}
+		data.Images = []string{}
 	}
 
 	if data.Id > 0 {

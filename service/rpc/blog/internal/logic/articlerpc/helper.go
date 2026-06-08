@@ -3,7 +3,6 @@ package articlerpclogic
 import (
 	"context"
 
-	"github.com/lib/pq"
 	"github.com/spf13/cast"
 	"github.com/zeromicro/go-zero/core/logx"
 
@@ -238,7 +237,7 @@ func (l *ArticleHelperLogic) convertArticleQuery(in *articlerpc.FindArticleListR
 	}
 
 	if len(in.Ids) > 0 {
-		opts = append(opts, query.WithCondition("id = any(?)", pq.Array(in.Ids)))
+		opts = append(opts, query.WithCondition("id = any(?)", in.Ids))
 	}
 
 	if in.IsTop != nil {
@@ -269,7 +268,7 @@ func (l *ArticleHelperLogic) convertArticleQuery(in *articlerpc.FindArticleListR
 	}
 
 	if in.TagName != "" {
-		opts = append(opts, query.WithCondition("tags @> ?", pq.StringArray{in.TagName}))
+		opts = append(opts, query.WithCondition("tags @> ?", []string{in.TagName}))
 	}
 
 	return query.NewQueryBuilder(opts...).Build()

@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/lib/pq"
 	"github.com/zeromicro/go-zero/core/stores/cache"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 )
@@ -52,7 +51,7 @@ func (m *customTArticleModel) FindByIds(ctx context.Context, ids []int64) ([]*TA
 
 	query := fmt.Sprintf("select %s from %s where id = any($1)", tArticleRows, m.table)
 	var list []*TArticle
-	if err := m.QueryRowsNoCacheCtx(ctx, &list, query, pq.Array(ids)); err != nil {
+	if err := m.QueryRowsNoCacheCtx(ctx, &list, query, ids); err != nil {
 		return nil, err
 	}
 
@@ -187,7 +186,7 @@ func (m *customTArticleModel) CountGroupByCategoryIDs(ctx context.Context, ids [
 		ArticleCount int64 `db:"article_count"`
 	}
 	query := fmt.Sprintf("select category_id, count(*) as article_count from %s where category_id = any($1) group by category_id order by category_id", m.table)
-	if err := m.QueryRowsNoCacheCtx(ctx, &rows, query, pq.Array(ids)); err != nil {
+	if err := m.QueryRowsNoCacheCtx(ctx, &rows, query, ids); err != nil {
 		return nil, err
 	}
 
@@ -212,7 +211,7 @@ from (select unnest(tags) as tag_name from %s) t
 where tag_name = any($1)
 group by tag_name
 order by tag_name`, m.table)
-	if err := m.QueryRowsNoCacheCtx(ctx, &rows, query, pq.Array(names)); err != nil {
+	if err := m.QueryRowsNoCacheCtx(ctx, &rows, query, names); err != nil {
 		return nil, err
 	}
 

@@ -1,8 +1,6 @@
 package socialrpclogic
 
 import (
-	"github.com/lib/pq"
-
 	"github.com/YaHeii/Polyphonic-Yahei/common/enums"
 	"github.com/YaHeii/Polyphonic-Yahei/service/model"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/internal/common/query"
@@ -58,7 +56,7 @@ func convertAddTalkIn(in *socialrpc.AddTalkReq) *model.TTalk {
 		Id:      in.Id,
 		UserId:  in.UserId,
 		Content: in.Content,
-		Images:  pq.StringArray(in.ImgList),
+		Images:  append([]string(nil), in.ImgList...),
 		IsTop:   in.IsTop,
 		Status:  in.Status,
 	}
@@ -69,7 +67,7 @@ func convertUpdateTalkIn(in *socialrpc.UpdateTalkReq) *model.TTalk {
 		Id:      in.Id,
 		UserId:  in.UserId,
 		Content: in.Content,
-		Images:  pq.StringArray(in.ImgList),
+		Images:  append([]string(nil), in.ImgList...),
 		IsTop:   in.IsTop,
 		Status:  in.Status,
 	}
