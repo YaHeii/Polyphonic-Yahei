@@ -1,12 +1,26 @@
 # lib/pq 到 pgx 的 model 重构执行清单
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use markdown checkboxes for tracking.
 
 **Goal:** 彻底移除仓库中的 `github.com/lib/pq` 依赖，并让 `goctl model pg datasource` 的生成链路稳定输出 `pgx` 兼容的原生切片类型。
 
 **Architecture:** 本次重构不修改数据库 schema，只处理 Go 侧的类型映射、参数编码和代码生成模板。生成链路通过仓库内自定义 `goctl` SQL model 模板接管，业务层统一收敛到原生切片，不向外扩散 `pgtype`。
 
 **Tech Stack:** Go, goctl 1.10.1, go-zero sqlx, PostgreSQL, pgx/v5 stdlib
+
+**Status:** 已完成（2026-06-09）。
+
+## 最终结果
+
+- `makefile` 已通过 `GOCTL_TEMPLATE_HOME := ./.goctl` 接入仓库内模板，并在三处 `goctl model pg datasource` 命令上统一增加 `--home="$(GOCTL_TEMPLATE_HOME)"`
+- `.goctl/model/field.tpl` 已将 goctl 上游内部类型名 `pq.StringArray` / `pq.Int64Array` / `pq.Float64Array` 映射为原生切片；`import.tpl` 与 `import-no-cache.tpl` 已去掉 `github.com/lib/pq`
+- `service/model/*.go` generated file 与 handwritten file、`service/rpc/blog/internal/logic/*` 中的数组字段与数组参数均已迁移为原生切片
+- `go.mod` / `go.sum` 中已移除 `github.com/lib/pq`
+- 最终验证已通过：
+  - `make goctl-model-all`
+  - `env GOCACHE=/tmp/go-build go build ./service/model/... ./service/rpc/blog/...`
+  - `env GOCACHE=/tmp/go-build go test ./service/api/admin/infra/responsex -count=1`
+- 当前代码路径中，`pq.*Array` 只保留在 `.goctl/model/field.tpl` 的字符串判断里，用于兼容 goctl v1.10.1 上游 converter 暴露的内部类型名；这不是项目运行时依赖
 
 ---
 
@@ -18,19 +32,19 @@
   - 接入仓库内自定义模板目录
   - 确保 `goctl model pg datasource` regenerate 稳定复现
 
-- `hack/goctl-template/model/sql/template/tpl/types.tpl`
+- `.goctl/model/types.tpl`
   - 生成 model struct 外壳
   - 不直接决定字段类型，但属于模板链路必要组成
 
-- `hack/goctl-template/model/sql/template/tpl/field.tpl`
+- `.goctl/model/field.tpl`
   - 输出单个 struct 字段
-  - 当前默认模板直接输出 `{{.type}}`
+  - 上游默认模板直接输出 `{{.type}}`
 
-- `hack/goctl-template/model/sql/template/tpl/import.tpl`
+- `.goctl/model/import.tpl`
   - 控制 generated model 的 import
-  - 当前默认模板通过 `.containsPQ` 条件引入 `github.com/lib/pq`
+  - 上游默认模板通过 `.containsPQ` 条件引入 `github.com/lib/pq`
 
-- `hack/goctl-template/model/sql/template/tpl/import-no-cache.tpl`
+- `.goctl/model/import-no-cache.tpl`
   - 无缓存版本 import 模板
   - 需要与 `import.tpl` 保持一致
 
@@ -68,7 +82,7 @@
 这些文件承担：
 
 - 将 `?` 条件转换为 PostgreSQL 占位符
-- 当前通过 `pq.Array(...)` 做数组参数编码
+- 迁移前通过 `pq.Array(...)` 做数组参数编码
 
 ### 5. RPC logic 文件
 
@@ -79,7 +93,7 @@
 这些文件承担：
 
 - 构造 model 输入
-- 直接使用 `pq.StringArray(...)` 或 `pq.Array(...)`
+- 迁移前直接使用 `pq.StringArray(...)` 或 `pq.Array(...)`
 
 ## 执行策略
 
@@ -99,13 +113,13 @@
 ## Task 1: 建立 goctl 模板接管点
 
 **Files:**
-- Create: `hack/goctl-template/model/sql/template/tpl/types.tpl`
-- Create: `hack/goctl-template/model/sql/template/tpl/field.tpl`
-- Create: `hack/goctl-template/model/sql/template/tpl/import.tpl`
-- Create: `hack/goctl-template/model/sql/template/tpl/import-no-cache.tpl`
+- Modify: `.goctl/model/types.tpl`
+- Modify: `.goctl/model/field.tpl`
+- Modify: `.goctl/model/import.tpl`
+- Modify: `.goctl/model/import-no-cache.tpl`
 - Modify: `makefile`
 
-- [ ] **Step 1: 复制 goctl 默认 SQL model 模板到仓库内**
+- [x] **Step 1: 复制 goctl 默认 SQL model 模板到仓库内**
 
 复制来源：
 
@@ -117,18 +131,18 @@
 目标目录：
 
 ```text
-hack/goctl-template/model/sql/template/tpl/
+.goctl/model/
 ```
 
-- [ ] **Step 2: 在 `makefile` 中增加模板目录变量**
+- [x] **Step 2: 在 `makefile` 中增加模板目录变量**
 
 在现有变量区增加：
 
 ```make
-GOCTL_TEMPLATE_HOME := ./hack/goctl-template
+GOCTL_TEMPLATE_HOME := ./.goctl
 ```
 
-- [ ] **Step 3: 给所有 `goctl model pg datasource` 命令增加 `--home`**
+- [x] **Step 3: 给所有 `goctl model pg datasource` 命令增加 `--home`**
 
 目标命令：
 
@@ -142,7 +156,7 @@ GOCTL_TEMPLATE_HOME := ./hack/goctl-template
 --home="$(GOCTL_TEMPLATE_HOME)"
 ```
 
-- [ ] **Step 4: 验证模板接管已生效**
+- [x] **Step 4: 验证模板接管已生效**
 
 Run:
 
@@ -154,23 +168,23 @@ Expected:
 
 - `goctl model pg datasource` 三处命令都带有 `--home="$(GOCTL_TEMPLATE_HOME)"`
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
-git add makefile hack/goctl-template/model/sql/template/tpl
+git add makefile .goctl/model
 git commit -m "chore: wire local goctl model templates"
 ```
 
 ## Task 2: 验证模板能否控制数组字段输出
 
 **Files:**
-- Modify: `hack/goctl-template/model/sql/template/tpl/field.tpl`
-- Modify: `hack/goctl-template/model/sql/template/tpl/import.tpl`
-- Modify: `hack/goctl-template/model/sql/template/tpl/import-no-cache.tpl`
+- Modify: `.goctl/model/field.tpl`
+- Modify: `.goctl/model/import.tpl`
+- Modify: `.goctl/model/import-no-cache.tpl`
 - Regenerate: `service/model/t_article_model_gen.go`
 - Regenerate: `service/model/t_talk_model_gen.go`
 
-- [ ] **Step 1: 检查模板上下文是否只暴露 `.type`**
+- [x] **Step 1: 检查模板上下文是否只暴露 `.type`**
 
 当前 `field.tpl` 默认内容：
 
@@ -183,7 +197,7 @@ git commit -m "chore: wire local goctl model templates"
 - 若模板只能拿到 `.type`，则后续需要基于 `.type` 条件替换
 - 若模板还能拿到列原始类型信息，则优先按原始类型判断
 
-- [ ] **Step 2: 在模板中为数组类型增加受控输出**
+- [x] **Step 2: 在模板中为数组类型增加受控输出**
 
 目标输出策略：
 
@@ -191,7 +205,7 @@ git commit -m "chore: wire local goctl model templates"
 
 如果模板只能看到 `.type`，则先做最小兼容判断，确保 `text[]` 至少能转成 `[]string`。
 
-- [ ] **Step 3: 从 import 模板中去掉 `lib/pq` 引入**
+- [x] **Step 3: 从 import 模板中去掉 `lib/pq` 引入**
 
 修改：
 
@@ -202,12 +216,12 @@ git commit -m "chore: wire local goctl model templates"
 
 - 生成结果中不再出现 `github.com/lib/pq`
 
-- [ ] **Step 4: 重新生成 `t_article` / `t_talk` 做第一轮验证**
+- [x] **Step 4: 重新生成 `t_article` / `t_talk` 做第一轮验证**
 
 Run:
 
 ```bash
-goctl model pg datasource --home="./hack/goctl-template" --url="$(PG_DSN)" --table="t_article,t_talk" --dir="./service/model" --cache --style="go_zero"
+goctl model pg datasource --home="./.goctl" --url="$(PG_DSN)" --table="t_article,t_talk" --dir="./service/model" --cache --style="go_zero"
 ```
 
 Expected:
@@ -216,10 +230,10 @@ Expected:
 - `service/model/t_talk_model_gen.go` 中 `Images` 为 `[]string`
 - generated import 中无 `github.com/lib/pq`
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
-git add hack/goctl-template/model/sql/template/tpl service/model/t_article_model_gen.go service/model/t_talk_model_gen.go
+git add .goctl/model service/model/t_article_model_gen.go service/model/t_talk_model_gen.go
 git commit -m "chore: make goctl pg model arrays use slices"
 ```
 
@@ -231,14 +245,14 @@ git commit -m "chore: make goctl pg model arrays use slices"
 - Modify: `service/rpc/blog/internal/logic/articlerpc/helper.go`
 - Modify: `service/rpc/blog/internal/logic/socialrpc/helper.go`
 
-- [ ] **Step 1: 将 `pq.StringArray` 构造改为原生切片**
+- [x] **Step 1: 将 `pq.StringArray` 构造改为原生切片**
 
 目标替换：
 
 - `pq.StringArray{}` -> `[]string{}`
 - `pq.StringArray(in.ImgList)` -> `append([]string(nil), in.ImgList...)`
 
-- [ ] **Step 2: 将 `pq.Array(...)` 参数改为直接切片参数**
+- [x] **Step 2: 将 `pq.Array(...)` 参数改为直接切片参数**
 
 目标替换：
 
@@ -249,13 +263,13 @@ git commit -m "chore: make goctl pg model arrays use slices"
 
 - 保持 SQL 仍使用 `any($1)` / `@>` 等 PostgreSQL 原生数组写法
 
-- [ ] **Step 3: 清理 import**
+- [x] **Step 3: 清理 import**
 
 要求：
 
 - 上述四个文件中不再引用 `github.com/lib/pq`
 
-- [ ] **Step 4: 运行局部编译验证**
+- [x] **Step 4: 运行局部编译验证**
 
 Run:
 
@@ -267,7 +281,7 @@ Expected:
 
 - 编译通过
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add service/model/t_article_model.go service/model/t_talk_model.go service/rpc/blog/internal/logic/articlerpc/helper.go service/rpc/blog/internal/logic/socialrpc/helper.go
@@ -289,20 +303,20 @@ git commit -m "refactor: migrate article and talk arrays to slices"
 - Modify: `service/model/t_tag_model.go`
 - Modify: `service/rpc/blog/internal/logic/articlerpc/deletes_tag_logic.go`
 
-- [ ] **Step 1: 逐文件替换 `pq.Array(...)`**
+- [x] **Step 1: 逐文件替换 `pq.Array(...)`**
 
 统一策略：
 
 - 所有 `[]int64` / `[]string` 直接作为参数传入
 - 不修改 SQL 语义，只处理 Go 侧参数编码
 
-- [ ] **Step 2: 清理 `github.com/lib/pq` import**
+- [x] **Step 2: 清理 `github.com/lib/pq` import**
 
 要求：
 
 - 本任务涉及文件中不再出现 `lib/pq`
 
-- [ ] **Step 3: 运行局部搜索确认 handwritten 使用面归零**
+- [x] **Step 3: 运行局部搜索确认 handwritten 使用面归零**
 
 Run:
 
@@ -314,7 +328,7 @@ Expected:
 
 - 只允许剩余 generated 文件命中；如果 handwritten 还有命中，继续清理
 
-- [ ] **Step 4: 运行 model 与 RPC 编译验证**
+- [x] **Step 4: 运行 model 与 RPC 编译验证**
 
 Run:
 
@@ -326,7 +340,7 @@ Expected:
 
 - 编译通过
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add service/model service/rpc/blog/internal/logic/articlerpc/deletes_tag_logic.go
@@ -340,7 +354,7 @@ git commit -m "refactor: remove pq array helpers from handwritten code"
 - Modify: `go.mod`
 - Modify: `go.sum`
 
-- [ ] **Step 1: 执行全量 model regenerate**
+- [x] **Step 1: 执行全量 model regenerate**
 
 Run:
 
@@ -353,7 +367,7 @@ Expected:
 - 所有 model generated file 使用仓库模板生成
 - 不重新引入 `lib/pq`
 
-- [ ] **Step 2: 运行全仓搜索确认 `lib/pq` 使用归零**
+- [x] **Step 2: 运行全仓搜索确认 `lib/pq` 使用归零**
 
 Run:
 
@@ -365,7 +379,7 @@ Expected:
 
 - 无结果
 
-- [ ] **Step 3: 执行依赖整理**
+- [x] **Step 3: 执行依赖整理**
 
 Run:
 
@@ -377,7 +391,7 @@ Expected:
 
 - `go.mod` / `go.sum` 中不再包含 `github.com/lib/pq`
 
-- [ ] **Step 4: 运行回归编译验证**
+- [x] **Step 4: 运行回归编译验证**
 
 Run:
 
@@ -389,10 +403,10 @@ Expected:
 
 - 编译通过
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
-git add go.mod go.sum service/model makefile hack/goctl-template
+git add go.mod go.sum service/model makefile .goctl/model
 git commit -m "refactor: remove libpq from postgres model stack"
 ```
 
@@ -402,7 +416,7 @@ git commit -m "refactor: remove libpq from postgres model stack"
 - Modify: `docs/libpq-to-pgx-model-refactor-plan.md`
 - Modify: `docs/libpq-to-pgx-model-refactor-checklist.md`
 
-- [ ] **Step 1: 记录最终模板接入方式**
+- [x] **Step 1: 记录最终模板接入方式**
 
 补充内容：
 
@@ -410,14 +424,14 @@ git commit -m "refactor: remove libpq from postgres model stack"
 - `makefile` 中的 `--home` 接法
 - regenerate 命令
 
-- [ ] **Step 2: 记录迁移后的类型约定**
+- [x] **Step 2: 记录迁移后的类型约定**
 
 补充内容：
 
 - PostgreSQL array 列统一使用原生切片
 - 不再允许在业务层使用 `pq.StringArray` / `pq.Array`
 
-- [ ] **Step 3: 运行最终验证命令**
+- [x] **Step 3: 运行最终验证命令**
 
 Run:
 
@@ -431,7 +445,7 @@ Expected:
 - 编译通过
 - 不因本次重构影响已改过的局部包
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add docs/libpq-to-pgx-model-refactor-plan.md docs/libpq-to-pgx-model-refactor-checklist.md

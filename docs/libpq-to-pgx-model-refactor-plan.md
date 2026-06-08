@@ -19,6 +19,23 @@ _ "github.com/jackc/pgx/v5/stdlib"
 - 去掉项目中的 `lib/pq` 参数编码依赖
 - 让 `goctl model pg datasource` 的生成链路在 regenerate 后也不再引入 `lib/pq`
 
+## 最终结果（2026-06-09）
+
+- 已在仓库内使用 `.goctl/model/` 接管 goctl SQL model 模板，并在 [`makefile`](../makefile) 中通过 `GOCTL_TEMPLATE_HOME := ./.goctl` 和 `--home="$(GOCTL_TEMPLATE_HOME)"` 接入
+- 已将 generated model 的 PostgreSQL array 字段统一收敛为原生切片，例如：
+  - `Tags []string`
+  - `Images []string`
+- 已将 handwritten model / query helper / RPC logic 中的 `pq.Array(...)`、`pq.StringArray(...)` 全部替换为直接切片参数或原生切片构造
+- 已从 `go.mod` / `go.sum` 中移除 `github.com/lib/pq`
+- 已通过以下验证：
+  - `make goctl-model-all`
+  - `env GOCACHE=/tmp/go-build go build ./service/model/... ./service/rpc/blog/...`
+  - `env GOCACHE=/tmp/go-build go test ./service/api/admin/infra/responsex -count=1`
+
+需要额外说明的一点是：`.goctl/model/field.tpl` 里仍然会按字符串匹配 `pq.StringArray` / `pq.Int64Array` / `pq.Float64Array`。这不是项目仍在依赖 `lib/pq`，而是因为 goctl v1.10.1 的 PostgreSQL type converter 会先把这些 array 列映射成上述内部类型名，模板层再把它们改写为原生切片。也就是说，`pq.*Array` 只剩生成器兼容用途，不再进入仓库运行时代码或模块依赖。
+
+下文保留的是实施前分析与方案记录，用于说明为什么本次重构要同时处理类型体系和模板链路。
+
 ## 目标
 
 完成后应满足以下状态：
@@ -162,7 +179,7 @@ _ "github.com/jackc/pgx/v5/stdlib"
 2. 建议目录位置：
 
 ```text
-hack/goctl-template/model/sql/template/tpl/
+.goctl/model/
 ```
 
 3. 重点修改以下模板：
@@ -203,7 +220,7 @@ hack/goctl-template/model/sql/template/tpl/
 1. 增加模板目录变量，例如：
 
 ```make
-GOCTL_TEMPLATE_HOME := ./hack/goctl-template
+GOCTL_TEMPLATE_HOME := ./.goctl
 ```
 
 2. 给 `goctl model pg datasource` 增加：
