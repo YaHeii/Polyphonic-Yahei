@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/lib/pq"
 	"github.com/zeromicro/go-zero/core/stores/cache"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 )
@@ -48,7 +47,7 @@ func (m *customTTagModel) FindByNames(ctx context.Context, names []string) ([]*T
 
 	query := fmt.Sprintf("select %s from %s where tag_name = any($1)", tTagRows, m.table)
 	var list []*TTag
-	if err := m.QueryRowsNoCacheCtx(ctx, &list, query, pq.Array(names)); err != nil {
+	if err := m.QueryRowsNoCacheCtx(ctx, &list, query, names); err != nil {
 		return nil, err
 	}
 

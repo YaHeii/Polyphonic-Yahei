@@ -5,7 +5,6 @@ import (
 
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/internal/pb/articlerpc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/internal/svc"
-	"github.com/lib/pq"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -26,7 +25,7 @@ func NewDeletesTagLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Delete
 
 // 删除标签
 func (l *DeletesTagLogic) DeletesTag(in *articlerpc.DeletesTagReq) (*articlerpc.DeletesTagResp, error) {
-	rows, err := l.svcCtx.TTagModel.Deletes(l.ctx, "id = any(?)", pq.Array(in.Ids))
+	rows, err := l.svcCtx.TTagModel.Deletes(l.ctx, "id = any(?)", in.Ids)
 	if err != nil {
 		return nil, err
 	}

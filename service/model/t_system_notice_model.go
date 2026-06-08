@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/lib/pq"
 	"github.com/zeromicro/go-zero/core/stores/cache"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 )
@@ -99,7 +98,7 @@ func buildSystemNoticeWhereClause(conditions string, args ...interface{}) (strin
 	for _, arg := range args {
 		switch v := arg.(type) {
 		case []int64:
-			normalizedArgs = append(normalizedArgs, pq.Array(v))
+			normalizedArgs = append(normalizedArgs, v)
 		default:
 			normalizedArgs = append(normalizedArgs, arg)
 		}

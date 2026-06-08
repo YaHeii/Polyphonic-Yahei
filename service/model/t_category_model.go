@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/lib/pq"
 	"github.com/zeromicro/go-zero/core/stores/cache"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 )
@@ -48,7 +47,7 @@ func (m *customTCategoryModel) FindByIds(ctx context.Context, ids []int64) ([]*T
 
 	query := fmt.Sprintf("select %s from %s where id = any($1)", tCategoryRows, m.table)
 	var list []*TCategory
-	if err := m.QueryRowsNoCacheCtx(ctx, &list, query, pq.Array(ids)); err != nil {
+	if err := m.QueryRowsNoCacheCtx(ctx, &list, query, ids); err != nil {
 		return nil, err
 	}
 

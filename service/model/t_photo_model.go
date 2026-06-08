@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/lib/pq"
 	"github.com/zeromicro/go-zero/core/stores/cache"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 )
@@ -165,7 +164,7 @@ func (m *customTPhotoModel) CountByAlbumIDs(ctx context.Context, ids []int64) (m
 		Total   int64 `db:"total"`
 	}
 	query := fmt.Sprintf("select album_id, count(*) as total from %s where album_id = any($1) and is_delete = false group by album_id", m.table)
-	if err := m.QueryRowsNoCacheCtx(ctx, &rows, query, pq.Array(ids)); err != nil {
+	if err := m.QueryRowsNoCacheCtx(ctx, &rows, query, ids); err != nil {
 		return nil, err
 	}
 

@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/lib/pq"
 	"github.com/zeromicro/go-zero/core/stores/cache"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 )
@@ -98,7 +97,7 @@ func (m *customTCommentModel) CountGroupByTopicIDs(ctx context.Context, topicIDs
 		Total   int64 `db:"total"`
 	}
 	query := fmt.Sprintf("select topic_id, count(*) as total from %s where topic_id = any($1) and type = $2 and status != 2 group by topic_id", m.table)
-	if err := m.QueryRowsNoCacheCtx(ctx, &rows, query, pq.Array(topicIDs), commentType); err != nil {
+	if err := m.QueryRowsNoCacheCtx(ctx, &rows, query, topicIDs, commentType); err != nil {
 		return nil, err
 	}
 
@@ -187,7 +186,7 @@ func buildCommentWhereClauseWithStartIndex(conditions string, start int, args ..
 	for _, arg := range args {
 		switch v := arg.(type) {
 		case []int64:
-			normalizedArgs = append(normalizedArgs, pq.Array(v))
+			normalizedArgs = append(normalizedArgs, v)
 		default:
 			normalizedArgs = append(normalizedArgs, arg)
 		}

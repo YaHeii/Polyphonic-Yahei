@@ -4,8 +4,6 @@ import (
 	"database/sql"
 	"fmt"
 	"strings"
-
-	"github.com/lib/pq"
 )
 
 func buildPermissionWhereClause(conditions string, args ...interface{}) (string, []interface{}) {
@@ -22,7 +20,7 @@ func buildPermissionWhereClauseWithStartIndex(conditions string, start int, args
 	for _, arg := range args {
 		switch v := arg.(type) {
 		case []int64:
-			normalizedArgs = append(normalizedArgs, pq.Array(v))
+			normalizedArgs = append(normalizedArgs, v)
 		default:
 			normalizedArgs = append(normalizedArgs, arg)
 		}
@@ -51,7 +49,7 @@ func rowsAffected(result sql.Result, err error) (int64, error) {
 
 func buildPermissionIDArray(ids []int64) interface{} {
 	if len(ids) == 0 {
-		return pq.Array([]int64{})
+		return []int64{}
 	}
-	return pq.Array(ids)
+	return ids
 }

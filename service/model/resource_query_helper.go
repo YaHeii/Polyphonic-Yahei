@@ -3,8 +3,6 @@ package model
 import (
 	"fmt"
 	"strings"
-
-	"github.com/lib/pq"
 )
 
 func buildResourceWhereClause(conditions string, args ...interface{}) (string, []interface{}) {
@@ -23,7 +21,7 @@ func buildResourceWhereClauseWithStartIndex(conditions string, start int, args .
 	for _, arg := range args {
 		switch v := arg.(type) {
 		case []int64:
-			normalizedArgs = append(normalizedArgs, pq.Array(v))
+			normalizedArgs = append(normalizedArgs, v)
 		default:
 			normalizedArgs = append(normalizedArgs, arg)
 		}
