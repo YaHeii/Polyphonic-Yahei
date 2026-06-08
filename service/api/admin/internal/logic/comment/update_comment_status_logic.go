@@ -8,6 +8,7 @@ import (
 
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/svc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/types"
+	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/newsrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -28,7 +29,13 @@ func NewUpdateCommentStatusLogic(ctx context.Context, svcCtx *svc.ServiceContext
 }
 
 func (l *UpdateCommentStatusLogic) UpdateCommentStatus(req *types.UpdateCommentStatusReq) (resp *types.BatchResp, err error) {
-	// todo: add your logic here and delete this line
+	out, err := l.svcCtx.NewsRpc.UpdateCommentStatus(l.ctx, &newsrpc.UpdateCommentStatusReq{
+		Ids:    req.Ids,
+		Status: req.Status,
+	})
+	if err != nil {
+		return nil, err
+	}
 
-	return
+	return &types.BatchResp{SuccessCount: out.SuccessCount}, nil
 }
