@@ -2,7 +2,7 @@ package album
 
 import (
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/types"
-	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/internal/pb/resourcerpc"
+	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/resourcerpc"
 )
 
 func convertAlbumTypes(out *resourcerpc.Album) *types.AlbumBackVO {

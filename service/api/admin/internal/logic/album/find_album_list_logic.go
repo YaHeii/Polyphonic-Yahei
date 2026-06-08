@@ -8,6 +8,7 @@ import (
 
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/svc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/types"
+	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/resourcerpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -28,7 +29,30 @@ func NewFindAlbumListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fin
 }
 
 func (l *FindAlbumListLogic) FindAlbumList(req *types.QueryAlbumReq) (resp *types.PageResp, err error) {
-	// todo: add your logic here and delete this line
+	in := &resourcerpc.FindAlbumListReq{
+		Paginate: &resourcerpc.PageReq{
+			Page:     req.Page,
+			PageSize: req.PageSize,
+			Sorts:    req.Sorts,
+		},
+		AlbumName: req.AlbumName,
+		IsDelete:  &req.IsDelete,
+	}
 
-	return
+	out, err := l.svcCtx.ResourceRpc.FindAlbumList(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	var list []*types.AlbumBackVO
+	for _, v := range out.List {
+		list = append(list, convertAlbumTypes(v))
+	}
+
+	resp = &types.PageResp{}
+	resp.Page = out.Pagination.Page
+	resp.PageSize = out.Pagination.PageSize
+	resp.Total = out.Pagination.Total
+	resp.List = list
+	return resp, nil
 }

@@ -8,6 +8,7 @@ import (
 
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/svc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/types"
+	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/resourcerpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -28,7 +29,14 @@ func NewGetAlbumLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetAlbum
 }
 
 func (l *GetAlbumLogic) GetAlbum(req *types.IdReq) (resp *types.AlbumBackVO, err error) {
-	// todo: add your logic here and delete this line
+	in := &resourcerpc.GetAlbumReq{
+		Id: req.Id,
+	}
 
-	return
+	out, err := l.svcCtx.ResourceRpc.GetAlbum(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	return convertAlbumTypes(out.Album), nil
 }

@@ -8,6 +8,7 @@ import (
 
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/svc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/types"
+	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/resourcerpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -28,7 +29,17 @@ func NewDeletesAlbumLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Dele
 }
 
 func (l *DeletesAlbumLogic) DeletesAlbum(req *types.IdsReq) (resp *types.BatchResp, err error) {
-	// todo: add your logic here and delete this line
+	in := &resourcerpc.DeletesAlbumReq{
+		Ids: req.Ids,
+	}
 
-	return
+	out, err := l.svcCtx.ResourceRpc.DeletesAlbum(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	resp = &types.BatchResp{
+		SuccessCount: out.SuccessCount,
+	}
+	return resp, nil
 }
