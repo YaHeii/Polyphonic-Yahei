@@ -8,6 +8,7 @@ import (
 
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/svc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/types"
+	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/articlerpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -28,7 +29,15 @@ func NewAddTagLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddTagLogi
 }
 
 func (l *AddTagLogic) AddTag(req *types.NewTagReq) (resp *types.TagBackVO, err error) {
-	// todo: add your logic here and delete this line
+	in := &articlerpc.AddTagReq{
+		Id:      req.Id,
+		TagName: req.TagName,
+	}
 
-	return
+	out, err := l.svcCtx.ArticleRpc.AddTag(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	return convertTagTypes(out.Tag), nil
 }
