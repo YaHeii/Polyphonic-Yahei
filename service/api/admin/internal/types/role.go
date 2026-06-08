@@ -9,7 +9,7 @@ type NewRoleReq struct {
 	RoleKey     string `json:"role_key"`           // 角色名
 	RoleLabel   string `json:"role_label"`         // 角色标签
 	RoleComment string `json:"role_comment"`       // 角色备注
-	IsDefault   int64  `json:"is_default"`         // 是否默认角色 0否 1是
+	IsDefault   bool   `json:"is_default"`         // 是否默认角色 0否 1是
 	Status      int64  `json:"status"`             // 状态 0正常 1禁用
 }
 
@@ -26,7 +26,7 @@ type RoleBackVO struct {
 	RoleKey     string `json:"role_key"`     // 角色名
 	RoleLabel   string `json:"role_label"`   // 角色标签
 	RoleComment string `json:"role_comment"` // 角色备注
-	IsDefault   int64  `json:"is_default"`   // 是否默认角色 0否 1是
+	IsDefault   bool   `json:"is_default"`   // 是否默认角色 0否 1是
 	Status      int64  `json:"status"`       // 状态 0正常 1禁用
 	CreatedAt   int64  `json:"created_at"`   // 创建时间
 	UpdatedAt   int64  `json:"updated_at"`   // 更新时间

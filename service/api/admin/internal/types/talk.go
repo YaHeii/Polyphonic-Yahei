@@ -7,7 +7,7 @@ type NewTalkReq struct {
 	Id      int64    `json:"id,optional"` // 说说ID
 	Content string   `json:"content"`     // 说说内容
 	ImgList []string `json:"img_list"`    // 图片URL列表
-	IsTop   int64    `json:"is_top"`      // 是否置顶
+	IsTop   bool     `json:"is_top"`      // 是否置顶
 	Status  int64    `json:"status"`      // 状态 1.公开 2.私密
 }
 
@@ -21,7 +21,7 @@ type TalkBackVO struct {
 	UserId       string      `json:"user_id"`       // 用户ID
 	Content      string      `json:"content"`       // 说说内容
 	ImgList      []string    `json:"img_list"`      // 图片URL列表
-	IsTop        int64       `json:"is_top"`        // 是否置顶
+	IsTop        bool        `json:"is_top"`        // 是否置顶
 	Status       int64       `json:"status"`        // 状态 1.公开 2.私密
 	LikeCount    int64       `json:"like_count"`    // 点赞量
 	CommentCount int64       `json:"comment_count"` // 评论量

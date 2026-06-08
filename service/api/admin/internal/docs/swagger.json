@@ -6986,7 +6986,7 @@
         },
         "is_delete": {
           "description": "是否删除",
-          "type": "integer"
+          "type": "boolean"
         },
         "photo_count": {
           "description": "照片数量",
@@ -7108,11 +7108,11 @@
         },
         "is_delete": {
           "description": "是否删除",
-          "type": "integer"
+          "type": "boolean"
         },
         "is_top": {
           "description": "是否置顶",
-          "type": "integer"
+          "type": "boolean"
         },
         "like_count": {
           "description": "点赞量",
@@ -8433,7 +8433,7 @@
         },
         "is_delete": {
           "description": "是否删除",
-          "type": "integer"
+          "type": "boolean"
         },
         "status": {
           "description": "状态值 1公开 2私密",
@@ -8519,7 +8519,7 @@
         },
         "is_top": {
           "description": "是否置顶",
-          "type": "integer"
+          "type": "boolean"
         },
         "original_url": {
           "description": "原文链接",
@@ -8719,7 +8719,7 @@
         },
         "is_delete": {
           "description": "是否删除",
-          "type": "integer"
+          "type": "boolean"
         },
         "photo_desc": {
           "description": "照片描述",
@@ -8751,7 +8751,7 @@
         },
         "is_default": {
           "description": "是否默认角色 0否 1是",
-          "type": "integer"
+          "type": "boolean"
         },
         "parent_id": {
           "description": "父角色id",
@@ -8816,7 +8816,7 @@
         },
         "is_top": {
           "description": "是否置顶",
-          "type": "integer"
+          "type": "boolean"
         },
         "status": {
           "description": "状态 1.公开 2.私密",
@@ -9169,7 +9169,7 @@
         },
         "is_delete": {
           "description": "是否删除",
-          "type": "integer"
+          "type": "boolean"
         },
         "photo_desc": {
           "description": "照片描述",
@@ -9273,7 +9273,7 @@
         },
         "is_delete": {
           "description": "是否删除",
-          "type": "integer"
+          "type": "boolean"
         },
         "page": {
           "description": "当前页码",
@@ -9345,11 +9345,11 @@
         },
         "is_delete": {
           "description": "是否删除",
-          "type": "integer"
+          "type": "boolean"
         },
         "is_top": {
           "description": "是否置顶",
-          "type": "integer"
+          "type": "boolean"
         },
         "page": {
           "description": "当前页码",
@@ -9678,7 +9678,7 @@
         },
         "is_delete": {
           "description": "是否删除",
-          "type": "integer"
+          "type": "boolean"
         },
         "page": {
           "description": "当前页码",
@@ -10010,7 +10010,7 @@
         },
         "is_default": {
           "description": "是否默认角色 0否 1是",
-          "type": "integer"
+          "type": "boolean"
         },
         "parent_id": {
           "description": "父角色id",
@@ -10248,7 +10248,7 @@
         },
         "is_top": {
           "description": "是否置顶",
-          "type": "integer"
+          "type": "boolean"
         },
         "like_count": {
           "description": "点赞量",
@@ -10450,7 +10450,7 @@
         },
         "is_delete": {
           "description": "是否删除",
-          "type": "integer"
+          "type": "boolean"
         }
       }
     },
@@ -10466,7 +10466,7 @@
         },
         "is_delete": {
           "description": "是否删除",
-          "type": "integer"
+          "type": "boolean"
         }
       }
     },
@@ -10482,7 +10482,7 @@
         },
         "is_top": {
           "description": "是否置顶",
-          "type": "integer"
+          "type": "boolean"
         }
       }
     },
@@ -10591,7 +10591,7 @@
         },
         "is_delete": {
           "description": "是否删除",
-          "type": "integer"
+          "type": "boolean"
         }
       }
     },
@@ -11728,7 +11728,7 @@
       "in": "header"
     }
   },
-  "x-date": "2026-06-08 16:47:01",
+  "x-date": "2026-06-08 17:53:14",
   "x-description": "This is a goctl generated swagger file.",
   "x-github": "https://github.com/zeromicro/go-zero",
   "x-go-zero-doc": "https://go-zero.dev/",

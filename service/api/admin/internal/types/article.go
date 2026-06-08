@@ -10,8 +10,8 @@ type ArticleBackVO struct {
 	ArticleContent string   `json:"article_content"` // 内容
 	ArticleType    int64    `json:"article_type"`    // 文章类型 1原创 2转载 3翻译
 	OriginalUrl    string   `json:"original_url"`    // 原文链接
-	IsTop          int64    `json:"is_top"`          // 是否置顶
-	IsDelete       int64    `json:"is_delete"`       // 是否删除
+	IsTop          bool     `json:"is_top"`          // 是否置顶
+	IsDelete       bool     `json:"is_delete"`       // 是否删除
 	Status         int64    `json:"status"`          // 状态值 1 公开 2 私密 3 草稿 4 已删除
 	CreatedAt      int64    `json:"created_at"`      // 发表时间
 	UpdatedAt      int64    `json:"updated_at"`      // 更新时间
@@ -28,7 +28,7 @@ type NewArticleReq struct {
 	ArticleContent string   `json:"article_content"`        // 内容
 	ArticleType    int64    `json:"article_type"`           // 文章类型 1原创 2转载 3翻译
 	OriginalUrl    string   `json:"original_url"`           // 原文链接
-	IsTop          int64    `json:"is_top"`                 // 是否置顶
+	IsTop          bool     `json:"is_top"`                 // 是否置顶
 	Status         int64    `json:"status"`                 // 状态值 1 公开 2 私密 3 草稿 4 已删除
 	CategoryName   string   `json:"category_name,optional"` // 文章分类名
 	TagNameList    []string `json:"tag_name_list,optional"` // 文章标签列表
@@ -38,8 +38,8 @@ type QueryArticleReq struct {
 	PageQuery
 	ArticleTitle string `json:"article_title,optional"` // 标题
 	ArticleType  int64  `json:"article_type,optional"`  // 文章类型 1原创 2转载 3翻译
-	IsTop        int64  `json:"is_top,optional"`        // 是否置顶
-	IsDelete     int64  `json:"is_delete,optional"`     // 是否删除
+	IsTop        bool   `json:"is_top,optional"`        // 是否置顶
+	IsDelete     bool   `json:"is_delete,optional"`     // 是否删除
 	Status       int64  `json:"status,optional"`        // 状态值 1 公开 2 私密 3 草稿 4 已删除
 	CategoryName string `json:"category_name,optional"` // 文章分类名
 	TagName      string `json:"tag_name,optional"`
@@ -47,10 +47,10 @@ type QueryArticleReq struct {
 
 type UpdateArticleDeleteReq struct {
 	Id       int64 `json:"id,optional"` // 文章ID
-	IsDelete int64 `json:"is_delete"`   // 是否删除
+	IsDelete bool  `json:"is_delete"`   // 是否删除
 }
 
 type UpdateArticleTopReq struct {
 	Id    int64 `json:"id,optional"` // 文章ID
-	IsTop int64 `json:"is_top"`      // 是否置顶
+	IsTop bool  `json:"is_top"`      // 是否置顶
 }
