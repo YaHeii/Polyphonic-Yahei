@@ -5,7 +5,7 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/go-sql-driver/mysql"
+	"github.com/jackc/pgx/v5/pgconn"
 	"github.com/zeromicro/go-zero/rest/httpx"
 	"go.opentelemetry.io/otel/trace"
 
@@ -25,7 +25,7 @@ func Response(r *http.Request, w http.ResponseWriter, resp interface{}, err erro
 	if err != nil {
 		var bizErr *bizerr.BizError
 		var unmarshalErr *json.UnmarshalTypeError
-		var mysqlErr *mysql.MySQLError
+		var pgErr *pgconn.PgError
 
 		switch {
 		case errors.As(err, &bizErr):
@@ -44,10 +44,10 @@ func Response(r *http.Request, w http.ResponseWriter, resp interface{}, err erro
 				TraceId: GetTraceId(r),
 			}
 			httpx.OkJsonCtx(r.Context(), w, body)
-		case errors.As(err, &mysqlErr):
+		case errors.As(err, &pgErr):
 			body := Body{
 				Code:    http.StatusInternalServerError,
-				Msg:     mysqlErr.Error(),
+				Msg:     pgErr.Error(),
 				Data:    nil,
 				TraceId: GetTraceId(r),
 			}

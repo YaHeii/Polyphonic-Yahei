@@ -1,0 +1,2 @@
+{"@timestamp":"2026-06-08T23:25:24+08:00","caller":"tracex/logx_test.go:44","content":"hello world","level":"slow","span":"fc56be00b173b9a6","trace":"test"}
+{"@timestamp":"2026-06-08T23:35:57+08:00","caller":"tracex/logx_test.go:44","content":"hello world","level":"slow","span":"5fac4796949877bd","trace":"test"}

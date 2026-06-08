@@ -8,6 +8,7 @@ import (
 )
 
 // 请求上下文,一般存放请求头参数
+// TODO:如果作为整个应用的传递的话是不对的，缺少trace ID,并且不应该将token传递
 type Context struct {
 	context.Context `json:"-" header:"-"`
 	Token           string `json:"token" header:"token" example:""`
