@@ -8,6 +8,7 @@ import (
 
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/svc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/types"
+	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/noticerpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -28,7 +29,28 @@ func NewFindUserNoticeListLogic(ctx context.Context, svcCtx *svc.ServiceContext)
 }
 
 func (l *FindUserNoticeListLogic) FindUserNoticeList(req *types.QueryUserNoticeReq) (resp *types.PageResp, err error) {
-	// todo: add your logic here and delete this line
+	in := &noticerpc.FindUserNoticeListReq{
+		Paginate: &noticerpc.PageReq{
+			Page:     req.Page,
+			PageSize: req.PageSize,
+			Sorts:    req.Sorts,
+		},
+	}
 
-	return
+	out, err := l.svcCtx.NoticeRpc.FindUserNoticeList(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	list := make([]*types.NoticeBackVO, 0, len(out.List))
+	for _, item := range out.List {
+		list = append(list, convertNoticeOut(item))
+	}
+
+	return &types.PageResp{
+		Page:     out.Pagination.Page,
+		PageSize: out.Pagination.PageSize,
+		Total:    out.Pagination.Total,
+		List:     list,
+	}, nil
 }
