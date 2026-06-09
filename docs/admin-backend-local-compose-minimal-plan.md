@@ -589,7 +589,7 @@ CMD ["/app/admin-api", "-f", "/app/etc/admin-api.yaml"]
 ```yaml
 services:
   postgres:
-    image: postgres:16
+    image: postgres:18.3-alpine
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}

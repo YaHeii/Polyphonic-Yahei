@@ -1,0 +1,12 @@
+.git
+.agents
+.codex
+.idea
+.vscode
+.VSCodeCounter
+.tmp
+runtime
+tmp
+dist
+node_modules
+*.log

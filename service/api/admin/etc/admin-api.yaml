@@ -1,43 +1,37 @@
 Name: admin-api
 Host: 0.0.0.0
-Port: 9091
+Port: ${ADMIN_API_PORT}
 Mode: dev
 Timeout: 60000
-# 健康检查
+
 DevServer:
   Enabled: true
-  Port: 6061
+  Port: ${ADMIN_API_DEVSERVER_PORT}
   HealthPath: "/ping"
   MetricsPath: "/metrics"
   EnableMetrics: true
-# 日志配置
+
 Log:
   Mode: console
   Encoding: plain
   Path: runtime/admin-api/log
-# 文件上传配置
+
 UploadConfig:
-  zone: ZoneHuanan
-  endpoint: s3.cn-south-1.qiniucs.com
-  access-key-id: C2eDBMS9gRD7mobPuAq7ILmuepfZIdgFA-FvB7Ak
-  access-key-secret: iFNUjC3Y3R3mOI0tfIcd_ymHUejB_UV2bcfMOh2k
-  bucket-name: 
-  bucket-url: 
-  base-path: 
+  zone: ${QINIU_ZONE}
+  endpoint: ${QINIU_ENDPOINT}
+  access-key-id: ${QINIU_ACCESS_KEY_ID}
+  access-key-secret: ${QINIU_ACCESS_KEY_SECRET}
+  bucket-name: ${QINIU_BUCKET_NAME}
+  bucket-url: ${QINIU_BUCKET_URL}
 
 RedisConf:
-  db: 0
-  host: yahei.me
-  port: "6379"
-  password: redis7914
+  db: ${REDIS_DB}
+  host: ${REDIS_HOST}
+  port: "${REDIS_PORT}"
+  password: ${REDIS_PASSWORD}
 
-# etcd模式
-#BlogRpcConf:
-#  Etcd:
-#    Hosts:
-#     - "localhost:2379"
-#    Key: "blog-dev/blog.rpc"
-#    User: "root"
-#    Pass: "etcd7914"
-#  NonBlock: true
-#  Timeout: 5000
+BlogRpcConf:
+  Endpoints:
+    - ${BLOG_RPC_ENDPOINT}
+  NonBlock: true
+  Timeout: 5000

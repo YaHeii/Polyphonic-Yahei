@@ -1,17 +1,8 @@
 Name: blog.rpc
-ListenOn: 0.0.0.0:9999
+ListenOn: 0.0.0.0:${BLOG_RPC_PORT}
 Mode: dev
 Timeout: 5000
 Health: true
-# 服务注册，直连模式不需要
-# 注意把防火墙 2379、2380口打开
-# 检查服务是否注册 etcdctl get --prefix 'blog' --user=root:etcd7914
-#Etcd:
-#  Hosts:
-#   - "localhost:2379"
-#  Key: "blog-dev/blog.rpc"
-#  User: "root"
-#  Pass: "etcd7914"
 
 Log:
   Mode: console
@@ -19,51 +10,42 @@ Log:
   Path: runtime/blog-rpc/log
 
 PgsqlConf:
-  host: yahei.me
-  port: 5432
-  config: 
-  dbname: blog-init
-  username: root
-  password: root
+  host: ${POSTGRES_HOST}
+  port: ${POSTGRES_PORT}
+  config: ${POSTGRES_CONFIG}
+  dbname: ${POSTGRES_DB}
+  username: ${POSTGRES_USER}
+  password: ${POSTGRES_PASSWORD}
 
 RedisConf:
-  db: 0
-  host: yahei.me
-  port: "6379"
-  password: 
+  db: ${REDIS_DB}
+  host: ${REDIS_HOST}
+  port: "${REDIS_PORT}"
+  password: ${REDIS_PASSWORD}
 
-# mq配置
 RabbitMQConf:
-  host: yahei.me
-  port: "5672"
-  username: veweiyi
-  password: rabbitmq7914
+  host: ${RABBITMQ_HOST}
+  port: "${RABBITMQ_PORT}"
+  username: ${RABBITMQ_USER}
+  password: ${RABBITMQ_PASSWORD}
 
 EmailConf:
-  host: smtp.qq.com
-  port: 465
-  # 邮箱 647166282@qq.com
-  username: 2838558971@qq.com
-  # 16位授权码 不是邮箱密码
-  password: 
-  # 发送者昵称
-  nickname: 呀嘿
-  # 密送邮箱,逗号隔开
+  host: ${EMAIL_HOST}
+  port: ${EMAIL_PORT}
+  username: ${EMAIL_USERNAME}
+  password: ${EMAIL_PASSWORD}
+  nickname: ${EMAIL_NICKNAME}
   bcc:
-    - 
-  is_ssl: true
+    - ${EMAIL_BCC}
 
 ThirdPartyConf:
   blog-web:
     github:
-      client_id: "Ov23li75b3rd6pQWF0Mf"
-      client_secret: "cdacbc7d0835a4ef48168986e6f248aae7eea516"
-      redirect_uri: http://127.0.0.1:9420/oauth/login/github
-
-
+      client_id: ${BLOG_WEB_GITHUB_CLIENT_ID}
+      client_secret: ${BLOG_WEB_GITHUB_CLIENT_SECRET}
+      redirect_uri: ${BLOG_WEB_GITHUB_REDIRECT_URI}
   admin-web:
     github:
-      client_id: "Ov23li75b3rd6pQWF0Mf"
-      client_secret: "cdacbc7d0835a4ef48168986e6f248aae7eea516"
-      redirect_uri: http://127.0.0.1:9420/oauth/login/github
-
+      client_id: ${ADMIN_WEB_GITHUB_CLIENT_ID}
+      client_secret: ${ADMIN_WEB_GITHUB_CLIENT_SECRET}
+      redirect_uri: ${ADMIN_WEB_GITHUB_REDIRECT_URI}
