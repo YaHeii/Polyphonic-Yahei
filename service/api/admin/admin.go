@@ -9,6 +9,7 @@ import (
 
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/config"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/handler"
+	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/plugins"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/conf"
@@ -28,6 +29,7 @@ func main() {
 
 	ctx := svc.NewServiceContext(c)
 	handler.RegisterHandlers(server, ctx)
+	plugins.RegisterPluginHandlers(server, ctx)
 
 	fmt.Printf("Starting server at %s:%d...\n", c.Host, c.Port)
 	server.Start()

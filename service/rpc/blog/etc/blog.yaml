@@ -11,7 +11,7 @@ Log:
 
 PgsqlConf:
   host: ${POSTGRES_HOST}
-  port: ${POSTGRES_PORT}
+  port: "${POSTGRES_PORT}"
   config: ${POSTGRES_CONFIG}
   dbname: ${POSTGRES_DB}
   username: ${POSTGRES_USER}
