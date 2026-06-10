@@ -3,3 +3,6 @@
 .agents/**
 .VSCodeCounter/**
 .env
+admin
+
+pkg/plugins/knife4j/static/**
