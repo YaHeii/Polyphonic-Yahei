@@ -9,13 +9,44 @@ import (
 )
 
 type Config struct {
-	Zone            string `json:"zone"`
-	Endpoint        string `json:"endpoint"`
-	AccessKeyId     string `json:"access-key-id"`
-	AccessKeySecret string `json:"access-key-secret"`
-	BucketName      string `json:"bucket-name"`
-	BucketUrl       string `json:"bucket-url"`
-	//BasePath        string `json:"base-path"`
+	LocalRootDir string `json:"local-root-dir" yaml:"local-root-dir"`
+	LocalBaseURL string `json:"local-base-url" yaml:"local-base-url"`
+}
+
+const (
+	DefaultLocalRootDir = "/home/yahei"
+	DefaultLocalBaseURL = "/static"
+)
+
+func (c *Config) RootDir() string {
+	if c == nil {
+		return DefaultLocalRootDir
+	}
+
+	rootDir := strings.TrimSpace(c.LocalRootDir)
+	if rootDir == "" {
+		return DefaultLocalRootDir
+	}
+
+	return rootDir
+}
+
+func (c *Config) BaseURL() string {
+	if c == nil {
+		return DefaultLocalBaseURL
+	}
+
+	baseURL := strings.TrimSpace(c.LocalBaseURL)
+	if baseURL == "" {
+		return DefaultLocalBaseURL
+	}
+
+	baseURL = "/" + strings.Trim(baseURL, "/")
+	if baseURL == "/" {
+		return DefaultLocalBaseURL
+	}
+
+	return baseURL
 }
 
 // Uploader oss（Object Storage Service，对象存储服务）

@@ -3,7 +3,6 @@ module github.com/YaHeii/Polyphonic-Yahei
 go 1.25.9
 
 require (
-	github.com/aliyun/aliyun-oss-go-sdk v3.0.2+incompatible
 	github.com/casbin/casbin/v2 v2.135.0
 	github.com/casbin/json-adapter/v2 v2.1.1
 	github.com/dave/dst v0.27.4
@@ -11,7 +10,6 @@ require (
 	github.com/golang-jwt/jwt/v5 v5.3.1
 	github.com/jackc/pgx/v5 v5.9.2
 	github.com/json-iterator/go v1.1.12
-	github.com/qiniu/go-sdk/v7 v7.26.12
 	github.com/redis/go-redis/v9 v9.19.0
 	github.com/shirou/gopsutil/v3 v3.24.5
 	github.com/swaggo/http-swagger v1.3.4
@@ -25,12 +23,10 @@ require (
 )
 
 require (
-	github.com/BurntSushi/toml v1.3.2 // indirect
 	github.com/KyleBanks/depth v1.2.1 // indirect
-	github.com/alex-ant/gomath v0.0.0-20160516115720-89013a210a82 // indirect
 	github.com/bmatcuk/doublestar/v4 v4.6.1 // indirect
 	github.com/casbin/govaluate v1.3.0 // indirect
-	github.com/gammazero/toposort v0.1.1 // indirect
+	github.com/dave/jennifer v1.6.1 // indirect
 	github.com/go-openapi/analysis v0.25.2 // indirect
 	github.com/go-openapi/errors v0.22.8 // indirect
 	github.com/go-openapi/strfmt v0.26.3 // indirect
@@ -43,7 +39,6 @@ require (
 	github.com/go-openapi/swag/typeutils v0.26.1 // indirect
 	github.com/go-openapi/swag/yamlutils v0.26.1 // indirect
 	github.com/go-viper/mapstructure/v2 v2.5.0 // indirect
-	github.com/gofrs/flock v0.8.1 // indirect
 	github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0 // indirect
 	github.com/golang/mock v1.6.0 // indirect
 	github.com/oklog/ulid/v2 v2.1.1 // indirect
@@ -59,7 +54,6 @@ require (
 	golang.org/x/image v0.33.0 // indirect
 	golang.org/x/mod v0.35.0 // indirect
 	gopkg.in/alexcesaro/quotedprintable.v3 v3.0.0-20150716171945-2caba252f4dc // indirect
-	modernc.org/fileutil v1.3.0 // indirect
 )
 
 require (

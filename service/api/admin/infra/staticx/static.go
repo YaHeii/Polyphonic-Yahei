@@ -25,6 +25,16 @@ func PrefixRoutes(prefix string, method string, handler http.HandlerFunc) []rest
 	return rt
 }
 
+func LocalFileHandler(prefix, dir string) http.HandlerFunc {
+	normalizedPrefix := strings.TrimRight(strings.TrimSpace(prefix), "/") + "/"
+	return http.StripPrefix(normalizedPrefix, http.FileServer(http.Dir(dir))).ServeHTTP
+}
+
+func RegisterLocalStatic(server *rest.Server, prefix, dir string) {
+	normalizedPrefix := strings.TrimRight(strings.TrimSpace(prefix), "/")
+	server.AddRoutes(PrefixRoutes(normalizedPrefix, http.MethodGet, LocalFileHandler(normalizedPrefix, dir)))
+}
+
 // 静态文件处理
 // staticFileHandler(server)
 func staticFileHandler(server *rest.Server) {

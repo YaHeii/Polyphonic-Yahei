@@ -1,46 +1,45 @@
 package oss
 
 import (
+	"errors"
 	"fmt"
 	"io"
 	"os"
 	"path"
 	"path/filepath"
+	"strings"
 )
 
 type Local struct {
-	dir string
+	rootDir string
+	baseURL string
 }
 
-func (s *Local) UploadFile(f io.Reader, prefix string, filename string) (filepath string, err error) {
-	// 本地文件目录
-	key := path.Join(prefix, filename)
+func (s *Local) UploadFile(f io.Reader, prefix string, filename string) (fileURL string, err error) {
+	key := cleanRelativePath(path.Join(prefix, filename))
+	target := filepath.Join(s.rootDir, filepath.FromSlash(key))
 
-	// 尝试创建上传目录
-	dir := path.Dir(key)
-	err = os.MkdirAll(dir, os.ModePerm)
-	if err != nil {
+	if err := os.MkdirAll(filepath.Dir(target), os.ModePerm); err != nil {
 		return "", fmt.Errorf("Local.UploadFile MkdirAll() Failed, err: %v", err)
 	}
 
-	// 创建目标文件
-	out, err := os.Create(key)
+	out, err := os.Create(target)
 	if err != nil {
 		return "", fmt.Errorf("Local.UploadFile Create() Failed, err: %v", err)
 	}
 	defer out.Close()
 
-	// 传输（拷贝）文件内容
 	_, copyErr := io.Copy(out, f)
 	if copyErr != nil {
 		return "", fmt.Errorf("Local.UploadFile Copy() Failed, err: %v", copyErr)
 	}
 
-	return s.dir + "/" + key, nil
+	return s.publicURL(key), nil
 }
 
 func (s *Local) DeleteFile(filepath string) error {
-	p := s.dir + "/" + filepath
+	relativePath := cleanRelativePath(filepath)
+	p := filepathJoin(s.rootDir, relativePath)
 
 	if err := os.Remove(p); err != nil {
 		return fmt.Errorf("Local.DeleteFile Remove() Failed, err: %v", err)
@@ -49,42 +48,66 @@ func (s *Local) DeleteFile(filepath string) error {
 }
 
 func (s *Local) ListFiles(prefix string, limit int) (files []*FileInfo, err error) {
-	// 获取指定目录下的所有文件
-
-	err = filepath.Walk(prefix, func(filepath string, info os.FileInfo, err error) error {
-		if err != nil {
-			return err // 如果遇到错误，返回
+	root := filepathJoin(s.rootDir, cleanRelativePath(prefix))
+	walkErr := filepath.Walk(root, func(currentPath string, info os.FileInfo, walkErr error) error {
+		if walkErr != nil {
+			return walkErr
+		}
+		if info.IsDir() {
+			return nil
 		}
 
+		relativePath, err := filepath.Rel(s.rootDir, currentPath)
+		if err != nil {
+			return err
+		}
+		relativePath = filepath.ToSlash(relativePath)
+
 		f := &FileInfo{
-			IsDir:    info.IsDir(),
-			FilePath: filepath,
+			IsDir:    false,
+			FilePath: relativePath,
 			FileName: info.Name(),
 			FileType: path.Ext(info.Name()),
 			FileSize: info.Size(),
-			FileUrl:  s.dir + "/" + filepath,
+			FileUrl:  s.publicURL(relativePath),
 			UpTime:   info.ModTime().UnixMilli(),
 		}
 		files = append(files, f)
 
-		// 如果已经达到限制数量，提前返回
-		if len(files) >= limit {
-			return fmt.Errorf("limit reached") // 触发 Walk 停止
+		if limit > 0 && len(files) >= limit {
+			return errLimitReached
 		}
 
 		return nil
 	})
 
-	if err != nil && err.Error() != "limit reached" {
-		return nil, err // 如果是其他错误，返回
+	if errors.Is(walkErr, os.ErrNotExist) {
+		return []*FileInfo{}, nil
 	}
-
-	// 返回符合条件的文件列表
+	if walkErr != nil && !errors.Is(walkErr, errLimitReached) {
+		return nil, walkErr
+	}
 	return files, nil
 }
 
-func NewLocal(dir string) *Local {
+func NewLocal(dir, baseURL string) *Local {
 	return &Local{
-		dir: dir,
+		rootDir: (&Config{LocalRootDir: dir}).RootDir(),
+		baseURL: (&Config{LocalBaseURL: baseURL}).BaseURL(),
 	}
+}
+
+var errLimitReached = errors.New("limit reached")
+
+func (s *Local) publicURL(relativePath string) string {
+	return strings.TrimRight(s.baseURL, "/") + "/" + cleanRelativePath(relativePath)
+}
+
+func filepathJoin(rootDir, relativePath string) string {
+	return filepath.Join(rootDir, filepath.FromSlash(relativePath))
+}
+
+func cleanRelativePath(value string) string {
+	cleaned := path.Clean("/" + strings.TrimSpace(value))
+	return strings.TrimPrefix(cleaned, "/")
 }

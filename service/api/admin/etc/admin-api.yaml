@@ -17,12 +17,8 @@ Log:
   Path: runtime/admin-api/log
 
 UploadConfig:
-  zone: ${QINIU_ZONE}
-  endpoint: ${QINIU_ENDPOINT}
-  access-key-id: ${QINIU_ACCESS_KEY_ID}
-  access-key-secret: ${QINIU_ACCESS_KEY_SECRET}
-  bucket-name: ${QINIU_BUCKET_NAME}
-  bucket-url: ${QINIU_BUCKET_URL}
+  local-root-dir: /home/yahei
+  local-base-url: /static
 
 RedisConf:
   db: ${REDIS_DB}

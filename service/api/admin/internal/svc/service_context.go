@@ -45,7 +45,7 @@ type ServiceContext struct {
 	SyslogRpc     syslogrpc.SyslogRpc
 
 	Redis            *redis.Redis
-	Uploader         oss.Uploader //TODO
+	Uploader         oss.Uploader
 	JwtTokenManager  *tokenx.JwtTokenManager
 	PermissionHolder permissionx.PermissionHolder
 
@@ -63,7 +63,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		panic(err)
 	}
 
-	uploader := oss.NewQiniu(c.UploadConfig)
+	uploader := oss.NewLocal(c.UploadConfig.RootDir(), c.UploadConfig.BaseURL())
 
 	th := tokenx.NewJwtTokenManager(
 		tokenx.NewRedisStore(rds, "admin:token:"),
