@@ -8,7 +8,6 @@ import (
 
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/svc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/types"
-	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/accountrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -29,11 +28,7 @@ func NewSendPhoneVerifyCodeLogic(ctx context.Context, svcCtx *svc.ServiceContext
 }
 
 func (l *SendPhoneVerifyCodeLogic) SendPhoneVerifyCode(req *types.SendPhoneVerifyCodeReq) (resp *types.EmptyResp, err error) {
-	_, err = l.svcCtx.AccountRpc.SendPhoneVerifyCode(l.ctx, &accountrpc.SendPhoneVerifyCodeReq{
-		Phone: req.Phone,
-		Type:  req.Type,
-	})
-	if err != nil {
+	if err := sendPhoneCode(l.svcCtx, req.Phone, req.Type); err != nil {
 		return nil, err
 	}
 

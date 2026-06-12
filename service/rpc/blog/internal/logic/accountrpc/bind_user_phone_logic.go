@@ -4,8 +4,6 @@ import (
 	"context"
 	"errors"
 
-	"github.com/YaHeii/Polyphonic-Yahei/common/constant"
-	"github.com/YaHeii/Polyphonic-Yahei/common/rediskey"
 	"github.com/YaHeii/Polyphonic-Yahei/pkg/infra/biz/bizcode"
 	"github.com/YaHeii/Polyphonic-Yahei/pkg/infra/biz/bizerr"
 	"github.com/YaHeii/Polyphonic-Yahei/pkg/utils/patternx"
@@ -38,9 +36,6 @@ func (l *BindUserPhoneLogic) BindUserPhone(in *accountrpc.BindUserPhoneReq) (*ac
 	}
 	if !patternx.IsValidPhone(in.Phone) {
 		return nil, bizerr.NewBizError(bizcode.CodeInvalidParam, "手机号格式不正确")
-	}
-	if !l.svcCtx.CaptchaHolder.VerifyCaptcha(rediskey.GetCaptchaKey(constant.CodeTypeBindPhone, in.Phone), in.VerifyCode) {
-		return nil, bizerr.NewBizError(bizcode.CodeCaptchaVerify, "验证码错误")
 	}
 
 	exist, err := l.svcCtx.TUserModel.FindOneByPhone(l.ctx, in.Phone)

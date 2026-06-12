@@ -3,8 +3,6 @@ package accountrpclogic
 import (
 	"context"
 
-	"github.com/YaHeii/Polyphonic-Yahei/common/constant"
-	"github.com/YaHeii/Polyphonic-Yahei/common/rediskey"
 	"github.com/YaHeii/Polyphonic-Yahei/pkg/infra/biz/bizcode"
 	"github.com/YaHeii/Polyphonic-Yahei/pkg/infra/biz/bizerr"
 	"github.com/YaHeii/Polyphonic-Yahei/pkg/utils/cryptox"
@@ -40,12 +38,6 @@ func (l *ResetPasswordLogic) ResetPassword(in *accountrpc.ResetPasswordReq) (*ac
 	exist, _ := l.svcCtx.TUserModel.FindOneByEmail(l.ctx, in.Email)
 	if exist == nil {
 		return nil, bizerr.NewBizError(bizcode.CodeUserNotExist, "用户不存在")
-	}
-
-	// 验证code是否正确
-	key := rediskey.GetCaptchaKey(constant.CodeTypeResetPwd, in.Email)
-	if !l.svcCtx.CaptchaHolder.VerifyCaptcha(key, in.VerifyCode) {
-		return nil, bizerr.NewBizError(bizcode.CodeCaptchaVerify, "验证码错误")
 	}
 
 	// 更新密码

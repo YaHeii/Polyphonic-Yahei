@@ -6,6 +6,7 @@ package auth
 import (
 	"context"
 
+	"github.com/YaHeii/Polyphonic-Yahei/common/constant"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/svc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/types"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/accountrpc"
@@ -29,11 +30,14 @@ func NewRegisterLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Register
 }
 
 func (l *RegisterLogic) Register(req *types.RegisterReq) (resp *types.EmptyResp, err error) {
+	if err := verifyEmailCode(l.svcCtx, constant.CodeTypeRegister, req.Email, req.VerifyCode); err != nil {
+		return nil, err
+	}
+
 	_, err = l.svcCtx.AccountRpc.Register(l.ctx, &accountrpc.RegisterReq{
-		Username:   req.Username,
-		Password:   req.Password,
-		Email:      req.Email,
-		VerifyCode: req.VerifyCode,
+		Username: req.Username,
+		Password: req.Password,
+		Email:    req.Email,
 	})
 	if err != nil {
 		return nil, err

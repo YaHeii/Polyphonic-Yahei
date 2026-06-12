@@ -6,6 +6,7 @@ package auth
 import (
 	"context"
 
+	"github.com/YaHeii/Polyphonic-Yahei/common/constant"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/svc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/types"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/accountrpc"
@@ -30,9 +31,12 @@ func NewPhoneLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *PhoneL
 }
 
 func (l *PhoneLoginLogic) PhoneLogin(req *types.PhoneLoginReq) (resp *types.LoginResp, err error) {
+	if err := verifyPhoneCode(l.svcCtx, constant.CodeTypePhoneLogin, req.Phone, req.VerifyCode); err != nil {
+		return nil, err
+	}
+
 	out, err := l.svcCtx.AccountRpc.PhoneLogin(l.ctx, &accountrpc.PhoneLoginReq{
-		Phone:      req.Phone,
-		VerifyCode: req.VerifyCode,
+		Phone: req.Phone,
 	})
 	if err != nil {
 		return nil, err

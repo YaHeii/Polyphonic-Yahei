@@ -7,6 +7,11 @@ import (
 	"encoding/json"
 	"fmt"
 
+	goredis "github.com/redis/go-redis/v9"
+
+	"github.com/YaHeii/Polyphonic-Yahei/pkg/captcha"
+	"github.com/YaHeii/Polyphonic-Yahei/pkg/mail"
+	"github.com/YaHeii/Polyphonic-Yahei/pkg/oauth"
 	"github.com/YaHeii/Polyphonic-Yahei/pkg/oss"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/infra/permissionx"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/infra/tokenx"
@@ -25,7 +30,7 @@ import (
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/websiterpc"
 	"github.com/go-openapi/loads"
 	"github.com/zeromicro/go-zero/core/logx"
-	"github.com/zeromicro/go-zero/core/stores/redis"
+	gzredis "github.com/zeromicro/go-zero/core/stores/redis"
 	"github.com/zeromicro/go-zero/rest"
 	"github.com/zeromicro/go-zero/zrpc"
 )
@@ -44,7 +49,11 @@ type ServiceContext struct {
 	ConfigRpc     configrpc.ConfigRpc
 	SyslogRpc     syslogrpc.SyslogRpc
 
-	Redis            *redis.Redis
+	Redis            *gzredis.Redis
+	RedisClient      *goredis.Client
+	CaptchaHolder    *captcha.CaptchaHolder
+	EmailDeliver     mail.IEmailDeliver
+	OauthProviders   map[string]oauth.Oauth
 	Uploader         oss.Uploader
 	JwtTokenManager  *tokenx.JwtTokenManager
 	PermissionHolder permissionx.PermissionHolder
@@ -62,6 +71,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	if err != nil {
 		panic(err)
 	}
+	rdb := newRedisClient(c.RedisConf)
 
 	uploader := oss.NewLocal(c.UploadConfig.RootDir(), c.UploadConfig.BaseURL())
 
@@ -112,7 +122,17 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		ConfigRpc:     configRpc,
 		SyslogRpc:     syslogRpc,
 
-		Redis:            rds,
+		Redis:         rds,
+		RedisClient:   rdb,
+		CaptchaHolder: captcha.NewCaptchaHolder(captcha.WithRedisStore(rdb)),
+		EmailDeliver: mail.NewEmailDeliver(&mail.EmailConfig{
+			Host:     c.EmailConf.Host,
+			Port:     c.EmailConf.Port,
+			Username: c.EmailConf.Username,
+			Password: c.EmailConf.Password,
+			Nickname: c.EmailConf.Nickname,
+			BCC:      c.EmailConf.BCC,
+		}),
 		Uploader:         uploader,
 		JwtTokenManager:  th,
 		PermissionHolder: ph,
@@ -123,11 +143,11 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	}
 }
 
-func ConnectRedis(c config.RedisConf) (*redis.Redis, error) {
+func ConnectRedis(c config.RedisConf) (*gzredis.Redis, error) {
 	address := c.Host + ":" + c.Port
-	redisClient, err := redis.NewRedis(redis.RedisConf{
+	redisClient, err := gzredis.NewRedis(gzredis.RedisConf{
 		Host: address,
-		Type: redis.NodeType,
+		Type: gzredis.NodeType,
 		Pass: c.Password,
 		Tls:  false,
 	})
@@ -137,4 +157,12 @@ func ConnectRedis(c config.RedisConf) (*redis.Redis, error) {
 	}
 
 	return redisClient, nil
+}
+
+func newRedisClient(c config.RedisConf) *goredis.Client {
+	return goredis.NewClient(&goredis.Options{
+		Addr:     c.Host + ":" + c.Port,
+		Password: c.Password,
+		DB:       c.DB,
+	})
 }

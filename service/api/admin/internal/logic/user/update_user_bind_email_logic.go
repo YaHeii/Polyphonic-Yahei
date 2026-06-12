@@ -6,6 +6,8 @@ package user
 import (
 	"context"
 
+	"github.com/YaHeii/Polyphonic-Yahei/common/constant"
+	authlogic "github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/logic/auth"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/svc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/types"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/accountrpc"
@@ -29,9 +31,12 @@ func NewUpdateUserBindEmailLogic(ctx context.Context, svcCtx *svc.ServiceContext
 }
 
 func (l *UpdateUserBindEmailLogic) UpdateUserBindEmail(req *types.UpdateUserBindEmailReq) (resp *types.EmptyResp, err error) {
+	if err := authlogic.VerifyEmailCodeForUser(l.svcCtx, constant.CodeTypeBindEmail, req.Email, req.VerifyCode); err != nil {
+		return nil, err
+	}
+
 	_, err = l.svcCtx.AccountRpc.BindUserEmail(l.ctx, &accountrpc.BindUserEmailReq{
-		Email:      req.Email,
-		VerifyCode: req.VerifyCode,
+		Email: req.Email,
 	})
 	if err != nil {
 		return nil, err

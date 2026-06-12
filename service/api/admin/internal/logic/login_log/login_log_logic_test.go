@@ -91,18 +91,6 @@ func (s *stubLoginAccountRPC) PhoneLogin(context.Context, *accountrpc.PhoneLogin
 func (s *stubLoginAccountRPC) ThirdLogin(context.Context, *accountrpc.ThirdLoginReq, ...grpc.CallOption) (*accountrpc.LoginResp, error) {
 	panic("unexpected call")
 }
-func (s *stubLoginAccountRPC) GetOauthAuthorizeUrl(context.Context, *accountrpc.GetOauthAuthorizeUrlReq, ...grpc.CallOption) (*accountrpc.GetOauthAuthorizeUrlResp, error) {
-	panic("unexpected call")
-}
-func (s *stubLoginAccountRPC) SendEmailVerifyCode(context.Context, *accountrpc.SendEmailVerifyCodeReq, ...grpc.CallOption) (*accountrpc.SendEmailVerifyCodeResp, error) {
-	panic("unexpected call")
-}
-func (s *stubLoginAccountRPC) SendPhoneVerifyCode(context.Context, *accountrpc.SendPhoneVerifyCodeReq, ...grpc.CallOption) (*accountrpc.SendPhoneVerifyCodeResp, error) {
-	panic("unexpected call")
-}
-func (s *stubLoginAccountRPC) GenerateCaptchaCode(context.Context, *accountrpc.GenerateCaptchaCodeReq, ...grpc.CallOption) (*accountrpc.GenerateCaptchaCodeResp, error) {
-	panic("unexpected call")
-}
 func (s *stubLoginAccountRPC) GetUserInfo(context.Context, *accountrpc.GetUserInfoReq, ...grpc.CallOption) (*accountrpc.GetUserInfoResp, error) {
 	panic("unexpected call")
 }

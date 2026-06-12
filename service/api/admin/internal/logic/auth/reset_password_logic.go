@@ -6,6 +6,7 @@ package auth
 import (
 	"context"
 
+	"github.com/YaHeii/Polyphonic-Yahei/common/constant"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/svc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/types"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/accountrpc"
@@ -29,10 +30,13 @@ func NewResetPasswordLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Res
 }
 
 func (l *ResetPasswordLogic) ResetPassword(req *types.ResetPasswordReq) (resp *types.EmptyResp, err error) {
+	if err := verifyEmailCode(l.svcCtx, constant.CodeTypeResetPwd, req.Email, req.VerifyCode); err != nil {
+		return nil, err
+	}
+
 	_, err = l.svcCtx.AccountRpc.ResetPassword(l.ctx, &accountrpc.ResetPasswordReq{
-		Email:      req.Email,
-		Password:   req.Password,
-		VerifyCode: req.VerifyCode,
+		Email:    req.Email,
+		Password: req.Password,
 	})
 	if err != nil {
 		return nil, err

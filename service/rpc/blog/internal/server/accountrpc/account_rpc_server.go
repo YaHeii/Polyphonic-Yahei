@@ -71,30 +71,6 @@ func (s *AccountRpcServer) ThirdLogin(ctx context.Context, in *accountrpc.ThirdL
 	return l.ThirdLogin(in)
 }
 
-// 获取第三方登录授权地址
-func (s *AccountRpcServer) GetOauthAuthorizeUrl(ctx context.Context, in *accountrpc.GetOauthAuthorizeUrlReq) (*accountrpc.GetOauthAuthorizeUrlResp, error) {
-	l := accountrpclogic.NewGetOauthAuthorizeUrlLogic(ctx, s.svcCtx)
-	return l.GetOauthAuthorizeUrl(in)
-}
-
-// 发送邮件验证码
-func (s *AccountRpcServer) SendEmailVerifyCode(ctx context.Context, in *accountrpc.SendEmailVerifyCodeReq) (*accountrpc.SendEmailVerifyCodeResp, error) {
-	l := accountrpclogic.NewSendEmailVerifyCodeLogic(ctx, s.svcCtx)
-	return l.SendEmailVerifyCode(in)
-}
-
-// 发送手机号验证码
-func (s *AccountRpcServer) SendPhoneVerifyCode(ctx context.Context, in *accountrpc.SendPhoneVerifyCodeReq) (*accountrpc.SendPhoneVerifyCodeResp, error) {
-	l := accountrpclogic.NewSendPhoneVerifyCodeLogic(ctx, s.svcCtx)
-	return l.SendPhoneVerifyCode(in)
-}
-
-// 生成验证码
-func (s *AccountRpcServer) GenerateCaptchaCode(ctx context.Context, in *accountrpc.GenerateCaptchaCodeReq) (*accountrpc.GenerateCaptchaCodeResp, error) {
-	l := accountrpclogic.NewGenerateCaptchaCodeLogic(ctx, s.svcCtx)
-	return l.GenerateCaptchaCode(in)
-}
-
 // 获取用户信息
 func (s *AccountRpcServer) GetUserInfo(ctx context.Context, in *accountrpc.GetUserInfoReq) (*accountrpc.GetUserInfoResp, error) {
 	l := accountrpclogic.NewGetUserInfoLogic(ctx, s.svcCtx)

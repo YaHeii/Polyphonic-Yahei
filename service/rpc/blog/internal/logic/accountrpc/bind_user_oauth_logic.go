@@ -2,12 +2,14 @@ package accountrpclogic
 
 import (
 	"context"
+	"errors"
 	"fmt"
+	"strings"
 
 	"github.com/YaHeii/Polyphonic-Yahei/service/model"
+	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/internal/common/rpcutils"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/internal/pb/accountrpc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/internal/svc"
-	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/internal/common/rpcutils"
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
@@ -33,30 +35,25 @@ func (l *BindUserOauthLogic) BindUserOauth(in *accountrpc.BindUserOauthReq) (*ac
 		return nil, err
 	}
 
-	app, err := rpcutils.GetAppNameFromCtx(l.ctx)
-	if err != nil {
-		return nil, err
-	}
-
-	auth, err := GetPlatformOauth(l.ctx, l.svcCtx, app, in.Platform)
-	if err != nil {
-		return nil, err
-	}
-
-	// 获取第三方用户信息
-	info, err := auth.GetAuthUserInfo(in.Code)
-	if err != nil {
-		return nil, err
-	}
-
-	if info.OpenId == "" {
+	openID := strings.TrimSpace(in.OpenId)
+	if openID == "" {
 		return nil, fmt.Errorf("open_id is empty")
 	}
 
-	// 查找这个第三方账号是否已绑定用户
-	oa, _ := l.svcCtx.TUserOauthModel.FindOneByOpenIdPlatform(l.ctx, info.OpenId, in.Platform)
-	if oa != nil {
-		return nil, fmt.Errorf("open_id %s is already exist", info.OpenId)
+	current, err := l.svcCtx.TUserOauthModel.FindOneByUserIdPlatform(l.ctx, userId, in.Platform)
+	if err == nil && current != nil {
+		return nil, fmt.Errorf("platform %s is already bound", in.Platform)
+	}
+	if err != nil && !errors.Is(err, model.ErrNotFound) {
+		return nil, err
+	}
+
+	oa, err := l.svcCtx.TUserOauthModel.FindOneByOpenIdPlatform(l.ctx, openID, in.Platform)
+	if err == nil && oa != nil {
+		return nil, fmt.Errorf("open_id %s is already exist", openID)
+	}
+	if err != nil && !errors.Is(err, model.ErrNotFound) {
+		return nil, err
 	}
 
 	// 绑定第三方账号
@@ -64,9 +61,9 @@ func (l *BindUserOauthLogic) BindUserOauth(in *accountrpc.BindUserOauthReq) (*ac
 		Id:       0,
 		UserId:   userId,
 		Platform: in.Platform,
-		OpenId:   info.OpenId,
-		Nickname: info.NickName,
-		Avatar:   info.Avatar,
+		OpenId:   openID,
+		Nickname: in.Nickname,
+		Avatar:   in.Avatar,
 	})
 
 	return &accountrpc.BindUserOauthResp{}, nil

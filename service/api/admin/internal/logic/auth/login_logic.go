@@ -30,6 +30,10 @@ func NewLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LoginLogic 
 }
 
 func (l *LoginLogic) Login(req *types.LoginReq) (resp *types.LoginResp, err error) {
+	if err := verifyCaptcha(l.svcCtx, req.CaptchaKey, req.CaptchaCode); err != nil {
+		return nil, err
+	}
+
 	out, err := l.svcCtx.AccountRpc.Login(l.ctx, &accountrpc.LoginReq{
 		Username: req.Username,
 		Password: req.Password,

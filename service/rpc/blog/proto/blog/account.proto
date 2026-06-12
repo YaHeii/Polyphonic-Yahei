@@ -123,7 +123,6 @@ message RegisterReq {
   string username = 1;
   string password = 2;
   string email = 3;
-  string verify_code = 4;
 }
 
 message RegisterResp {
@@ -133,63 +132,23 @@ message RegisterResp {
 message ResetPasswordReq {
   string email = 1;
   string password = 2;
-  string verify_code = 3;
 }
 
 message ResetPasswordResp {
 }
 
-message SendEmailVerifyCodeReq {
-  string email = 1;
-  string type = 2; // 类型 register, reset_password, bind_email, bind_phone
-}
-
-message SendEmailVerifyCodeResp {
-}
-
-message SendPhoneVerifyCodeReq {
-  string phone = 1;
-  string type = 2; // 类型 register, reset_password, bind_email, bind_phone
-}
-
-message SendPhoneVerifyCodeResp {
-}
-
-message GenerateCaptchaCodeReq {
-  int64 height = 1; // 高度
-  int64 width = 2; // 宽度
-}
-
-message GenerateCaptchaCodeResp {
-  string captcha_key = 1; // 验证码key
-  string captcha_base64 = 2; // 验证码base64
-  string captcha_code = 3; // 验证码
-}
-
 message EmailLoginReq {
   string email = 1; // 邮箱
   string password = 2; // 密码
-  string captcha_key = 3; // 验证码key
-  string captcha_code = 4; // 验证码
 }
 
 message PhoneLoginReq {
   string phone = 1; // 手机号
-  string verify_code = 3; // 验证码
 }
 
 message ThirdLoginReq {
   string platform = 1;// 平台
-  string code = 2;// 授权码
-}
-
-message GetOauthAuthorizeUrlReq {
-  string platform = 1;// 平台
-  string state = 2;// 状态
-}
-
-message GetOauthAuthorizeUrlResp {
-  string authorize_url = 1;// 授权地址
+  string open_id = 2;// 开放id
 }
 
 message GetUserInfoReq{
@@ -229,7 +188,6 @@ message UpdateUserPasswordResp {
 
 message BindUserEmailReq {
   string email = 1; // 邮箱
-  string verify_code = 2;
 }
 
 message BindUserEmailResp {
@@ -237,7 +195,6 @@ message BindUserEmailResp {
 
 message BindUserPhoneReq {
   string phone = 1; // 手机号
-  string verify_code = 2;
 }
 
 message BindUserPhoneResp {
@@ -245,7 +202,9 @@ message BindUserPhoneResp {
 
 message BindUserOauthReq {
   string platform = 1;// 平台
-  string code = 2;// 授权码
+  string open_id = 2;// 开放id
+  string nickname = 3;// 昵称
+  string avatar = 4;// 头像
 }
 
 message BindUserOauthResp {
@@ -353,16 +312,6 @@ service AccountRpc {
   rpc PhoneLogin(PhoneLoginReq) returns(LoginResp);
   // 第三方登录
   rpc ThirdLogin(ThirdLoginReq) returns(LoginResp);
-
-
-  // 获取第三方登录授权地址
-  rpc GetOauthAuthorizeUrl(GetOauthAuthorizeUrlReq) returns(GetOauthAuthorizeUrlResp);
-  // 发送邮件验证码
-  rpc SendEmailVerifyCode(SendEmailVerifyCodeReq) returns(SendEmailVerifyCodeResp);
-  // 发送手机号验证码
-  rpc SendPhoneVerifyCode(SendPhoneVerifyCodeReq) returns(SendPhoneVerifyCodeResp);
-  // 生成验证码
-  rpc GenerateCaptchaCode(GenerateCaptchaCodeReq) returns(GenerateCaptchaCodeResp);
 
 
   // 获取用户信息

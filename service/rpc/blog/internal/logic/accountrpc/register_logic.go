@@ -8,9 +8,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 
-	"github.com/YaHeii/Polyphonic-Yahei/common/constant"
 	"github.com/YaHeii/Polyphonic-Yahei/common/enums"
-	"github.com/YaHeii/Polyphonic-Yahei/common/rediskey"
 	"github.com/YaHeii/Polyphonic-Yahei/pkg/infra/biz/bizcode"
 	"github.com/YaHeii/Polyphonic-Yahei/pkg/infra/biz/bizerr"
 	"github.com/YaHeii/Polyphonic-Yahei/pkg/utils/cryptox"
@@ -58,12 +56,6 @@ func (l *RegisterLogic) Register(in *accountrpc.RegisterReq) (*accountrpc.Regist
 	if err != nil && !errors.Is(err, model.ErrNotFound) {
 		return nil, err
 	}
-	// 获取验证码
-	key := rediskey.GetCaptchaKey(constant.CodeTypeRegister, in.Email)
-	if l.svcCtx.CaptchaHolder == nil || !l.svcCtx.CaptchaHolder.VerifyCaptcha(key, in.VerifyCode) {
-		return nil, bizerr.NewBizError(bizcode.CodeCaptchaVerify, "验证码错误")
-	}
-
 	user, err := l.register(in)
 	if err != nil {
 		return nil, err

@@ -6,11 +6,9 @@ import (
 
 type Config struct {
 	zrpc.RpcServerConf
-	PgsqlConf      PgsqlConf
-	RedisConf      RedisConf
-	RabbitMQConf   RabbitMQConf
-	EmailConf      EmailConf
-	ThirdPartyConf map[string]map[string]ThirdPartyInfo
+	PgsqlConf    PgsqlConf
+	RedisConf    RedisConf
+	RabbitMQConf RabbitMQConf
 }
 
 // pgsql数据库配置
@@ -37,20 +35,4 @@ type RabbitMQConf struct {
 	Port     string `json:"port"`
 	Username string `json:"username"`
 	Password string `json:"password"`
-}
-
-// 邮件配置
-type EmailConf struct {
-	Host     string   `json:"host"`     // 服务器地址
-	Port     int      `json:"port"`     // 端口
-	Username string   `json:"username"` // 发件人
-	Password string   `json:"password"` // 密钥
-	Nickname string   `json:"nickname"` // 发件人昵称
-	BCC      []string `json:"bcc"`      // 密送邮箱:多个以英文逗号分隔
-}
-
-type ThirdPartyInfo struct {
-	ClientId     string `json:"client_id"`
-	ClientSecret string `json:"client_secret"`
-	RedirectUri  string `json:"redirect_uri"`
 }

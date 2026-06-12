@@ -34,10 +34,6 @@ func (l *EmailLoginLogic) EmailLogin(in *accountrpc.EmailLoginReq) (*accountrpc.
 		return nil, bizerr.NewBizError(bizcode.CodeInvalidParam, "邮箱格式不正确")
 	}
 
-	if !l.svcCtx.CaptchaHolder.VerifyCaptcha(in.CaptchaKey, in.CaptchaCode) {
-		return nil, bizerr.NewBizError(bizcode.CodeCaptchaVerify, "验证码错误")
-	}
-
 	account, err := l.svcCtx.TUserModel.FindOneByEmail(l.ctx, in.Email)
 	if err != nil {
 		return nil, bizerr.NewBizError(bizcode.CodeUserNotExist, "邮箱未注册")

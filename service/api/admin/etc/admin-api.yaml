@@ -26,6 +26,27 @@ RedisConf:
   port: "${REDIS_PORT}"
   password: ${REDIS_PASSWORD}
 
+EmailConf:
+  host: ${EMAIL_HOST}
+  port: ${EMAIL_PORT}
+  username: ${EMAIL_USERNAME}
+  password: ${EMAIL_PASSWORD}
+  nickname: ${EMAIL_NICKNAME}
+  bcc:
+    - ${EMAIL_BCC}
+
+ThirdPartyConf:
+  blog-web:
+    github:
+      client_id: ${BLOG_WEB_GITHUB_CLIENT_ID}
+      client_secret: ${BLOG_WEB_GITHUB_CLIENT_SECRET}
+      redirect_uri: ${BLOG_WEB_GITHUB_REDIRECT_URI}
+  admin-web:
+    github:
+      client_id: ${ADMIN_WEB_GITHUB_CLIENT_ID}
+      client_secret: ${ADMIN_WEB_GITHUB_CLIENT_SECRET}
+      redirect_uri: ${ADMIN_WEB_GITHUB_REDIRECT_URI}
+
 BlogRpcConf:
   Endpoints:
     - ${BLOG_RPC_ENDPOINT}

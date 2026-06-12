@@ -29,10 +29,6 @@ const (
 	AccountRpc_EmailLogin_FullMethodName             = "/accountrpc.AccountRpc/EmailLogin"
 	AccountRpc_PhoneLogin_FullMethodName             = "/accountrpc.AccountRpc/PhoneLogin"
 	AccountRpc_ThirdLogin_FullMethodName             = "/accountrpc.AccountRpc/ThirdLogin"
-	AccountRpc_GetOauthAuthorizeUrl_FullMethodName   = "/accountrpc.AccountRpc/GetOauthAuthorizeUrl"
-	AccountRpc_SendEmailVerifyCode_FullMethodName    = "/accountrpc.AccountRpc/SendEmailVerifyCode"
-	AccountRpc_SendPhoneVerifyCode_FullMethodName    = "/accountrpc.AccountRpc/SendPhoneVerifyCode"
-	AccountRpc_GenerateCaptchaCode_FullMethodName    = "/accountrpc.AccountRpc/GenerateCaptchaCode"
 	AccountRpc_GetUserInfo_FullMethodName            = "/accountrpc.AccountRpc/GetUserInfo"
 	AccountRpc_GetUserOauthInfo_FullMethodName       = "/accountrpc.AccountRpc/GetUserOauthInfo"
 	AccountRpc_UpdateUserInfo_FullMethodName         = "/accountrpc.AccountRpc/UpdateUserInfo"
@@ -73,14 +69,6 @@ type AccountRpcClient interface {
 	PhoneLogin(ctx context.Context, in *PhoneLoginReq, opts ...grpc.CallOption) (*LoginResp, error)
 	// 第三方登录
 	ThirdLogin(ctx context.Context, in *ThirdLoginReq, opts ...grpc.CallOption) (*LoginResp, error)
-	// 获取第三方登录授权地址
-	GetOauthAuthorizeUrl(ctx context.Context, in *GetOauthAuthorizeUrlReq, opts ...grpc.CallOption) (*GetOauthAuthorizeUrlResp, error)
-	// 发送邮件验证码
-	SendEmailVerifyCode(ctx context.Context, in *SendEmailVerifyCodeReq, opts ...grpc.CallOption) (*SendEmailVerifyCodeResp, error)
-	// 发送手机号验证码
-	SendPhoneVerifyCode(ctx context.Context, in *SendPhoneVerifyCodeReq, opts ...grpc.CallOption) (*SendPhoneVerifyCodeResp, error)
-	// 生成验证码
-	GenerateCaptchaCode(ctx context.Context, in *GenerateCaptchaCodeReq, opts ...grpc.CallOption) (*GenerateCaptchaCodeResp, error)
 	// 获取用户信息
 	GetUserInfo(ctx context.Context, in *GetUserInfoReq, opts ...grpc.CallOption) (*GetUserInfoResp, error)
 	// 获取用户第三平台信息
@@ -201,46 +189,6 @@ func (c *accountRpcClient) ThirdLogin(ctx context.Context, in *ThirdLoginReq, op
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(LoginResp)
 	err := c.cc.Invoke(ctx, AccountRpc_ThirdLogin_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *accountRpcClient) GetOauthAuthorizeUrl(ctx context.Context, in *GetOauthAuthorizeUrlReq, opts ...grpc.CallOption) (*GetOauthAuthorizeUrlResp, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetOauthAuthorizeUrlResp)
-	err := c.cc.Invoke(ctx, AccountRpc_GetOauthAuthorizeUrl_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *accountRpcClient) SendEmailVerifyCode(ctx context.Context, in *SendEmailVerifyCodeReq, opts ...grpc.CallOption) (*SendEmailVerifyCodeResp, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(SendEmailVerifyCodeResp)
-	err := c.cc.Invoke(ctx, AccountRpc_SendEmailVerifyCode_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *accountRpcClient) SendPhoneVerifyCode(ctx context.Context, in *SendPhoneVerifyCodeReq, opts ...grpc.CallOption) (*SendPhoneVerifyCodeResp, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(SendPhoneVerifyCodeResp)
-	err := c.cc.Invoke(ctx, AccountRpc_SendPhoneVerifyCode_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *accountRpcClient) GenerateCaptchaCode(ctx context.Context, in *GenerateCaptchaCodeReq, opts ...grpc.CallOption) (*GenerateCaptchaCodeResp, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GenerateCaptchaCodeResp)
-	err := c.cc.Invoke(ctx, AccountRpc_GenerateCaptchaCode_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -447,14 +395,6 @@ type AccountRpcServer interface {
 	PhoneLogin(context.Context, *PhoneLoginReq) (*LoginResp, error)
 	// 第三方登录
 	ThirdLogin(context.Context, *ThirdLoginReq) (*LoginResp, error)
-	// 获取第三方登录授权地址
-	GetOauthAuthorizeUrl(context.Context, *GetOauthAuthorizeUrlReq) (*GetOauthAuthorizeUrlResp, error)
-	// 发送邮件验证码
-	SendEmailVerifyCode(context.Context, *SendEmailVerifyCodeReq) (*SendEmailVerifyCodeResp, error)
-	// 发送手机号验证码
-	SendPhoneVerifyCode(context.Context, *SendPhoneVerifyCodeReq) (*SendPhoneVerifyCodeResp, error)
-	// 生成验证码
-	GenerateCaptchaCode(context.Context, *GenerateCaptchaCodeReq) (*GenerateCaptchaCodeResp, error)
 	// 获取用户信息
 	GetUserInfo(context.Context, *GetUserInfoReq) (*GetUserInfoResp, error)
 	// 获取用户第三平台信息
@@ -524,18 +464,6 @@ func (UnimplementedAccountRpcServer) PhoneLogin(context.Context, *PhoneLoginReq)
 }
 func (UnimplementedAccountRpcServer) ThirdLogin(context.Context, *ThirdLoginReq) (*LoginResp, error) {
 	return nil, status.Error(codes.Unimplemented, "method ThirdLogin not implemented")
-}
-func (UnimplementedAccountRpcServer) GetOauthAuthorizeUrl(context.Context, *GetOauthAuthorizeUrlReq) (*GetOauthAuthorizeUrlResp, error) {
-	return nil, status.Error(codes.Unimplemented, "method GetOauthAuthorizeUrl not implemented")
-}
-func (UnimplementedAccountRpcServer) SendEmailVerifyCode(context.Context, *SendEmailVerifyCodeReq) (*SendEmailVerifyCodeResp, error) {
-	return nil, status.Error(codes.Unimplemented, "method SendEmailVerifyCode not implemented")
-}
-func (UnimplementedAccountRpcServer) SendPhoneVerifyCode(context.Context, *SendPhoneVerifyCodeReq) (*SendPhoneVerifyCodeResp, error) {
-	return nil, status.Error(codes.Unimplemented, "method SendPhoneVerifyCode not implemented")
-}
-func (UnimplementedAccountRpcServer) GenerateCaptchaCode(context.Context, *GenerateCaptchaCodeReq) (*GenerateCaptchaCodeResp, error) {
-	return nil, status.Error(codes.Unimplemented, "method GenerateCaptchaCode not implemented")
 }
 func (UnimplementedAccountRpcServer) GetUserInfo(context.Context, *GetUserInfoReq) (*GetUserInfoResp, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetUserInfo not implemented")
@@ -752,78 +680,6 @@ func _AccountRpc_ThirdLogin_Handler(srv interface{}, ctx context.Context, dec fu
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AccountRpcServer).ThirdLogin(ctx, req.(*ThirdLoginReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _AccountRpc_GetOauthAuthorizeUrl_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetOauthAuthorizeUrlReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AccountRpcServer).GetOauthAuthorizeUrl(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: AccountRpc_GetOauthAuthorizeUrl_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccountRpcServer).GetOauthAuthorizeUrl(ctx, req.(*GetOauthAuthorizeUrlReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _AccountRpc_SendEmailVerifyCode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SendEmailVerifyCodeReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AccountRpcServer).SendEmailVerifyCode(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: AccountRpc_SendEmailVerifyCode_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccountRpcServer).SendEmailVerifyCode(ctx, req.(*SendEmailVerifyCodeReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _AccountRpc_SendPhoneVerifyCode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SendPhoneVerifyCodeReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AccountRpcServer).SendPhoneVerifyCode(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: AccountRpc_SendPhoneVerifyCode_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccountRpcServer).SendPhoneVerifyCode(ctx, req.(*SendPhoneVerifyCodeReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _AccountRpc_GenerateCaptchaCode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GenerateCaptchaCodeReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AccountRpcServer).GenerateCaptchaCode(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: AccountRpc_GenerateCaptchaCode_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccountRpcServer).GenerateCaptchaCode(ctx, req.(*GenerateCaptchaCodeReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1190,22 +1046,6 @@ var AccountRpc_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ThirdLogin",
 			Handler:    _AccountRpc_ThirdLogin_Handler,
-		},
-		{
-			MethodName: "GetOauthAuthorizeUrl",
-			Handler:    _AccountRpc_GetOauthAuthorizeUrl_Handler,
-		},
-		{
-			MethodName: "SendEmailVerifyCode",
-			Handler:    _AccountRpc_SendEmailVerifyCode_Handler,
-		},
-		{
-			MethodName: "SendPhoneVerifyCode",
-			Handler:    _AccountRpc_SendPhoneVerifyCode_Handler,
-		},
-		{
-			MethodName: "GenerateCaptchaCode",
-			Handler:    _AccountRpc_GenerateCaptchaCode_Handler,
 		},
 		{
 			MethodName: "GetUserInfo",

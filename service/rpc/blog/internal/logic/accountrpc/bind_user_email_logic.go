@@ -4,8 +4,6 @@ import (
 	"context"
 	"errors"
 
-	"github.com/YaHeii/Polyphonic-Yahei/common/constant"
-	"github.com/YaHeii/Polyphonic-Yahei/common/rediskey"
 	"github.com/YaHeii/Polyphonic-Yahei/pkg/infra/biz/bizcode"
 	"github.com/YaHeii/Polyphonic-Yahei/pkg/infra/biz/bizerr"
 	"github.com/YaHeii/Polyphonic-Yahei/pkg/utils/patternx"
@@ -38,9 +36,6 @@ func (l *BindUserEmailLogic) BindUserEmail(in *accountrpc.BindUserEmailReq) (*ac
 	}
 	if !patternx.IsValidEmail(in.Email) {
 		return nil, bizerr.NewBizError(bizcode.CodeInvalidParam, "邮箱格式不正确")
-	}
-	if !l.svcCtx.CaptchaHolder.VerifyCaptcha(rediskey.GetCaptchaKey(constant.CodeTypeBindEmail, in.Email), in.VerifyCode) {
-		return nil, bizerr.NewBizError(bizcode.CodeCaptchaVerify, "验证码错误")
 	}
 
 	exist, err := l.svcCtx.TUserModel.FindOneByEmail(l.ctx, in.Email)

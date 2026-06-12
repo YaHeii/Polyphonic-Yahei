@@ -30,9 +30,14 @@ func NewThirdLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *ThirdL
 }
 
 func (l *ThirdLoginLogic) ThirdLogin(req *types.ThirdLoginReq) (resp *types.LoginResp, err error) {
+	info, err := getOauthIdentity(l.ctx, l.svcCtx, currentAppName(l.ctx), req.Platform, req.Code)
+	if err != nil {
+		return nil, err
+	}
+
 	out, err := l.svcCtx.AccountRpc.ThirdLogin(l.ctx, &accountrpc.ThirdLoginReq{
 		Platform: req.Platform,
-		Code:     req.Code,
+		OpenId:   info.OpenId,
 	})
 	if err != nil {
 		return nil, err

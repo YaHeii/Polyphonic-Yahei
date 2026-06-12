@@ -16,8 +16,6 @@ import (
 	"github.com/YaHeii/Polyphonic-Yahei/service/model"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/internal/common/online"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/internal/config"
-	"github.com/YaHeii/Polyphonic-Yahei/pkg/mail"
-	"github.com/YaHeii/Polyphonic-Yahei/pkg/captcha"
 )
 
 type ServiceContext struct {
@@ -25,8 +23,6 @@ type ServiceContext struct {
 	SqlConn    sqlx.SqlConn
 	Redis      *redis.Client
 	LocalCache *collection.Cache
-	EmailDeliver  mail.IEmailDeliver
-	CaptchaHolder *captcha.CaptchaHolder
 
 	OnlineUserService *online.OnlineUserService
 

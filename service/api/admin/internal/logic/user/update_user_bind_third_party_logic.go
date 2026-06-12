@@ -6,6 +6,7 @@ package user
 import (
 	"context"
 
+	authlogic "github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/logic/auth"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/svc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/types"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/accountrpc"
@@ -29,9 +30,16 @@ func NewUpdateUserBindThirdPartyLogic(ctx context.Context, svcCtx *svc.ServiceCo
 }
 
 func (l *UpdateUserBindThirdPartyLogic) UpdateUserBindThirdParty(req *types.UpdateUserBindThirdPartyReq) (resp *types.EmptyResp, err error) {
+	info, err := authlogic.GetOauthIdentityForUser(l.ctx, l.svcCtx, req.Platform, req.Code)
+	if err != nil {
+		return nil, err
+	}
+
 	_, err = l.svcCtx.AccountRpc.BindUserOauth(l.ctx, &accountrpc.BindUserOauthReq{
 		Platform: req.Platform,
-		Code:     req.Code,
+		OpenId:   info.OpenId,
+		Nickname: info.NickName,
+		Avatar:   info.Avatar,
 	})
 	if err != nil {
 		return nil, err

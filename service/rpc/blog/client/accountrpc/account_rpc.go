@@ -34,12 +34,8 @@ type (
 	FindUserListResp           = accountrpc.FindUserListResp
 	FindVisitorListReq         = accountrpc.FindVisitorListReq
 	FindVisitorListResp        = accountrpc.FindVisitorListResp
-	GenerateCaptchaCodeReq     = accountrpc.GenerateCaptchaCodeReq
-	GenerateCaptchaCodeResp    = accountrpc.GenerateCaptchaCodeResp
 	GetClientInfoReq           = accountrpc.GetClientInfoReq
 	GetClientInfoResp          = accountrpc.GetClientInfoResp
-	GetOauthAuthorizeUrlReq    = accountrpc.GetOauthAuthorizeUrlReq
-	GetOauthAuthorizeUrlResp   = accountrpc.GetOauthAuthorizeUrlResp
 	GetUserInfoReq             = accountrpc.GetUserInfoReq
 	GetUserInfoResp            = accountrpc.GetUserInfoResp
 	GetUserOauthInfoReq        = accountrpc.GetUserOauthInfoReq
@@ -55,10 +51,6 @@ type (
 	RegisterResp               = accountrpc.RegisterResp
 	ResetPasswordReq           = accountrpc.ResetPasswordReq
 	ResetPasswordResp          = accountrpc.ResetPasswordResp
-	SendEmailVerifyCodeReq     = accountrpc.SendEmailVerifyCodeReq
-	SendEmailVerifyCodeResp    = accountrpc.SendEmailVerifyCodeResp
-	SendPhoneVerifyCodeReq     = accountrpc.SendPhoneVerifyCodeReq
-	SendPhoneVerifyCodeResp    = accountrpc.SendPhoneVerifyCodeResp
 	ThirdLoginReq              = accountrpc.ThirdLoginReq
 	UnbindUserOauthReq         = accountrpc.UnbindUserOauthReq
 	UnbindUserOauthResp        = accountrpc.UnbindUserOauthResp
@@ -86,14 +78,6 @@ type (
 		PhoneLogin(ctx context.Context, in *PhoneLoginReq, opts ...grpc.CallOption) (*LoginResp, error)
 		// 第三方登录
 		ThirdLogin(ctx context.Context, in *ThirdLoginReq, opts ...grpc.CallOption) (*LoginResp, error)
-		// 获取第三方登录授权地址
-		GetOauthAuthorizeUrl(ctx context.Context, in *GetOauthAuthorizeUrlReq, opts ...grpc.CallOption) (*GetOauthAuthorizeUrlResp, error)
-		// 发送邮件验证码
-		SendEmailVerifyCode(ctx context.Context, in *SendEmailVerifyCodeReq, opts ...grpc.CallOption) (*SendEmailVerifyCodeResp, error)
-		// 发送手机号验证码
-		SendPhoneVerifyCode(ctx context.Context, in *SendPhoneVerifyCodeReq, opts ...grpc.CallOption) (*SendPhoneVerifyCodeResp, error)
-		// 生成验证码
-		GenerateCaptchaCode(ctx context.Context, in *GenerateCaptchaCodeReq, opts ...grpc.CallOption) (*GenerateCaptchaCodeResp, error)
 		// 获取用户信息
 		GetUserInfo(ctx context.Context, in *GetUserInfoReq, opts ...grpc.CallOption) (*GetUserInfoResp, error)
 		// 获取用户第三平台信息
@@ -189,30 +173,6 @@ func (m *defaultAccountRpc) PhoneLogin(ctx context.Context, in *PhoneLoginReq, o
 func (m *defaultAccountRpc) ThirdLogin(ctx context.Context, in *ThirdLoginReq, opts ...grpc.CallOption) (*LoginResp, error) {
 	client := accountrpc.NewAccountRpcClient(m.cli.Conn())
 	return client.ThirdLogin(ctx, in, opts...)
-}
-
-// 获取第三方登录授权地址
-func (m *defaultAccountRpc) GetOauthAuthorizeUrl(ctx context.Context, in *GetOauthAuthorizeUrlReq, opts ...grpc.CallOption) (*GetOauthAuthorizeUrlResp, error) {
-	client := accountrpc.NewAccountRpcClient(m.cli.Conn())
-	return client.GetOauthAuthorizeUrl(ctx, in, opts...)
-}
-
-// 发送邮件验证码
-func (m *defaultAccountRpc) SendEmailVerifyCode(ctx context.Context, in *SendEmailVerifyCodeReq, opts ...grpc.CallOption) (*SendEmailVerifyCodeResp, error) {
-	client := accountrpc.NewAccountRpcClient(m.cli.Conn())
-	return client.SendEmailVerifyCode(ctx, in, opts...)
-}
-
-// 发送手机号验证码
-func (m *defaultAccountRpc) SendPhoneVerifyCode(ctx context.Context, in *SendPhoneVerifyCodeReq, opts ...grpc.CallOption) (*SendPhoneVerifyCodeResp, error) {
-	client := accountrpc.NewAccountRpcClient(m.cli.Conn())
-	return client.SendPhoneVerifyCode(ctx, in, opts...)
-}
-
-// 生成验证码
-func (m *defaultAccountRpc) GenerateCaptchaCode(ctx context.Context, in *GenerateCaptchaCodeReq, opts ...grpc.CallOption) (*GenerateCaptchaCodeResp, error) {
-	client := accountrpc.NewAccountRpcClient(m.cli.Conn())
-	return client.GenerateCaptchaCode(ctx, in, opts...)
 }
 
 // 获取用户信息

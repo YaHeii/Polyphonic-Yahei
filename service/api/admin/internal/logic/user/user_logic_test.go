@@ -4,7 +4,11 @@ import (
 	"context"
 	"testing"
 
+	"github.com/YaHeii/Polyphonic-Yahei/common/constant"
+	"github.com/YaHeii/Polyphonic-Yahei/common/rediskey"
+	"github.com/YaHeii/Polyphonic-Yahei/pkg/captcha"
 	"github.com/YaHeii/Polyphonic-Yahei/pkg/infra/biz/bizheader"
+	"github.com/YaHeii/Polyphonic-Yahei/pkg/oauth"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/svc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/types"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/accountrpc"
@@ -102,6 +106,22 @@ type stubUserSyslogRPC struct {
 	syslogrpc.SyslogRpc
 	findReq  *syslogrpc.FindLoginLogListReq
 	findResp *syslogrpc.FindLoginLogListResp
+}
+
+type stubUserOauthProvider struct {
+	info *oauth.UserResult
+}
+
+func (s *stubUserOauthProvider) GetName() string {
+	return "github"
+}
+
+func (s *stubUserOauthProvider) GetAuthLoginUrl(state string) string {
+	return "https://oauth.example?state=" + state
+}
+
+func (s *stubUserOauthProvider) GetAuthUserInfo(string) (*oauth.UserResult, error) {
+	return s.info, nil
 }
 
 func (s *stubUserSyslogRPC) FindLoginLogList(_ context.Context, in *syslogrpc.FindLoginLogListReq, _ ...grpc.CallOption) (*syslogrpc.FindLoginLogListResp, error) {
@@ -331,29 +351,37 @@ func TestUserUpdateOperationsBuildRequests(t *testing.T) {
 
 func TestUserBindOperationsBuildRequests(t *testing.T) {
 	accountRPC := &stubUserAccountRPC{}
+	holder := captcha.NewCaptchaHolder()
 	ctx := context.Background()
+	svcCtx := &svc.ServiceContext{
+		AccountRpc:     accountRPC,
+		CaptchaHolder:  holder,
+		OauthProviders: map[string]oauth.Oauth{"admin-web:github": &stubUserOauthProvider{info: &oauth.UserResult{OpenId: "open-1", NickName: "gh", Avatar: "avatar"}}},
+	}
 
-	emailLogic := NewUpdateUserBindEmailLogic(ctx, &svc.ServiceContext{AccountRpc: accountRPC})
-	if _, err := emailLogic.UpdateUserBindEmail(&types.UpdateUserBindEmailReq{Email: "demo@example.com", VerifyCode: "1234"}); err != nil {
+	emailCode, _ := holder.GetCodeCaptcha(rediskey.GetCaptchaKey(constant.CodeTypeBindEmail, "demo@example.com"))
+	emailLogic := NewUpdateUserBindEmailLogic(ctx, svcCtx)
+	if _, err := emailLogic.UpdateUserBindEmail(&types.UpdateUserBindEmailReq{Email: "demo@example.com", VerifyCode: emailCode}); err != nil {
 		t.Fatalf("UpdateUserBindEmail returned error: %v", err)
 	}
 	if accountRPC.bindEmailReq == nil || accountRPC.bindEmailReq.Email != "demo@example.com" {
 		t.Fatalf("unexpected bind email request: %#v", accountRPC.bindEmailReq)
 	}
 
-	phoneLogic := NewUpdateUserBindPhoneLogic(ctx, &svc.ServiceContext{AccountRpc: accountRPC})
-	if _, err := phoneLogic.UpdateUserBindPhone(&types.UpdateUserBindPhoneReq{Phone: "188", VerifyCode: "5678"}); err != nil {
+	phoneCode, _ := holder.GetCodeCaptcha(rediskey.GetCaptchaKey(constant.CodeTypeBindPhone, "18800000000"))
+	phoneLogic := NewUpdateUserBindPhoneLogic(ctx, svcCtx)
+	if _, err := phoneLogic.UpdateUserBindPhone(&types.UpdateUserBindPhoneReq{Phone: "18800000000", VerifyCode: phoneCode}); err != nil {
 		t.Fatalf("UpdateUserBindPhone returned error: %v", err)
 	}
-	if accountRPC.bindPhoneReq == nil || accountRPC.bindPhoneReq.Phone != "188" {
+	if accountRPC.bindPhoneReq == nil || accountRPC.bindPhoneReq.Phone != "18800000000" {
 		t.Fatalf("unexpected bind phone request: %#v", accountRPC.bindPhoneReq)
 	}
 
-	oauthLogic := NewUpdateUserBindThirdPartyLogic(ctx, &svc.ServiceContext{AccountRpc: accountRPC})
+	oauthLogic := NewUpdateUserBindThirdPartyLogic(ctx, svcCtx)
 	if _, err := oauthLogic.UpdateUserBindThirdParty(&types.UpdateUserBindThirdPartyReq{Platform: "github", Code: "code", State: "state"}); err != nil {
 		t.Fatalf("UpdateUserBindThirdParty returned error: %v", err)
 	}
-	if accountRPC.bindOauthReq == nil || accountRPC.bindOauthReq.Platform != "github" || accountRPC.bindOauthReq.Code != "code" {
+	if accountRPC.bindOauthReq == nil || accountRPC.bindOauthReq.Platform != "github" || accountRPC.bindOauthReq.OpenId != "open-1" || accountRPC.bindOauthReq.Nickname != "gh" {
 		t.Fatalf("unexpected bind oauth request: %#v", accountRPC.bindOauthReq)
 	}
 

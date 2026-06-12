@@ -8,7 +8,6 @@ import (
 
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/svc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/types"
-	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/accountrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -29,15 +28,12 @@ func NewGetOauthAuthorizeUrlLogic(ctx context.Context, svcCtx *svc.ServiceContex
 }
 
 func (l *GetOauthAuthorizeUrlLogic) GetOauthAuthorizeUrl(req *types.GetOauthAuthorizeUrlReq) (resp *types.GetOauthAuthorizeUrlResp, err error) {
-	out, err := l.svcCtx.AccountRpc.GetOauthAuthorizeUrl(l.ctx, &accountrpc.GetOauthAuthorizeUrlReq{
-		Platform: req.Platform,
-		State:    req.State,
-	})
+	url, err := getOauthAuthorizeURL(l.svcCtx, currentAppName(l.ctx), req.Platform, req.State)
 	if err != nil {
 		return nil, err
 	}
 
 	return &types.GetOauthAuthorizeUrlResp{
-		AuthorizeUrl: out.GetAuthorizeUrl(),
+		AuthorizeUrl: url,
 	}, nil
 }

@@ -30,11 +30,13 @@ func NewEmailLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *EmailL
 }
 
 func (l *EmailLoginLogic) EmailLogin(req *types.EmailLoginReq) (resp *types.LoginResp, err error) {
+	if err := verifyCaptcha(l.svcCtx, req.CaptchaKey, req.CaptchaCode); err != nil {
+		return nil, err
+	}
+
 	out, err := l.svcCtx.AccountRpc.EmailLogin(l.ctx, &accountrpc.EmailLoginReq{
-		Email:       req.Email,
-		Password:    req.Password,
-		CaptchaKey:  req.CaptchaKey,
-		CaptchaCode: req.CaptchaCode,
+		Email:    req.Email,
+		Password: req.Password,
 	})
 	if err != nil {
 		return nil, err
