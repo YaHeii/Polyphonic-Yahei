@@ -13,8 +13,8 @@ import (
 type CaptchaHolder struct {
 	randSource *rand.Rand // 随机数种子
 
-	DefaultHeight  int     // 默认高度 40
-	DefaultWidth   int     // 默认宽度 80
+	DefaultHeight  int     // 默认高度 80
+	DefaultWidth   int     // 默认宽度 240
 	DefaultLength  int     // 默认长度,位数 6
 	DefaultMaxSkew float64 // 默认倾斜因子 0.7
 	DefaultDotRate float64 // 默认干扰点比率 25%
