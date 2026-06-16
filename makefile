@@ -5,6 +5,8 @@ MODEL_DIR := ./service/model
 GOCTL_TEMPLATE_HOME := ./.goctl
 ENV_FILE ?= .env
 ENV_EXAMPLE_FILE ?= .env.example
+ENV_SOURCE := $(if $(wildcard $(ENV_FILE)),$(ENV_FILE),$(ENV_EXAMPLE_FILE))
+-include $(ENV_SOURCE)
 COMPOSE_FILE ?= docker-compose.yaml
 DOCKER_COMPOSE := docker compose --env-file $(ENV_FILE) -f $(COMPOSE_FILE)
 PG_DSN := postgres://root:root@127.0.0.1:5432/blog-init?sslmode=disable
@@ -16,10 +18,21 @@ BLOG_RPC_OUT := service/rpc/blog/internal/pb
 BLOG_ZRPC_OUT := service/rpc/blog
 ETC_DIR := service/rpc/blog/etc
 BLOG_RPC_PROTO_DIR := service/rpc/blog/proto
+MIGRATE_DIR := service/db/migrations
+BOOTSTRAP_SEED_DIR := service/db/seeds/bootstrap
+DB_CLI_HOST ?= 127.0.0.1
+MIGRATE ?= migrate
+PSQL ?= psql
+empty :=
+space := $(empty) $(empty)
+DB_SSLMODE := $(or $(patsubst sslmode=%,%,$(filter sslmode=%,$(POSTGRES_CONFIG))),disable)
+HOST_PG_URI := postgres://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@$(DB_CLI_HOST):$(POSTGRES_PORT)/$(POSTGRES_DB)?sslmode=$(DB_SSLMODE)
+HOST_PG_PSQL_DSN := host=$(DB_CLI_HOST) port=$(POSTGRES_PORT) user=$(POSTGRES_USER) password=$(POSTGRES_PASSWORD) dbname=$(POSTGRES_DB) sslmode=$(DB_SSLMODE)
 
 
 .PHONY: goctl-api-admin goctl-api-admin-swagger goctl-api-admin-clean-generated goctl-api-admin-reset goctl-model goctl-model-core goctl-model-relation goctl-model-log goctl-model-all goctl-rpc-blog
 .PHONY: env-init compose-config compose-build compose-build-admin compose-build-blog compose-up compose-up-build compose-down compose-logs compose-ps compose-restart
+.PHONY: migrate-up migrate-down migrate-version migrate-force seed-bootstrap
 
 goctl-api-admin:
 	goctl api go \
@@ -112,3 +125,27 @@ compose-ps:
 
 compose-restart:
 	$(DOCKER_COMPOSE) restart
+
+migrate-up: env-init
+	@command -v $(MIGRATE) >/dev/null 2>&1 || { echo "migrate CLI not found. Install golang-migrate first."; exit 1; }
+	$(MIGRATE) -path $(MIGRATE_DIR) -database "$(HOST_PG_URI)" up
+
+migrate-down: env-init
+	@command -v $(MIGRATE) >/dev/null 2>&1 || { echo "migrate CLI not found. Install golang-migrate first."; exit 1; }
+	$(MIGRATE) -path $(MIGRATE_DIR) -database "$(HOST_PG_URI)" down 1
+
+migrate-version: env-init
+	@command -v $(MIGRATE) >/dev/null 2>&1 || { echo "migrate CLI not found. Install golang-migrate first."; exit 1; }
+	$(MIGRATE) -path $(MIGRATE_DIR) -database "$(HOST_PG_URI)" version
+
+migrate-force: env-init
+	@command -v $(MIGRATE) >/dev/null 2>&1 || { echo "migrate CLI not found. Install golang-migrate first."; exit 1; }
+	@test -n "$(VERSION)" || { echo "VERSION is required, for example: make migrate-force VERSION=1"; exit 1; }
+	$(MIGRATE) -path $(MIGRATE_DIR) -database "$(HOST_PG_URI)" force $(VERSION)
+
+seed-bootstrap: env-init
+	@command -v $(PSQL) >/dev/null 2>&1 || { echo "psql CLI not found. Install postgresql client first."; exit 1; }
+	@for file in $(sort $(wildcard $(BOOTSTRAP_SEED_DIR)/*.sql)); do \
+		echo "Applying bootstrap seed $$file"; \
+		$(PSQL) "$(HOST_PG_PSQL_DSN)" -v ON_ERROR_STOP=1 -f "$$file" || exit $$?; \
+	done

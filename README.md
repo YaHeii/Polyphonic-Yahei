@@ -31,6 +31,7 @@
 ├── pkg/                      # 基础设施与项目级工具能力
 ├── service/
 │   ├── api/admin/            # 管理端 API
+│   ├── db/                   # 数据库 migration 与 bootstrap seed 真相源
 │   ├── model/                # 数据模型与生成产物
 │   └── rpc/blog/             # Blog RPC 服务
 ├── web/                      # Web 相关目录，前端能力仍在逐步补齐
@@ -44,6 +45,9 @@
 
 ```bash
 make env-init
+docker compose --env-file .env -f docker-compose.yaml up -d postgres
+make migrate-up
+make seed-bootstrap
 make compose-up-build
 ```
 
@@ -64,10 +68,17 @@ curl http://127.0.0.1:9091/admin-api/v1/ping
 常用联调命令：
 
 ```bash
+make migrate-version
+make migrate-down
 make compose-logs
 make compose-ps
 make compose-down
 ```
+
+数据库真相源已经收口到 `service/db`：
+
+- schema 变更放 `service/db/migrations`
+- 必需初始化数据放 `service/db/seeds/bootstrap`
 
 🫡 参考
 https://github.com/ve-weiyi/ve-blog-golang
