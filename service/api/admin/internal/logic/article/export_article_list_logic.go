@@ -4,11 +4,13 @@
 package article
 
 import (
+	"bytes"
 	"context"
+	"os"
 	"path"
+	"text/template"
 	"time"
 
-	"github.com/YaHeii/Polyphonic-Yahei/pkg/quickstart/gotplgen"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/svc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/types"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/articlerpc"
@@ -58,22 +60,30 @@ func (l *ExportArticleListLogic) ExportArticleList(req *types.IdsReq) (resp *typ
 func (l *ExportArticleListLogic) exportArticle(a *types.ArticleBackVO) error {
 	fn := path.Join("./runtime/article", a.ArticleTitle+".md")
 
-	ac := gotplgen.TemplateMeta{
-		Mode:           gotplgen.ModeCreateOrReplace,
-		CodeOutPath:    fn,
-		TemplateString: articleTemplate,
-		Data: map[string]any{
-			"ArticleTitle":    a.ArticleTitle,
-			"ArticleCover":    a.ArticleCover,
-			"ArticleType":     a.ArticleType,
-			"ArticleCategory": a.CategoryName,
-			"ArticleTags":     a.TagNameList,
-			"ArticleContent":  a.ArticleContent,
-			"CreateTime":      time.UnixMilli(a.CreatedAt).String(),
-		},
+	tpl, err := template.New("article-export").Parse(articleTemplate)
+	if err != nil {
+		return err
 	}
 
-	return ac.Execute()
+	var buf bytes.Buffer
+	err = tpl.Execute(&buf, map[string]any{
+		"ArticleTitle":    a.ArticleTitle,
+		"ArticleCover":    a.ArticleCover,
+		"ArticleType":     a.ArticleType,
+		"ArticleCategory": a.CategoryName,
+		"ArticleTags":     a.TagNameList,
+		"ArticleContent":  a.ArticleContent,
+		"CreateTime":      time.UnixMilli(a.CreatedAt).String(),
+	})
+	if err != nil {
+		return err
+	}
+
+	if err := os.MkdirAll(path.Dir(fn), 0o755); err != nil {
+		return err
+	}
+
+	return os.WriteFile(fn, buf.Bytes(), 0o644)
 }
 
 const articleTemplate = `
