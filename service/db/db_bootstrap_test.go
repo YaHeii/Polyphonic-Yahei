@@ -38,6 +38,8 @@ func TestServiceDBLayoutExists(t *testing.T) {
 		filepath.Join(root, "service", "db", "README.md"),
 		filepath.Join(root, "service", "db", "migrations", "000001_blog_init.up.sql"),
 		filepath.Join(root, "service", "db", "migrations", "000001_blog_init.down.sql"),
+		filepath.Join(root, "service", "db", "migrations", "000002_drop_t_page.up.sql"),
+		filepath.Join(root, "service", "db", "migrations", "000002_drop_t_page.down.sql"),
 		filepath.Join(root, "service", "db", "seeds", "bootstrap", "001_auth_bootstrap.sql"),
 		filepath.Join(root, "service", "db", "seeds", "bootstrap", "002_permission_bootstrap.sql"),
 		filepath.Join(root, "service", "db", "seeds", "bootstrap", "003_site_bootstrap.sql"),
@@ -118,6 +120,32 @@ func TestBootstrapSeedOnlyContainsRequiredSystemData(t *testing.T) {
 	for _, item := range forbidden {
 		if strings.Contains(seedSQL, item) {
 			t.Fatalf("expected bootstrap seed to exclude %q", item)
+		}
+	}
+}
+
+func TestDropPageMigrationExistsAndDropsTable(t *testing.T) {
+	root := repoRoot(t)
+	upSQL := readFile(t, root, "service", "db", "migrations", "000002_drop_t_page.up.sql")
+	downSQL := readFile(t, root, "service", "db", "migrations", "000002_drop_t_page.down.sql")
+
+	requiredUp := []string{
+		"DROP TRIGGER IF EXISTS trg_t_page_set_updated_at ON t_page;",
+		"DROP TABLE IF EXISTS t_page;",
+	}
+	for _, item := range requiredUp {
+		if !strings.Contains(upSQL, item) {
+			t.Fatalf("expected drop migration up to contain %q", item)
+		}
+	}
+
+	requiredDown := []string{
+		"CREATE TABLE t_page (",
+		"CREATE TRIGGER trg_t_page_set_updated_at BEFORE UPDATE ON t_page",
+	}
+	for _, item := range requiredDown {
+		if !strings.Contains(downSQL, item) {
+			t.Fatalf("expected drop migration down to contain %q", item)
 		}
 	}
 }

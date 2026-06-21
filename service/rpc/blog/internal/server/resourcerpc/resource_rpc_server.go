@@ -88,27 +88,3 @@ func (s *ResourceRpcServer) FindAlbumList(ctx context.Context, in *resourcerpc.F
 	l := resourcerpclogic.NewFindAlbumListLogic(ctx, s.svcCtx)
 	return l.FindAlbumList(in)
 }
-
-// 创建页面
-func (s *ResourceRpcServer) AddPage(ctx context.Context, in *resourcerpc.AddPageReq) (*resourcerpc.AddPageResp, error) {
-	l := resourcerpclogic.NewAddPageLogic(ctx, s.svcCtx)
-	return l.AddPage(in)
-}
-
-// 更新页面
-func (s *ResourceRpcServer) UpdatePage(ctx context.Context, in *resourcerpc.UpdatePageReq) (*resourcerpc.UpdatePageResp, error) {
-	l := resourcerpclogic.NewUpdatePageLogic(ctx, s.svcCtx)
-	return l.UpdatePage(in)
-}
-
-// 删除页面
-func (s *ResourceRpcServer) DeletesPage(ctx context.Context, in *resourcerpc.DeletesPageReq) (*resourcerpc.DeletesPageResp, error) {
-	l := resourcerpclogic.NewDeletesPageLogic(ctx, s.svcCtx)
-	return l.DeletesPage(in)
-}
-
-// 查询页面列表
-func (s *ResourceRpcServer) FindPageList(ctx context.Context, in *resourcerpc.FindPageListReq) (*resourcerpc.FindPageListResp, error) {
-	l := resourcerpclogic.NewFindPageListLogic(ctx, s.svcCtx)
-	return l.FindPageList(in)
-}

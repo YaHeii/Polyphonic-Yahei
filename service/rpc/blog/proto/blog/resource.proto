@@ -163,63 +163,6 @@ message FindAlbumListResp {
   repeated Album list = 2;
 }
 
-/************** 页面管理 **************/
-message Page {
-  int64 id = 1;// 页面id
-  string page_name = 2;// 页面名
-  string page_label = 3;// 页面标签
-  string page_cover = 4;// 页面封面
-  bool is_carousel = 5;// 是否轮播
-  repeated string carousel_covers = 6;// 轮播列表
-  int64 created_at = 7;// 创建时间
-  int64 updated_at = 8;// 更新时间
-}
-
-message AddPageReq {
-  int64 id = 1;// 页面id
-  string page_name = 2;// 页面名
-  string page_label = 3;// 页面标签
-  string page_cover = 4;// 页面封面
-  bool is_carousel = 5;// 是否轮播
-  repeated string carousel_covers = 6;// 轮播列表
-}
-
-message AddPageResp {
-  Page page = 1;
-}
-
-message UpdatePageReq {
-  int64 id = 1;// 页面id
-  string page_name = 2;// 页面名
-  string page_label = 3;// 页面标签
-  string page_cover = 4;// 页面封面
-  bool is_carousel = 5;// 是否轮播
-  repeated string carousel_covers = 6;// 轮播列表
-}
-
-message UpdatePageResp {
-  Page page = 1;
-}
-
-message DeletesPageReq {
-  repeated int64 ids = 1; // id列表
-}
-
-message DeletesPageResp {
-  int64 success_count = 1; // 成功数量
-}
-
-message FindPageListReq {
-  PageReq paginate = 1;    // 分页参数
-  string page_name = 2;// 页面名
-}
-
-message FindPageListResp {
-  PageResp pagination = 1; // 分页信息
-  repeated Page list = 2;
-}
-
-
 service ResourceRpc {
   // 创建照片
   rpc AddPhoto(AddPhotoReq) returns(AddPhotoResp);
@@ -244,13 +187,4 @@ service ResourceRpc {
   rpc DeletesAlbum(DeletesAlbumReq) returns(DeletesAlbumResp);
   // 查询相册列表
   rpc FindAlbumList(FindAlbumListReq) returns(FindAlbumListResp);
-
-  // 创建页面
-  rpc AddPage(AddPageReq) returns(AddPageResp);
-  // 更新页面
-  rpc UpdatePage(UpdatePageReq) returns(UpdatePageResp);
-  // 删除页面
-  rpc DeletesPage(DeletesPageReq) returns(DeletesPageResp);
-  // 查询页面列表
-  rpc FindPageList(FindPageListReq) returns(FindPageListResp);
 }

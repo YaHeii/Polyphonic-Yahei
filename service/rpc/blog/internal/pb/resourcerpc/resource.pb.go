@@ -1549,555 +1549,6 @@ func (x *FindAlbumListResp) GetList() []*Album {
 	return nil
 }
 
-// ************* 页面管理 *************
-type Page struct {
-	state          protoimpl.MessageState `protogen:"open.v1"`
-	Id             int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`                                              // 页面id
-	PageName       string                 `protobuf:"bytes,2,opt,name=page_name,json=pageName,proto3" json:"page_name,omitempty"`                   // 页面名
-	PageLabel      string                 `protobuf:"bytes,3,opt,name=page_label,json=pageLabel,proto3" json:"page_label,omitempty"`                // 页面标签
-	PageCover      string                 `protobuf:"bytes,4,opt,name=page_cover,json=pageCover,proto3" json:"page_cover,omitempty"`                // 页面封面
-	IsCarousel     bool                   `protobuf:"varint,5,opt,name=is_carousel,json=isCarousel,proto3" json:"is_carousel,omitempty"`            // 是否轮播
-	CarouselCovers []string               `protobuf:"bytes,6,rep,name=carousel_covers,json=carouselCovers,proto3" json:"carousel_covers,omitempty"` // 轮播列表
-	CreatedAt      int64                  `protobuf:"varint,7,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`               // 创建时间
-	UpdatedAt      int64                  `protobuf:"varint,8,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`               // 更新时间
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
-}
-
-func (x *Page) Reset() {
-	*x = Page{}
-	mi := &file_blog_resource_proto_msgTypes[26]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *Page) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*Page) ProtoMessage() {}
-
-func (x *Page) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_resource_proto_msgTypes[26]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Page.ProtoReflect.Descriptor instead.
-func (*Page) Descriptor() ([]byte, []int) {
-	return file_blog_resource_proto_rawDescGZIP(), []int{26}
-}
-
-func (x *Page) GetId() int64 {
-	if x != nil {
-		return x.Id
-	}
-	return 0
-}
-
-func (x *Page) GetPageName() string {
-	if x != nil {
-		return x.PageName
-	}
-	return ""
-}
-
-func (x *Page) GetPageLabel() string {
-	if x != nil {
-		return x.PageLabel
-	}
-	return ""
-}
-
-func (x *Page) GetPageCover() string {
-	if x != nil {
-		return x.PageCover
-	}
-	return ""
-}
-
-func (x *Page) GetIsCarousel() bool {
-	if x != nil {
-		return x.IsCarousel
-	}
-	return false
-}
-
-func (x *Page) GetCarouselCovers() []string {
-	if x != nil {
-		return x.CarouselCovers
-	}
-	return nil
-}
-
-func (x *Page) GetCreatedAt() int64 {
-	if x != nil {
-		return x.CreatedAt
-	}
-	return 0
-}
-
-func (x *Page) GetUpdatedAt() int64 {
-	if x != nil {
-		return x.UpdatedAt
-	}
-	return 0
-}
-
-type AddPageReq struct {
-	state          protoimpl.MessageState `protogen:"open.v1"`
-	Id             int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`                                              // 页面id
-	PageName       string                 `protobuf:"bytes,2,opt,name=page_name,json=pageName,proto3" json:"page_name,omitempty"`                   // 页面名
-	PageLabel      string                 `protobuf:"bytes,3,opt,name=page_label,json=pageLabel,proto3" json:"page_label,omitempty"`                // 页面标签
-	PageCover      string                 `protobuf:"bytes,4,opt,name=page_cover,json=pageCover,proto3" json:"page_cover,omitempty"`                // 页面封面
-	IsCarousel     bool                   `protobuf:"varint,5,opt,name=is_carousel,json=isCarousel,proto3" json:"is_carousel,omitempty"`            // 是否轮播
-	CarouselCovers []string               `protobuf:"bytes,6,rep,name=carousel_covers,json=carouselCovers,proto3" json:"carousel_covers,omitempty"` // 轮播列表
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
-}
-
-func (x *AddPageReq) Reset() {
-	*x = AddPageReq{}
-	mi := &file_blog_resource_proto_msgTypes[27]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *AddPageReq) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*AddPageReq) ProtoMessage() {}
-
-func (x *AddPageReq) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_resource_proto_msgTypes[27]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use AddPageReq.ProtoReflect.Descriptor instead.
-func (*AddPageReq) Descriptor() ([]byte, []int) {
-	return file_blog_resource_proto_rawDescGZIP(), []int{27}
-}
-
-func (x *AddPageReq) GetId() int64 {
-	if x != nil {
-		return x.Id
-	}
-	return 0
-}
-
-func (x *AddPageReq) GetPageName() string {
-	if x != nil {
-		return x.PageName
-	}
-	return ""
-}
-
-func (x *AddPageReq) GetPageLabel() string {
-	if x != nil {
-		return x.PageLabel
-	}
-	return ""
-}
-
-func (x *AddPageReq) GetPageCover() string {
-	if x != nil {
-		return x.PageCover
-	}
-	return ""
-}
-
-func (x *AddPageReq) GetIsCarousel() bool {
-	if x != nil {
-		return x.IsCarousel
-	}
-	return false
-}
-
-func (x *AddPageReq) GetCarouselCovers() []string {
-	if x != nil {
-		return x.CarouselCovers
-	}
-	return nil
-}
-
-type AddPageResp struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Page          *Page                  `protobuf:"bytes,1,opt,name=page,proto3" json:"page,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *AddPageResp) Reset() {
-	*x = AddPageResp{}
-	mi := &file_blog_resource_proto_msgTypes[28]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *AddPageResp) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*AddPageResp) ProtoMessage() {}
-
-func (x *AddPageResp) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_resource_proto_msgTypes[28]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use AddPageResp.ProtoReflect.Descriptor instead.
-func (*AddPageResp) Descriptor() ([]byte, []int) {
-	return file_blog_resource_proto_rawDescGZIP(), []int{28}
-}
-
-func (x *AddPageResp) GetPage() *Page {
-	if x != nil {
-		return x.Page
-	}
-	return nil
-}
-
-type UpdatePageReq struct {
-	state          protoimpl.MessageState `protogen:"open.v1"`
-	Id             int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`                                              // 页面id
-	PageName       string                 `protobuf:"bytes,2,opt,name=page_name,json=pageName,proto3" json:"page_name,omitempty"`                   // 页面名
-	PageLabel      string                 `protobuf:"bytes,3,opt,name=page_label,json=pageLabel,proto3" json:"page_label,omitempty"`                // 页面标签
-	PageCover      string                 `protobuf:"bytes,4,opt,name=page_cover,json=pageCover,proto3" json:"page_cover,omitempty"`                // 页面封面
-	IsCarousel     bool                   `protobuf:"varint,5,opt,name=is_carousel,json=isCarousel,proto3" json:"is_carousel,omitempty"`            // 是否轮播
-	CarouselCovers []string               `protobuf:"bytes,6,rep,name=carousel_covers,json=carouselCovers,proto3" json:"carousel_covers,omitempty"` // 轮播列表
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
-}
-
-func (x *UpdatePageReq) Reset() {
-	*x = UpdatePageReq{}
-	mi := &file_blog_resource_proto_msgTypes[29]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *UpdatePageReq) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*UpdatePageReq) ProtoMessage() {}
-
-func (x *UpdatePageReq) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_resource_proto_msgTypes[29]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UpdatePageReq.ProtoReflect.Descriptor instead.
-func (*UpdatePageReq) Descriptor() ([]byte, []int) {
-	return file_blog_resource_proto_rawDescGZIP(), []int{29}
-}
-
-func (x *UpdatePageReq) GetId() int64 {
-	if x != nil {
-		return x.Id
-	}
-	return 0
-}
-
-func (x *UpdatePageReq) GetPageName() string {
-	if x != nil {
-		return x.PageName
-	}
-	return ""
-}
-
-func (x *UpdatePageReq) GetPageLabel() string {
-	if x != nil {
-		return x.PageLabel
-	}
-	return ""
-}
-
-func (x *UpdatePageReq) GetPageCover() string {
-	if x != nil {
-		return x.PageCover
-	}
-	return ""
-}
-
-func (x *UpdatePageReq) GetIsCarousel() bool {
-	if x != nil {
-		return x.IsCarousel
-	}
-	return false
-}
-
-func (x *UpdatePageReq) GetCarouselCovers() []string {
-	if x != nil {
-		return x.CarouselCovers
-	}
-	return nil
-}
-
-type UpdatePageResp struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Page          *Page                  `protobuf:"bytes,1,opt,name=page,proto3" json:"page,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *UpdatePageResp) Reset() {
-	*x = UpdatePageResp{}
-	mi := &file_blog_resource_proto_msgTypes[30]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *UpdatePageResp) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*UpdatePageResp) ProtoMessage() {}
-
-func (x *UpdatePageResp) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_resource_proto_msgTypes[30]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UpdatePageResp.ProtoReflect.Descriptor instead.
-func (*UpdatePageResp) Descriptor() ([]byte, []int) {
-	return file_blog_resource_proto_rawDescGZIP(), []int{30}
-}
-
-func (x *UpdatePageResp) GetPage() *Page {
-	if x != nil {
-		return x.Page
-	}
-	return nil
-}
-
-type DeletesPageReq struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Ids           []int64                `protobuf:"varint,1,rep,packed,name=ids,proto3" json:"ids,omitempty"` // id列表
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *DeletesPageReq) Reset() {
-	*x = DeletesPageReq{}
-	mi := &file_blog_resource_proto_msgTypes[31]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *DeletesPageReq) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*DeletesPageReq) ProtoMessage() {}
-
-func (x *DeletesPageReq) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_resource_proto_msgTypes[31]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use DeletesPageReq.ProtoReflect.Descriptor instead.
-func (*DeletesPageReq) Descriptor() ([]byte, []int) {
-	return file_blog_resource_proto_rawDescGZIP(), []int{31}
-}
-
-func (x *DeletesPageReq) GetIds() []int64 {
-	if x != nil {
-		return x.Ids
-	}
-	return nil
-}
-
-type DeletesPageResp struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	SuccessCount  int64                  `protobuf:"varint,1,opt,name=success_count,json=successCount,proto3" json:"success_count,omitempty"` // 成功数量
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *DeletesPageResp) Reset() {
-	*x = DeletesPageResp{}
-	mi := &file_blog_resource_proto_msgTypes[32]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *DeletesPageResp) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*DeletesPageResp) ProtoMessage() {}
-
-func (x *DeletesPageResp) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_resource_proto_msgTypes[32]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use DeletesPageResp.ProtoReflect.Descriptor instead.
-func (*DeletesPageResp) Descriptor() ([]byte, []int) {
-	return file_blog_resource_proto_rawDescGZIP(), []int{32}
-}
-
-func (x *DeletesPageResp) GetSuccessCount() int64 {
-	if x != nil {
-		return x.SuccessCount
-	}
-	return 0
-}
-
-type FindPageListReq struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Paginate      *PageReq               `protobuf:"bytes,1,opt,name=paginate,proto3" json:"paginate,omitempty"`                 // 分页参数
-	PageName      string                 `protobuf:"bytes,2,opt,name=page_name,json=pageName,proto3" json:"page_name,omitempty"` // 页面名
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *FindPageListReq) Reset() {
-	*x = FindPageListReq{}
-	mi := &file_blog_resource_proto_msgTypes[33]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *FindPageListReq) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*FindPageListReq) ProtoMessage() {}
-
-func (x *FindPageListReq) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_resource_proto_msgTypes[33]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use FindPageListReq.ProtoReflect.Descriptor instead.
-func (*FindPageListReq) Descriptor() ([]byte, []int) {
-	return file_blog_resource_proto_rawDescGZIP(), []int{33}
-}
-
-func (x *FindPageListReq) GetPaginate() *PageReq {
-	if x != nil {
-		return x.Paginate
-	}
-	return nil
-}
-
-func (x *FindPageListReq) GetPageName() string {
-	if x != nil {
-		return x.PageName
-	}
-	return ""
-}
-
-type FindPageListResp struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Pagination    *PageResp              `protobuf:"bytes,1,opt,name=pagination,proto3" json:"pagination,omitempty"` // 分页信息
-	List          []*Page                `protobuf:"bytes,2,rep,name=list,proto3" json:"list,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *FindPageListResp) Reset() {
-	*x = FindPageListResp{}
-	mi := &file_blog_resource_proto_msgTypes[34]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *FindPageListResp) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*FindPageListResp) ProtoMessage() {}
-
-func (x *FindPageListResp) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_resource_proto_msgTypes[34]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use FindPageListResp.ProtoReflect.Descriptor instead.
-func (*FindPageListResp) Descriptor() ([]byte, []int) {
-	return file_blog_resource_proto_rawDescGZIP(), []int{34}
-}
-
-func (x *FindPageListResp) GetPagination() *PageResp {
-	if x != nil {
-		return x.Pagination
-	}
-	return nil
-}
-
-func (x *FindPageListResp) GetList() []*Page {
-	if x != nil {
-		return x.List
-	}
-	return nil
-}
-
 var File_blog_resource_proto protoreflect.FileDescriptor
 
 const file_blog_resource_proto_rawDesc = "" +
@@ -2230,58 +1681,7 @@ const file_blog_resource_proto_rawDesc = "" +
 	"\n" +
 	"pagination\x18\x01 \x01(\v2\x15.resourcerpc.PageRespR\n" +
 	"pagination\x12&\n" +
-	"\x04list\x18\x02 \x03(\v2\x12.resourcerpc.AlbumR\x04list\"\xf9\x01\n" +
-	"\x04Page\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x1b\n" +
-	"\tpage_name\x18\x02 \x01(\tR\bpageName\x12\x1d\n" +
-	"\n" +
-	"page_label\x18\x03 \x01(\tR\tpageLabel\x12\x1d\n" +
-	"\n" +
-	"page_cover\x18\x04 \x01(\tR\tpageCover\x12\x1f\n" +
-	"\vis_carousel\x18\x05 \x01(\bR\n" +
-	"isCarousel\x12'\n" +
-	"\x0fcarousel_covers\x18\x06 \x03(\tR\x0ecarouselCovers\x12\x1d\n" +
-	"\n" +
-	"created_at\x18\a \x01(\x03R\tcreatedAt\x12\x1d\n" +
-	"\n" +
-	"updated_at\x18\b \x01(\x03R\tupdatedAt\"\xc1\x01\n" +
-	"\n" +
-	"AddPageReq\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x1b\n" +
-	"\tpage_name\x18\x02 \x01(\tR\bpageName\x12\x1d\n" +
-	"\n" +
-	"page_label\x18\x03 \x01(\tR\tpageLabel\x12\x1d\n" +
-	"\n" +
-	"page_cover\x18\x04 \x01(\tR\tpageCover\x12\x1f\n" +
-	"\vis_carousel\x18\x05 \x01(\bR\n" +
-	"isCarousel\x12'\n" +
-	"\x0fcarousel_covers\x18\x06 \x03(\tR\x0ecarouselCovers\"4\n" +
-	"\vAddPageResp\x12%\n" +
-	"\x04page\x18\x01 \x01(\v2\x11.resourcerpc.PageR\x04page\"\xc4\x01\n" +
-	"\rUpdatePageReq\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x1b\n" +
-	"\tpage_name\x18\x02 \x01(\tR\bpageName\x12\x1d\n" +
-	"\n" +
-	"page_label\x18\x03 \x01(\tR\tpageLabel\x12\x1d\n" +
-	"\n" +
-	"page_cover\x18\x04 \x01(\tR\tpageCover\x12\x1f\n" +
-	"\vis_carousel\x18\x05 \x01(\bR\n" +
-	"isCarousel\x12'\n" +
-	"\x0fcarousel_covers\x18\x06 \x03(\tR\x0ecarouselCovers\"7\n" +
-	"\x0eUpdatePageResp\x12%\n" +
-	"\x04page\x18\x01 \x01(\v2\x11.resourcerpc.PageR\x04page\"\"\n" +
-	"\x0eDeletesPageReq\x12\x10\n" +
-	"\x03ids\x18\x01 \x03(\x03R\x03ids\"6\n" +
-	"\x0fDeletesPageResp\x12#\n" +
-	"\rsuccess_count\x18\x01 \x01(\x03R\fsuccessCount\"`\n" +
-	"\x0fFindPageListReq\x120\n" +
-	"\bpaginate\x18\x01 \x01(\v2\x14.resourcerpc.PageReqR\bpaginate\x12\x1b\n" +
-	"\tpage_name\x18\x02 \x01(\tR\bpageName\"p\n" +
-	"\x10FindPageListResp\x125\n" +
-	"\n" +
-	"pagination\x18\x01 \x01(\v2\x15.resourcerpc.PageRespR\n" +
-	"pagination\x12%\n" +
-	"\x04list\x18\x02 \x03(\v2\x11.resourcerpc.PageR\x04list2\xf2\b\n" +
+	"\x04list\x18\x02 \x03(\v2\x12.resourcerpc.AlbumR\x04list2\xd6\x06\n" +
 	"\vResourceRpc\x12?\n" +
 	"\bAddPhoto\x12\x18.resourcerpc.AddPhotoReq\x1a\x19.resourcerpc.AddPhotoResp\x12H\n" +
 	"\vUpdatePhoto\x12\x1b.resourcerpc.UpdatePhotoReq\x1a\x1c.resourcerpc.UpdatePhotoResp\x12Z\n" +
@@ -2293,12 +1693,7 @@ const file_blog_resource_proto_rawDesc = "" +
 	"\x11UpdateAlbumDelete\x12!.resourcerpc.UpdateAlbumDeleteReq\x1a\".resourcerpc.UpdateAlbumDeleteResp\x12?\n" +
 	"\bGetAlbum\x12\x18.resourcerpc.GetAlbumReq\x1a\x19.resourcerpc.GetAlbumResp\x12K\n" +
 	"\fDeletesAlbum\x12\x1c.resourcerpc.DeletesAlbumReq\x1a\x1d.resourcerpc.DeletesAlbumResp\x12N\n" +
-	"\rFindAlbumList\x12\x1d.resourcerpc.FindAlbumListReq\x1a\x1e.resourcerpc.FindAlbumListResp\x12<\n" +
-	"\aAddPage\x12\x17.resourcerpc.AddPageReq\x1a\x18.resourcerpc.AddPageResp\x12E\n" +
-	"\n" +
-	"UpdatePage\x12\x1a.resourcerpc.UpdatePageReq\x1a\x1b.resourcerpc.UpdatePageResp\x12H\n" +
-	"\vDeletesPage\x12\x1b.resourcerpc.DeletesPageReq\x1a\x1c.resourcerpc.DeletesPageResp\x12K\n" +
-	"\fFindPageList\x12\x1c.resourcerpc.FindPageListReq\x1a\x1d.resourcerpc.FindPageListRespB\x0fZ\r./resourcerpcb\x06proto3"
+	"\rFindAlbumList\x12\x1d.resourcerpc.FindAlbumListReq\x1a\x1e.resourcerpc.FindAlbumListRespB\x0fZ\r./resourcerpcb\x06proto3"
 
 var (
 	file_blog_resource_proto_rawDescOnce sync.Once
@@ -2312,7 +1707,7 @@ func file_blog_resource_proto_rawDescGZIP() []byte {
 	return file_blog_resource_proto_rawDescData
 }
 
-var file_blog_resource_proto_msgTypes = make([]protoimpl.MessageInfo, 35)
+var file_blog_resource_proto_msgTypes = make([]protoimpl.MessageInfo, 26)
 var file_blog_resource_proto_goTypes = []any{
 	(*PageReq)(nil),               // 0: resourcerpc.PageReq
 	(*PageResp)(nil),              // 1: resourcerpc.PageResp
@@ -2340,15 +1735,6 @@ var file_blog_resource_proto_goTypes = []any{
 	(*DeletesAlbumResp)(nil),      // 23: resourcerpc.DeletesAlbumResp
 	(*FindAlbumListReq)(nil),      // 24: resourcerpc.FindAlbumListReq
 	(*FindAlbumListResp)(nil),     // 25: resourcerpc.FindAlbumListResp
-	(*Page)(nil),                  // 26: resourcerpc.Page
-	(*AddPageReq)(nil),            // 27: resourcerpc.AddPageReq
-	(*AddPageResp)(nil),           // 28: resourcerpc.AddPageResp
-	(*UpdatePageReq)(nil),         // 29: resourcerpc.UpdatePageReq
-	(*UpdatePageResp)(nil),        // 30: resourcerpc.UpdatePageResp
-	(*DeletesPageReq)(nil),        // 31: resourcerpc.DeletesPageReq
-	(*DeletesPageResp)(nil),       // 32: resourcerpc.DeletesPageResp
-	(*FindPageListReq)(nil),       // 33: resourcerpc.FindPageListReq
-	(*FindPageListResp)(nil),      // 34: resourcerpc.FindPageListResp
 }
 var file_blog_resource_proto_depIdxs = []int32{
 	2,  // 0: resourcerpc.AddPhotoResp.photo:type_name -> resourcerpc.Photo
@@ -2362,46 +1748,33 @@ var file_blog_resource_proto_depIdxs = []int32{
 	0,  // 8: resourcerpc.FindAlbumListReq.paginate:type_name -> resourcerpc.PageReq
 	1,  // 9: resourcerpc.FindAlbumListResp.pagination:type_name -> resourcerpc.PageResp
 	13, // 10: resourcerpc.FindAlbumListResp.list:type_name -> resourcerpc.Album
-	26, // 11: resourcerpc.AddPageResp.page:type_name -> resourcerpc.Page
-	26, // 12: resourcerpc.UpdatePageResp.page:type_name -> resourcerpc.Page
-	0,  // 13: resourcerpc.FindPageListReq.paginate:type_name -> resourcerpc.PageReq
-	1,  // 14: resourcerpc.FindPageListResp.pagination:type_name -> resourcerpc.PageResp
-	26, // 15: resourcerpc.FindPageListResp.list:type_name -> resourcerpc.Page
-	3,  // 16: resourcerpc.ResourceRpc.AddPhoto:input_type -> resourcerpc.AddPhotoReq
-	5,  // 17: resourcerpc.ResourceRpc.UpdatePhoto:input_type -> resourcerpc.UpdatePhotoReq
-	7,  // 18: resourcerpc.ResourceRpc.UpdatePhotoDelete:input_type -> resourcerpc.UpdatePhotoDeleteReq
-	9,  // 19: resourcerpc.ResourceRpc.DeletesPhoto:input_type -> resourcerpc.DeletesPhotoReq
-	11, // 20: resourcerpc.ResourceRpc.FindPhotoList:input_type -> resourcerpc.FindPhotoListReq
-	14, // 21: resourcerpc.ResourceRpc.AddAlbum:input_type -> resourcerpc.AddAlbumReq
-	16, // 22: resourcerpc.ResourceRpc.UpdateAlbum:input_type -> resourcerpc.UpdateAlbumReq
-	18, // 23: resourcerpc.ResourceRpc.UpdateAlbumDelete:input_type -> resourcerpc.UpdateAlbumDeleteReq
-	20, // 24: resourcerpc.ResourceRpc.GetAlbum:input_type -> resourcerpc.GetAlbumReq
-	22, // 25: resourcerpc.ResourceRpc.DeletesAlbum:input_type -> resourcerpc.DeletesAlbumReq
-	24, // 26: resourcerpc.ResourceRpc.FindAlbumList:input_type -> resourcerpc.FindAlbumListReq
-	27, // 27: resourcerpc.ResourceRpc.AddPage:input_type -> resourcerpc.AddPageReq
-	29, // 28: resourcerpc.ResourceRpc.UpdatePage:input_type -> resourcerpc.UpdatePageReq
-	31, // 29: resourcerpc.ResourceRpc.DeletesPage:input_type -> resourcerpc.DeletesPageReq
-	33, // 30: resourcerpc.ResourceRpc.FindPageList:input_type -> resourcerpc.FindPageListReq
-	4,  // 31: resourcerpc.ResourceRpc.AddPhoto:output_type -> resourcerpc.AddPhotoResp
-	6,  // 32: resourcerpc.ResourceRpc.UpdatePhoto:output_type -> resourcerpc.UpdatePhotoResp
-	8,  // 33: resourcerpc.ResourceRpc.UpdatePhotoDelete:output_type -> resourcerpc.UpdatePhotoDeleteResp
-	10, // 34: resourcerpc.ResourceRpc.DeletesPhoto:output_type -> resourcerpc.DeletesPhotoResp
-	12, // 35: resourcerpc.ResourceRpc.FindPhotoList:output_type -> resourcerpc.FindPhotoListResp
-	15, // 36: resourcerpc.ResourceRpc.AddAlbum:output_type -> resourcerpc.AddAlbumResp
-	17, // 37: resourcerpc.ResourceRpc.UpdateAlbum:output_type -> resourcerpc.UpdateAlbumResp
-	19, // 38: resourcerpc.ResourceRpc.UpdateAlbumDelete:output_type -> resourcerpc.UpdateAlbumDeleteResp
-	21, // 39: resourcerpc.ResourceRpc.GetAlbum:output_type -> resourcerpc.GetAlbumResp
-	23, // 40: resourcerpc.ResourceRpc.DeletesAlbum:output_type -> resourcerpc.DeletesAlbumResp
-	25, // 41: resourcerpc.ResourceRpc.FindAlbumList:output_type -> resourcerpc.FindAlbumListResp
-	28, // 42: resourcerpc.ResourceRpc.AddPage:output_type -> resourcerpc.AddPageResp
-	30, // 43: resourcerpc.ResourceRpc.UpdatePage:output_type -> resourcerpc.UpdatePageResp
-	32, // 44: resourcerpc.ResourceRpc.DeletesPage:output_type -> resourcerpc.DeletesPageResp
-	34, // 45: resourcerpc.ResourceRpc.FindPageList:output_type -> resourcerpc.FindPageListResp
-	31, // [31:46] is the sub-list for method output_type
-	16, // [16:31] is the sub-list for method input_type
-	16, // [16:16] is the sub-list for extension type_name
-	16, // [16:16] is the sub-list for extension extendee
-	0,  // [0:16] is the sub-list for field type_name
+	3,  // 11: resourcerpc.ResourceRpc.AddPhoto:input_type -> resourcerpc.AddPhotoReq
+	5,  // 12: resourcerpc.ResourceRpc.UpdatePhoto:input_type -> resourcerpc.UpdatePhotoReq
+	7,  // 13: resourcerpc.ResourceRpc.UpdatePhotoDelete:input_type -> resourcerpc.UpdatePhotoDeleteReq
+	9,  // 14: resourcerpc.ResourceRpc.DeletesPhoto:input_type -> resourcerpc.DeletesPhotoReq
+	11, // 15: resourcerpc.ResourceRpc.FindPhotoList:input_type -> resourcerpc.FindPhotoListReq
+	14, // 16: resourcerpc.ResourceRpc.AddAlbum:input_type -> resourcerpc.AddAlbumReq
+	16, // 17: resourcerpc.ResourceRpc.UpdateAlbum:input_type -> resourcerpc.UpdateAlbumReq
+	18, // 18: resourcerpc.ResourceRpc.UpdateAlbumDelete:input_type -> resourcerpc.UpdateAlbumDeleteReq
+	20, // 19: resourcerpc.ResourceRpc.GetAlbum:input_type -> resourcerpc.GetAlbumReq
+	22, // 20: resourcerpc.ResourceRpc.DeletesAlbum:input_type -> resourcerpc.DeletesAlbumReq
+	24, // 21: resourcerpc.ResourceRpc.FindAlbumList:input_type -> resourcerpc.FindAlbumListReq
+	4,  // 22: resourcerpc.ResourceRpc.AddPhoto:output_type -> resourcerpc.AddPhotoResp
+	6,  // 23: resourcerpc.ResourceRpc.UpdatePhoto:output_type -> resourcerpc.UpdatePhotoResp
+	8,  // 24: resourcerpc.ResourceRpc.UpdatePhotoDelete:output_type -> resourcerpc.UpdatePhotoDeleteResp
+	10, // 25: resourcerpc.ResourceRpc.DeletesPhoto:output_type -> resourcerpc.DeletesPhotoResp
+	12, // 26: resourcerpc.ResourceRpc.FindPhotoList:output_type -> resourcerpc.FindPhotoListResp
+	15, // 27: resourcerpc.ResourceRpc.AddAlbum:output_type -> resourcerpc.AddAlbumResp
+	17, // 28: resourcerpc.ResourceRpc.UpdateAlbum:output_type -> resourcerpc.UpdateAlbumResp
+	19, // 29: resourcerpc.ResourceRpc.UpdateAlbumDelete:output_type -> resourcerpc.UpdateAlbumDeleteResp
+	21, // 30: resourcerpc.ResourceRpc.GetAlbum:output_type -> resourcerpc.GetAlbumResp
+	23, // 31: resourcerpc.ResourceRpc.DeletesAlbum:output_type -> resourcerpc.DeletesAlbumResp
+	25, // 32: resourcerpc.ResourceRpc.FindAlbumList:output_type -> resourcerpc.FindAlbumListResp
+	22, // [22:33] is the sub-list for method output_type
+	11, // [11:22] is the sub-list for method input_type
+	11, // [11:11] is the sub-list for extension type_name
+	11, // [11:11] is the sub-list for extension extendee
+	0,  // [0:11] is the sub-list for field type_name
 }
 
 func init() { file_blog_resource_proto_init() }
@@ -2417,7 +1790,7 @@ func file_blog_resource_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_blog_resource_proto_rawDesc), len(file_blog_resource_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   35,
+			NumMessages:   26,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

@@ -52,7 +52,6 @@ type ServiceContext struct {
 	TPhotoModel           model.TPhotoModel
 	TFriendModel          model.TFriendModel
 	TTalkModel            model.TTalkModel
-	TPageModel            model.TPageModel
 	TVisitDailyStatsModel model.TVisitDailyStatsModel
 	TVisitorModel         model.TVisitorModel
 
@@ -108,7 +107,6 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		TPhotoModel:           model.NewTPhotoModel(sqlConn, modelCacheConf),
 		TFriendModel:          model.NewTFriendModel(sqlConn, modelCacheConf),
 		TTalkModel:            model.NewTTalkModel(sqlConn, modelCacheConf),
-		TPageModel:            model.NewTPageModel(sqlConn, modelCacheConf),
 		TVisitDailyStatsModel: model.NewTVisitDailyStatsModel(sqlConn),
 		TVisitorModel:         model.NewTVisitorModel(sqlConn),
 		TVisitLogModel:        model.NewTVisitLogModel(sqlConn),

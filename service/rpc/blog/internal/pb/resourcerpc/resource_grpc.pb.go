@@ -34,10 +34,6 @@ const (
 	ResourceRpc_GetAlbum_FullMethodName          = "/resourcerpc.ResourceRpc/GetAlbum"
 	ResourceRpc_DeletesAlbum_FullMethodName      = "/resourcerpc.ResourceRpc/DeletesAlbum"
 	ResourceRpc_FindAlbumList_FullMethodName     = "/resourcerpc.ResourceRpc/FindAlbumList"
-	ResourceRpc_AddPage_FullMethodName           = "/resourcerpc.ResourceRpc/AddPage"
-	ResourceRpc_UpdatePage_FullMethodName        = "/resourcerpc.ResourceRpc/UpdatePage"
-	ResourceRpc_DeletesPage_FullMethodName       = "/resourcerpc.ResourceRpc/DeletesPage"
-	ResourceRpc_FindPageList_FullMethodName      = "/resourcerpc.ResourceRpc/FindPageList"
 )
 
 // ResourceRpcClient is the client API for ResourceRpc service.
@@ -66,14 +62,6 @@ type ResourceRpcClient interface {
 	DeletesAlbum(ctx context.Context, in *DeletesAlbumReq, opts ...grpc.CallOption) (*DeletesAlbumResp, error)
 	// 查询相册列表
 	FindAlbumList(ctx context.Context, in *FindAlbumListReq, opts ...grpc.CallOption) (*FindAlbumListResp, error)
-	// 创建页面
-	AddPage(ctx context.Context, in *AddPageReq, opts ...grpc.CallOption) (*AddPageResp, error)
-	// 更新页面
-	UpdatePage(ctx context.Context, in *UpdatePageReq, opts ...grpc.CallOption) (*UpdatePageResp, error)
-	// 删除页面
-	DeletesPage(ctx context.Context, in *DeletesPageReq, opts ...grpc.CallOption) (*DeletesPageResp, error)
-	// 查询页面列表
-	FindPageList(ctx context.Context, in *FindPageListReq, opts ...grpc.CallOption) (*FindPageListResp, error)
 }
 
 type resourceRpcClient struct {
@@ -194,46 +182,6 @@ func (c *resourceRpcClient) FindAlbumList(ctx context.Context, in *FindAlbumList
 	return out, nil
 }
 
-func (c *resourceRpcClient) AddPage(ctx context.Context, in *AddPageReq, opts ...grpc.CallOption) (*AddPageResp, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(AddPageResp)
-	err := c.cc.Invoke(ctx, ResourceRpc_AddPage_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *resourceRpcClient) UpdatePage(ctx context.Context, in *UpdatePageReq, opts ...grpc.CallOption) (*UpdatePageResp, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(UpdatePageResp)
-	err := c.cc.Invoke(ctx, ResourceRpc_UpdatePage_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *resourceRpcClient) DeletesPage(ctx context.Context, in *DeletesPageReq, opts ...grpc.CallOption) (*DeletesPageResp, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(DeletesPageResp)
-	err := c.cc.Invoke(ctx, ResourceRpc_DeletesPage_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *resourceRpcClient) FindPageList(ctx context.Context, in *FindPageListReq, opts ...grpc.CallOption) (*FindPageListResp, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(FindPageListResp)
-	err := c.cc.Invoke(ctx, ResourceRpc_FindPageList_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // ResourceRpcServer is the server API for ResourceRpc service.
 // All implementations must embed UnimplementedResourceRpcServer
 // for forward compatibility.
@@ -260,14 +208,6 @@ type ResourceRpcServer interface {
 	DeletesAlbum(context.Context, *DeletesAlbumReq) (*DeletesAlbumResp, error)
 	// 查询相册列表
 	FindAlbumList(context.Context, *FindAlbumListReq) (*FindAlbumListResp, error)
-	// 创建页面
-	AddPage(context.Context, *AddPageReq) (*AddPageResp, error)
-	// 更新页面
-	UpdatePage(context.Context, *UpdatePageReq) (*UpdatePageResp, error)
-	// 删除页面
-	DeletesPage(context.Context, *DeletesPageReq) (*DeletesPageResp, error)
-	// 查询页面列表
-	FindPageList(context.Context, *FindPageListReq) (*FindPageListResp, error)
 	mustEmbedUnimplementedResourceRpcServer()
 }
 
@@ -310,18 +250,6 @@ func (UnimplementedResourceRpcServer) DeletesAlbum(context.Context, *DeletesAlbu
 }
 func (UnimplementedResourceRpcServer) FindAlbumList(context.Context, *FindAlbumListReq) (*FindAlbumListResp, error) {
 	return nil, status.Error(codes.Unimplemented, "method FindAlbumList not implemented")
-}
-func (UnimplementedResourceRpcServer) AddPage(context.Context, *AddPageReq) (*AddPageResp, error) {
-	return nil, status.Error(codes.Unimplemented, "method AddPage not implemented")
-}
-func (UnimplementedResourceRpcServer) UpdatePage(context.Context, *UpdatePageReq) (*UpdatePageResp, error) {
-	return nil, status.Error(codes.Unimplemented, "method UpdatePage not implemented")
-}
-func (UnimplementedResourceRpcServer) DeletesPage(context.Context, *DeletesPageReq) (*DeletesPageResp, error) {
-	return nil, status.Error(codes.Unimplemented, "method DeletesPage not implemented")
-}
-func (UnimplementedResourceRpcServer) FindPageList(context.Context, *FindPageListReq) (*FindPageListResp, error) {
-	return nil, status.Error(codes.Unimplemented, "method FindPageList not implemented")
 }
 func (UnimplementedResourceRpcServer) mustEmbedUnimplementedResourceRpcServer() {}
 func (UnimplementedResourceRpcServer) testEmbeddedByValue()                     {}
@@ -542,78 +470,6 @@ func _ResourceRpc_FindAlbumList_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ResourceRpc_AddPage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AddPageReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ResourceRpcServer).AddPage(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: ResourceRpc_AddPage_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ResourceRpcServer).AddPage(ctx, req.(*AddPageReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ResourceRpc_UpdatePage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdatePageReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ResourceRpcServer).UpdatePage(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: ResourceRpc_UpdatePage_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ResourceRpcServer).UpdatePage(ctx, req.(*UpdatePageReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ResourceRpc_DeletesPage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeletesPageReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ResourceRpcServer).DeletesPage(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: ResourceRpc_DeletesPage_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ResourceRpcServer).DeletesPage(ctx, req.(*DeletesPageReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ResourceRpc_FindPageList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(FindPageListReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ResourceRpcServer).FindPageList(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: ResourceRpc_FindPageList_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ResourceRpcServer).FindPageList(ctx, req.(*FindPageListReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 // ResourceRpc_ServiceDesc is the grpc.ServiceDesc for ResourceRpc service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -664,22 +520,6 @@ var ResourceRpc_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "FindAlbumList",
 			Handler:    _ResourceRpc_FindAlbumList_Handler,
-		},
-		{
-			MethodName: "AddPage",
-			Handler:    _ResourceRpc_AddPage_Handler,
-		},
-		{
-			MethodName: "UpdatePage",
-			Handler:    _ResourceRpc_UpdatePage_Handler,
-		},
-		{
-			MethodName: "DeletesPage",
-			Handler:    _ResourceRpc_DeletesPage_Handler,
-		},
-		{
-			MethodName: "FindPageList",
-			Handler:    _ResourceRpc_FindPageList_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

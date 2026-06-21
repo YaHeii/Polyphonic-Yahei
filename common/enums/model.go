@@ -78,13 +78,6 @@ const (
 	MessageIsReviewYes = 1 // 已审核通过
 )
 
-// 页面相关枚举 (t_page)
-const (
-	// 页面轮播状态 (is_carousel)
-	PageIsCarouselNo  = 0 // 非轮播
-	PageIsCarouselYes = 1 // 轮播
-)
-
 // 角色相关枚举 (t_role)
 const (
 	// 角色禁用状态 (status)

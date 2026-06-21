@@ -1,9 +1,6 @@
 package resourcerpclogic
 
 import (
-	"encoding/json"
-	"strings"
-
 	"github.com/YaHeii/Polyphonic-Yahei/service/model"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/internal/common/query"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/internal/pb/resourcerpc"
@@ -104,84 +101,6 @@ func convertAlbumListOut(records []*model.TAlbum, photoCounts map[int64]int64) [
 	return list
 }
 
-func convertAddPageIn(in *resourcerpc.AddPageReq) *model.TPage {
-	return &model.TPage{
-		Id:             in.Id,
-		PageName:       in.PageName,
-		PageLabel:      in.PageLabel,
-		PageCover:      in.PageCover,
-		IsCarousel:     in.IsCarousel,
-		CarouselCovers: encodeCarouselCovers(in.CarouselCovers),
-	}
-}
-
-func convertUpdatePageIn(in *resourcerpc.UpdatePageReq) *model.TPage {
-	return &model.TPage{
-		Id:             in.Id,
-		PageName:       in.PageName,
-		PageLabel:      in.PageLabel,
-		PageCover:      in.PageCover,
-		IsCarousel:     in.IsCarousel,
-		CarouselCovers: encodeCarouselCovers(in.CarouselCovers),
-	}
-}
-
-func convertPageOut(record *model.TPage) *resourcerpc.Page {
-	if record == nil {
-		return nil
-	}
-
-	return &resourcerpc.Page{
-		Id:             record.Id,
-		PageName:       record.PageName,
-		PageLabel:      record.PageLabel,
-		PageCover:      record.PageCover,
-		IsCarousel:     record.IsCarousel,
-		CarouselCovers: decodeCarouselCovers(record.CarouselCovers),
-		CreatedAt:      record.CreatedAt.UnixMilli(),
-		UpdatedAt:      record.UpdatedAt.UnixMilli(),
-	}
-}
-
-func convertPageListOut(records []*model.TPage) []*resourcerpc.Page {
-	list := make([]*resourcerpc.Page, 0, len(records))
-	for _, record := range records {
-		list = append(list, convertPageOut(record))
-	}
-	return list
-}
-
-func encodeCarouselCovers(values []string) string {
-	if len(values) == 0 {
-		return ""
-	}
-	data, err := json.Marshal(values)
-	if err != nil {
-		return ""
-	}
-	return string(data)
-}
-
-func decodeCarouselCovers(value string) []string {
-	if value == "" {
-		return []string{}
-	}
-
-	var values []string
-	if err := json.Unmarshal([]byte(value), &values); err == nil {
-		return values
-	}
-
-	parts := strings.Split(value, ",")
-	result := make([]string, 0, len(parts))
-	for _, part := range parts {
-		if trimmed := strings.TrimSpace(part); trimmed != "" {
-			result = append(result, trimmed)
-		}
-	}
-	return result
-}
-
 func buildPhotoQuery(in *resourcerpc.FindPhotoListReq) (int, int, string, string, []any) {
 	var opts []query.Option
 	if in.Paginate != nil {
@@ -210,19 +129,6 @@ func buildAlbumQuery(in *resourcerpc.FindAlbumListReq) (int, int, string, string
 	}
 	if in.IsDelete != nil {
 		opts = append(opts, query.WithCondition("is_delete = ?", *in.IsDelete))
-	}
-	return query.NewQueryBuilder(opts...).Build()
-}
-
-func buildPageQuery(in *resourcerpc.FindPageListReq) (int, int, string, string, []any) {
-	var opts []query.Option
-	if in.Paginate != nil {
-		opts = append(opts, query.WithPage(int(in.Paginate.Page)))
-		opts = append(opts, query.WithSize(int(in.Paginate.PageSize)))
-		opts = append(opts, query.WithSorts(in.Paginate.Sorts...))
-	}
-	if in.PageName != "" {
-		opts = append(opts, query.WithCondition("page_name like ?", "%"+in.PageName+"%"))
 	}
 	return query.NewQueryBuilder(opts...).Build()
 }

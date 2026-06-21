@@ -4,3 +4,4 @@
 .VSCodeCounter/**
 .env
 admin
+bin/**

@@ -16,20 +16,14 @@ import (
 type (
 	AddAlbumReq           = resourcerpc.AddAlbumReq
 	AddAlbumResp          = resourcerpc.AddAlbumResp
-	AddPageReq            = resourcerpc.AddPageReq
-	AddPageResp           = resourcerpc.AddPageResp
 	AddPhotoReq           = resourcerpc.AddPhotoReq
 	AddPhotoResp          = resourcerpc.AddPhotoResp
 	DeletesAlbumReq       = resourcerpc.DeletesAlbumReq
 	DeletesAlbumResp      = resourcerpc.DeletesAlbumResp
-	DeletesPageReq        = resourcerpc.DeletesPageReq
-	DeletesPageResp       = resourcerpc.DeletesPageResp
 	DeletesPhotoReq       = resourcerpc.DeletesPhotoReq
 	DeletesPhotoResp      = resourcerpc.DeletesPhotoResp
 	FindAlbumListReq      = resourcerpc.FindAlbumListReq
 	FindAlbumListResp     = resourcerpc.FindAlbumListResp
-	FindPageListReq       = resourcerpc.FindPageListReq
-	FindPageListResp      = resourcerpc.FindPageListResp
 	FindPhotoListReq      = resourcerpc.FindPhotoListReq
 	FindPhotoListResp     = resourcerpc.FindPhotoListResp
 	GetAlbumReq           = resourcerpc.GetAlbumReq
@@ -38,8 +32,6 @@ type (
 	UpdateAlbumDeleteResp = resourcerpc.UpdateAlbumDeleteResp
 	UpdateAlbumReq        = resourcerpc.UpdateAlbumReq
 	UpdateAlbumResp       = resourcerpc.UpdateAlbumResp
-	UpdatePageReq         = resourcerpc.UpdatePageReq
-	UpdatePageResp        = resourcerpc.UpdatePageResp
 	UpdatePhotoDeleteReq  = resourcerpc.UpdatePhotoDeleteReq
 	UpdatePhotoDeleteResp = resourcerpc.UpdatePhotoDeleteResp
 	UpdatePhotoReq        = resourcerpc.UpdatePhotoReq
@@ -68,14 +60,6 @@ type (
 		DeletesAlbum(ctx context.Context, in *DeletesAlbumReq, opts ...grpc.CallOption) (*DeletesAlbumResp, error)
 		// 查询相册列表
 		FindAlbumList(ctx context.Context, in *FindAlbumListReq, opts ...grpc.CallOption) (*FindAlbumListResp, error)
-		// 创建页面
-		AddPage(ctx context.Context, in *AddPageReq, opts ...grpc.CallOption) (*AddPageResp, error)
-		// 更新页面
-		UpdatePage(ctx context.Context, in *UpdatePageReq, opts ...grpc.CallOption) (*UpdatePageResp, error)
-		// 删除页面
-		DeletesPage(ctx context.Context, in *DeletesPageReq, opts ...grpc.CallOption) (*DeletesPageResp, error)
-		// 查询页面列表
-		FindPageList(ctx context.Context, in *FindPageListReq, opts ...grpc.CallOption) (*FindPageListResp, error)
 	}
 
 	defaultResourceRpc struct {
@@ -153,28 +137,4 @@ func (m *defaultResourceRpc) DeletesAlbum(ctx context.Context, in *DeletesAlbumR
 func (m *defaultResourceRpc) FindAlbumList(ctx context.Context, in *FindAlbumListReq, opts ...grpc.CallOption) (*FindAlbumListResp, error) {
 	client := resourcerpc.NewResourceRpcClient(m.cli.Conn())
 	return client.FindAlbumList(ctx, in, opts...)
-}
-
-// 创建页面
-func (m *defaultResourceRpc) AddPage(ctx context.Context, in *AddPageReq, opts ...grpc.CallOption) (*AddPageResp, error) {
-	client := resourcerpc.NewResourceRpcClient(m.cli.Conn())
-	return client.AddPage(ctx, in, opts...)
-}
-
-// 更新页面
-func (m *defaultResourceRpc) UpdatePage(ctx context.Context, in *UpdatePageReq, opts ...grpc.CallOption) (*UpdatePageResp, error) {
-	client := resourcerpc.NewResourceRpcClient(m.cli.Conn())
-	return client.UpdatePage(ctx, in, opts...)
-}
-
-// 删除页面
-func (m *defaultResourceRpc) DeletesPage(ctx context.Context, in *DeletesPageReq, opts ...grpc.CallOption) (*DeletesPageResp, error) {
-	client := resourcerpc.NewResourceRpcClient(m.cli.Conn())
-	return client.DeletesPage(ctx, in, opts...)
-}
-
-// 查询页面列表
-func (m *defaultResourceRpc) FindPageList(ctx context.Context, in *FindPageListReq, opts ...grpc.CallOption) (*FindPageListResp, error) {
-	client := resourcerpc.NewResourceRpcClient(m.cli.Conn())
-	return client.FindPageList(ctx, in, opts...)
 }

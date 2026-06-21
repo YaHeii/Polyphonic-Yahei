@@ -20,7 +20,6 @@ import (
 	message "github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/handler/message"
 	notice "github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/handler/notice"
 	operation_log "github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/handler/operation_log"
-	page "github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/handler/page"
 	photo "github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/handler/photo"
 	role "github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/handler/role"
 	tag "github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/handler/tag"
@@ -612,39 +611,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Method:  http.MethodPost,
 					Path:    "/operation_log/find_operation_log_list",
 					Handler: operation_log.FindOperationLogListHandler(serverCtx),
-				},
-			}...,
-		),
-		rest.WithPrefix("/admin-api/v1"),
-	)
-
-	server.AddRoutes(
-		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.AdminToken, serverCtx.Permission, serverCtx.OperationLog},
-			[]rest.Route{
-				{
-					// 创建页面
-					Method:  http.MethodPost,
-					Path:    "/page/add_page",
-					Handler: page.AddPageHandler(serverCtx),
-				},
-				{
-					// 删除页面
-					Method:  http.MethodDelete,
-					Path:    "/page/delete_page",
-					Handler: page.DeletePageHandler(serverCtx),
-				},
-				{
-					// 分页获取页面列表
-					Method:  http.MethodPost,
-					Path:    "/page/find_page_list",
-					Handler: page.FindPageListHandler(serverCtx),
-				},
-				{
-					// 更新页面
-					Method:  http.MethodPut,
-					Path:    "/page/update_page",
-					Handler: page.UpdatePageHandler(serverCtx),
 				},
 			}...,
 		),
