@@ -11,7 +11,7 @@ COMPOSE_FILE ?= docker-compose.yaml
 DOCKER_COMPOSE := docker compose --env-file $(ENV_FILE) -f $(COMPOSE_FILE)
 PG_DSN := postgres://root:root@127.0.0.1:5432/blog-init?sslmode=disable
 MODEL_STYLE := go_zero
-MODEL_CORE_TABLES := t_user,t_user_oauth,t_role,t_menu,t_api,t_article,t_category,t_tag,t_talk,t_album,t_photo,t_friend,t_comment,t_message,t_system_notice,t_website_config
+MODEL_CORE_TABLES := t_user,t_user_oauth,t_role,t_menu,t_api,t_article,t_category,t_talk,t_album,t_photo,t_friend,t_comment,t_message,t_system_notice,t_website_config
 MODEL_RELATION_TABLES := t_role_api,t_role_menu,t_user_role
 MODEL_LOG_TABLES := t_login_log,t_operation_log,t_visit_log,t_visit_daily_stats,t_file_log,t_visitor
 BLOG_RPC_OUT := service/rpc/blog/internal/pb
@@ -149,3 +149,6 @@ seed-bootstrap: env-init
 		echo "Applying bootstrap seed $$file"; \
 		$(PSQL) "$(HOST_PG_PSQL_DSN)" -v ON_ERROR_STOP=1 -f "$$file" || exit $$?; \
 	done
+	go-build: env-init
+	go build ./bin/admin
+	go build ./bin/blog

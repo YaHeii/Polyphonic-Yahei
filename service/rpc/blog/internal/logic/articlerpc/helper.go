@@ -2,6 +2,7 @@ package articlerpclogic
 
 import (
 	"context"
+	"sort"
 
 	"github.com/spf13/cast"
 	"github.com/zeromicro/go-zero/core/logx"
@@ -36,15 +37,6 @@ func convertCategoryIn(in *articlerpc.AddCategoryReq) (out *model.TCategory) {
 	return out
 }
 
-func convertTagIn(in *articlerpc.AddTagReq) (out *model.TTag) {
-	out = &model.TTag{
-		Id:      in.Id,
-		TagName: in.TagName,
-	}
-
-	return out
-}
-
 func (l *ArticleHelperLogic) findArticleCountGroupCategory(list []*model.TCategory) (acm map[int64]int, err error) {
 	var ids []int64
 	for _, v := range list {
@@ -58,29 +50,6 @@ func (l *ArticleHelperLogic) findArticleCountGroupCategory(list []*model.TCatego
 	acm = make(map[int64]int)
 	for categoryID, articleCount := range result {
 		acm[categoryID] = int(articleCount)
-	}
-
-	return acm, nil
-}
-
-// 查询标签下的文章数量
-func (l *ArticleHelperLogic) findArticleCountGroupTag(list []*model.TTag) (acm map[int64]int, err error) {
-	var names []string
-	tagNameIDMap := make(map[string]int64, len(list))
-	for _, v := range list {
-		names = append(names, v.TagName)
-		tagNameIDMap[v.TagName] = v.Id
-	}
-	result, err := l.svcCtx.TArticleModel.CountGroupByTagNames(l.ctx, names)
-	if err != nil {
-		return nil, err
-	}
-
-	acm = make(map[int64]int)
-	for tagName, articleCount := range result {
-		if tagID, ok := tagNameIDMap[tagName]; ok {
-			acm[tagID] = int(articleCount)
-		}
 	}
 
 	return acm, nil
@@ -122,44 +91,26 @@ func (l *ArticleHelperLogic) findCategoryGroupArticle(list []*model.TArticle) (a
 }
 
 // 查询文章列表对应的标签
-func (l *ArticleHelperLogic) findTagGroupArticle(list []*model.TArticle) (atm map[int64][]*model.TTag, err error) {
-	tagNameSet := make(map[string]struct{})
-	for _, v := range list {
-		for _, tagName := range v.Tags {
-			if tagName != "" {
-				tagNameSet[tagName] = struct{}{}
-			}
-		}
-	}
-	if len(tagNameSet) == 0 {
-		return map[int64][]*model.TTag{}, nil
-	}
-
-	tagNames := make([]string, 0, len(tagNameSet))
-	for tagName := range tagNameSet {
-		tagNames = append(tagNames, tagName)
-	}
-
-	ts, err := l.svcCtx.TTagModel.FindByNames(l.ctx, tagNames)
-	if err != nil {
-		return nil, err
-	}
-
-	tagMap := make(map[string]*model.TTag, len(ts))
-	for _, tag := range ts {
-		tagMap[tag.TagName] = tag
-	}
-
-	atm = make(map[int64][]*model.TTag)
+func (l *ArticleHelperLogic) findTagGroupArticle(list []*model.TArticle) map[int64][]string {
+	atm := make(map[int64][]string, len(list))
 	for _, article := range list {
+		if len(article.Tags) == 0 {
+			continue
+		}
+
+		tagList := make([]string, 0, len(article.Tags))
 		for _, tagName := range article.Tags {
-			if tag, ok := tagMap[tagName]; ok {
-				atm[article.Id] = append(atm[article.Id], tag)
+			if tagName == "" {
+				continue
 			}
+			tagList = append(tagList, tagName)
+		}
+		if len(tagList) > 0 {
+			atm[article.Id] = tagList
 		}
 	}
 
-	return atm, nil
+	return atm
 }
 
 // 查询或添加文字分类
@@ -183,27 +134,6 @@ func (l *ArticleHelperLogic) findOrAddCategory(name string) (int64, error) {
 	return category.Id, nil
 }
 
-// 查询或添加标签
-func (l *ArticleHelperLogic) findOrAddTag(name string) (int64, error) {
-	if name == "" {
-		return 0, nil
-	}
-
-	tag, err := l.svcCtx.TTagModel.FindOneByTagName(l.ctx, name)
-	if err != nil {
-		insert := &model.TTag{
-			TagName: name,
-		}
-		_, err := l.svcCtx.TTagModel.Insert(l.ctx, insert)
-		if err != nil {
-			return 0, err
-		}
-		return insert.Id, nil
-	}
-
-	return tag.Id, nil
-}
-
 func (l *ArticleHelperLogic) ensureTags(names []string) ([]string, error) {
 	if len(names) == 0 {
 		return []string{}, nil
@@ -217,9 +147,6 @@ func (l *ArticleHelperLogic) ensureTags(names []string) ([]string, error) {
 		}
 		if _, exists := seen[name]; exists {
 			continue
-		}
-		if _, err := l.findOrAddTag(name); err != nil {
-			return nil, err
 		}
 		seen[name] = struct{}{}
 		result = append(result, name)
@@ -292,10 +219,7 @@ func (l *ArticleHelperLogic) convertArticle(records []*model.TArticle) (out []*a
 		return nil, err
 	}
 
-	atm, err := l.findTagGroupArticle(records)
-	if err != nil {
-		return nil, err
-	}
+	atm := l.findTagGroupArticle(records)
 
 	var list []*articlerpc.ArticleDetails
 	for _, entity := range records {
@@ -328,10 +252,9 @@ func (l *ArticleHelperLogic) convertArticle(records []*model.TArticle) (out []*a
 
 		if v, ok := atm[entity.Id]; ok {
 			tagList := make([]*articlerpc.ArticleTag, 0, len(v))
-			for _, tag := range v {
+			for _, tagName := range v {
 				tagList = append(tagList, &articlerpc.ArticleTag{
-					Id:      tag.Id,
-					TagName: tag.TagName,
+					TagName: tagName,
 				})
 			}
 			m.TagList = tagList
@@ -370,27 +293,43 @@ func (l *ArticleHelperLogic) convertCategory(records []*model.TCategory) (out []
 	return list, nil
 }
 
-func (l *ArticleHelperLogic) convertTag(records []*model.TTag) (out []*articlerpc.TagDetails, err error) {
-	acm, err := l.findArticleCountGroupTag(records)
+func (l *ArticleHelperLogic) FindAllTags() ([]*articlerpc.TagDetails, error) {
+	articles, err := l.svcCtx.TArticleModel.FindALL(l.ctx, "")
 	if err != nil {
 		return nil, err
 	}
 
-	var list []*articlerpc.TagDetails
-	for _, entity := range records {
-		m := &articlerpc.TagDetails{
-			Id:           entity.Id,
-			TagName:      entity.TagName,
-			ArticleCount: 0,
-			CreatedAt:    entity.CreatedAt.UnixMilli(),
-			UpdatedAt:    entity.UpdatedAt.UnixMilli(),
+	tagCounts := make(map[string]int64)
+	for _, article := range articles {
+		seen := make(map[string]struct{}, len(article.Tags))
+		for _, tagName := range article.Tags {
+			if tagName == "" {
+				continue
+			}
+			if _, exists := seen[tagName]; exists {
+				continue
+			}
+			seen[tagName] = struct{}{}
+			tagCounts[tagName]++
 		}
+	}
 
-		if v, ok := acm[entity.Id]; ok {
-			m.ArticleCount = int64(v)
-		}
+	if len(tagCounts) == 0 {
+		return []*articlerpc.TagDetails{}, nil
+	}
 
-		list = append(list, m)
+	tagNames := make([]string, 0, len(tagCounts))
+	for tagName := range tagCounts {
+		tagNames = append(tagNames, tagName)
+	}
+	sort.Strings(tagNames)
+
+	list := make([]*articlerpc.TagDetails, 0, len(tagNames))
+	for _, tagName := range tagNames {
+		list = append(list, &articlerpc.TagDetails{
+			TagName:      tagName,
+			ArticleCount: tagCounts[tagName],
+		})
 	}
 
 	return list, nil

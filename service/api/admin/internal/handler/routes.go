@@ -22,7 +22,6 @@ import (
 	operation_log "github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/handler/operation_log"
 	photo "github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/handler/photo"
 	role "github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/handler/role"
-	tag "github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/handler/tag"
 	talk "github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/handler/talk"
 	upload "github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/handler/upload"
 	user "github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/handler/user"
@@ -701,39 +700,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Method:  http.MethodPut,
 					Path:    "/role/update_role_menus",
 					Handler: role.UpdateRoleMenusHandler(serverCtx),
-				},
-			}...,
-		),
-		rest.WithPrefix("/admin-api/v1"),
-	)
-
-	server.AddRoutes(
-		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.AdminToken, serverCtx.Permission, serverCtx.OperationLog},
-			[]rest.Route{
-				{
-					// 创建标签
-					Method:  http.MethodPost,
-					Path:    "/tag/add_tag",
-					Handler: tag.AddTagHandler(serverCtx),
-				},
-				{
-					// 删除标签
-					Method:  http.MethodDelete,
-					Path:    "/tag/deletes_tag",
-					Handler: tag.DeletesTagHandler(serverCtx),
-				},
-				{
-					// 分页获取标签列表
-					Method:  http.MethodPost,
-					Path:    "/tag/find_tag_list",
-					Handler: tag.FindTagListHandler(serverCtx),
-				},
-				{
-					// 更新标签
-					Method:  http.MethodPut,
-					Path:    "/tag/update_tag",
-					Handler: tag.UpdateTagHandler(serverCtx),
 				},
 			}...,
 		),

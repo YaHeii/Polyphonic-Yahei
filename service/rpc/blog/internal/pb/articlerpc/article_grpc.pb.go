@@ -41,11 +41,6 @@ const (
 	ArticleRpc_GetCategory_FullMethodName            = "/articlerpc.ArticleRpc/GetCategory"
 	ArticleRpc_DeletesCategory_FullMethodName        = "/articlerpc.ArticleRpc/DeletesCategory"
 	ArticleRpc_FindCategoryList_FullMethodName       = "/articlerpc.ArticleRpc/FindCategoryList"
-	ArticleRpc_AddTag_FullMethodName                 = "/articlerpc.ArticleRpc/AddTag"
-	ArticleRpc_UpdateTag_FullMethodName              = "/articlerpc.ArticleRpc/UpdateTag"
-	ArticleRpc_GetTag_FullMethodName                 = "/articlerpc.ArticleRpc/GetTag"
-	ArticleRpc_DeletesTag_FullMethodName             = "/articlerpc.ArticleRpc/DeletesTag"
-	ArticleRpc_FindTagList_FullMethodName            = "/articlerpc.ArticleRpc/FindTagList"
 )
 
 // ArticleRpcClient is the client API for ArticleRpc service.
@@ -90,16 +85,6 @@ type ArticleRpcClient interface {
 	DeletesCategory(ctx context.Context, in *DeletesCategoryReq, opts ...grpc.CallOption) (*DeletesCategoryResp, error)
 	// 查询文章分类列表
 	FindCategoryList(ctx context.Context, in *FindCategoryListReq, opts ...grpc.CallOption) (*FindCategoryListResp, error)
-	// 创建标签
-	AddTag(ctx context.Context, in *AddTagReq, opts ...grpc.CallOption) (*AddTagResp, error)
-	// 更新标签
-	UpdateTag(ctx context.Context, in *UpdateTagReq, opts ...grpc.CallOption) (*UpdateTagResp, error)
-	// 查询标签
-	GetTag(ctx context.Context, in *GetTagReq, opts ...grpc.CallOption) (*GetTagResp, error)
-	// 删除标签
-	DeletesTag(ctx context.Context, in *DeletesTagReq, opts ...grpc.CallOption) (*DeletesTagResp, error)
-	// 查询标签列表
-	FindTagList(ctx context.Context, in *FindTagListReq, opts ...grpc.CallOption) (*FindTagListResp, error)
 }
 
 type articleRpcClient struct {
@@ -290,56 +275,6 @@ func (c *articleRpcClient) FindCategoryList(ctx context.Context, in *FindCategor
 	return out, nil
 }
 
-func (c *articleRpcClient) AddTag(ctx context.Context, in *AddTagReq, opts ...grpc.CallOption) (*AddTagResp, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(AddTagResp)
-	err := c.cc.Invoke(ctx, ArticleRpc_AddTag_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *articleRpcClient) UpdateTag(ctx context.Context, in *UpdateTagReq, opts ...grpc.CallOption) (*UpdateTagResp, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(UpdateTagResp)
-	err := c.cc.Invoke(ctx, ArticleRpc_UpdateTag_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *articleRpcClient) GetTag(ctx context.Context, in *GetTagReq, opts ...grpc.CallOption) (*GetTagResp, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetTagResp)
-	err := c.cc.Invoke(ctx, ArticleRpc_GetTag_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *articleRpcClient) DeletesTag(ctx context.Context, in *DeletesTagReq, opts ...grpc.CallOption) (*DeletesTagResp, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(DeletesTagResp)
-	err := c.cc.Invoke(ctx, ArticleRpc_DeletesTag_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *articleRpcClient) FindTagList(ctx context.Context, in *FindTagListReq, opts ...grpc.CallOption) (*FindTagListResp, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(FindTagListResp)
-	err := c.cc.Invoke(ctx, ArticleRpc_FindTagList_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // ArticleRpcServer is the server API for ArticleRpc service.
 // All implementations must embed UnimplementedArticleRpcServer
 // for forward compatibility.
@@ -382,16 +317,6 @@ type ArticleRpcServer interface {
 	DeletesCategory(context.Context, *DeletesCategoryReq) (*DeletesCategoryResp, error)
 	// 查询文章分类列表
 	FindCategoryList(context.Context, *FindCategoryListReq) (*FindCategoryListResp, error)
-	// 创建标签
-	AddTag(context.Context, *AddTagReq) (*AddTagResp, error)
-	// 更新标签
-	UpdateTag(context.Context, *UpdateTagReq) (*UpdateTagResp, error)
-	// 查询标签
-	GetTag(context.Context, *GetTagReq) (*GetTagResp, error)
-	// 删除标签
-	DeletesTag(context.Context, *DeletesTagReq) (*DeletesTagResp, error)
-	// 查询标签列表
-	FindTagList(context.Context, *FindTagListReq) (*FindTagListResp, error)
 	mustEmbedUnimplementedArticleRpcServer()
 }
 
@@ -455,21 +380,6 @@ func (UnimplementedArticleRpcServer) DeletesCategory(context.Context, *DeletesCa
 }
 func (UnimplementedArticleRpcServer) FindCategoryList(context.Context, *FindCategoryListReq) (*FindCategoryListResp, error) {
 	return nil, status.Error(codes.Unimplemented, "method FindCategoryList not implemented")
-}
-func (UnimplementedArticleRpcServer) AddTag(context.Context, *AddTagReq) (*AddTagResp, error) {
-	return nil, status.Error(codes.Unimplemented, "method AddTag not implemented")
-}
-func (UnimplementedArticleRpcServer) UpdateTag(context.Context, *UpdateTagReq) (*UpdateTagResp, error) {
-	return nil, status.Error(codes.Unimplemented, "method UpdateTag not implemented")
-}
-func (UnimplementedArticleRpcServer) GetTag(context.Context, *GetTagReq) (*GetTagResp, error) {
-	return nil, status.Error(codes.Unimplemented, "method GetTag not implemented")
-}
-func (UnimplementedArticleRpcServer) DeletesTag(context.Context, *DeletesTagReq) (*DeletesTagResp, error) {
-	return nil, status.Error(codes.Unimplemented, "method DeletesTag not implemented")
-}
-func (UnimplementedArticleRpcServer) FindTagList(context.Context, *FindTagListReq) (*FindTagListResp, error) {
-	return nil, status.Error(codes.Unimplemented, "method FindTagList not implemented")
 }
 func (UnimplementedArticleRpcServer) mustEmbedUnimplementedArticleRpcServer() {}
 func (UnimplementedArticleRpcServer) testEmbeddedByValue()                    {}
@@ -816,96 +726,6 @@ func _ArticleRpc_FindCategoryList_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ArticleRpc_AddTag_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AddTagReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ArticleRpcServer).AddTag(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: ArticleRpc_AddTag_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ArticleRpcServer).AddTag(ctx, req.(*AddTagReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ArticleRpc_UpdateTag_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateTagReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ArticleRpcServer).UpdateTag(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: ArticleRpc_UpdateTag_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ArticleRpcServer).UpdateTag(ctx, req.(*UpdateTagReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ArticleRpc_GetTag_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetTagReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ArticleRpcServer).GetTag(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: ArticleRpc_GetTag_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ArticleRpcServer).GetTag(ctx, req.(*GetTagReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ArticleRpc_DeletesTag_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeletesTagReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ArticleRpcServer).DeletesTag(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: ArticleRpc_DeletesTag_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ArticleRpcServer).DeletesTag(ctx, req.(*DeletesTagReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ArticleRpc_FindTagList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(FindTagListReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ArticleRpcServer).FindTagList(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: ArticleRpc_FindTagList_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ArticleRpcServer).FindTagList(ctx, req.(*FindTagListReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 // ArticleRpc_ServiceDesc is the grpc.ServiceDesc for ArticleRpc service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -984,26 +804,6 @@ var ArticleRpc_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "FindCategoryList",
 			Handler:    _ArticleRpc_FindCategoryList_Handler,
-		},
-		{
-			MethodName: "AddTag",
-			Handler:    _ArticleRpc_AddTag_Handler,
-		},
-		{
-			MethodName: "UpdateTag",
-			Handler:    _ArticleRpc_UpdateTag_Handler,
-		},
-		{
-			MethodName: "GetTag",
-			Handler:    _ArticleRpc_GetTag_Handler,
-		},
-		{
-			MethodName: "DeletesTag",
-			Handler:    _ArticleRpc_DeletesTag_Handler,
-		},
-		{
-			MethodName: "FindTagList",
-			Handler:    _ArticleRpc_FindTagList_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

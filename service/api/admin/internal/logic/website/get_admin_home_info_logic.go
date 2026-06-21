@@ -67,7 +67,6 @@ func (l *GetAdminHomeInfoLogic) GetAdminHomeInfo(req *types.EmptyReq) (resp *typ
 	tagList := make([]*types.TagVO, 0, len(articles.TagList))
 	for _, item := range articles.TagList {
 		tagList = append(tagList, &types.TagVO{
-			Id:           item.Id,
 			TagName:      item.TagName,
 			ArticleCount: item.ArticleCount,
 		})

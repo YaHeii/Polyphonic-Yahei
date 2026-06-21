@@ -39,7 +39,6 @@ type ServiceContext struct {
 	// blog models
 	TArticleModel  model.TArticleModel
 	TCategoryModel model.TCategoryModel
-	TTagModel      model.TTagModel
 
 	// message models
 	TCommentModel      model.TCommentModel
@@ -96,7 +95,6 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		// blog models
 		TArticleModel:  model.NewTArticleModel(sqlConn, modelCacheConf),
 		TCategoryModel: model.NewTCategoryModel(sqlConn, modelCacheConf),
-		TTagModel:      model.NewTTagModel(sqlConn, modelCacheConf),
 		// message models
 		TCommentModel:      model.NewTCommentModel(sqlConn, modelCacheConf),
 		TMessageModel:      model.NewTMessageModel(sqlConn, modelCacheConf),

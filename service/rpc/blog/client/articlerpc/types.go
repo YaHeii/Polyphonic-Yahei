@@ -11,6 +11,5 @@ type (
 	CategoryDetails = articlerpc.CategoryDetails
 	PageReq         = articlerpc.PageReq
 	PageResp        = articlerpc.PageResp
-	Tag             = articlerpc.Tag
 	TagDetails      = articlerpc.TagDetails
 )

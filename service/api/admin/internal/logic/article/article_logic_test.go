@@ -114,26 +114,6 @@ func (s *stubArticleRPC) FindCategoryList(context.Context, *articlerpc.FindCateg
 	panic("unexpected call")
 }
 
-func (s *stubArticleRPC) AddTag(context.Context, *articlerpc.AddTagReq, ...grpc.CallOption) (*articlerpc.AddTagResp, error) {
-	panic("unexpected call")
-}
-
-func (s *stubArticleRPC) UpdateTag(context.Context, *articlerpc.UpdateTagReq, ...grpc.CallOption) (*articlerpc.UpdateTagResp, error) {
-	panic("unexpected call")
-}
-
-func (s *stubArticleRPC) GetTag(context.Context, *articlerpc.GetTagReq, ...grpc.CallOption) (*articlerpc.GetTagResp, error) {
-	panic("unexpected call")
-}
-
-func (s *stubArticleRPC) DeletesTag(context.Context, *articlerpc.DeletesTagReq, ...grpc.CallOption) (*articlerpc.DeletesTagResp, error) {
-	panic("unexpected call")
-}
-
-func (s *stubArticleRPC) FindTagList(context.Context, *articlerpc.FindTagListReq, ...grpc.CallOption) (*articlerpc.FindTagListResp, error) {
-	panic("unexpected call")
-}
-
 func TestDeleteArticleBuildsDeleteRequest(t *testing.T) {
 	articleRPC := &stubArticleRPC{
 		deleteResp: &articlerpc.DeletesArticleResp{SuccessCount: 1},

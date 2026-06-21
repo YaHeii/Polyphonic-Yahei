@@ -130,33 +130,3 @@ func (s *ArticleRpcServer) FindCategoryList(ctx context.Context, in *articlerpc.
 	l := articlerpclogic.NewFindCategoryListLogic(ctx, s.svcCtx)
 	return l.FindCategoryList(in)
 }
-
-// 创建标签
-func (s *ArticleRpcServer) AddTag(ctx context.Context, in *articlerpc.AddTagReq) (*articlerpc.AddTagResp, error) {
-	l := articlerpclogic.NewAddTagLogic(ctx, s.svcCtx)
-	return l.AddTag(in)
-}
-
-// 更新标签
-func (s *ArticleRpcServer) UpdateTag(ctx context.Context, in *articlerpc.UpdateTagReq) (*articlerpc.UpdateTagResp, error) {
-	l := articlerpclogic.NewUpdateTagLogic(ctx, s.svcCtx)
-	return l.UpdateTag(in)
-}
-
-// 查询标签
-func (s *ArticleRpcServer) GetTag(ctx context.Context, in *articlerpc.GetTagReq) (*articlerpc.GetTagResp, error) {
-	l := articlerpclogic.NewGetTagLogic(ctx, s.svcCtx)
-	return l.GetTag(in)
-}
-
-// 删除标签
-func (s *ArticleRpcServer) DeletesTag(ctx context.Context, in *articlerpc.DeletesTagReq) (*articlerpc.DeletesTagResp, error) {
-	l := articlerpclogic.NewDeletesTagLogic(ctx, s.svcCtx)
-	return l.DeletesTag(in)
-}
-
-// 查询标签列表
-func (s *ArticleRpcServer) FindTagList(ctx context.Context, in *articlerpc.FindTagListReq) (*articlerpc.FindTagListResp, error) {
-	l := articlerpclogic.NewFindTagListLogic(ctx, s.svcCtx)
-	return l.FindTagList(in)
-}

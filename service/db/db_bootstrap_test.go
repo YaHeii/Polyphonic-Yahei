@@ -132,6 +132,8 @@ func TestDropPageMigrationExistsAndDropsTable(t *testing.T) {
 	requiredUp := []string{
 		"DROP TRIGGER IF EXISTS trg_t_page_set_updated_at ON t_page;",
 		"DROP TABLE IF EXISTS t_page;",
+		"DROP TRIGGER IF EXISTS trg_t_tag_set_updated_at ON t_tag;",
+		"DROP TABLE IF EXISTS t_tag;",
 	}
 	for _, item := range requiredUp {
 		if !strings.Contains(upSQL, item) {
@@ -142,11 +144,50 @@ func TestDropPageMigrationExistsAndDropsTable(t *testing.T) {
 	requiredDown := []string{
 		"CREATE TABLE t_page (",
 		"CREATE TRIGGER trg_t_page_set_updated_at BEFORE UPDATE ON t_page",
+		"CREATE TABLE t_tag (",
+		"CREATE TRIGGER trg_t_tag_set_updated_at BEFORE UPDATE ON t_tag",
 	}
 	for _, item := range requiredDown {
 		if !strings.Contains(downSQL, item) {
 			t.Fatalf("expected drop migration down to contain %q", item)
 		}
+	}
+}
+
+func TestTagManagementSurfaceRemoved(t *testing.T) {
+	root := repoRoot(t)
+	makefile := readFile(t, root, "makefile")
+	seed := readFile(t, root, "service", "db", "seeds", "bootstrap", "002_permission_bootstrap.sql")
+	adminAPI := readFile(t, root, "service", "api", "admin", "proto", "admin.api")
+	tagAPI := filepath.Join(root, "service", "api", "admin", "proto", "admin", "tag.api")
+
+	forbiddenMakefile := []string{
+		"t_tag",
+	}
+	for _, item := range forbiddenMakefile {
+		if strings.Contains(makefile, item) {
+			t.Fatalf("expected makefile to exclude %q", item)
+		}
+	}
+
+	forbiddenSeed := []string{
+		"'tag', 'Tag'",
+		"/admin-api/v1/tag/find_tag_list",
+	}
+	for _, item := range forbiddenSeed {
+		if strings.Contains(seed, item) {
+			t.Fatalf("expected tag permission seed to exclude %q", item)
+		}
+	}
+
+	if strings.Contains(adminAPI, `import "admin/tag.api"`) {
+		t.Fatal(`expected admin.api to exclude import "admin/tag.api"`)
+	}
+
+	if _, err := os.Stat(tagAPI); err == nil {
+		t.Fatalf("expected tag api file to be removed: %s", tagAPI)
+	} else if !os.IsNotExist(err) {
+		t.Fatalf("unexpected stat error for %s: %v", tagAPI, err)
 	}
 }
 

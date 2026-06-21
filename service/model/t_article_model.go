@@ -24,7 +24,6 @@ type (
 		Deletes(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error)
 		Updates(ctx context.Context, columns map[string]interface{}, conditions string, args ...interface{}) (rows int64, err error)
 		CountGroupByCategoryIDs(ctx context.Context, ids []int64) (map[int64]int64, error)
-		CountGroupByTagNames(ctx context.Context, names []string) (map[string]int64, error)
 		GetDailyStatistics(ctx context.Context) (map[string]int64, error)
 	}
 
@@ -193,31 +192,6 @@ func (m *customTArticleModel) CountGroupByCategoryIDs(ctx context.Context, ids [
 	result := make(map[int64]int64, len(rows))
 	for _, row := range rows {
 		result[row.CategoryID] = row.ArticleCount
-	}
-	return result, nil
-}
-
-func (m *customTArticleModel) CountGroupByTagNames(ctx context.Context, names []string) (map[string]int64, error) {
-	if len(names) == 0 {
-		return map[string]int64{}, nil
-	}
-
-	var rows []struct {
-		TagName      string `db:"tag_name"`
-		ArticleCount int64  `db:"article_count"`
-	}
-	query := fmt.Sprintf(`select tag_name, count(*) as article_count
-from (select unnest(tags) as tag_name from %s) t
-where tag_name = any($1)
-group by tag_name
-order by tag_name`, m.table)
-	if err := m.QueryRowsNoCacheCtx(ctx, &rows, query, names); err != nil {
-		return nil, err
-	}
-
-	result := make(map[string]int64, len(rows))
-	for _, row := range rows {
-		result[row.TagName] = row.ArticleCount
 	}
 	return result, nil
 }

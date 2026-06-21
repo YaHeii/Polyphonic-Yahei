@@ -35,11 +35,6 @@ func (l *AnalysisArticleLogic) AnalysisArticle(in *articlerpc.AnalysisArticleReq
 		return nil, err
 	}
 
-	tc, err := l.svcCtx.TTagModel.FindCount(l.ctx, "")
-	if err != nil {
-		return nil, err
-	}
-
 	helper := NewArticleHelperLogic(l.ctx, l.svcCtx)
 
 	cl, err := l.svcCtx.TCategoryModel.FindALL(l.ctx, "")
@@ -52,12 +47,7 @@ func (l *AnalysisArticleLogic) AnalysisArticle(in *articlerpc.AnalysisArticleReq
 		return nil, err
 	}
 
-	tl, err := l.svcCtx.TTagModel.FindALL(l.ctx, "")
-	if err != nil {
-		return nil, err
-	}
-
-	tds, err := helper.convertTag(tl)
+	tl, err := helper.FindAllTags()
 	if err != nil {
 		return nil, err
 	}
@@ -90,9 +80,9 @@ func (l *AnalysisArticleLogic) AnalysisArticle(in *articlerpc.AnalysisArticleReq
 	out := &articlerpc.AnalysisArticleResp{
 		ArticleCount:           ac,
 		CategoryCount:          cc,
-		TagCount:               tc,
+		TagCount:               int64(len(tl)),
 		CategoryList:           cds,
-		TagList:                tds,
+		TagList:                tl,
 		ArticleRankList:        ars,
 		ArticleDailyStatistics: ads,
 	}

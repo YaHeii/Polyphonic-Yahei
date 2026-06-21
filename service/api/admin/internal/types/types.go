@@ -174,7 +174,6 @@ type SocialAccountInfo struct {
 }
 
 type TagVO struct {
-	Id           int64  `json:"id,optional"`   // 标签ID
 	TagName      string `json:"tag_name"`      // 标签名
 	ArticleCount int64  `json:"article_count"` // 文章数量
 }

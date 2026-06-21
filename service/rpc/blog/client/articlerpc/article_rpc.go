@@ -20,24 +20,18 @@ type (
 	AddArticleVisitsResp       = articlerpc.AddArticleVisitsResp
 	AddCategoryReq             = articlerpc.AddCategoryReq
 	AddCategoryResp            = articlerpc.AddCategoryResp
-	AddTagReq                  = articlerpc.AddTagReq
-	AddTagResp                 = articlerpc.AddTagResp
 	AnalysisArticleReq         = articlerpc.AnalysisArticleReq
 	AnalysisArticleResp        = articlerpc.AnalysisArticleResp
 	DeletesArticleReq          = articlerpc.DeletesArticleReq
 	DeletesArticleResp         = articlerpc.DeletesArticleResp
 	DeletesCategoryReq         = articlerpc.DeletesCategoryReq
 	DeletesCategoryResp        = articlerpc.DeletesCategoryResp
-	DeletesTagReq              = articlerpc.DeletesTagReq
-	DeletesTagResp             = articlerpc.DeletesTagResp
 	FindArticleListReq         = articlerpc.FindArticleListReq
 	FindArticleListResp        = articlerpc.FindArticleListResp
 	FindArticlePreviewListResp = articlerpc.FindArticlePreviewListResp
 	FindCategoryListReq        = articlerpc.FindCategoryListReq
 	FindCategoryListResp       = articlerpc.FindCategoryListResp
 	FindLikeArticleResp        = articlerpc.FindLikeArticleResp
-	FindTagListReq             = articlerpc.FindTagListReq
-	FindTagListResp            = articlerpc.FindTagListResp
 	FindUserLikeArticleReq     = articlerpc.FindUserLikeArticleReq
 	GetArticleRelationReq      = articlerpc.GetArticleRelationReq
 	GetArticleRelationResp     = articlerpc.GetArticleRelationResp
@@ -45,8 +39,6 @@ type (
 	GetArticleResp             = articlerpc.GetArticleResp
 	GetCategoryReq             = articlerpc.GetCategoryReq
 	GetCategoryResp            = articlerpc.GetCategoryResp
-	GetTagReq                  = articlerpc.GetTagReq
-	GetTagResp                 = articlerpc.GetTagResp
 	LikeArticleReq             = articlerpc.LikeArticleReq
 	LikeArticleResp            = articlerpc.LikeArticleResp
 	UpdateArticleDeleteReq     = articlerpc.UpdateArticleDeleteReq
@@ -57,8 +49,6 @@ type (
 	UpdateArticleTopResp       = articlerpc.UpdateArticleTopResp
 	UpdateCategoryReq          = articlerpc.UpdateCategoryReq
 	UpdateCategoryResp         = articlerpc.UpdateCategoryResp
-	UpdateTagReq               = articlerpc.UpdateTagReq
-	UpdateTagResp              = articlerpc.UpdateTagResp
 
 	ArticleRpc interface {
 		// 分析文章数量
@@ -97,16 +87,6 @@ type (
 		DeletesCategory(ctx context.Context, in *DeletesCategoryReq, opts ...grpc.CallOption) (*DeletesCategoryResp, error)
 		// 查询文章分类列表
 		FindCategoryList(ctx context.Context, in *FindCategoryListReq, opts ...grpc.CallOption) (*FindCategoryListResp, error)
-		// 创建标签
-		AddTag(ctx context.Context, in *AddTagReq, opts ...grpc.CallOption) (*AddTagResp, error)
-		// 更新标签
-		UpdateTag(ctx context.Context, in *UpdateTagReq, opts ...grpc.CallOption) (*UpdateTagResp, error)
-		// 查询标签
-		GetTag(ctx context.Context, in *GetTagReq, opts ...grpc.CallOption) (*GetTagResp, error)
-		// 删除标签
-		DeletesTag(ctx context.Context, in *DeletesTagReq, opts ...grpc.CallOption) (*DeletesTagResp, error)
-		// 查询标签列表
-		FindTagList(ctx context.Context, in *FindTagListReq, opts ...grpc.CallOption) (*FindTagListResp, error)
 	}
 
 	defaultArticleRpc struct {
@@ -226,34 +206,4 @@ func (m *defaultArticleRpc) DeletesCategory(ctx context.Context, in *DeletesCate
 func (m *defaultArticleRpc) FindCategoryList(ctx context.Context, in *FindCategoryListReq, opts ...grpc.CallOption) (*FindCategoryListResp, error) {
 	client := articlerpc.NewArticleRpcClient(m.cli.Conn())
 	return client.FindCategoryList(ctx, in, opts...)
-}
-
-// 创建标签
-func (m *defaultArticleRpc) AddTag(ctx context.Context, in *AddTagReq, opts ...grpc.CallOption) (*AddTagResp, error) {
-	client := articlerpc.NewArticleRpcClient(m.cli.Conn())
-	return client.AddTag(ctx, in, opts...)
-}
-
-// 更新标签
-func (m *defaultArticleRpc) UpdateTag(ctx context.Context, in *UpdateTagReq, opts ...grpc.CallOption) (*UpdateTagResp, error) {
-	client := articlerpc.NewArticleRpcClient(m.cli.Conn())
-	return client.UpdateTag(ctx, in, opts...)
-}
-
-// 查询标签
-func (m *defaultArticleRpc) GetTag(ctx context.Context, in *GetTagReq, opts ...grpc.CallOption) (*GetTagResp, error) {
-	client := articlerpc.NewArticleRpcClient(m.cli.Conn())
-	return client.GetTag(ctx, in, opts...)
-}
-
-// 删除标签
-func (m *defaultArticleRpc) DeletesTag(ctx context.Context, in *DeletesTagReq, opts ...grpc.CallOption) (*DeletesTagResp, error) {
-	client := articlerpc.NewArticleRpcClient(m.cli.Conn())
-	return client.DeletesTag(ctx, in, opts...)
-}
-
-// 查询标签列表
-func (m *defaultArticleRpc) FindTagList(ctx context.Context, in *FindTagListReq, opts ...grpc.CallOption) (*FindTagListResp, error) {
-	client := articlerpc.NewArticleRpcClient(m.cli.Conn())
-	return client.FindTagList(ctx, in, opts...)
 }

@@ -231,7 +231,7 @@ func TestGetAdminHomeInfo(t *testing.T) {
 				{Id: 1, CategoryName: "Go", ArticleCount: 2},
 			},
 			TagList: []*articlerpc.TagDetails{
-				{Id: 2, TagName: "grpc", ArticleCount: 3},
+				{TagName: "grpc", ArticleCount: 3},
 			},
 			ArticleRankList: []*articlerpc.ArticlePreview{
 				{Id: 3, ArticleTitle: "Hot", ViewCount: 100},

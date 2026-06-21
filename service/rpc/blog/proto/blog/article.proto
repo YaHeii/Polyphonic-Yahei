@@ -41,8 +41,7 @@ message ArticleCategory {
 
 // 文章标签信息
 message ArticleTag{
-  int64 id = 1;// id
-  string tag_name = 2;// 标签名
+  string tag_name = 1;// 标签名
 }
 
 // 文章详情信息
@@ -83,21 +82,10 @@ message CategoryDetails {
   int64 article_count = 5;// 文章数量
 }
 
-// 标签预览信息
-message Tag{
-  int64 id = 1;// id
-  string tag_name = 2;// 标签名
-  int64 created_at = 3;// 创建时间
-  int64 updated_at = 4;// 更新时间
-}
-
 // 标签详情信息
 message TagDetails {
-  int64 id = 1;// id
-  string tag_name = 2;// 标签名
-  int64 created_at = 3;// 创建时间
-  int64 updated_at = 4;// 更新时间
-  int64 article_count = 5;// 文章数量
+  string tag_name = 1;// 标签名
+  int64 article_count = 2;// 文章数量
 }
 
 // 文章每日统计信息
@@ -277,51 +265,6 @@ message FindCategoryListResp {
   repeated CategoryDetails list = 2;
 }
 
-/************** tag 相关 **************/
-message AddTagReq {
-  int64 id = 1;// id
-  string tag_name = 2;// 标签名
-}
-
-message AddTagResp {
-  Tag tag = 1;
-}
-
-message UpdateTagReq {
-  int64 id = 1;// id
-  string tag_name = 2;// 标签名
-}
-
-message UpdateTagResp {
-  Tag tag = 1;
-}
-
-message GetTagReq {
-  int64 id = 1;
-}
-
-message GetTagResp {
-  TagDetails tag = 1;
-}
-
-message DeletesTagReq {
-  repeated int64 ids = 1;
-}
-
-message DeletesTagResp {
-  int64 success_count = 1;
-}
-
-message FindTagListReq{
-  PageReq paginate = 1;    // 分页参数
-  string tag_name = 2;// 标签名
-}
-
-message FindTagListResp {
-  PageResp pagination = 1; // 分页信息
-  repeated TagDetails list = 2;
-}
-
 /************** analysis 相关 **************/
 message AnalysisArticleReq{
 }
@@ -382,14 +325,4 @@ service ArticleRpc {
   // 查询文章分类列表
   rpc FindCategoryList(FindCategoryListReq) returns(FindCategoryListResp);
 
-  // 创建标签
-  rpc AddTag(AddTagReq) returns(AddTagResp);
-  // 更新标签
-  rpc UpdateTag(UpdateTagReq) returns(UpdateTagResp);
-  // 查询标签
-  rpc GetTag(GetTagReq) returns(GetTagResp);
-  // 删除标签
-  rpc DeletesTag(DeletesTagReq) returns(DeletesTagResp);
-  // 查询标签列表
-  rpc FindTagList(FindTagListReq) returns(FindTagListResp);
 }
