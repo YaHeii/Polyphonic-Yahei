@@ -13,6 +13,7 @@ import (
 	"time"
 
 	"github.com/YaHeii/Polyphonic-Yahei/pkg/infra/biz/bizheader"
+	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/infra/authctx"
 	"github.com/YaHeii/Polyphonic-Yahei/pkg/utils/jsonconv"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/permissionrpc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/syslogrpc"
@@ -122,7 +123,7 @@ func (m *OperationLogMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc 
 		}
 
 		op := &syslogrpc.AddOperationLogReq{
-			UserId:         r.Header.Get(bizheader.HeaderUid),
+			UserId:         authctx.CurrentUserID(r.Context()),
 			TerminalId:     r.Header.Get(bizheader.HeaderXTerminalId),
 			OptModule:      module,
 			OptDesc:        desc,

@@ -6,11 +6,10 @@ package user
 import (
 	"context"
 
-	"github.com/YaHeii/Polyphonic-Yahei/pkg/infra/biz/bizheader"
+	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/infra/authctx"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/svc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/types"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/permissionrpc"
-	"github.com/spf13/cast"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -32,7 +31,7 @@ func NewGetUserMenusLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetU
 
 func (l *GetUserMenusLogic) GetUserMenus(req *types.EmptyReq) (resp *types.UserMenusResp, err error) {
 	out, err := l.svcCtx.PermissionRpc.FindUserMenus(l.ctx, &permissionrpc.FindUserMenusReq{
-		UserId: cast.ToString(l.ctx.Value(bizheader.HeaderUid)),
+		UserId: authctx.CurrentUserID(l.ctx),
 	})
 	if err != nil {
 		return nil, err

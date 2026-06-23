@@ -29,8 +29,8 @@ type (
 	tags:       "操作日志"
 	prefix:     /admin-api/v1
 	group:      operation_log
-	authType:   apiKey
-	middleware: AdminToken,Permission,OperationLog
+	jwt: Auth
+	middleware: Permission,OperationLog
 )
 service admin-api {
 	@doc "分页获取操作记录列表"

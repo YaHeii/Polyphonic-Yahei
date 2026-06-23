@@ -13,7 +13,7 @@
   ],
   "swagger": "2.0",
   "info": {
-    "description": "博客管理平台API接口文档",
+    "description": "博客管理平台API接口文档（App-Name 作为普通请求头，默认 admin-web）",
     "title": "博客管理平台API",
     "contact": {
       "name": "yahei",
@@ -28,11 +28,6 @@
   "paths": {
     "/admin-api/v1/account/find_account_list": {
       "post": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -84,11 +79,6 @@
     },
     "/admin-api/v1/account/find_account_online_list": {
       "post": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -140,11 +130,6 @@
     },
     "/admin-api/v1/account/update_account_password": {
       "put": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -196,11 +181,6 @@
     },
     "/admin-api/v1/account/update_account_roles": {
       "put": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -252,11 +232,6 @@
     },
     "/admin-api/v1/account/update_account_status": {
       "put": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -308,11 +283,6 @@
     },
     "/admin-api/v1/admin": {
       "get": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "produces": [
           "application/json"
         ],
@@ -351,11 +321,6 @@
     },
     "/admin-api/v1/admin/get_about_me": {
       "get": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "produces": [
           "application/json"
         ],
@@ -394,11 +359,6 @@
     },
     "/admin-api/v1/admin/get_system_state": {
       "get": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "produces": [
           "application/json"
         ],
@@ -437,11 +397,6 @@
     },
     "/admin-api/v1/admin/get_user_area_stats": {
       "post": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -493,11 +448,6 @@
     },
     "/admin-api/v1/admin/get_visit_stats": {
       "get": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "produces": [
           "application/json"
         ],
@@ -536,11 +486,6 @@
     },
     "/admin-api/v1/admin/get_visit_trend": {
       "post": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -592,11 +537,6 @@
     },
     "/admin-api/v1/admin/get_website_config": {
       "get": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "produces": [
           "application/json"
         ],
@@ -635,11 +575,6 @@
     },
     "/admin-api/v1/admin/update_about_me": {
       "put": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -691,11 +626,6 @@
     },
     "/admin-api/v1/admin/update_website_config": {
       "put": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -747,11 +677,6 @@
     },
     "/admin-api/v1/album/add_album": {
       "post": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -803,11 +728,6 @@
     },
     "/admin-api/v1/album/deletes_album": {
       "delete": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -859,11 +779,6 @@
     },
     "/admin-api/v1/album/find_album_list": {
       "post": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -915,11 +830,6 @@
     },
     "/admin-api/v1/album/get_album": {
       "post": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -971,11 +881,6 @@
     },
     "/admin-api/v1/album/update_album": {
       "put": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -1027,11 +932,6 @@
     },
     "/admin-api/v1/album/update_album_delete": {
       "put": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -1083,11 +983,6 @@
     },
     "/admin-api/v1/api/add_api": {
       "post": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -1139,11 +1034,6 @@
     },
     "/admin-api/v1/api/clean_api_list": {
       "post": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/x-www-form-urlencoded"
         ],
@@ -1185,11 +1075,6 @@
     },
     "/admin-api/v1/api/deletes_api": {
       "delete": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -1241,11 +1126,6 @@
     },
     "/admin-api/v1/api/find_api_list": {
       "post": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -1297,11 +1177,6 @@
     },
     "/admin-api/v1/api/sync_api_list": {
       "post": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/x-www-form-urlencoded"
         ],
@@ -1343,11 +1218,6 @@
     },
     "/admin-api/v1/api/update_api": {
       "put": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -1399,11 +1269,6 @@
     },
     "/admin-api/v1/article/add_article": {
       "post": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -1455,11 +1320,6 @@
     },
     "/admin-api/v1/article/delete_article": {
       "delete": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -1511,11 +1371,6 @@
     },
     "/admin-api/v1/article/export_article_list": {
       "post": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -1567,11 +1422,6 @@
     },
     "/admin-api/v1/article/find_article_list": {
       "post": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -1623,11 +1473,6 @@
     },
     "/admin-api/v1/article/get_article": {
       "post": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -1679,11 +1524,6 @@
     },
     "/admin-api/v1/article/update_article": {
       "put": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -1735,11 +1575,6 @@
     },
     "/admin-api/v1/article/update_article_delete": {
       "put": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -1791,11 +1626,6 @@
     },
     "/admin-api/v1/article/update_article_top": {
       "put": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -1847,11 +1677,6 @@
     },
     "/admin-api/v1/category/add_category": {
       "post": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -1903,11 +1728,6 @@
     },
     "/admin-api/v1/category/deletes_category": {
       "delete": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -1959,11 +1779,6 @@
     },
     "/admin-api/v1/category/find_category_list": {
       "post": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -2015,11 +1830,6 @@
     },
     "/admin-api/v1/category/update_category": {
       "put": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -2071,11 +1881,6 @@
     },
     "/admin-api/v1/comment/deletes_comment": {
       "delete": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -2127,11 +1932,6 @@
     },
     "/admin-api/v1/comment/find_comment_back_list": {
       "post": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -2183,11 +1983,6 @@
     },
     "/admin-api/v1/comment/update_comment_status": {
       "put": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -2290,11 +2085,6 @@
     },
     "/admin-api/v1/file_log/deletes_file_log": {
       "delete": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -2346,11 +2136,6 @@
     },
     "/admin-api/v1/file_log/find_file_log_list": {
       "post": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -2402,11 +2187,6 @@
     },
     "/admin-api/v1/file_log/find_login_log_list": {
       "post": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -2458,11 +2238,6 @@
     },
     "/admin-api/v1/friend/add_friend": {
       "post": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -2514,11 +2289,6 @@
     },
     "/admin-api/v1/friend/deletes_friend": {
       "delete": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -2570,11 +2340,6 @@
     },
     "/admin-api/v1/friend/find_friend_list": {
       "post": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -2626,11 +2391,6 @@
     },
     "/admin-api/v1/friend/update_friend": {
       "put": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -2873,11 +2633,6 @@
     },
     "/admin-api/v1/login_log/deletes_login_log": {
       "delete": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -2929,11 +2684,6 @@
     },
     "/admin-api/v1/logoff": {
       "post": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/x-www-form-urlencoded"
         ],
@@ -2975,11 +2725,6 @@
     },
     "/admin-api/v1/logout": {
       "get": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "produces": [
           "application/json"
         ],
@@ -3018,11 +2763,6 @@
     },
     "/admin-api/v1/menu/add_menu": {
       "post": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -3074,11 +2814,6 @@
     },
     "/admin-api/v1/menu/clean_menu_list": {
       "post": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/x-www-form-urlencoded"
         ],
@@ -3120,11 +2855,6 @@
     },
     "/admin-api/v1/menu/deletes_menu": {
       "delete": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -3176,11 +2906,6 @@
     },
     "/admin-api/v1/menu/find_menu_list": {
       "post": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -3232,11 +2957,6 @@
     },
     "/admin-api/v1/menu/sync_menu_list": {
       "post": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -3288,11 +3008,6 @@
     },
     "/admin-api/v1/menu/update_menu": {
       "put": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -3344,11 +3059,6 @@
     },
     "/admin-api/v1/message/deletes_message": {
       "delete": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -3400,11 +3110,6 @@
     },
     "/admin-api/v1/message/find_message_list": {
       "post": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -3456,11 +3161,6 @@
     },
     "/admin-api/v1/message/update_message_status": {
       "put": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -3512,11 +3212,6 @@
     },
     "/admin-api/v1/notice/add_notice": {
       "post": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -3568,11 +3263,6 @@
     },
     "/admin-api/v1/notice/deletes_notice": {
       "delete": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -3624,11 +3314,6 @@
     },
     "/admin-api/v1/notice/find_notice_list": {
       "post": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -3680,11 +3365,6 @@
     },
     "/admin-api/v1/notice/find_user_notice_list": {
       "post": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -3736,11 +3416,6 @@
     },
     "/admin-api/v1/notice/get_notice": {
       "get": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "produces": [
           "application/json"
         ],
@@ -3779,11 +3454,6 @@
     },
     "/admin-api/v1/notice/update_notice": {
       "put": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -3835,11 +3505,6 @@
     },
     "/admin-api/v1/notice/update_notice_status": {
       "put": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -3891,11 +3556,6 @@
     },
     "/admin-api/v1/operation_log/deletes_operation_log": {
       "delete": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -3947,11 +3607,6 @@
     },
     "/admin-api/v1/operation_log/find_operation_log_list": {
       "post": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -3989,230 +3644,6 @@
                 },
                 "data": {
                   "$ref": "#/definitions/PageResp"
-                },
-                "msg": {
-                  "description": "business message",
-                  "type": "string",
-                  "example": "ok"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/admin-api/v1/page/add_page": {
-      "post": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "页面管理"
-        ],
-        "summary": "创建页面",
-        "operationId": "pageAddPage",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/NewPageReq"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "code": {
-                  "description": "1001-未登录\u003cbr\u003e1002-无权限操作",
-                  "type": "integer",
-                  "example": 0
-                },
-                "data": {
-                  "$ref": "#/definitions/PageBackVO"
-                },
-                "msg": {
-                  "description": "business message",
-                  "type": "string",
-                  "example": "ok"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/admin-api/v1/page/delete_page": {
-      "delete": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "页面管理"
-        ],
-        "summary": "删除页面",
-        "operationId": "pageDeletePage",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/IdReq"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "code": {
-                  "description": "1001-未登录\u003cbr\u003e1002-无权限操作",
-                  "type": "integer",
-                  "example": 0
-                },
-                "data": {
-                  "$ref": "#/definitions/BatchResp"
-                },
-                "msg": {
-                  "description": "business message",
-                  "type": "string",
-                  "example": "ok"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/admin-api/v1/page/find_page_list": {
-      "post": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "页面管理"
-        ],
-        "summary": "分页获取页面列表",
-        "operationId": "pageFindPageList",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/QueryPageReq"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "code": {
-                  "description": "1001-未登录\u003cbr\u003e1002-无权限操作",
-                  "type": "integer",
-                  "example": 0
-                },
-                "data": {
-                  "$ref": "#/definitions/PageResp"
-                },
-                "msg": {
-                  "description": "business message",
-                  "type": "string",
-                  "example": "ok"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/admin-api/v1/page/update_page": {
-      "put": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "页面管理"
-        ],
-        "summary": "更新页面",
-        "operationId": "pageUpdatePage",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/NewPageReq"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "code": {
-                  "description": "1001-未登录\u003cbr\u003e1002-无权限操作",
-                  "type": "integer",
-                  "example": 0
-                },
-                "data": {
-                  "$ref": "#/definitions/PageBackVO"
                 },
                 "msg": {
                   "description": "business message",
@@ -4278,11 +3709,6 @@
     },
     "/admin-api/v1/photo/add_photo": {
       "post": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -4334,11 +3760,6 @@
     },
     "/admin-api/v1/photo/deletes_photo": {
       "delete": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -4390,11 +3811,6 @@
     },
     "/admin-api/v1/photo/find_photo_list": {
       "post": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -4446,11 +3862,6 @@
     },
     "/admin-api/v1/photo/update_photo": {
       "put": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -4502,11 +3913,6 @@
     },
     "/admin-api/v1/photo/update_photo_delete": {
       "put": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -4746,11 +4152,6 @@
     },
     "/admin-api/v1/role/add_role": {
       "post": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -4802,11 +4203,6 @@
     },
     "/admin-api/v1/role/deletes_role": {
       "delete": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -4858,11 +4254,6 @@
     },
     "/admin-api/v1/role/find_role_list": {
       "post": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -4914,11 +4305,6 @@
     },
     "/admin-api/v1/role/find_role_resources": {
       "post": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -4970,11 +4356,6 @@
     },
     "/admin-api/v1/role/update_role": {
       "put": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -5026,11 +4407,6 @@
     },
     "/admin-api/v1/role/update_role_apis": {
       "put": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -5082,11 +4458,6 @@
     },
     "/admin-api/v1/role/update_role_menus": {
       "put": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -5238,237 +4609,8 @@
         }
       }
     },
-    "/admin-api/v1/tag/add_tag": {
-      "post": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "标签管理"
-        ],
-        "summary": "创建标签",
-        "operationId": "tagAddTag",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/NewTagReq"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "code": {
-                  "description": "1001-未登录\u003cbr\u003e1002-无权限操作",
-                  "type": "integer",
-                  "example": 0
-                },
-                "data": {
-                  "$ref": "#/definitions/TagBackVO"
-                },
-                "msg": {
-                  "description": "business message",
-                  "type": "string",
-                  "example": "ok"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/admin-api/v1/tag/deletes_tag": {
-      "delete": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "标签管理"
-        ],
-        "summary": "删除标签",
-        "operationId": "tagDeletesTag",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/IdsReq"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "code": {
-                  "description": "1001-未登录\u003cbr\u003e1002-无权限操作",
-                  "type": "integer",
-                  "example": 0
-                },
-                "data": {
-                  "$ref": "#/definitions/BatchResp"
-                },
-                "msg": {
-                  "description": "business message",
-                  "type": "string",
-                  "example": "ok"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/admin-api/v1/tag/find_tag_list": {
-      "post": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "标签管理"
-        ],
-        "summary": "分页获取标签列表",
-        "operationId": "tagFindTagList",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/QueryTagReq"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "code": {
-                  "description": "1001-未登录\u003cbr\u003e1002-无权限操作",
-                  "type": "integer",
-                  "example": 0
-                },
-                "data": {
-                  "$ref": "#/definitions/PageResp"
-                },
-                "msg": {
-                  "description": "business message",
-                  "type": "string",
-                  "example": "ok"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/admin-api/v1/tag/update_tag": {
-      "put": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "标签管理"
-        ],
-        "summary": "更新标签",
-        "operationId": "tagUpdateTag",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/NewTagReq"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "code": {
-                  "description": "1001-未登录\u003cbr\u003e1002-无权限操作",
-                  "type": "integer",
-                  "example": 0
-                },
-                "data": {
-                  "$ref": "#/definitions/TagBackVO"
-                },
-                "msg": {
-                  "description": "business message",
-                  "type": "string",
-                  "example": "ok"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/admin-api/v1/talk/add_talk": {
       "post": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -5520,11 +4662,6 @@
     },
     "/admin-api/v1/talk/delete_talk": {
       "delete": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -5576,11 +4713,6 @@
     },
     "/admin-api/v1/talk/find_talk_list": {
       "post": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -5632,11 +4764,6 @@
     },
     "/admin-api/v1/talk/get_talk": {
       "post": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -5688,11 +4815,6 @@
     },
     "/admin-api/v1/talk/update_talk": {
       "put": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -5795,11 +4917,6 @@
     },
     "/admin-api/v1/upload/deletes_upload_file": {
       "delete": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -5851,11 +4968,6 @@
     },
     "/admin-api/v1/upload/list_upload_file": {
       "post": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -5907,11 +5019,6 @@
     },
     "/admin-api/v1/upload/multi_upload_file": {
       "post": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/x-www-form-urlencoded"
         ],
@@ -6006,11 +5113,6 @@
     },
     "/admin-api/v1/upload/upload_file": {
       "post": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/x-www-form-urlencoded"
         ],
@@ -6067,11 +5169,6 @@
     },
     "/admin-api/v1/user/delete_user_bind_third_party": {
       "post": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -6123,11 +5220,6 @@
     },
     "/admin-api/v1/user/get_user_apis": {
       "get": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "produces": [
           "application/json"
         ],
@@ -6166,11 +5258,6 @@
     },
     "/admin-api/v1/user/get_user_info": {
       "get": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "produces": [
           "application/json"
         ],
@@ -6209,11 +5296,6 @@
     },
     "/admin-api/v1/user/get_user_login_history_list": {
       "post": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -6265,11 +5347,6 @@
     },
     "/admin-api/v1/user/get_user_menus": {
       "get": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "produces": [
           "application/json"
         ],
@@ -6308,11 +5385,6 @@
     },
     "/admin-api/v1/user/get_user_roles": {
       "get": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "produces": [
           "application/json"
         ],
@@ -6351,11 +5423,6 @@
     },
     "/admin-api/v1/user/update_user_avatar": {
       "put": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -6407,11 +5474,6 @@
     },
     "/admin-api/v1/user/update_user_bind_email": {
       "put": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -6463,11 +5525,6 @@
     },
     "/admin-api/v1/user/update_user_bind_phone": {
       "put": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -6519,11 +5576,6 @@
     },
     "/admin-api/v1/user/update_user_bind_third_party": {
       "put": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -6575,11 +5627,6 @@
     },
     "/admin-api/v1/user/update_user_info": {
       "put": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -6631,11 +5678,6 @@
     },
     "/admin-api/v1/user/update_user_password": {
       "put": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -6687,11 +5729,6 @@
     },
     "/admin-api/v1/visit_log/deletes_visit_log": {
       "delete": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -6743,11 +5780,6 @@
     },
     "/admin-api/v1/visit_log/find_visit_log_list": {
       "post": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -6799,11 +5831,6 @@
     },
     "/admin-api/v1/visitor/find_visitor_list": {
       "post": {
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
         "consumes": [
           "application/json"
         ],
@@ -8662,43 +7689,6 @@
         }
       }
     },
-    "NewPageReq": {
-      "type": "object",
-      "required": [
-        "page_name",
-        "page_label",
-        "page_cover"
-      ],
-      "properties": {
-        "carousel_covers": {
-          "description": "轮播封面",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "id": {
-          "description": "页面id",
-          "type": "integer"
-        },
-        "is_carousel": {
-          "description": "是否轮播",
-          "type": "integer"
-        },
-        "page_cover": {
-          "description": "页面封面",
-          "type": "string"
-        },
-        "page_label": {
-          "description": "页面标签",
-          "type": "string"
-        },
-        "page_name": {
-          "description": "页面名",
-          "type": "string"
-        }
-      }
-    },
     "NewPhotoReq": {
       "type": "object",
       "required": [
@@ -8772,21 +7762,6 @@
         "status": {
           "description": "状态 0正常 1禁用",
           "type": "integer"
-        }
-      }
-    },
-    "NewTagReq": {
-      "type": "object",
-      "required": [
-        "tag_name"
-      ],
-      "properties": {
-        "id": {
-          "type": "integer"
-        },
-        "tag_name": {
-          "description": "标签名",
-          "type": "string"
         }
       }
     },
@@ -9031,55 +8006,6 @@
             }
           },
           "$ref": "#/definitions/UserInfoVO"
-        }
-      }
-    },
-    "PageBackVO": {
-      "type": "object",
-      "required": [
-        "page_name",
-        "page_label",
-        "page_cover",
-        "is_carousel",
-        "carousel_covers",
-        "created_at",
-        "updated_at"
-      ],
-      "properties": {
-        "carousel_covers": {
-          "description": "轮播封面",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "created_at": {
-          "description": "创建时间",
-          "type": "integer"
-        },
-        "id": {
-          "description": "页面id",
-          "type": "integer"
-        },
-        "is_carousel": {
-          "description": "是否轮播",
-          "type": "integer"
-        },
-        "page_cover": {
-          "description": "页面封面",
-          "type": "string"
-        },
-        "page_label": {
-          "description": "页面标签",
-          "type": "string"
-        },
-        "page_name": {
-          "description": "页面名",
-          "type": "string"
-        },
-        "updated_at": {
-          "description": "更新时间",
-          "type": "integer"
         }
       }
     },
@@ -9643,32 +8569,6 @@
         }
       }
     },
-    "QueryPageReq": {
-      "type": "object",
-      "properties": {
-        "page": {
-          "description": "当前页码",
-          "type": "integer"
-        },
-        "page_name": {
-          "description": "页面名",
-          "type": "string"
-        },
-        "page_size": {
-          "description": "每页数量",
-          "type": "integer"
-        },
-        "sorts": {
-          "description": "排序",
-          "type": "array",
-          "default": "[]",
-          "items": {
-            "type": "string"
-          },
-          "example": "[]"
-        }
-      }
-    },
     "QueryPhotoReq": {
       "type": "object",
       "properties": {
@@ -9730,32 +8630,6 @@
         "status": {
           "description": "状态 0正常 1禁用",
           "type": "integer"
-        }
-      }
-    },
-    "QueryTagReq": {
-      "type": "object",
-      "properties": {
-        "page": {
-          "description": "当前页码",
-          "type": "integer"
-        },
-        "page_size": {
-          "description": "每页数量",
-          "type": "integer"
-        },
-        "sorts": {
-          "description": "排序",
-          "type": "array",
-          "default": "[]",
-          "items": {
-            "type": "string"
-          },
-          "example": "[]"
-        },
-        "tag_name": {
-          "description": "标签名",
-          "type": "string"
         }
       }
     },
@@ -9896,21 +8770,11 @@
     "RefreshTokenReq": {
       "type": "object",
       "required": [
-        "user_id",
-        "grant_type",
         "refresh_token"
       ],
       "properties": {
-        "grant_type": {
-          "description": "授权类型",
-          "type": "string"
-        },
         "refresh_token": {
           "description": "刷新令牌",
-          "type": "string"
-        },
-        "user_id": {
-          "description": "用户id",
           "type": "string"
         }
       }
@@ -10156,37 +9020,6 @@
         }
       }
     },
-    "TagBackVO": {
-      "type": "object",
-      "required": [
-        "tag_name",
-        "article_count",
-        "created_at",
-        "updated_at"
-      ],
-      "properties": {
-        "article_count": {
-          "description": "文章数量",
-          "type": "integer"
-        },
-        "created_at": {
-          "description": "创建时间",
-          "type": "integer"
-        },
-        "id": {
-          "description": "标签ID",
-          "type": "integer"
-        },
-        "tag_name": {
-          "description": "标签名",
-          "type": "string"
-        },
-        "updated_at": {
-          "description": "更新时间",
-          "type": "integer"
-        }
-      }
-    },
     "TagVO": {
       "type": "object",
       "required": [
@@ -10196,10 +9029,6 @@
       "properties": {
         "article_count": {
           "description": "文章数量",
-          "type": "integer"
-        },
-        "id": {
-          "description": "标签ID",
           "type": "integer"
         },
         "tag_name": {
@@ -11703,32 +10532,14 @@
     }
   },
   "securityDefinitions": {
-    "AppName": {
-      "description": "应用名称，用于标识调用方",
-      "type": "apiKey",
-      "name": "App-Name",
-      "in": "header"
-    },
     "Authorization": {
-      "description": "授权token，用户登录凭证",
+      "description": "Bearer access token，例如：Bearer \u003caccess_token\u003e",
       "type": "apiKey",
       "name": "Authorization",
       "in": "header"
-    },
-    "Timestamp": {
-      "description": "时间戳，用于校验请求是否过期",
-      "type": "apiKey",
-      "name": "Timestamp",
-      "in": "header"
-    },
-    "Uid": {
-      "description": "用户id，用于标识用户",
-      "type": "apiKey",
-      "name": "Uid",
-      "in": "header"
     }
   },
-  "x-date": "2026-06-12 16:56:45",
+  "x-date": "2026-06-21 23:39:15",
   "x-description": "This is a goctl generated swagger file.",
   "x-github": "https://github.com/zeromicro/go-zero",
   "x-go-zero-doc": "https://go-zero.dev/",

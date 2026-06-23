@@ -5,7 +5,7 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/YaHeii/Polyphonic-Yahei/pkg/infra/biz/bizheader"
+	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/infra/authctx"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/svc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/types"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/accountrpc"
@@ -197,7 +197,7 @@ func TestAddTalkBuildsRequest(t *testing.T) {
 			Talk: &socialrpc.Talk{Id: 1, UserId: "u-1", Content: "hello"},
 		},
 	}
-	ctx := context.WithValue(context.Background(), bizheader.HeaderUid, "u-1")
+	ctx := context.WithValue(context.Background(), authctx.UserIDKey, "u-1")
 	logic := NewAddTalkLogic(ctx, &svc.ServiceContext{SocialRpc: rpc})
 
 	resp, err := logic.AddTalk(&types.NewTalkReq{

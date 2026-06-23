@@ -12,11 +12,17 @@ import (
 type Config struct {
 	rest.RestConf
 
+	Auth struct {
+		AccessSecret string
+		AccessExpire int64
+	}
+
 	BlogRpcConf zrpc.RpcClientConf
 
 	UploadConfig   *oss.Config
 	RedisConf      RedisConf
 	EmailConf      EmailConf
+	RefreshToken   RefreshTokenConf
 	ThirdPartyConf map[string]map[string]ThirdPartyInfo
 }
 
@@ -35,6 +41,10 @@ type EmailConf struct {
 	Password string   `json:"password"`
 	Nickname string   `json:"nickname"`
 	BCC      []string `json:"bcc"`
+}
+
+type RefreshTokenConf struct {
+	Expire int64 `json:"expire" yaml:"expire"`
 }
 
 type ThirdPartyInfo struct {

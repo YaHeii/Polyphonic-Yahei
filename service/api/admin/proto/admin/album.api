@@ -37,8 +37,8 @@ type (
 	tags:       "相册管理"
 	prefix:     /admin-api/v1
 	group:      album
-	authType:   apiKey
-	middleware: AdminToken,Permission,OperationLog
+	jwt: Auth
+	middleware: Permission,OperationLog
 )
 service admin-api {
 	@doc "分页获取相册列表"

@@ -1,134 +1,53 @@
 package tokenx
 
-import (
-	"errors"
-	"fmt"
-	"time"
-
-	"github.com/golang-jwt/jwt/v5"
-
-	"github.com/YaHeii/Polyphonic-Yahei/pkg/utils/jwtx"
-)
-
-// JwtTokenManager JWT Token 管理器实现，支持单设备登录
 type JwtTokenManager struct {
-	store             TokenStore
-	jwtInstance       *jwtx.JwtInstance
-	issuer            string
-	accessExpireTime  int64 // 秒
-	refreshExpireTime int64 // 秒
+	access *AccessTokenManager
+	refresh *RefreshTokenManager
 }
 
-// NewJwtTokenManager 创建 JWT Token 管理器
 func NewJwtTokenManager(store TokenStore, secretKey, issuer string, accessExpire, refreshExpire int64) *JwtTokenManager {
 	return &JwtTokenManager{
-		store:             store,
-		jwtInstance:       jwtx.NewJwtInstance([]byte(secretKey)),
-		issuer:            issuer,
-		accessExpireTime:  accessExpire,
-		refreshExpireTime: refreshExpire,
+		access:  NewAccessTokenManager(secretKey, issuer, accessExpire),
+		refresh: NewRefreshTokenManager(store, refreshExpire),
 	}
 }
 
-// GenerateToken 生成 JWT Token
 func (m *JwtTokenManager) GenerateToken(uid string) (*Token, error) {
-	if uid == "" {
-		return nil, fmt.Errorf("uid is empty")
-	}
-	now := time.Now().Unix()
-
-	// 生成 AccessToken
-	accessToken, err := m.jwtInstance.CreateToken(
-		jwtx.WithSubject(uid),
-		jwtx.WithIssuer(m.issuer),
-		jwtx.WithIssuedAt(now),
-		jwtx.WithExpiresAt(now+m.accessExpireTime),
-	)
+	accessToken, expiresIn, err := m.access.Generate(uid)
 	if err != nil {
 		return nil, err
 	}
 
-	// 生成 RefreshToken
-	refreshToken, err := m.jwtInstance.CreateToken(
-		jwtx.WithSubject(uid),
-		jwtx.WithIssuer(m.issuer),
-		jwtx.WithIssuedAt(now),
-		jwtx.WithExpiresAt(now+m.refreshExpireTime),
-	)
+	refreshToken, refreshExpiresAt, err := m.refresh.Issue(uid)
 	if err != nil {
-		return nil, err
-	}
-
-	// 分开存储 AccessToken 和 RefreshToken
-	if err := m.store.Set(JwtAccessKey(uid), accessToken, int(m.accessExpireTime)); err != nil {
-		return nil, err
-	}
-	if err := m.store.Set(JwtRefreshKey(uid), refreshToken, int(m.refreshExpireTime)); err != nil {
 		return nil, err
 	}
 
 	return &Token{
-		TokenType:        TokenTypeBearer,
-		AccessToken:      accessToken,
-		ExpiresIn:        m.accessExpireTime,
-		RefreshToken:     refreshToken,
-		RefreshExpiresIn: m.refreshExpireTime,
-		RefreshExpiresAt: now + m.refreshExpireTime,
+		TokenType:         TokenTypeBearer,
+		AccessToken:       accessToken,
+		ExpiresIn:         expiresIn,
+		RefreshToken:      refreshToken,
+		RefreshExpiresIn:  m.refresh.expire,
+		RefreshExpiresAt:  refreshExpiresAt,
 	}, nil
 }
 
-// ValidateToken 验证 AccessToken 有效性
-func (m *JwtTokenManager) ValidateToken(uid, accessToken string) error {
-	_, err := m.jwtInstance.ParseToken(accessToken)
+func (m *JwtTokenManager) RefreshToken(refreshToken string) (*RefreshTokenSession, error) {
+	uid, err := m.refresh.Verify(refreshToken)
 	if err != nil {
-		if errors.Is(err, jwt.ErrTokenExpired) {
-			return ErrTokenExpired
-		}
-		return ErrTokenInvalid
+		return nil, err
 	}
-
-	// 检查存储中的 AccessToken 是否匹配
-	storedToken, err := m.store.Get(JwtAccessKey(uid))
+	tk, err := m.GenerateToken(uid)
 	if err != nil {
-		return err
+		return nil, err
 	}
-	if storedToken == "" {
-		return ErrTokenExpired
-	}
-	if storedToken != accessToken {
-		return ErrTokenInvalid
-	}
-
-	return nil
+	return &RefreshTokenSession{
+		UserID: uid,
+		Token:  tk,
+	}, nil
 }
 
-// RefreshToken 使用 RefreshToken 刷新获取新 Token
-func (m *JwtTokenManager) RefreshToken(uid, refreshToken string) (*Token, error) {
-	_, err := m.jwtInstance.ParseToken(refreshToken)
-	if err != nil {
-		if errors.Is(err, jwt.ErrTokenExpired) {
-			return nil, ErrTokenExpired
-		}
-		return nil, ErrTokenInvalid
-	}
-
-	// 检查存储中的 RefreshToken 是否匹配
-	storedToken, err := m.store.Get(JwtRefreshKey(uid))
-	if err != nil || storedToken == "" {
-		return nil, ErrTokenExpired
-	}
-	if storedToken != refreshToken {
-		return nil, ErrTokenInvalid
-	}
-
-	// 生成新的 Token
-	return m.GenerateToken(uid)
-}
-
-// RevokeToken 撤销 Token
-func (m *JwtTokenManager) RevokeToken(uid string, isRefresh bool) error {
-	if isRefresh {
-		return m.store.Delete(JwtRefreshKey(uid))
-	}
-	return m.store.Delete(JwtAccessKey(uid))
+func (m *JwtTokenManager) RevokeRefreshToken(uid string) error {
+	return m.refresh.Revoke(uid)
 }

@@ -6,11 +6,10 @@ package user
 import (
 	"context"
 
-	"github.com/YaHeii/Polyphonic-Yahei/pkg/infra/biz/bizheader"
+	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/infra/authctx"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/svc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/types"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/syslogrpc"
-	"github.com/spf13/cast"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -37,7 +36,7 @@ func (l *GetUserLoginHistoryListLogic) GetUserLoginHistoryList(req *types.QueryU
 			PageSize: req.PageSize,
 			Sorts:    req.Sorts,
 		},
-		UserId: cast.ToString(l.ctx.Value(bizheader.HeaderUid)),
+		UserId: authctx.CurrentUserID(l.ctx),
 	})
 	if err != nil {
 		return nil, err

@@ -6,11 +6,10 @@ package article
 import (
 	"context"
 
-	"github.com/YaHeii/Polyphonic-Yahei/pkg/infra/biz/bizheader"
+	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/infra/authctx"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/svc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/types"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/articlerpc"
-	"github.com/spf13/cast"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -33,7 +32,7 @@ func NewUpdateArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Upd
 func (l *UpdateArticleLogic) UpdateArticle(req *types.NewArticleReq) (resp *types.ArticleBackVO, err error) {
 	in := &articlerpc.UpdateArticleReq{
 		Id:             req.Id,
-		UserId:         cast.ToString(l.ctx.Value(bizheader.HeaderUid)),
+		UserId:         authctx.CurrentUserID(l.ctx),
 		ArticleCover:   req.ArticleCover,
 		ArticleTitle:   req.ArticleTitle,
 		ArticleContent: req.ArticleContent,

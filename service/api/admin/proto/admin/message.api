@@ -29,8 +29,8 @@ type (
 	tags:       "留言管理"
 	prefix:     /admin-api/v1
 	group:      message
-	authType:   apiKey
-	middleware: AdminToken,Permission,OperationLog
+	jwt: Auth
+	middleware: Permission,OperationLog
 )
 service admin-api {
 	@doc "分页获取留言列表"

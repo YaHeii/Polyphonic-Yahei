@@ -1,20 +1,17 @@
 package user
 
 import (
-	"github.com/YaHeii/Polyphonic-Yahei/pkg/infra/biz/bizheader"
+	"context"
+
+	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/infra/authctx"
 	"github.com/YaHeii/Polyphonic-Yahei/pkg/utils/jsonconv"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/types"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/accountrpc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/permissionrpc"
-	"github.com/spf13/cast"
 )
 
-func currentUserID(ctxKeyValue interface{}) string {
-	return cast.ToString(ctxKeyValue)
-}
-
-func contextUserID(getter func(any) any) string {
-	return cast.ToString(getter(bizheader.HeaderUid))
+func currentUserID(ctx context.Context) string {
+	return authctx.CurrentUserID(ctx)
 }
 
 func convertUserApi(in *permissionrpc.Api) *types.UserApi {

@@ -107,8 +107,8 @@ func (m *MemoryHolder) LoadPolicy() error {
 }
 
 func (m *MemoryHolder) Enforce(user string, resource string, action string) error {
-	m.rw.RUnlock()
-	defer m.rw.RUnlock()
+	m.rw.Lock()
+	defer m.rw.Unlock()
 
 	err := m.dynamicLoadUserRoles(user)
 	if err != nil {

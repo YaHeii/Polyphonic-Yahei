@@ -3,12 +3,11 @@ package auth
 import (
 	"context"
 
-	"github.com/YaHeii/Polyphonic-Yahei/pkg/infra/biz/bizheader"
+	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/infra/authctx"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/infra/tokenx"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/svc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/types"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/accountrpc"
-	"github.com/spf13/cast"
 )
 
 func onLogin(_ context.Context, svcCtx *svc.ServiceContext, login *accountrpc.LoginResp) (*types.LoginResp, error) {
@@ -40,5 +39,5 @@ func convertToken(tk *tokenx.Token) *types.Token {
 }
 
 func currentUserID(ctx context.Context) string {
-	return cast.ToString(ctx.Value(bizheader.HeaderUid))
+	return authctx.CurrentUserID(ctx)
 }

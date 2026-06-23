@@ -8,7 +8,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/YaHeii/Polyphonic-Yahei/pkg/infra/biz/bizheader"
+	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/infra/authctx"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/svc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/types"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/articlerpc"
@@ -257,7 +257,7 @@ func TestUpdateArticleUsesCurrentUserAndMapsResponse(t *testing.T) {
 			Article: &articlerpc.ArticlePreview{Id: 77},
 		},
 	}
-	ctx := context.WithValue(context.Background(), bizheader.HeaderUid, "u-1")
+	ctx := context.WithValue(context.Background(), authctx.UserIDKey, "u-1")
 	logic := NewUpdateArticleLogic(ctx, &svc.ServiceContext{ArticleRpc: articleRPC})
 	req := &types.NewArticleReq{
 		Id:             77,

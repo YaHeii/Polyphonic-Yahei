@@ -58,7 +58,7 @@ type ServiceContext struct {
 	JwtTokenManager  *tokenx.JwtTokenManager
 	PermissionHolder permissionx.PermissionHolder
 
-	AdminToken   rest.Middleware
+	RequestMeta  rest.Middleware
 	Permission   rest.Middleware
 	OperationLog rest.Middleware
 }
@@ -76,11 +76,11 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	uploader := oss.NewLocal(c.UploadConfig.RootDir(), c.UploadConfig.BaseURL())
 
 	th := tokenx.NewJwtTokenManager(
-		tokenx.NewRedisStore(rds, "admin:token:"),
+		tokenx.NewRedisStore(rds, ""),
+		c.Auth.AccessSecret,
 		c.Name,
-		c.Name,
-		2*3600,
-		7*24*3600,
+		c.Auth.AccessExpire,
+		c.RefreshToken.Expire,
 	)
 
 	doc, err := loads.Analyzed(json.RawMessage(docs.Docs), "")
@@ -99,11 +99,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	configRpc := configrpc.NewConfigRpc(zrpc.MustNewClient(c.BlogRpcConf, options...))
 	syslogRpc := syslogrpc.NewSyslogRpc(zrpc.MustNewClient(c.BlogRpcConf, options...))
 
-	// 使用内存缓存角色-权限，单机部署可用。分布式部署可能出现权限会不同步
-	//ph := permissionx.NewMemoryHolder(permissionRpc)
-
-	// 允许所有操作，不校验权限
-	ph := permissionx.NewAllowAllHolder()
+	ph := permissionx.NewMemoryHolder(permissionRpc)
 	err = ph.LoadPolicy()
 	if err != nil {
 		logx.Infof("load permission policy fail: %v", err)
@@ -137,7 +133,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		JwtTokenManager:  th,
 		PermissionHolder: ph,
 
-		AdminToken:   middleware.NewAdminTokenMiddleware(th).Handle,
+		RequestMeta:  middleware.NewRequestMetaMiddleware().Handle,
 		Permission:   middleware.NewPermissionMiddleware(ph).Handle,
 		OperationLog: middleware.NewOperationLogMiddleware(doc.Spec(), syslogRpc, permissionRpc).Handle,
 	}

@@ -4,6 +4,12 @@ Port: ${ADMIN_API_PORT}
 Mode: dev
 Timeout: 60000
 
+Auth:
+  AccessSecret: ${ACCESS_SECRET}
+  AccessExpire: 900
+RefreshToken:
+  Expire: ${REFRESH_TOKEN_EXPIRE}
+
 DevServer:
   Enabled: true
   Port: ${ADMIN_API_DEVSERVER_PORT}

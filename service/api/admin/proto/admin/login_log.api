@@ -24,8 +24,8 @@ type (
 	tags:       "登录日志"
 	prefix:     /admin-api/v1
 	group:      login_log
-	authType:   apiKey
-	middleware: AdminToken,Permission,OperationLog
+	jwt: Auth
+	middleware: Permission,OperationLog
 )
 service admin-api {
 	@doc "查询登录日志"

@@ -52,8 +52,8 @@ type (
 	tags:       "通知管理"
 	prefix:     /admin-api/v1
 	group:      notice
-	authType:   apiKey
-	middleware: AdminToken,Permission,OperationLog
+	jwt: Auth
+	middleware: Permission,OperationLog
 )
 service admin-api {
 	@doc "创建通知"

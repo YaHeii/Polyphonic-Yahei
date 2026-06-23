@@ -25,7 +25,7 @@ import "admin/visitor.api"
 
 info (
 	title:                       "博客管理平台API"
-	description:                 "博客管理平台API接口文档"
+	description:                 "博客管理平台API接口文档（App-Name 作为普通请求头，默认 admin-web）"
 	version:                     "v0.0.1"
 	contactName:                 "yahei" // 技术支持联系人姓名
 	contactEmail:                "c15146681278@163.com" // 联系人邮箱
@@ -42,10 +42,7 @@ info (
 	useDefinitions:              true
 	bizCodeEnumDescription:      "1001-未登录<br>1002-无权限操作"
 	securityDefinitionsFromJson: `{
-	  "AppName": {"type": "apiKey", "name": "App-Name", "in": "header", "description": "应用名称，用于标识调用方"},
-	  "Timestamp": {"type": "apiKey", "name": "Timestamp", "in": "header", "description": "时间戳，用于校验请求是否过期"},
-	  "Uid": {"type": "apiKey", "name": "Uid", "in": "header", "description": "用户id，用于标识用户"},
-	  "Authorization": {"type": "apiKey", "name": "Authorization", "in": "header", "description": "授权token，用户登录凭证"}
+	  "Authorization": {"type": "apiKey", "name": "Authorization", "in": "header", "description": "Bearer access token，例如：Bearer <access_token>"}
 	}`
 )
 

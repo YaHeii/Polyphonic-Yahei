@@ -121,8 +121,8 @@ type Server {
 	tags:       "网站管理"
 	prefix:     /admin-api/v1
 	group:      website
-	authType:   apiKey
-	middleware: AdminToken,Permission,OperationLog
+	jwt: Auth
+	middleware: Permission,OperationLog
 )
 service admin-api {
 	@doc "获取后台首页信息"

@@ -29,8 +29,8 @@ type (
 	tags:       "友链管理"
 	prefix:     /admin-api/v1
 	group:      friend
-	authType:   apiKey
-	middleware: AdminToken,Permission,OperationLog
+	jwt: Auth
+	middleware: Permission,OperationLog
 )
 service admin-api {
 	@doc "分页获取友链列表"

@@ -8,7 +8,7 @@ import (
 
 	"github.com/YaHeii/Polyphonic-Yahei/pkg/infra/biz/bizcode"
 	"github.com/YaHeii/Polyphonic-Yahei/pkg/infra/biz/bizerr"
-	"github.com/YaHeii/Polyphonic-Yahei/pkg/infra/biz/bizheader"
+	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/infra/authctx"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/infra/permissionx"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/infra/responsex"
 	"github.com/zeromicro/go-zero/core/logx"
@@ -28,11 +28,9 @@ func NewPermissionMiddleware(holder permissionx.PermissionHolder) *PermissionMid
 func (m *PermissionMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		logx.Debugf("PermissionMiddleware Handle path: %v", r.URL.Path)
-		var uid string
-		uid = r.Header.Get(bizheader.HeaderUid)
-		// 请求头缺少参数
+		uid := authctx.CurrentUserID(r.Context())
 		if uid == "" {
-			responsex.Response(r, w, nil, bizerr.NewBizError(bizcode.CodeInvalidParam, "request header field 'uid' is missing"))
+			responsex.Response(r, w, nil, bizerr.NewBizError(bizcode.CodeUserUnLogin, "user id missing"))
 			return
 		}
 

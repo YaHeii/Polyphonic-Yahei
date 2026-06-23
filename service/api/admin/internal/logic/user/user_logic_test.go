@@ -7,8 +7,8 @@ import (
 	"github.com/YaHeii/Polyphonic-Yahei/common/constant"
 	"github.com/YaHeii/Polyphonic-Yahei/common/rediskey"
 	"github.com/YaHeii/Polyphonic-Yahei/pkg/captcha"
-	"github.com/YaHeii/Polyphonic-Yahei/pkg/infra/biz/bizheader"
 	"github.com/YaHeii/Polyphonic-Yahei/pkg/oauth"
+	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/infra/authctx"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/svc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/types"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/accountrpc"
@@ -130,7 +130,7 @@ func (s *stubUserSyslogRPC) FindLoginLogList(_ context.Context, in *syslogrpc.Fi
 }
 
 func TestGetUserApisBuildsRequestAndMapsTree(t *testing.T) {
-	ctx := context.WithValue(context.Background(), bizheader.HeaderUid, "u-1")
+	ctx := context.WithValue(context.Background(), authctx.UserIDKey, "u-1")
 	permissionRPC := &stubUserPermissionRPC{
 		apisResp: &permissionrpc.FindUserApisResp{
 			List: []*permissionrpc.Api{
@@ -159,7 +159,7 @@ func TestGetUserApisBuildsRequestAndMapsTree(t *testing.T) {
 }
 
 func TestGetUserMenusBuildsRequestAndMapsTree(t *testing.T) {
-	ctx := context.WithValue(context.Background(), bizheader.HeaderUid, "u-1")
+	ctx := context.WithValue(context.Background(), authctx.UserIDKey, "u-1")
 	permissionRPC := &stubUserPermissionRPC{
 		menusResp: &permissionrpc.FindUserMenusResp{
 			List: []*permissionrpc.Menu{
@@ -200,7 +200,7 @@ func TestGetUserMenusBuildsRequestAndMapsTree(t *testing.T) {
 }
 
 func TestGetUserRolesBuildsRequestAndMapsRoles(t *testing.T) {
-	ctx := context.WithValue(context.Background(), bizheader.HeaderUid, "u-1")
+	ctx := context.WithValue(context.Background(), authctx.UserIDKey, "u-1")
 	permissionRPC := &stubUserPermissionRPC{
 		rolesResp: &permissionrpc.FindUserRolesResp{
 			List: []*permissionrpc.Role{
@@ -223,7 +223,7 @@ func TestGetUserRolesBuildsRequestAndMapsRoles(t *testing.T) {
 }
 
 func TestGetUserInfoBuildsRequestsAndAggregatesResponse(t *testing.T) {
-	ctx := context.WithValue(context.Background(), bizheader.HeaderUid, "u-1")
+	ctx := context.WithValue(context.Background(), authctx.UserIDKey, "u-1")
 	accountRPC := &stubUserAccountRPC{
 		getUserInfoResp: &accountrpc.GetUserInfoResp{
 			User: &accountrpc.UserInfo{
@@ -285,7 +285,7 @@ func TestGetUserInfoBuildsRequestsAndAggregatesResponse(t *testing.T) {
 }
 
 func TestGetUserLoginHistoryListBuildsRequestAndMapsPage(t *testing.T) {
-	ctx := context.WithValue(context.Background(), bizheader.HeaderUid, "u-1")
+	ctx := context.WithValue(context.Background(), authctx.UserIDKey, "u-1")
 	syslogRPC := &stubUserSyslogRPC{
 		findResp: &syslogrpc.FindLoginLogListResp{
 			Pagination: &syslogrpc.PageResp{Page: 1, PageSize: 10, Total: 1},

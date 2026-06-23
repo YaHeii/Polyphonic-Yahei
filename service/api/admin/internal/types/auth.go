@@ -61,8 +61,6 @@ type PhoneLoginReq struct {
 }
 
 type RefreshTokenReq struct {
-	UserId       string `json:"user_id"`       // 用户id
-	GrantType    string `json:"grant_type"`    // 授权类型
 	RefreshToken string `json:"refresh_token"` // 刷新令牌
 }
 

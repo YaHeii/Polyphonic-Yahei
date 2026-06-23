@@ -49,8 +49,8 @@ type (
 	tags:       "角色管理"
 	prefix:     /admin-api/v1
 	group:      role
-	authType:   apiKey
-	middleware: AdminToken,Permission,OperationLog
+	jwt: Auth
+	middleware: Permission,OperationLog
 )
 service admin-api {
 	@doc "分页获取角色列表"

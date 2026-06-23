@@ -37,8 +37,8 @@ type (
 	tags:       "接口管理"
 	prefix:     /admin-api/v1
 	group:      api
-	authType:   apiKey
-	middleware: AdminToken,Permission,OperationLog
+	jwt: Auth
+	middleware: Permission,OperationLog
 )
 service admin-api {
 	@doc "分页获取api路由列表"

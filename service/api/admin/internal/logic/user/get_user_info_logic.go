@@ -6,12 +6,11 @@ package user
 import (
 	"context"
 
-	"github.com/YaHeii/Polyphonic-Yahei/pkg/infra/biz/bizheader"
+	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/infra/authctx"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/svc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/types"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/accountrpc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/permissionrpc"
-	"github.com/spf13/cast"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -32,7 +31,7 @@ func NewGetUserInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUs
 }
 
 func (l *GetUserInfoLogic) GetUserInfo(req *types.EmptyReq) (resp *types.UserInfoResp, err error) {
-	userID := cast.ToString(l.ctx.Value(bizheader.HeaderUid))
+	userID := authctx.CurrentUserID(l.ctx)
 
 	info, err := l.svcCtx.AccountRpc.GetUserInfo(l.ctx, &accountrpc.GetUserInfoReq{
 		UserId: userID,

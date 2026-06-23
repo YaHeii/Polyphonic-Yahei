@@ -28,6 +28,7 @@ func main() {
 	defer server.Stop()
 
 	ctx := svc.NewServiceContext(c)
+	server.Use(ctx.RequestMeta)
 	handler.RegisterHandlers(server, ctx)
 	plugins.RegisterPluginHandlers(server, ctx)
 

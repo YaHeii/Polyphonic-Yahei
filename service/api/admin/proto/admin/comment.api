@@ -34,8 +34,8 @@ type (
 	tags:       "评论管理"
 	prefix:     /admin-api/v1
 	group:      comment
-	authType:   apiKey
-	middleware: AdminToken,Permission,OperationLog
+	jwt: Auth
+	middleware: Permission,OperationLog
 )
 service admin-api {
 	@doc "查询评论列表(后台)"

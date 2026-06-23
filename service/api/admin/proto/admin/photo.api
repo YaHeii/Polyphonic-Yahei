@@ -36,8 +36,8 @@ type (
 	tags:       "照片管理"
 	prefix:     /admin-api/v1
 	group:      photo
-	authType:   apiKey
-	middleware: AdminToken,Permission,OperationLog
+	jwt: Auth
+	middleware: Permission,OperationLog
 )
 service admin-api {
 	@doc "分页获取照片列表"

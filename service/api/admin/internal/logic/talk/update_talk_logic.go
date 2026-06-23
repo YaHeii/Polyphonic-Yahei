@@ -6,11 +6,10 @@ package talk
 import (
 	"context"
 
-	"github.com/YaHeii/Polyphonic-Yahei/pkg/infra/biz/bizheader"
+	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/infra/authctx"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/svc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/api/admin/internal/types"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/socialrpc"
-	"github.com/spf13/cast"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -33,7 +32,7 @@ func NewUpdateTalkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Update
 func (l *UpdateTalkLogic) UpdateTalk(req *types.NewTalkReq) (resp *types.TalkBackVO, err error) {
 	in := &socialrpc.UpdateTalkReq{
 		Id:      req.Id,
-		UserId:  cast.ToString(l.ctx.Value(bizheader.HeaderUid)),
+		UserId:  authctx.CurrentUserID(l.ctx),
 		Content: req.Content,
 		ImgList: req.ImgList,
 		IsTop:   req.IsTop,
