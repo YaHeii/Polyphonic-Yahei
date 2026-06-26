@@ -43,15 +43,9 @@ type (
 	TRole struct {
 		Id int64 `db:"id"` // 主键id
 
-		ParentId int64 `db:"parent_id"` // 父角色id
-
-		RoleKey string `db:"role_key"` // 角色标识
-
-		RoleLabel string `db:"role_label"` // 角色标签
+		RoleKey string `db:"role_key"` // 角色枚举名
 
 		RoleComment string `db:"role_comment"` // 角色备注
-
-		IsDefault bool `db:"is_default"` // 是否默认角色 0否 1是
 
 		Status int64 `db:"status"` // 状态 0正常 1禁用
 
@@ -98,8 +92,8 @@ func (m *defaultTRoleModel) FindOne(ctx context.Context, id int64) (*TRole, erro
 func (m *defaultTRoleModel) Insert(ctx context.Context, data *TRole) (sql.Result, error) {
 	publicTRoleIdKey := fmt.Sprintf("%s%v", cachePublicTRoleIdPrefix, data.Id)
 	ret, err := m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
-		query := fmt.Sprintf("insert into %s (%s) values ($1, $2, $3, $4, $5, $6)", m.table, tRoleRowsExpectAutoSet)
-		return conn.ExecCtx(ctx, query, data.ParentId, data.RoleKey, data.RoleLabel, data.RoleComment, data.IsDefault, data.Status)
+		query := fmt.Sprintf("insert into %s (%s) values ($1, $2, $3)", m.table, tRoleRowsExpectAutoSet)
+		return conn.ExecCtx(ctx, query, data.RoleKey, data.RoleComment, data.Status)
 	}, publicTRoleIdKey)
 	return ret, err
 }
@@ -108,7 +102,7 @@ func (m *defaultTRoleModel) Update(ctx context.Context, data *TRole) error {
 	publicTRoleIdKey := fmt.Sprintf("%s%v", cachePublicTRoleIdPrefix, data.Id)
 	_, err := m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
 		query := fmt.Sprintf("update %s set %s where id = $1", m.table, tRoleRowsWithPlaceHolder)
-		return conn.ExecCtx(ctx, query, data.Id, data.ParentId, data.RoleKey, data.RoleLabel, data.RoleComment, data.IsDefault, data.Status)
+		return conn.ExecCtx(ctx, query, data.Id, data.RoleKey, data.RoleComment, data.Status)
 	}, publicTRoleIdKey)
 	return err
 }

@@ -1,5 +1,20 @@
 BEGIN;
 
+INSERT INTO t_role (
+    id,
+    role_key,
+    role_comment,
+    status
+) VALUES
+    (1, 'root', 'System Owner', 0),
+    (2, 'super_admin', 'super admin', 0),
+    (3, 'visitor', 'default registered visitor', 0)
+ON CONFLICT (id) DO UPDATE SET
+    role_key = EXCLUDED.role_key,
+    role_comment = EXCLUDED.role_comment,
+    status = EXCLUDED.status,
+    updated_at = now();
+
 INSERT INTO t_user (
     user_id,
     username,
@@ -12,7 +27,8 @@ INSERT INTO t_user (
     status,
     register_type,
     ip_address,
-    ip_source
+    ip_source,
+    role_id
 ) VALUES (
     'admin-001',
     'admin',
@@ -25,7 +41,8 @@ INSERT INTO t_user (
     0,
     'username',
     '127.0.0.1',
-    'local'
+    'local',
+    1
 ) ON CONFLICT (user_id) DO UPDATE SET
     username = EXCLUDED.username,
     password = EXCLUDED.password,
@@ -38,46 +55,9 @@ INSERT INTO t_user (
     register_type = EXCLUDED.register_type,
     ip_address = EXCLUDED.ip_address,
     ip_source = EXCLUDED.ip_source,
+    role_id = EXCLUDED.role_id,
     updated_at = now();
-
-INSERT INTO t_role (
-    id,
-    parent_id,
-    role_key,
-    role_label,
-    role_comment,
-    is_default,
-    status
-) VALUES (
-    1,
-    0,
-    'super_admin',
-    'Super Admin',
-    'local seed super admin',
-    true,
-    0
-) ON CONFLICT (id) DO UPDATE SET
-    parent_id = EXCLUDED.parent_id,
-    role_key = EXCLUDED.role_key,
-    role_label = EXCLUDED.role_label,
-    role_comment = EXCLUDED.role_comment,
-    is_default = EXCLUDED.is_default,
-    status = EXCLUDED.status,
-    updated_at = now();
-
-INSERT INTO t_user_role (
-    id,
-    user_id,
-    role_id
-) VALUES (
-    1,
-    'admin-001',
-    1
-) ON CONFLICT (id) DO UPDATE SET
-    user_id = EXCLUDED.user_id,
-    role_id = EXCLUDED.role_id;
 
 SELECT setval(pg_get_serial_sequence('t_role', 'id'), COALESCE((SELECT MAX(id) FROM t_role), 1), true);
-SELECT setval(pg_get_serial_sequence('t_user_role', 'id'), COALESCE((SELECT MAX(id) FROM t_user_role), 1), true);
 
 COMMIT;

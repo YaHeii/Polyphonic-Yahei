@@ -92,23 +92,14 @@ func (l *RegisterLogic) register(in *accountrpc.RegisterReq) (*model.TUser, erro
 		conn := sqlx.NewSqlConnFromSession(session)
 
 		txUserModel := model.NewTUserModel(conn, buildRegisterModelCacheConf(l.svcCtx.Config.RedisConf))
-		if _, err := txUserModel.Insert(ctx, user); err != nil {
-			return err
-		}
-
-		roles, err := model.NewTRoleModel(conn, buildRegisterModelCacheConf(l.svcCtx.Config.RedisConf)).FindDefaultRoles(ctx)
+		visitorRole, err := model.NewTRoleModel(conn, buildRegisterModelCacheConf(l.svcCtx.Config.RedisConf)).FindByRoleKey(ctx, "visitor")
 		if err != nil {
 			return err
 		}
+		user.RoleId = visitorRole.Id
 
-		txUserRoleModel := model.NewTUserRoleModel(conn)
-		for _, role := range roles {
-			if _, err := txUserRoleModel.Insert(ctx, &model.TUserRole{
-				UserId: user.UserId,
-				RoleId: role.Id,
-			}); err != nil {
-				return err
-			}
+		if _, err := txUserModel.Insert(ctx, user); err != nil {
+			return err
 		}
 
 		return nil

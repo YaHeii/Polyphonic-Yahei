@@ -206,58 +206,17 @@ message FindAllMenuResp {
 /************** 角色管理 **************/
 message Role {
   int64 id = 1;// 主键id
-  int64 parent_id = 2;// 父角色id
-  string role_key = 3;// 角色名
-  string role_label = 4;// 角色标签
-  string role_comment = 5;// 角色备注
-  bool is_default = 6;// 是否默认角色
-  int64 status = 7;// 状态  0正常 1禁用
-  int64 created_at = 8;// 创建时间
-  int64 updated_at = 9;// 更新时间
-  repeated Role children = 10;
-}
-
-message AddRoleReq {
-  int64 id = 1;// 主键id
-  int64 parent_id = 2;// 父角色id
-  string role_key = 3;// 角色名
-  string role_label = 4;// 角色标签
-  string role_comment = 5;// 角色备注
-  bool is_default = 6;// 是否默认角色
-  int64 status = 7;// 状态  0正常 1禁用
-}
-
-message AddRoleResp {
-  Role role = 1;
-}
-
-message UpdateRoleReq {
-  int64 id = 1;// 主键id
-  int64 parent_id = 2;// 父角色id
-  string role_key = 3;// 角色名
-  string role_label = 4;// 角色标签
-  string role_comment = 5;// 角色备注
-  bool is_default = 6;// 是否默认角色
-  int64 status = 7;// 状态  0正常 1禁用
-}
-
-message UpdateRoleResp {
-  Role role = 1;
-}
-
-message DeletesRoleReq {
-  repeated int64 ids = 1; // id列表
-}
-
-message DeletesRoleResp {
-  int64 success_count = 1; // 成功数量
+  string role_key = 2;// 角色枚举名
+  string role_comment = 3;// 角色备注
+  int64 status = 4;// 状态  0正常 1禁用
+  int64 created_at = 5;// 创建时间
+  int64 updated_at = 6;// 更新时间
 }
 
 message FindRoleListReq {
   PageReq paginate = 1;    // 分页参数
-  string role_key = 2;// 角色名
-  string role_label = 3;// 角色标签
-  int64 status = 4;// 状态  0正常 1禁用
+  string role_key = 2;// 角色枚举名
+  int64 status = 3;// 状态  0正常 1禁用
 }
 
 message FindRoleListResp {
@@ -300,7 +259,7 @@ message FindRoleResourcesResp {
 
 message UpdateUserRoleReq {
   string user_id = 1; // 用户id
-  repeated int64 role_ids = 2;
+  int64 role_id = 2; // 角色id
 }
 
 message UpdateUserRoleResp {
@@ -362,12 +321,6 @@ service PermissionRpc {
   // 查找所有菜单
   rpc FindAllMenu(FindAllMenuReq) returns(FindAllMenuResp);
 
-  // 创建角色
-  rpc AddRole(AddRoleReq) returns(AddRoleResp);
-  // 更新角色
-  rpc UpdateRole(UpdateRoleReq) returns(UpdateRoleResp);
-  // 删除角色
-  rpc DeletesRole(DeletesRoleReq) returns(DeletesRoleResp);
   // 查询角色列表
   rpc FindRoleList(FindRoleListReq) returns(FindRoleListResp);
   // 查询所有角色

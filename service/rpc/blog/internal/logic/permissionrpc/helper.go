@@ -204,30 +204,6 @@ func buildMenuTree(records []*model.TMenu) []*permissionrpc.Menu {
 	return roots
 }
 
-func convertAddRoleIn(in *permissionrpc.AddRoleReq) *model.TRole {
-	return &model.TRole{
-		Id:          in.Id,
-		ParentId:    in.ParentId,
-		RoleKey:     in.RoleKey,
-		RoleLabel:   in.RoleLabel,
-		RoleComment: in.RoleComment,
-		IsDefault:   in.IsDefault,
-		Status:      in.Status,
-	}
-}
-
-func convertUpdateRoleIn(in *permissionrpc.UpdateRoleReq) *model.TRole {
-	return &model.TRole{
-		Id:          in.Id,
-		ParentId:    in.ParentId,
-		RoleKey:     in.RoleKey,
-		RoleLabel:   in.RoleLabel,
-		RoleComment: in.RoleComment,
-		IsDefault:   in.IsDefault,
-		Status:      in.Status,
-	}
-}
-
 func convertRoleOut(record *model.TRole) *permissionrpc.Role {
 	if record == nil {
 		return nil
@@ -235,44 +211,21 @@ func convertRoleOut(record *model.TRole) *permissionrpc.Role {
 
 	return &permissionrpc.Role{
 		Id:          record.Id,
-		ParentId:    record.ParentId,
 		RoleKey:     record.RoleKey,
-		RoleLabel:   record.RoleLabel,
 		RoleComment: record.RoleComment,
-		IsDefault:   record.IsDefault,
 		Status:      record.Status,
 		CreatedAt:   record.CreatedAt.UnixMilli(),
 		UpdatedAt:   record.UpdatedAt.UnixMilli(),
-		Children:    []*permissionrpc.Role{},
 	}
 }
 
-func buildRoleTree(records []*model.TRole) []*permissionrpc.Role {
-	nodes := make(map[int64]*permissionrpc.Role, len(records))
-	order := make([]int64, 0, len(records))
-	parentIDs := make(map[int64]int64, len(records))
-
+func convertRoleListOut(records []*model.TRole) []*permissionrpc.Role {
+	roles := make([]*permissionrpc.Role, 0, len(records))
 	for _, record := range records {
-		node := convertRoleOut(record)
-		nodes[record.Id] = node
-		order = append(order, record.Id)
-		parentIDs[record.Id] = record.ParentId
+		roles = append(roles, convertRoleOut(record))
 	}
 
-	roots := make([]*permissionrpc.Role, 0)
-	for _, id := range order {
-		node := nodes[id]
-		parentID := parentIDs[id]
-		if parentID != 0 {
-			if parent, ok := nodes[parentID]; ok {
-				parent.Children = append(parent.Children, node)
-				continue
-			}
-		}
-		roots = append(roots, node)
-	}
-
-	return roots
+	return roles
 }
 
 func buildApiQuery(in *permissionrpc.FindApiListReq) (int, int, string, string, []any) {
@@ -319,9 +272,6 @@ func buildRoleQuery(in *permissionrpc.FindRoleListReq) (int, int, string, string
 	}
 	if in.RoleKey != "" {
 		opts = append(opts, query.WithCondition("role_key like ?", "%"+in.RoleKey+"%"))
-	}
-	if in.RoleLabel != "" {
-		opts = append(opts, query.WithCondition("role_label like ?", "%"+in.RoleLabel+"%"))
 	}
 	if in.Status != 0 {
 		opts = append(opts, query.WithCondition("status = ?", in.Status))

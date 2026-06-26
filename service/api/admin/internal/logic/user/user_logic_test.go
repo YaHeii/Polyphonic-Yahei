@@ -204,7 +204,7 @@ func TestGetUserRolesBuildsRequestAndMapsRoles(t *testing.T) {
 	permissionRPC := &stubUserPermissionRPC{
 		rolesResp: &permissionrpc.FindUserRolesResp{
 			List: []*permissionrpc.Role{
-				{Id: 1, ParentId: 2, RoleKey: "admin", RoleLabel: "Admin", RoleComment: "root"},
+				{Id: 1, RoleKey: "admin", RoleComment: "root"},
 			},
 		},
 	}
@@ -237,7 +237,7 @@ func TestGetUserInfoBuildsRequestsAndAggregatesResponse(t *testing.T) {
 				CreatedAt:    100,
 				Info:         `{"intro":"hello","website":"https://example.com"}`,
 				Roles: []*accountrpc.UserRoleLabel{
-					{RoleKey: "admin", RoleLabel: "Admin"},
+					{RoleKey: "admin", RoleComment: "root"},
 				},
 			},
 		},

@@ -18,8 +18,6 @@ type (
 	AddApiResp            = permissionrpc.AddApiResp
 	AddMenuReq            = permissionrpc.AddMenuReq
 	AddMenuResp           = permissionrpc.AddMenuResp
-	AddRoleReq            = permissionrpc.AddRoleReq
-	AddRoleResp           = permissionrpc.AddRoleResp
 	CleanApiListReq       = permissionrpc.CleanApiListReq
 	CleanApiListResp      = permissionrpc.CleanApiListResp
 	CleanMenuListReq      = permissionrpc.CleanMenuListReq
@@ -28,8 +26,6 @@ type (
 	DeletesApiResp        = permissionrpc.DeletesApiResp
 	DeletesMenuReq        = permissionrpc.DeletesMenuReq
 	DeletesMenuResp       = permissionrpc.DeletesMenuResp
-	DeletesRoleReq        = permissionrpc.DeletesRoleReq
-	DeletesRoleResp       = permissionrpc.DeletesRoleResp
 	FindAllApiReq         = permissionrpc.FindAllApiReq
 	FindAllApiResp        = permissionrpc.FindAllApiResp
 	FindAllMenuReq        = permissionrpc.FindAllMenuReq
@@ -62,8 +58,6 @@ type (
 	UpdateRoleApisResp    = permissionrpc.UpdateRoleApisResp
 	UpdateRoleMenusReq    = permissionrpc.UpdateRoleMenusReq
 	UpdateRoleMenusResp   = permissionrpc.UpdateRoleMenusResp
-	UpdateRoleReq         = permissionrpc.UpdateRoleReq
-	UpdateRoleResp        = permissionrpc.UpdateRoleResp
 	UpdateUserRoleReq     = permissionrpc.UpdateUserRoleReq
 	UpdateUserRoleResp    = permissionrpc.UpdateUserRoleResp
 
@@ -96,12 +90,6 @@ type (
 		CleanMenuList(ctx context.Context, in *CleanMenuListReq, opts ...grpc.CallOption) (*CleanMenuListResp, error)
 		// 查找所有菜单
 		FindAllMenu(ctx context.Context, in *FindAllMenuReq, opts ...grpc.CallOption) (*FindAllMenuResp, error)
-		// 创建角色
-		AddRole(ctx context.Context, in *AddRoleReq, opts ...grpc.CallOption) (*AddRoleResp, error)
-		// 更新角色
-		UpdateRole(ctx context.Context, in *UpdateRoleReq, opts ...grpc.CallOption) (*UpdateRoleResp, error)
-		// 删除角色
-		DeletesRole(ctx context.Context, in *DeletesRoleReq, opts ...grpc.CallOption) (*DeletesRoleResp, error)
 		// 查询角色列表
 		FindRoleList(ctx context.Context, in *FindRoleListReq, opts ...grpc.CallOption) (*FindRoleListResp, error)
 		// 查询所有角色
@@ -215,24 +203,6 @@ func (m *defaultPermissionRpc) CleanMenuList(ctx context.Context, in *CleanMenuL
 func (m *defaultPermissionRpc) FindAllMenu(ctx context.Context, in *FindAllMenuReq, opts ...grpc.CallOption) (*FindAllMenuResp, error) {
 	client := permissionrpc.NewPermissionRpcClient(m.cli.Conn())
 	return client.FindAllMenu(ctx, in, opts...)
-}
-
-// 创建角色
-func (m *defaultPermissionRpc) AddRole(ctx context.Context, in *AddRoleReq, opts ...grpc.CallOption) (*AddRoleResp, error) {
-	client := permissionrpc.NewPermissionRpcClient(m.cli.Conn())
-	return client.AddRole(ctx, in, opts...)
-}
-
-// 更新角色
-func (m *defaultPermissionRpc) UpdateRole(ctx context.Context, in *UpdateRoleReq, opts ...grpc.CallOption) (*UpdateRoleResp, error) {
-	client := permissionrpc.NewPermissionRpcClient(m.cli.Conn())
-	return client.UpdateRole(ctx, in, opts...)
-}
-
-// 删除角色
-func (m *defaultPermissionRpc) DeletesRole(ctx context.Context, in *DeletesRoleReq, opts ...grpc.CallOption) (*DeletesRoleResp, error) {
-	client := permissionrpc.NewPermissionRpcClient(m.cli.Conn())
-	return client.DeletesRole(ctx, in, opts...)
 }
 
 // 查询角色列表

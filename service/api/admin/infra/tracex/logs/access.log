@@ -13,3 +13,8 @@
 {"@timestamp":"2026-06-21T23:40:52+08:00","caller":"tracex/logx_test.go:41","content":"hello world","level":"info","span":"197cc883b807275e","trace":"test"}
 {"@timestamp":"2026-06-21T23:40:52+08:00","caller":"tracex/logx_test.go:42","content":"hello world","level":"info","span":"197cc883b807275e","trace":"test"}
 {"@timestamp":"2026-06-21T23:40:52+08:00","caller":"tracex/logx_test.go:43","content":"hello world","level":"debug","span":"197cc883b807275e","trace":"test"}
+{"@timestamp":"2026-06-26T15:35:01+08:00","caller":"tracex/logx_test.go:39","content":"hello world","level":"info"}
+{"@timestamp":"2026-06-26T15:35:01+08:00","caller":"tracex/logx_test.go:40","content":"hello world","level":"info","span":"25c05b1790f1087b","trace":"test"}
+{"@timestamp":"2026-06-26T15:35:01+08:00","caller":"tracex/logx_test.go:41","content":"hello world","level":"info","span":"25c05b1790f1087b","trace":"test"}
+{"@timestamp":"2026-06-26T15:35:01+08:00","caller":"tracex/logx_test.go:42","content":"hello world","level":"info","span":"25c05b1790f1087b","trace":"test"}
+{"@timestamp":"2026-06-26T15:35:01+08:00","caller":"tracex/logx_test.go:43","content":"hello world","level":"debug","span":"25c05b1790f1087b","trace":"test"}

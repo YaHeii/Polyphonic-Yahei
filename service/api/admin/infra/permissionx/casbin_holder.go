@@ -2,6 +2,7 @@ package permissionx
 
 import (
 	"context"
+	_ "embed"
 	"fmt"
 	"sync"
 
@@ -12,22 +13,8 @@ import (
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/client/permissionrpc"
 )
 
-const SubjectObjectAction = `
-[request_definition]
-r = sub, obj, act
-
-[policy_definition]
-p = sub, obj, act
-
-[role_definition]
-g = _, _
-
-[policy_effect]
-e = some(where (p.eft == allow))
-
-[matchers]
-m = g(r.sub, p.sub) && r.obj == p.obj && r.act == p.act
-`
+//go:embed model.conf
+var casbinModelConf string
 
 type PermissionHolder interface {
 	// 加载权限
@@ -53,7 +40,7 @@ type CasbinHolder struct {
 
 func NewCasbinHolder(redisAddr string, pr permissionrpc.PermissionRpc) *CasbinHolder {
 	// 载入模型
-	m, err := model.NewModelFromString(SubjectObjectAction)
+	m, err := model.NewModelFromString(casbinModelConf)
 	if err != nil {
 		panic(fmt.Errorf("字符串加载模型失败: %v", err))
 	}

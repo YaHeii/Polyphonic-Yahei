@@ -93,7 +93,7 @@ func TestBootstrapSeedOnlyContainsRequiredSystemData(t *testing.T) {
 	required := []string{
 		"INSERT INTO t_user",
 		"INSERT INTO t_role",
-		"INSERT INTO t_user_role",
+		"role_id",
 		"INSERT INTO t_menu",
 		"INSERT INTO t_api",
 		"INSERT INTO t_role_menu",
@@ -121,6 +121,90 @@ func TestBootstrapSeedOnlyContainsRequiredSystemData(t *testing.T) {
 		if strings.Contains(seedSQL, item) {
 			t.Fatalf("expected bootstrap seed to exclude %q", item)
 		}
+	}
+}
+
+func TestRBACSchemaUsesSingleRolePerUser(t *testing.T) {
+	root := repoRoot(t)
+	upSQL := readFile(t, root, "service", "db", "migrations", "000001_blog_init.up.sql")
+	authSeed := readFile(t, root, "service", "db", "seeds", "bootstrap", "001_auth_bootstrap.sql")
+	permissionSeed := readFile(t, root, "service", "db", "seeds", "bootstrap", "002_permission_bootstrap.sql")
+	makefile := readFile(t, root, "makefile")
+	roleTable := upSQL[strings.Index(upSQL, "CREATE TABLE t_role ("):strings.Index(upSQL, "CREATE TABLE t_role_api (")]
+
+	requiredUp := []string{
+		"CREATE TABLE t_user (",
+		"role_id integer NOT NULL DEFAULT 0",
+		"CREATE TABLE t_role (",
+		"role_key varchar(64) NOT NULL DEFAULT ''",
+		"CONSTRAINT uk_role_key UNIQUE (role_key)",
+		"CHECK (role_key IN ('root', 'super_admin', 'visitor'))",
+	}
+	for _, item := range requiredUp {
+		if !strings.Contains(upSQL, item) {
+			t.Fatalf("expected baseline migration to contain %q", item)
+		}
+	}
+
+	forbiddenUp := []string{
+		"CREATE TABLE t_user_role (",
+	}
+	for _, item := range forbiddenUp {
+		if strings.Contains(upSQL, item) {
+			t.Fatalf("expected baseline migration to exclude %q", item)
+		}
+	}
+
+	forbiddenRoleFields := []string{
+		"parent_id integer NOT NULL DEFAULT 0",
+		"role_label varchar(64) NOT NULL DEFAULT ''",
+		"is_default boolean NOT NULL DEFAULT false",
+	}
+	for _, item := range forbiddenRoleFields {
+		if strings.Contains(roleTable, item) {
+			t.Fatalf("expected t_role schema to exclude %q", item)
+		}
+	}
+
+	requiredSeed := []string{
+		"(1, 'root', 'System Owner', 0)",
+		"(2, 'super_admin', 'super admin', 0)",
+		"(3, 'visitor', 'default registered visitor', 0)",
+		"'root'",
+		"'visitor'",
+		"'super_admin'",
+		"role_id = EXCLUDED.role_id",
+	}
+	for _, item := range requiredSeed {
+		if !strings.Contains(authSeed, item) {
+			t.Fatalf("expected auth bootstrap seed to contain %q", item)
+		}
+	}
+
+	forbiddenSeed := []string{
+		"INSERT INTO t_user_role",
+		"pg_get_serial_sequence('t_user_role', 'id')",
+	}
+	for _, item := range forbiddenSeed {
+		if strings.Contains(authSeed, item) {
+			t.Fatalf("expected auth bootstrap seed to exclude %q", item)
+		}
+	}
+
+	requiredPermissionSeed := []string{
+		"(1, 1, 1)",
+		"(101, 2, 1)",
+		"(1, 1, 1)",
+		"(101, 2, 1)",
+	}
+	for _, item := range requiredPermissionSeed {
+		if !strings.Contains(permissionSeed, item) {
+			t.Fatalf("expected permission bootstrap seed to contain %q", item)
+		}
+	}
+
+	if strings.Contains(makefile, "t_user_role") {
+		t.Fatalf("expected makefile relation tables to exclude %q", "t_user_role")
 	}
 }
 
@@ -257,6 +341,22 @@ func TestLegacyRootSQLFilesRemoved(t *testing.T) {
 	for _, path := range legacyFiles {
 		if _, err := os.Stat(path); err == nil {
 			t.Fatalf("expected legacy file to be removed: %s", path)
+		} else if !os.IsNotExist(err) {
+			t.Fatalf("unexpected stat error for %s: %v", path, err)
+		}
+	}
+}
+
+func TestSingleUserRoleCompatMigrationRemoved(t *testing.T) {
+	root := repoRoot(t)
+
+	legacyFiles := []string{
+		filepath.Join(root, "service", "db", "migrations", "000003_single_user_role.up.sql"),
+		filepath.Join(root, "service", "db", "migrations", "000003_single_user_role.down.sql"),
+	}
+	for _, path := range legacyFiles {
+		if _, err := os.Stat(path); err == nil {
+			t.Fatalf("expected compat migration to be removed: %s", path)
 		} else if !os.IsNotExist(err) {
 			t.Fatalf("unexpected stat error for %s: %v", path, err)
 		}

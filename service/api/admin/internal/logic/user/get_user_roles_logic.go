@@ -41,9 +41,7 @@ func (l *GetUserRolesLogic) GetUserRoles(req *types.EmptyReq) (resp *types.UserR
 	for _, item := range out.List {
 		list = append(list, &types.UserRole{
 			Id:          item.Id,
-			ParentId:    item.ParentId,
 			RoleKey:     item.RoleKey,
-			RoleLabel:   item.RoleLabel,
 			RoleComment: item.RoleComment,
 		})
 	}

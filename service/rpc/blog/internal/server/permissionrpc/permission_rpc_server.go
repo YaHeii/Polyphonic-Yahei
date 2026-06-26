@@ -107,24 +107,6 @@ func (s *PermissionRpcServer) FindAllMenu(ctx context.Context, in *permissionrpc
 	return l.FindAllMenu(in)
 }
 
-// 创建角色
-func (s *PermissionRpcServer) AddRole(ctx context.Context, in *permissionrpc.AddRoleReq) (*permissionrpc.AddRoleResp, error) {
-	l := permissionrpclogic.NewAddRoleLogic(ctx, s.svcCtx)
-	return l.AddRole(in)
-}
-
-// 更新角色
-func (s *PermissionRpcServer) UpdateRole(ctx context.Context, in *permissionrpc.UpdateRoleReq) (*permissionrpc.UpdateRoleResp, error) {
-	l := permissionrpclogic.NewUpdateRoleLogic(ctx, s.svcCtx)
-	return l.UpdateRole(in)
-}
-
-// 删除角色
-func (s *PermissionRpcServer) DeletesRole(ctx context.Context, in *permissionrpc.DeletesRoleReq) (*permissionrpc.DeletesRoleResp, error) {
-	l := permissionrpclogic.NewDeletesRoleLogic(ctx, s.svcCtx)
-	return l.DeletesRole(in)
-}
-
 // 查询角色列表
 func (s *PermissionRpcServer) FindRoleList(ctx context.Context, in *permissionrpc.FindRoleListReq) (*permissionrpc.FindRoleListResp, error) {
 	l := permissionrpclogic.NewFindRoleListLogic(ctx, s.svcCtx)

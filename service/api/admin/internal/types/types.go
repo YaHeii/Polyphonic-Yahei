@@ -166,6 +166,15 @@ type RewardQrCode struct {
 	WeixinQrCode string `json:"weixin_qr_code"` // 微信二维码
 }
 
+type RoleBackVO struct {
+	Id          int64  `json:"id,optional"`  // 主键id
+	RoleKey     string `json:"role_key"`     // 角色枚举名
+	RoleComment string `json:"role_comment"` // 角色备注
+	Status      int64  `json:"status"`       // 状态 0正常 1禁用
+	CreatedAt   int64  `json:"created_at"`   // 创建时间
+	UpdatedAt   int64  `json:"updated_at"`   // 更新时间
+}
+
 type SocialAccountInfo struct {
 	Name     string `json:"name"`     // 名称-微信
 	Platform string `json:"platform"` // 平台-wechat
@@ -276,16 +285,14 @@ type UserMenuMeta struct {
 
 type UserRole struct {
 	Id          int64  `json:"id,optional"`  // 主键id
-	ParentId    int64  `json:"parent_id"`    // 父id
-	RoleKey     string `json:"role_key"`     // 角色名
-	RoleLabel   string `json:"role_label"`   // 角色标签
+	RoleKey     string `json:"role_key"`     // 角色枚举名
 	RoleComment string `json:"role_comment"` // 角色备注
 }
 
 type UserRoleLabel struct {
-	RoleId    int64  `json:"role_id"`
-	RoleKey   string `json:"role_key"`
-	RoleLabel string `json:"role_label"`
+	RoleId      int64  `json:"role_id"`
+	RoleKey     string `json:"role_key"`
+	RoleComment string `json:"role_comment"`
 }
 
 type UserThirdPartyInfo struct {

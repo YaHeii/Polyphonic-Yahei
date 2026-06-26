@@ -19,8 +19,8 @@ type UpdateAccountPasswordReq struct {
 }
 
 type UpdateAccountRolesReq struct {
-	UserId  string  `json:"user_id"`
-	RoleIds []int64 `json:"role_ids"`
+	UserId string `json:"user_id"`
+	RoleId int64  `json:"role_id"`
 }
 
 type UpdateAccountStatusReq struct {

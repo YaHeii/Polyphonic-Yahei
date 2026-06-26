@@ -332,22 +332,18 @@ COMMENT ON COLUMN t_photo.updated_at IS '更新时间';
 
 CREATE TABLE t_role (
     id bigserial PRIMARY KEY,
-    parent_id integer NOT NULL DEFAULT 0,
     role_key varchar(64) NOT NULL DEFAULT '',
-    role_label varchar(64) NOT NULL DEFAULT '',
     role_comment varchar(64) NOT NULL DEFAULT '',
-    is_default boolean NOT NULL DEFAULT false,
     status smallint NOT NULL DEFAULT 0,
     created_at timestamptz NOT NULL DEFAULT now(),
-    updated_at timestamptz NOT NULL DEFAULT now()
+    updated_at timestamptz NOT NULL DEFAULT now(),
+    CONSTRAINT uk_role_key UNIQUE (role_key),
+    CONSTRAINT ck_role_key_enum CHECK (role_key IN ('root', 'super_admin', 'visitor'))
 );
 COMMENT ON TABLE t_role IS '角色';
 COMMENT ON COLUMN t_role.id IS '主键id';
-COMMENT ON COLUMN t_role.parent_id IS '父角色id';
-COMMENT ON COLUMN t_role.role_key IS '角色标识';
-COMMENT ON COLUMN t_role.role_label IS '角色标签';
+COMMENT ON COLUMN t_role.role_key IS '角色枚举名';
 COMMENT ON COLUMN t_role.role_comment IS '角色备注';
-COMMENT ON COLUMN t_role.is_default IS '是否默认角色 0否 1是';
 COMMENT ON COLUMN t_role.status IS '状态 0正常 1禁用';
 COMMENT ON COLUMN t_role.created_at IS '创建时间';
 COMMENT ON COLUMN t_role.updated_at IS '更新时间';
@@ -449,6 +445,7 @@ CREATE TABLE t_user (
     register_type varchar(64) NOT NULL DEFAULT '',
     ip_address varchar(255) NOT NULL DEFAULT '',
     ip_source varchar(255) NOT NULL DEFAULT '',
+    role_id integer NOT NULL DEFAULT 0,
     created_at timestamptz NOT NULL DEFAULT now(),
     updated_at timestamptz NOT NULL DEFAULT now(),
     CONSTRAINT uk_user_uid UNIQUE (user_id),
@@ -468,6 +465,7 @@ COMMENT ON COLUMN t_user.status IS '状态: -1删除 0正常 1禁用';
 COMMENT ON COLUMN t_user.register_type IS '注册方式';
 COMMENT ON COLUMN t_user.ip_address IS '注册ip';
 COMMENT ON COLUMN t_user.ip_source IS '注册ip 源';
+COMMENT ON COLUMN t_user.role_id IS '用户角色id';
 COMMENT ON COLUMN t_user.created_at IS '创建时间';
 COMMENT ON COLUMN t_user.updated_at IS '更新时间';
 
@@ -492,16 +490,6 @@ COMMENT ON COLUMN t_user_oauth.nickname IS '第三方平台昵称';
 COMMENT ON COLUMN t_user_oauth.avatar IS '第三方平台头像';
 COMMENT ON COLUMN t_user_oauth.created_at IS '创建时间';
 COMMENT ON COLUMN t_user_oauth.updated_at IS '更新时间';
-
-CREATE TABLE t_user_role (
-    id bigserial PRIMARY KEY,
-    user_id varchar(64) NOT NULL DEFAULT '',
-    role_id integer NOT NULL DEFAULT 0
-);
-COMMENT ON TABLE t_user_role IS '用户-角色关联';
-COMMENT ON COLUMN t_user_role.id IS '主键id';
-COMMENT ON COLUMN t_user_role.user_id IS '用户id';
-COMMENT ON COLUMN t_user_role.role_id IS '角色id';
 
 CREATE TABLE t_visit_daily_stats (
     id bigserial PRIMARY KEY,

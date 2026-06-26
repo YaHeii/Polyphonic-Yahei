@@ -4150,108 +4150,6 @@
         }
       }
     },
-    "/admin-api/v1/role/add_role": {
-      "post": {
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "角色管理"
-        ],
-        "summary": "创建角色",
-        "operationId": "roleAddRole",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/NewRoleReq"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "code": {
-                  "description": "1001-未登录\u003cbr\u003e1002-无权限操作",
-                  "type": "integer",
-                  "example": 0
-                },
-                "data": {
-                  "$ref": "#/definitions/RoleBackVO"
-                },
-                "msg": {
-                  "description": "business message",
-                  "type": "string",
-                  "example": "ok"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/admin-api/v1/role/deletes_role": {
-      "delete": {
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "角色管理"
-        ],
-        "summary": "删除角色",
-        "operationId": "roleDeletesRole",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/IdsReq"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "code": {
-                  "description": "1001-未登录\u003cbr\u003e1002-无权限操作",
-                  "type": "integer",
-                  "example": 0
-                },
-                "data": {
-                  "$ref": "#/definitions/BatchResp"
-                },
-                "msg": {
-                  "description": "business message",
-                  "type": "string",
-                  "example": "ok"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/admin-api/v1/role/find_role_list": {
       "post": {
         "consumes": [
@@ -4342,57 +4240,6 @@
                 },
                 "data": {
                   "$ref": "#/definitions/RoleResourcesResp"
-                },
-                "msg": {
-                  "description": "business message",
-                  "type": "string",
-                  "example": "ok"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/admin-api/v1/role/update_role": {
-      "put": {
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "https"
-        ],
-        "tags": [
-          "角色管理"
-        ],
-        "summary": "更新角色",
-        "operationId": "roleUpdateRole",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/NewRoleReq"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "code": {
-                  "description": "1001-未登录\u003cbr\u003e1002-无权限操作",
-                  "type": "integer",
-                  "example": 0
-                },
-                "data": {
-                  "$ref": "#/definitions/RoleBackVO"
                 },
                 "msg": {
                   "description": "business message",
@@ -7725,46 +7572,6 @@
         }
       }
     },
-    "NewRoleReq": {
-      "type": "object",
-      "required": [
-        "role_key",
-        "role_label",
-        "role_comment",
-        "is_default",
-        "status"
-      ],
-      "properties": {
-        "id": {
-          "description": "主键id",
-          "type": "integer"
-        },
-        "is_default": {
-          "description": "是否默认角色 0否 1是",
-          "type": "boolean"
-        },
-        "parent_id": {
-          "description": "父角色id",
-          "type": "integer"
-        },
-        "role_comment": {
-          "description": "角色备注",
-          "type": "string"
-        },
-        "role_key": {
-          "description": "角色名",
-          "type": "string"
-        },
-        "role_label": {
-          "description": "角色标签",
-          "type": "string"
-        },
-        "status": {
-          "description": "状态 0正常 1禁用",
-          "type": "integer"
-        }
-      }
-    },
     "NewTalkReq": {
       "type": "object",
       "required": [
@@ -8611,11 +8418,7 @@
           "type": "integer"
         },
         "role_key": {
-          "description": "角色名",
-          "type": "string"
-        },
-        "role_label": {
-          "description": "角色标签",
+          "description": "角色枚举名",
           "type": "string"
         },
         "sorts": {
@@ -8854,11 +8657,8 @@
     "RoleBackVO": {
       "type": "object",
       "required": [
-        "parent_id",
         "role_key",
-        "role_label",
         "role_comment",
-        "is_default",
         "status",
         "created_at",
         "updated_at"
@@ -8872,24 +8672,12 @@
           "description": "主键id",
           "type": "integer"
         },
-        "is_default": {
-          "description": "是否默认角色 0否 1是",
-          "type": "boolean"
-        },
-        "parent_id": {
-          "description": "父角色id",
-          "type": "integer"
-        },
         "role_comment": {
           "description": "角色备注",
           "type": "string"
         },
         "role_key": {
-          "description": "角色名",
-          "type": "string"
-        },
-        "role_label": {
-          "description": "角色标签",
+          "description": "角色枚举名",
           "type": "string"
         },
         "status": {
@@ -9233,14 +9021,11 @@
       "type": "object",
       "required": [
         "user_id",
-        "role_ids"
+        "role_id"
       ],
       "properties": {
-        "role_ids": {
-          "type": "array",
-          "items": {
-            "type": "integer"
-          }
+        "role_id": {
+          "type": "integer"
         },
         "user_id": {
           "type": "string"
@@ -10033,9 +9818,7 @@
     "UserRole": {
       "type": "object",
       "required": [
-        "parent_id",
         "role_key",
-        "role_label",
         "role_comment"
       ],
       "properties": {
@@ -10043,20 +9826,12 @@
           "description": "主键id",
           "type": "integer"
         },
-        "parent_id": {
-          "description": "父id",
-          "type": "integer"
-        },
         "role_comment": {
           "description": "角色备注",
           "type": "string"
         },
         "role_key": {
-          "description": "角色名",
-          "type": "string"
-        },
-        "role_label": {
-          "description": "角色标签",
+          "description": "角色枚举名",
           "type": "string"
         }
       }
@@ -10066,16 +9841,16 @@
       "required": [
         "role_id",
         "role_key",
-        "role_label"
+        "role_comment"
       ],
       "properties": {
+        "role_comment": {
+          "type": "string"
+        },
         "role_id": {
           "type": "integer"
         },
         "role_key": {
-          "type": "string"
-        },
-        "role_label": {
           "type": "string"
         }
       }
@@ -10539,7 +10314,7 @@
       "in": "header"
     }
   },
-  "x-date": "2026-06-21 23:39:15",
+  "x-date": "2026-06-25 17:51:54",
   "x-description": "This is a goctl generated swagger file.",
   "x-github": "https://github.com/zeromicro/go-zero",
   "x-go-zero-doc": "https://go-zero.dev/",

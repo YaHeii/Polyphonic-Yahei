@@ -12,8 +12,8 @@ type (
 		Password string `json:"password"`
 	}
 	UpdateAccountRolesReq {
-		UserId  string  `json:"user_id"`
-		RoleIds []int64 `json:"role_ids"`
+		UserId string `json:"user_id"`
+		RoleId int64  `json:"role_id"`
 	}
 	QueryAccountReq {
 		PageQuery
@@ -27,7 +27,7 @@ type (
 	UserRoleLabel {
 		RoleId    int64  `json:"role_id"`
 		RoleKey   string `json:"role_key"`
-		RoleLabel string `json:"role_label"`
+		RoleComment string `json:"role_comment"`
 	}
 	UserInfoDetail {
 		UserId       string `json:"user_id"` // 用户id
@@ -75,4 +75,3 @@ service admin-api {
 	@handler UpdateAccountRoles
 	put /account/update_account_roles (UpdateAccountRolesReq) returns (EmptyResp)
 }
-

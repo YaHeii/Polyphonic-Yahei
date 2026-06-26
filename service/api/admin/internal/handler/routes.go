@@ -672,18 +672,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			[]rest.Middleware{serverCtx.Permission, serverCtx.OperationLog},
 			[]rest.Route{
 				{
-					// 创建角色
-					Method:  http.MethodPost,
-					Path:    "/role/add_role",
-					Handler: role.AddRoleHandler(serverCtx),
-				},
-				{
-					// 删除角色
-					Method:  http.MethodDelete,
-					Path:    "/role/deletes_role",
-					Handler: role.DeletesRoleHandler(serverCtx),
-				},
-				{
 					// 分页获取角色列表
 					Method:  http.MethodPost,
 					Path:    "/role/find_role_list",
@@ -694,12 +682,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Method:  http.MethodPost,
 					Path:    "/role/find_role_resources",
 					Handler: role.FindRoleResourcesHandler(serverCtx),
-				},
-				{
-					// 更新角色
-					Method:  http.MethodPut,
-					Path:    "/role/update_role",
-					Handler: role.UpdateRoleHandler(serverCtx),
 				},
 				{
 					// 更新角色接口权限

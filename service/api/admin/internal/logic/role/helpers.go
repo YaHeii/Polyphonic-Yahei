@@ -12,11 +12,8 @@ func convertRoleTypes(in *permissionrpc.Role) *types.RoleBackVO {
 
 	return &types.RoleBackVO{
 		Id:          in.Id,
-		ParentId:    in.ParentId,
 		RoleKey:     in.RoleKey,
-		RoleLabel:   in.RoleLabel,
 		RoleComment: in.RoleComment,
-		IsDefault:   in.IsDefault,
 		Status:      in.Status,
 		CreatedAt:   in.CreatedAt,
 		UpdatedAt:   in.UpdatedAt,

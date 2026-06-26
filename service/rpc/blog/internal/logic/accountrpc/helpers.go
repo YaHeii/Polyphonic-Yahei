@@ -75,7 +75,6 @@ func convertRoleLabels(roles []*model.TRole) []*accountrpc.UserRoleLabel {
 		labels = append(labels, &accountrpc.UserRoleLabel{
 			RoleId:      role.Id,
 			RoleKey:     role.RoleKey,
-			RoleLabel:   role.RoleLabel,
 			RoleComment: role.RoleComment,
 		})
 	}

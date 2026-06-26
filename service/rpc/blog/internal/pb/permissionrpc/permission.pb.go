@@ -1957,15 +1957,11 @@ func (x *FindAllMenuResp) GetList() []*Menu {
 type Role struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`                                     // 主键id
-	ParentId      int64                  `protobuf:"varint,2,opt,name=parent_id,json=parentId,proto3" json:"parent_id,omitempty"`         // 父角色id
-	RoleKey       string                 `protobuf:"bytes,3,opt,name=role_key,json=roleKey,proto3" json:"role_key,omitempty"`             // 角色名
-	RoleLabel     string                 `protobuf:"bytes,4,opt,name=role_label,json=roleLabel,proto3" json:"role_label,omitempty"`       // 角色标签
-	RoleComment   string                 `protobuf:"bytes,5,opt,name=role_comment,json=roleComment,proto3" json:"role_comment,omitempty"` // 角色备注
-	IsDefault     bool                   `protobuf:"varint,6,opt,name=is_default,json=isDefault,proto3" json:"is_default,omitempty"`      // 是否默认角色
-	Status        int64                  `protobuf:"varint,7,opt,name=status,proto3" json:"status,omitempty"`                             // 状态  0正常 1禁用
-	CreatedAt     int64                  `protobuf:"varint,8,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`      // 创建时间
-	UpdatedAt     int64                  `protobuf:"varint,9,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`      // 更新时间
-	Children      []*Role                `protobuf:"bytes,10,rep,name=children,proto3" json:"children,omitempty"`
+	RoleKey       string                 `protobuf:"bytes,2,opt,name=role_key,json=roleKey,proto3" json:"role_key,omitempty"`             // 角色枚举名
+	RoleComment   string                 `protobuf:"bytes,3,opt,name=role_comment,json=roleComment,proto3" json:"role_comment,omitempty"` // 角色备注
+	Status        int64                  `protobuf:"varint,4,opt,name=status,proto3" json:"status,omitempty"`                             // 状态  0正常 1禁用
+	CreatedAt     int64                  `protobuf:"varint,5,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`      // 创建时间
+	UpdatedAt     int64                  `protobuf:"varint,6,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`      // 更新时间
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2007,23 +2003,9 @@ func (x *Role) GetId() int64 {
 	return 0
 }
 
-func (x *Role) GetParentId() int64 {
-	if x != nil {
-		return x.ParentId
-	}
-	return 0
-}
-
 func (x *Role) GetRoleKey() string {
 	if x != nil {
 		return x.RoleKey
-	}
-	return ""
-}
-
-func (x *Role) GetRoleLabel() string {
-	if x != nil {
-		return x.RoleLabel
 	}
 	return ""
 }
@@ -2033,13 +2015,6 @@ func (x *Role) GetRoleComment() string {
 		return x.RoleComment
 	}
 	return ""
-}
-
-func (x *Role) GetIsDefault() bool {
-	if x != nil {
-		return x.IsDefault
-	}
-	return false
 }
 
 func (x *Role) GetStatus() int64 {
@@ -2063,386 +2038,18 @@ func (x *Role) GetUpdatedAt() int64 {
 	return 0
 }
 
-func (x *Role) GetChildren() []*Role {
-	if x != nil {
-		return x.Children
-	}
-	return nil
-}
-
-type AddRoleReq struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`                                     // 主键id
-	ParentId      int64                  `protobuf:"varint,2,opt,name=parent_id,json=parentId,proto3" json:"parent_id,omitempty"`         // 父角色id
-	RoleKey       string                 `protobuf:"bytes,3,opt,name=role_key,json=roleKey,proto3" json:"role_key,omitempty"`             // 角色名
-	RoleLabel     string                 `protobuf:"bytes,4,opt,name=role_label,json=roleLabel,proto3" json:"role_label,omitempty"`       // 角色标签
-	RoleComment   string                 `protobuf:"bytes,5,opt,name=role_comment,json=roleComment,proto3" json:"role_comment,omitempty"` // 角色备注
-	IsDefault     bool                   `protobuf:"varint,6,opt,name=is_default,json=isDefault,proto3" json:"is_default,omitempty"`      // 是否默认角色
-	Status        int64                  `protobuf:"varint,7,opt,name=status,proto3" json:"status,omitempty"`                             // 状态  0正常 1禁用
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *AddRoleReq) Reset() {
-	*x = AddRoleReq{}
-	mi := &file_blog_permission_proto_msgTypes[34]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *AddRoleReq) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*AddRoleReq) ProtoMessage() {}
-
-func (x *AddRoleReq) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[34]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use AddRoleReq.ProtoReflect.Descriptor instead.
-func (*AddRoleReq) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{34}
-}
-
-func (x *AddRoleReq) GetId() int64 {
-	if x != nil {
-		return x.Id
-	}
-	return 0
-}
-
-func (x *AddRoleReq) GetParentId() int64 {
-	if x != nil {
-		return x.ParentId
-	}
-	return 0
-}
-
-func (x *AddRoleReq) GetRoleKey() string {
-	if x != nil {
-		return x.RoleKey
-	}
-	return ""
-}
-
-func (x *AddRoleReq) GetRoleLabel() string {
-	if x != nil {
-		return x.RoleLabel
-	}
-	return ""
-}
-
-func (x *AddRoleReq) GetRoleComment() string {
-	if x != nil {
-		return x.RoleComment
-	}
-	return ""
-}
-
-func (x *AddRoleReq) GetIsDefault() bool {
-	if x != nil {
-		return x.IsDefault
-	}
-	return false
-}
-
-func (x *AddRoleReq) GetStatus() int64 {
-	if x != nil {
-		return x.Status
-	}
-	return 0
-}
-
-type AddRoleResp struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Role          *Role                  `protobuf:"bytes,1,opt,name=role,proto3" json:"role,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *AddRoleResp) Reset() {
-	*x = AddRoleResp{}
-	mi := &file_blog_permission_proto_msgTypes[35]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *AddRoleResp) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*AddRoleResp) ProtoMessage() {}
-
-func (x *AddRoleResp) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[35]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use AddRoleResp.ProtoReflect.Descriptor instead.
-func (*AddRoleResp) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{35}
-}
-
-func (x *AddRoleResp) GetRole() *Role {
-	if x != nil {
-		return x.Role
-	}
-	return nil
-}
-
-type UpdateRoleReq struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`                                     // 主键id
-	ParentId      int64                  `protobuf:"varint,2,opt,name=parent_id,json=parentId,proto3" json:"parent_id,omitempty"`         // 父角色id
-	RoleKey       string                 `protobuf:"bytes,3,opt,name=role_key,json=roleKey,proto3" json:"role_key,omitempty"`             // 角色名
-	RoleLabel     string                 `protobuf:"bytes,4,opt,name=role_label,json=roleLabel,proto3" json:"role_label,omitempty"`       // 角色标签
-	RoleComment   string                 `protobuf:"bytes,5,opt,name=role_comment,json=roleComment,proto3" json:"role_comment,omitempty"` // 角色备注
-	IsDefault     bool                   `protobuf:"varint,6,opt,name=is_default,json=isDefault,proto3" json:"is_default,omitempty"`      // 是否默认角色
-	Status        int64                  `protobuf:"varint,7,opt,name=status,proto3" json:"status,omitempty"`                             // 状态  0正常 1禁用
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *UpdateRoleReq) Reset() {
-	*x = UpdateRoleReq{}
-	mi := &file_blog_permission_proto_msgTypes[36]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *UpdateRoleReq) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*UpdateRoleReq) ProtoMessage() {}
-
-func (x *UpdateRoleReq) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[36]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UpdateRoleReq.ProtoReflect.Descriptor instead.
-func (*UpdateRoleReq) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{36}
-}
-
-func (x *UpdateRoleReq) GetId() int64 {
-	if x != nil {
-		return x.Id
-	}
-	return 0
-}
-
-func (x *UpdateRoleReq) GetParentId() int64 {
-	if x != nil {
-		return x.ParentId
-	}
-	return 0
-}
-
-func (x *UpdateRoleReq) GetRoleKey() string {
-	if x != nil {
-		return x.RoleKey
-	}
-	return ""
-}
-
-func (x *UpdateRoleReq) GetRoleLabel() string {
-	if x != nil {
-		return x.RoleLabel
-	}
-	return ""
-}
-
-func (x *UpdateRoleReq) GetRoleComment() string {
-	if x != nil {
-		return x.RoleComment
-	}
-	return ""
-}
-
-func (x *UpdateRoleReq) GetIsDefault() bool {
-	if x != nil {
-		return x.IsDefault
-	}
-	return false
-}
-
-func (x *UpdateRoleReq) GetStatus() int64 {
-	if x != nil {
-		return x.Status
-	}
-	return 0
-}
-
-type UpdateRoleResp struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Role          *Role                  `protobuf:"bytes,1,opt,name=role,proto3" json:"role,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *UpdateRoleResp) Reset() {
-	*x = UpdateRoleResp{}
-	mi := &file_blog_permission_proto_msgTypes[37]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *UpdateRoleResp) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*UpdateRoleResp) ProtoMessage() {}
-
-func (x *UpdateRoleResp) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[37]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UpdateRoleResp.ProtoReflect.Descriptor instead.
-func (*UpdateRoleResp) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{37}
-}
-
-func (x *UpdateRoleResp) GetRole() *Role {
-	if x != nil {
-		return x.Role
-	}
-	return nil
-}
-
-type DeletesRoleReq struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Ids           []int64                `protobuf:"varint,1,rep,packed,name=ids,proto3" json:"ids,omitempty"` // id列表
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *DeletesRoleReq) Reset() {
-	*x = DeletesRoleReq{}
-	mi := &file_blog_permission_proto_msgTypes[38]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *DeletesRoleReq) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*DeletesRoleReq) ProtoMessage() {}
-
-func (x *DeletesRoleReq) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[38]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use DeletesRoleReq.ProtoReflect.Descriptor instead.
-func (*DeletesRoleReq) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{38}
-}
-
-func (x *DeletesRoleReq) GetIds() []int64 {
-	if x != nil {
-		return x.Ids
-	}
-	return nil
-}
-
-type DeletesRoleResp struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	SuccessCount  int64                  `protobuf:"varint,1,opt,name=success_count,json=successCount,proto3" json:"success_count,omitempty"` // 成功数量
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *DeletesRoleResp) Reset() {
-	*x = DeletesRoleResp{}
-	mi := &file_blog_permission_proto_msgTypes[39]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *DeletesRoleResp) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*DeletesRoleResp) ProtoMessage() {}
-
-func (x *DeletesRoleResp) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[39]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use DeletesRoleResp.ProtoReflect.Descriptor instead.
-func (*DeletesRoleResp) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{39}
-}
-
-func (x *DeletesRoleResp) GetSuccessCount() int64 {
-	if x != nil {
-		return x.SuccessCount
-	}
-	return 0
-}
-
 type FindRoleListReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Paginate      *PageReq               `protobuf:"bytes,1,opt,name=paginate,proto3" json:"paginate,omitempty"`                    // 分页参数
-	RoleKey       string                 `protobuf:"bytes,2,opt,name=role_key,json=roleKey,proto3" json:"role_key,omitempty"`       // 角色名
-	RoleLabel     string                 `protobuf:"bytes,3,opt,name=role_label,json=roleLabel,proto3" json:"role_label,omitempty"` // 角色标签
-	Status        int64                  `protobuf:"varint,4,opt,name=status,proto3" json:"status,omitempty"`                       // 状态  0正常 1禁用
+	Paginate      *PageReq               `protobuf:"bytes,1,opt,name=paginate,proto3" json:"paginate,omitempty"`              // 分页参数
+	RoleKey       string                 `protobuf:"bytes,2,opt,name=role_key,json=roleKey,proto3" json:"role_key,omitempty"` // 角色枚举名
+	Status        int64                  `protobuf:"varint,3,opt,name=status,proto3" json:"status,omitempty"`                 // 状态  0正常 1禁用
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *FindRoleListReq) Reset() {
 	*x = FindRoleListReq{}
-	mi := &file_blog_permission_proto_msgTypes[40]
+	mi := &file_blog_permission_proto_msgTypes[34]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2454,7 +2061,7 @@ func (x *FindRoleListReq) String() string {
 func (*FindRoleListReq) ProtoMessage() {}
 
 func (x *FindRoleListReq) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[40]
+	mi := &file_blog_permission_proto_msgTypes[34]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2467,7 +2074,7 @@ func (x *FindRoleListReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FindRoleListReq.ProtoReflect.Descriptor instead.
 func (*FindRoleListReq) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{40}
+	return file_blog_permission_proto_rawDescGZIP(), []int{34}
 }
 
 func (x *FindRoleListReq) GetPaginate() *PageReq {
@@ -2480,13 +2087,6 @@ func (x *FindRoleListReq) GetPaginate() *PageReq {
 func (x *FindRoleListReq) GetRoleKey() string {
 	if x != nil {
 		return x.RoleKey
-	}
-	return ""
-}
-
-func (x *FindRoleListReq) GetRoleLabel() string {
-	if x != nil {
-		return x.RoleLabel
 	}
 	return ""
 }
@@ -2508,7 +2108,7 @@ type FindRoleListResp struct {
 
 func (x *FindRoleListResp) Reset() {
 	*x = FindRoleListResp{}
-	mi := &file_blog_permission_proto_msgTypes[41]
+	mi := &file_blog_permission_proto_msgTypes[35]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2520,7 +2120,7 @@ func (x *FindRoleListResp) String() string {
 func (*FindRoleListResp) ProtoMessage() {}
 
 func (x *FindRoleListResp) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[41]
+	mi := &file_blog_permission_proto_msgTypes[35]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2533,7 +2133,7 @@ func (x *FindRoleListResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FindRoleListResp.ProtoReflect.Descriptor instead.
 func (*FindRoleListResp) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{41}
+	return file_blog_permission_proto_rawDescGZIP(), []int{35}
 }
 
 func (x *FindRoleListResp) GetPagination() *PageResp {
@@ -2558,7 +2158,7 @@ type FindAllRoleReq struct {
 
 func (x *FindAllRoleReq) Reset() {
 	*x = FindAllRoleReq{}
-	mi := &file_blog_permission_proto_msgTypes[42]
+	mi := &file_blog_permission_proto_msgTypes[36]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2570,7 +2170,7 @@ func (x *FindAllRoleReq) String() string {
 func (*FindAllRoleReq) ProtoMessage() {}
 
 func (x *FindAllRoleReq) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[42]
+	mi := &file_blog_permission_proto_msgTypes[36]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2583,7 +2183,7 @@ func (x *FindAllRoleReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FindAllRoleReq.ProtoReflect.Descriptor instead.
 func (*FindAllRoleReq) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{42}
+	return file_blog_permission_proto_rawDescGZIP(), []int{36}
 }
 
 type FindAllRoleResp struct {
@@ -2595,7 +2195,7 @@ type FindAllRoleResp struct {
 
 func (x *FindAllRoleResp) Reset() {
 	*x = FindAllRoleResp{}
-	mi := &file_blog_permission_proto_msgTypes[43]
+	mi := &file_blog_permission_proto_msgTypes[37]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2607,7 +2207,7 @@ func (x *FindAllRoleResp) String() string {
 func (*FindAllRoleResp) ProtoMessage() {}
 
 func (x *FindAllRoleResp) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[43]
+	mi := &file_blog_permission_proto_msgTypes[37]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2620,7 +2220,7 @@ func (x *FindAllRoleResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FindAllRoleResp.ProtoReflect.Descriptor instead.
 func (*FindAllRoleResp) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{43}
+	return file_blog_permission_proto_rawDescGZIP(), []int{37}
 }
 
 func (x *FindAllRoleResp) GetList() []*Role {
@@ -2640,7 +2240,7 @@ type UpdateRoleMenusReq struct {
 
 func (x *UpdateRoleMenusReq) Reset() {
 	*x = UpdateRoleMenusReq{}
-	mi := &file_blog_permission_proto_msgTypes[44]
+	mi := &file_blog_permission_proto_msgTypes[38]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2652,7 +2252,7 @@ func (x *UpdateRoleMenusReq) String() string {
 func (*UpdateRoleMenusReq) ProtoMessage() {}
 
 func (x *UpdateRoleMenusReq) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[44]
+	mi := &file_blog_permission_proto_msgTypes[38]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2665,7 +2265,7 @@ func (x *UpdateRoleMenusReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateRoleMenusReq.ProtoReflect.Descriptor instead.
 func (*UpdateRoleMenusReq) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{44}
+	return file_blog_permission_proto_rawDescGZIP(), []int{38}
 }
 
 func (x *UpdateRoleMenusReq) GetRoleId() int64 {
@@ -2690,7 +2290,7 @@ type UpdateRoleMenusResp struct {
 
 func (x *UpdateRoleMenusResp) Reset() {
 	*x = UpdateRoleMenusResp{}
-	mi := &file_blog_permission_proto_msgTypes[45]
+	mi := &file_blog_permission_proto_msgTypes[39]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2702,7 +2302,7 @@ func (x *UpdateRoleMenusResp) String() string {
 func (*UpdateRoleMenusResp) ProtoMessage() {}
 
 func (x *UpdateRoleMenusResp) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[45]
+	mi := &file_blog_permission_proto_msgTypes[39]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2715,7 +2315,7 @@ func (x *UpdateRoleMenusResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateRoleMenusResp.ProtoReflect.Descriptor instead.
 func (*UpdateRoleMenusResp) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{45}
+	return file_blog_permission_proto_rawDescGZIP(), []int{39}
 }
 
 type UpdateRoleApisReq struct {
@@ -2728,7 +2328,7 @@ type UpdateRoleApisReq struct {
 
 func (x *UpdateRoleApisReq) Reset() {
 	*x = UpdateRoleApisReq{}
-	mi := &file_blog_permission_proto_msgTypes[46]
+	mi := &file_blog_permission_proto_msgTypes[40]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2740,7 +2340,7 @@ func (x *UpdateRoleApisReq) String() string {
 func (*UpdateRoleApisReq) ProtoMessage() {}
 
 func (x *UpdateRoleApisReq) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[46]
+	mi := &file_blog_permission_proto_msgTypes[40]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2753,7 +2353,7 @@ func (x *UpdateRoleApisReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateRoleApisReq.ProtoReflect.Descriptor instead.
 func (*UpdateRoleApisReq) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{46}
+	return file_blog_permission_proto_rawDescGZIP(), []int{40}
 }
 
 func (x *UpdateRoleApisReq) GetRoleId() int64 {
@@ -2778,7 +2378,7 @@ type UpdateRoleApisResp struct {
 
 func (x *UpdateRoleApisResp) Reset() {
 	*x = UpdateRoleApisResp{}
-	mi := &file_blog_permission_proto_msgTypes[47]
+	mi := &file_blog_permission_proto_msgTypes[41]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2790,7 +2390,7 @@ func (x *UpdateRoleApisResp) String() string {
 func (*UpdateRoleApisResp) ProtoMessage() {}
 
 func (x *UpdateRoleApisResp) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[47]
+	mi := &file_blog_permission_proto_msgTypes[41]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2803,7 +2403,7 @@ func (x *UpdateRoleApisResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateRoleApisResp.ProtoReflect.Descriptor instead.
 func (*UpdateRoleApisResp) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{47}
+	return file_blog_permission_proto_rawDescGZIP(), []int{41}
 }
 
 type FindRoleResourcesReq struct {
@@ -2815,7 +2415,7 @@ type FindRoleResourcesReq struct {
 
 func (x *FindRoleResourcesReq) Reset() {
 	*x = FindRoleResourcesReq{}
-	mi := &file_blog_permission_proto_msgTypes[48]
+	mi := &file_blog_permission_proto_msgTypes[42]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2827,7 +2427,7 @@ func (x *FindRoleResourcesReq) String() string {
 func (*FindRoleResourcesReq) ProtoMessage() {}
 
 func (x *FindRoleResourcesReq) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[48]
+	mi := &file_blog_permission_proto_msgTypes[42]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2840,7 +2440,7 @@ func (x *FindRoleResourcesReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FindRoleResourcesReq.ProtoReflect.Descriptor instead.
 func (*FindRoleResourcesReq) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{48}
+	return file_blog_permission_proto_rawDescGZIP(), []int{42}
 }
 
 func (x *FindRoleResourcesReq) GetId() int64 {
@@ -2861,7 +2461,7 @@ type FindRoleResourcesResp struct {
 
 func (x *FindRoleResourcesResp) Reset() {
 	*x = FindRoleResourcesResp{}
-	mi := &file_blog_permission_proto_msgTypes[49]
+	mi := &file_blog_permission_proto_msgTypes[43]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2873,7 +2473,7 @@ func (x *FindRoleResourcesResp) String() string {
 func (*FindRoleResourcesResp) ProtoMessage() {}
 
 func (x *FindRoleResourcesResp) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[49]
+	mi := &file_blog_permission_proto_msgTypes[43]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2886,7 +2486,7 @@ func (x *FindRoleResourcesResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FindRoleResourcesResp.ProtoReflect.Descriptor instead.
 func (*FindRoleResourcesResp) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{49}
+	return file_blog_permission_proto_rawDescGZIP(), []int{43}
 }
 
 func (x *FindRoleResourcesResp) GetRoleId() int64 {
@@ -2912,15 +2512,15 @@ func (x *FindRoleResourcesResp) GetMenuIds() []int64 {
 
 type UpdateUserRoleReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"` // 用户id
-	RoleIds       []int64                `protobuf:"varint,2,rep,packed,name=role_ids,json=roleIds,proto3" json:"role_ids,omitempty"`
+	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`  // 用户id
+	RoleId        int64                  `protobuf:"varint,2,opt,name=role_id,json=roleId,proto3" json:"role_id,omitempty"` // 角色id
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *UpdateUserRoleReq) Reset() {
 	*x = UpdateUserRoleReq{}
-	mi := &file_blog_permission_proto_msgTypes[50]
+	mi := &file_blog_permission_proto_msgTypes[44]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2932,7 +2532,7 @@ func (x *UpdateUserRoleReq) String() string {
 func (*UpdateUserRoleReq) ProtoMessage() {}
 
 func (x *UpdateUserRoleReq) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[50]
+	mi := &file_blog_permission_proto_msgTypes[44]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2945,7 +2545,7 @@ func (x *UpdateUserRoleReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateUserRoleReq.ProtoReflect.Descriptor instead.
 func (*UpdateUserRoleReq) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{50}
+	return file_blog_permission_proto_rawDescGZIP(), []int{44}
 }
 
 func (x *UpdateUserRoleReq) GetUserId() string {
@@ -2955,11 +2555,11 @@ func (x *UpdateUserRoleReq) GetUserId() string {
 	return ""
 }
 
-func (x *UpdateUserRoleReq) GetRoleIds() []int64 {
+func (x *UpdateUserRoleReq) GetRoleId() int64 {
 	if x != nil {
-		return x.RoleIds
+		return x.RoleId
 	}
-	return nil
+	return 0
 }
 
 type UpdateUserRoleResp struct {
@@ -2970,7 +2570,7 @@ type UpdateUserRoleResp struct {
 
 func (x *UpdateUserRoleResp) Reset() {
 	*x = UpdateUserRoleResp{}
-	mi := &file_blog_permission_proto_msgTypes[51]
+	mi := &file_blog_permission_proto_msgTypes[45]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2982,7 +2582,7 @@ func (x *UpdateUserRoleResp) String() string {
 func (*UpdateUserRoleResp) ProtoMessage() {}
 
 func (x *UpdateUserRoleResp) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[51]
+	mi := &file_blog_permission_proto_msgTypes[45]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2995,7 +2595,7 @@ func (x *UpdateUserRoleResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateUserRoleResp.ProtoReflect.Descriptor instead.
 func (*UpdateUserRoleResp) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{51}
+	return file_blog_permission_proto_rawDescGZIP(), []int{45}
 }
 
 type FindUserApisReq struct {
@@ -3007,7 +2607,7 @@ type FindUserApisReq struct {
 
 func (x *FindUserApisReq) Reset() {
 	*x = FindUserApisReq{}
-	mi := &file_blog_permission_proto_msgTypes[52]
+	mi := &file_blog_permission_proto_msgTypes[46]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3019,7 +2619,7 @@ func (x *FindUserApisReq) String() string {
 func (*FindUserApisReq) ProtoMessage() {}
 
 func (x *FindUserApisReq) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[52]
+	mi := &file_blog_permission_proto_msgTypes[46]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3032,7 +2632,7 @@ func (x *FindUserApisReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FindUserApisReq.ProtoReflect.Descriptor instead.
 func (*FindUserApisReq) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{52}
+	return file_blog_permission_proto_rawDescGZIP(), []int{46}
 }
 
 func (x *FindUserApisReq) GetUserId() string {
@@ -3051,7 +2651,7 @@ type FindUserApisResp struct {
 
 func (x *FindUserApisResp) Reset() {
 	*x = FindUserApisResp{}
-	mi := &file_blog_permission_proto_msgTypes[53]
+	mi := &file_blog_permission_proto_msgTypes[47]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3063,7 +2663,7 @@ func (x *FindUserApisResp) String() string {
 func (*FindUserApisResp) ProtoMessage() {}
 
 func (x *FindUserApisResp) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[53]
+	mi := &file_blog_permission_proto_msgTypes[47]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3076,7 +2676,7 @@ func (x *FindUserApisResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FindUserApisResp.ProtoReflect.Descriptor instead.
 func (*FindUserApisResp) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{53}
+	return file_blog_permission_proto_rawDescGZIP(), []int{47}
 }
 
 func (x *FindUserApisResp) GetList() []*Api {
@@ -3095,7 +2695,7 @@ type FindUserMenusReq struct {
 
 func (x *FindUserMenusReq) Reset() {
 	*x = FindUserMenusReq{}
-	mi := &file_blog_permission_proto_msgTypes[54]
+	mi := &file_blog_permission_proto_msgTypes[48]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3107,7 +2707,7 @@ func (x *FindUserMenusReq) String() string {
 func (*FindUserMenusReq) ProtoMessage() {}
 
 func (x *FindUserMenusReq) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[54]
+	mi := &file_blog_permission_proto_msgTypes[48]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3120,7 +2720,7 @@ func (x *FindUserMenusReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FindUserMenusReq.ProtoReflect.Descriptor instead.
 func (*FindUserMenusReq) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{54}
+	return file_blog_permission_proto_rawDescGZIP(), []int{48}
 }
 
 func (x *FindUserMenusReq) GetUserId() string {
@@ -3139,7 +2739,7 @@ type FindUserMenusResp struct {
 
 func (x *FindUserMenusResp) Reset() {
 	*x = FindUserMenusResp{}
-	mi := &file_blog_permission_proto_msgTypes[55]
+	mi := &file_blog_permission_proto_msgTypes[49]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3151,7 +2751,7 @@ func (x *FindUserMenusResp) String() string {
 func (*FindUserMenusResp) ProtoMessage() {}
 
 func (x *FindUserMenusResp) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[55]
+	mi := &file_blog_permission_proto_msgTypes[49]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3164,7 +2764,7 @@ func (x *FindUserMenusResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FindUserMenusResp.ProtoReflect.Descriptor instead.
 func (*FindUserMenusResp) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{55}
+	return file_blog_permission_proto_rawDescGZIP(), []int{49}
 }
 
 func (x *FindUserMenusResp) GetList() []*Menu {
@@ -3183,7 +2783,7 @@ type FindUserRolesReq struct {
 
 func (x *FindUserRolesReq) Reset() {
 	*x = FindUserRolesReq{}
-	mi := &file_blog_permission_proto_msgTypes[56]
+	mi := &file_blog_permission_proto_msgTypes[50]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3195,7 +2795,7 @@ func (x *FindUserRolesReq) String() string {
 func (*FindUserRolesReq) ProtoMessage() {}
 
 func (x *FindUserRolesReq) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[56]
+	mi := &file_blog_permission_proto_msgTypes[50]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3208,7 +2808,7 @@ func (x *FindUserRolesReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FindUserRolesReq.ProtoReflect.Descriptor instead.
 func (*FindUserRolesReq) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{56}
+	return file_blog_permission_proto_rawDescGZIP(), []int{50}
 }
 
 func (x *FindUserRolesReq) GetUserId() string {
@@ -3227,7 +2827,7 @@ type FindUserRolesResp struct {
 
 func (x *FindUserRolesResp) Reset() {
 	*x = FindUserRolesResp{}
-	mi := &file_blog_permission_proto_msgTypes[57]
+	mi := &file_blog_permission_proto_msgTypes[51]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3239,7 +2839,7 @@ func (x *FindUserRolesResp) String() string {
 func (*FindUserRolesResp) ProtoMessage() {}
 
 func (x *FindUserRolesResp) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[57]
+	mi := &file_blog_permission_proto_msgTypes[51]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3252,7 +2852,7 @@ func (x *FindUserRolesResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FindUserRolesResp.ProtoReflect.Descriptor instead.
 func (*FindUserRolesResp) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{57}
+	return file_blog_permission_proto_rawDescGZIP(), []int{51}
 }
 
 func (x *FindUserRolesResp) GetList() []*Role {
@@ -3408,58 +3008,20 @@ const file_blog_permission_proto_rawDesc = "" +
 	"\rsuccess_count\x18\x01 \x01(\x03R\fsuccessCount\"\x10\n" +
 	"\x0eFindAllMenuReq\":\n" +
 	"\x0fFindAllMenuResp\x12'\n" +
-	"\x04list\x18\x01 \x03(\v2\x13.permissionrpc.MenuR\x04list\"\xb6\x02\n" +
+	"\x04list\x18\x01 \x03(\v2\x13.permissionrpc.MenuR\x04list\"\xaa\x01\n" +
 	"\x04Role\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x1b\n" +
-	"\tparent_id\x18\x02 \x01(\x03R\bparentId\x12\x19\n" +
-	"\brole_key\x18\x03 \x01(\tR\aroleKey\x12\x1d\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x19\n" +
+	"\brole_key\x18\x02 \x01(\tR\aroleKey\x12!\n" +
+	"\frole_comment\x18\x03 \x01(\tR\vroleComment\x12\x16\n" +
+	"\x06status\x18\x04 \x01(\x03R\x06status\x12\x1d\n" +
 	"\n" +
-	"role_label\x18\x04 \x01(\tR\troleLabel\x12!\n" +
-	"\frole_comment\x18\x05 \x01(\tR\vroleComment\x12\x1d\n" +
+	"created_at\x18\x05 \x01(\x03R\tcreatedAt\x12\x1d\n" +
 	"\n" +
-	"is_default\x18\x06 \x01(\bR\tisDefault\x12\x16\n" +
-	"\x06status\x18\a \x01(\x03R\x06status\x12\x1d\n" +
-	"\n" +
-	"created_at\x18\b \x01(\x03R\tcreatedAt\x12\x1d\n" +
-	"\n" +
-	"updated_at\x18\t \x01(\x03R\tupdatedAt\x12/\n" +
-	"\bchildren\x18\n" +
-	" \x03(\v2\x13.permissionrpc.RoleR\bchildren\"\xcd\x01\n" +
-	"\n" +
-	"AddRoleReq\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x1b\n" +
-	"\tparent_id\x18\x02 \x01(\x03R\bparentId\x12\x19\n" +
-	"\brole_key\x18\x03 \x01(\tR\aroleKey\x12\x1d\n" +
-	"\n" +
-	"role_label\x18\x04 \x01(\tR\troleLabel\x12!\n" +
-	"\frole_comment\x18\x05 \x01(\tR\vroleComment\x12\x1d\n" +
-	"\n" +
-	"is_default\x18\x06 \x01(\bR\tisDefault\x12\x16\n" +
-	"\x06status\x18\a \x01(\x03R\x06status\"6\n" +
-	"\vAddRoleResp\x12'\n" +
-	"\x04role\x18\x01 \x01(\v2\x13.permissionrpc.RoleR\x04role\"\xd0\x01\n" +
-	"\rUpdateRoleReq\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x1b\n" +
-	"\tparent_id\x18\x02 \x01(\x03R\bparentId\x12\x19\n" +
-	"\brole_key\x18\x03 \x01(\tR\aroleKey\x12\x1d\n" +
-	"\n" +
-	"role_label\x18\x04 \x01(\tR\troleLabel\x12!\n" +
-	"\frole_comment\x18\x05 \x01(\tR\vroleComment\x12\x1d\n" +
-	"\n" +
-	"is_default\x18\x06 \x01(\bR\tisDefault\x12\x16\n" +
-	"\x06status\x18\a \x01(\x03R\x06status\"9\n" +
-	"\x0eUpdateRoleResp\x12'\n" +
-	"\x04role\x18\x01 \x01(\v2\x13.permissionrpc.RoleR\x04role\"\"\n" +
-	"\x0eDeletesRoleReq\x12\x10\n" +
-	"\x03ids\x18\x01 \x03(\x03R\x03ids\"6\n" +
-	"\x0fDeletesRoleResp\x12#\n" +
-	"\rsuccess_count\x18\x01 \x01(\x03R\fsuccessCount\"\x97\x01\n" +
+	"updated_at\x18\x06 \x01(\x03R\tupdatedAt\"x\n" +
 	"\x0fFindRoleListReq\x122\n" +
 	"\bpaginate\x18\x01 \x01(\v2\x16.permissionrpc.PageReqR\bpaginate\x12\x19\n" +
-	"\brole_key\x18\x02 \x01(\tR\aroleKey\x12\x1d\n" +
-	"\n" +
-	"role_label\x18\x03 \x01(\tR\troleLabel\x12\x16\n" +
-	"\x06status\x18\x04 \x01(\x03R\x06status\"t\n" +
+	"\brole_key\x18\x02 \x01(\tR\aroleKey\x12\x16\n" +
+	"\x06status\x18\x03 \x01(\x03R\x06status\"t\n" +
 	"\x10FindRoleListResp\x127\n" +
 	"\n" +
 	"pagination\x18\x01 \x01(\v2\x17.permissionrpc.PageRespR\n" +
@@ -3481,10 +3043,10 @@ const file_blog_permission_proto_rawDesc = "" +
 	"\x15FindRoleResourcesResp\x12\x17\n" +
 	"\arole_id\x18\x01 \x01(\x03R\x06roleId\x12\x17\n" +
 	"\aapi_ids\x18\x02 \x03(\x03R\x06apiIds\x12\x19\n" +
-	"\bmenu_ids\x18\x03 \x03(\x03R\amenuIds\"G\n" +
+	"\bmenu_ids\x18\x03 \x03(\x03R\amenuIds\"E\n" +
 	"\x11UpdateUserRoleReq\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x19\n" +
-	"\brole_ids\x18\x02 \x03(\x03R\aroleIds\"\x14\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x17\n" +
+	"\arole_id\x18\x02 \x01(\x03R\x06roleId\"\x14\n" +
 	"\x12UpdateUserRoleResp\"*\n" +
 	"\x0fFindUserApisReq\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\":\n" +
@@ -3497,7 +3059,7 @@ const file_blog_permission_proto_rawDesc = "" +
 	"\x10FindUserRolesReq\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\"<\n" +
 	"\x11FindUserRolesResp\x12'\n" +
-	"\x04list\x18\x01 \x03(\v2\x13.permissionrpc.RoleR\x04list2\x93\x10\n" +
+	"\x04list\x18\x01 \x03(\v2\x13.permissionrpc.RoleR\x04list2\xb8\x0e\n" +
 	"\rPermissionRpc\x12=\n" +
 	"\x06AddApi\x12\x18.permissionrpc.AddApiReq\x1a\x19.permissionrpc.AddApiResp\x12F\n" +
 	"\tUpdateApi\x12\x1b.permissionrpc.UpdateApiReq\x1a\x1c.permissionrpc.UpdateApiResp\x12I\n" +
@@ -3515,11 +3077,7 @@ const file_blog_permission_proto_rawDesc = "" +
 	"\fFindMenuList\x12\x1e.permissionrpc.FindMenuListReq\x1a\x1f.permissionrpc.FindMenuListResp\x12O\n" +
 	"\fSyncMenuList\x12\x1e.permissionrpc.SyncMenuListReq\x1a\x1f.permissionrpc.SyncMenuListResp\x12R\n" +
 	"\rCleanMenuList\x12\x1f.permissionrpc.CleanMenuListReq\x1a .permissionrpc.CleanMenuListResp\x12L\n" +
-	"\vFindAllMenu\x12\x1d.permissionrpc.FindAllMenuReq\x1a\x1e.permissionrpc.FindAllMenuResp\x12@\n" +
-	"\aAddRole\x12\x19.permissionrpc.AddRoleReq\x1a\x1a.permissionrpc.AddRoleResp\x12I\n" +
-	"\n" +
-	"UpdateRole\x12\x1c.permissionrpc.UpdateRoleReq\x1a\x1d.permissionrpc.UpdateRoleResp\x12L\n" +
-	"\vDeletesRole\x12\x1d.permissionrpc.DeletesRoleReq\x1a\x1e.permissionrpc.DeletesRoleResp\x12O\n" +
+	"\vFindAllMenu\x12\x1d.permissionrpc.FindAllMenuReq\x1a\x1e.permissionrpc.FindAllMenuResp\x12O\n" +
 	"\fFindRoleList\x12\x1e.permissionrpc.FindRoleListReq\x1a\x1f.permissionrpc.FindRoleListResp\x12L\n" +
 	"\vFindAllRole\x12\x1d.permissionrpc.FindAllRoleReq\x1a\x1e.permissionrpc.FindAllRoleResp\x12X\n" +
 	"\x0fUpdateRoleMenus\x12!.permissionrpc.UpdateRoleMenusReq\x1a\".permissionrpc.UpdateRoleMenusResp\x12U\n" +
@@ -3542,7 +3100,7 @@ func file_blog_permission_proto_rawDescGZIP() []byte {
 	return file_blog_permission_proto_rawDescData
 }
 
-var file_blog_permission_proto_msgTypes = make([]protoimpl.MessageInfo, 58)
+var file_blog_permission_proto_msgTypes = make([]protoimpl.MessageInfo, 52)
 var file_blog_permission_proto_goTypes = []any{
 	(*PageReq)(nil),               // 0: permissionrpc.PageReq
 	(*PageResp)(nil),              // 1: permissionrpc.PageResp
@@ -3578,30 +3136,24 @@ var file_blog_permission_proto_goTypes = []any{
 	(*FindAllMenuReq)(nil),        // 31: permissionrpc.FindAllMenuReq
 	(*FindAllMenuResp)(nil),       // 32: permissionrpc.FindAllMenuResp
 	(*Role)(nil),                  // 33: permissionrpc.Role
-	(*AddRoleReq)(nil),            // 34: permissionrpc.AddRoleReq
-	(*AddRoleResp)(nil),           // 35: permissionrpc.AddRoleResp
-	(*UpdateRoleReq)(nil),         // 36: permissionrpc.UpdateRoleReq
-	(*UpdateRoleResp)(nil),        // 37: permissionrpc.UpdateRoleResp
-	(*DeletesRoleReq)(nil),        // 38: permissionrpc.DeletesRoleReq
-	(*DeletesRoleResp)(nil),       // 39: permissionrpc.DeletesRoleResp
-	(*FindRoleListReq)(nil),       // 40: permissionrpc.FindRoleListReq
-	(*FindRoleListResp)(nil),      // 41: permissionrpc.FindRoleListResp
-	(*FindAllRoleReq)(nil),        // 42: permissionrpc.FindAllRoleReq
-	(*FindAllRoleResp)(nil),       // 43: permissionrpc.FindAllRoleResp
-	(*UpdateRoleMenusReq)(nil),    // 44: permissionrpc.UpdateRoleMenusReq
-	(*UpdateRoleMenusResp)(nil),   // 45: permissionrpc.UpdateRoleMenusResp
-	(*UpdateRoleApisReq)(nil),     // 46: permissionrpc.UpdateRoleApisReq
-	(*UpdateRoleApisResp)(nil),    // 47: permissionrpc.UpdateRoleApisResp
-	(*FindRoleResourcesReq)(nil),  // 48: permissionrpc.FindRoleResourcesReq
-	(*FindRoleResourcesResp)(nil), // 49: permissionrpc.FindRoleResourcesResp
-	(*UpdateUserRoleReq)(nil),     // 50: permissionrpc.UpdateUserRoleReq
-	(*UpdateUserRoleResp)(nil),    // 51: permissionrpc.UpdateUserRoleResp
-	(*FindUserApisReq)(nil),       // 52: permissionrpc.FindUserApisReq
-	(*FindUserApisResp)(nil),      // 53: permissionrpc.FindUserApisResp
-	(*FindUserMenusReq)(nil),      // 54: permissionrpc.FindUserMenusReq
-	(*FindUserMenusResp)(nil),     // 55: permissionrpc.FindUserMenusResp
-	(*FindUserRolesReq)(nil),      // 56: permissionrpc.FindUserRolesReq
-	(*FindUserRolesResp)(nil),     // 57: permissionrpc.FindUserRolesResp
+	(*FindRoleListReq)(nil),       // 34: permissionrpc.FindRoleListReq
+	(*FindRoleListResp)(nil),      // 35: permissionrpc.FindRoleListResp
+	(*FindAllRoleReq)(nil),        // 36: permissionrpc.FindAllRoleReq
+	(*FindAllRoleResp)(nil),       // 37: permissionrpc.FindAllRoleResp
+	(*UpdateRoleMenusReq)(nil),    // 38: permissionrpc.UpdateRoleMenusReq
+	(*UpdateRoleMenusResp)(nil),   // 39: permissionrpc.UpdateRoleMenusResp
+	(*UpdateRoleApisReq)(nil),     // 40: permissionrpc.UpdateRoleApisReq
+	(*UpdateRoleApisResp)(nil),    // 41: permissionrpc.UpdateRoleApisResp
+	(*FindRoleResourcesReq)(nil),  // 42: permissionrpc.FindRoleResourcesReq
+	(*FindRoleResourcesResp)(nil), // 43: permissionrpc.FindRoleResourcesResp
+	(*UpdateUserRoleReq)(nil),     // 44: permissionrpc.UpdateUserRoleReq
+	(*UpdateUserRoleResp)(nil),    // 45: permissionrpc.UpdateUserRoleResp
+	(*FindUserApisReq)(nil),       // 46: permissionrpc.FindUserApisReq
+	(*FindUserApisResp)(nil),      // 47: permissionrpc.FindUserApisResp
+	(*FindUserMenusReq)(nil),      // 48: permissionrpc.FindUserMenusReq
+	(*FindUserMenusResp)(nil),     // 49: permissionrpc.FindUserMenusResp
+	(*FindUserRolesReq)(nil),      // 50: permissionrpc.FindUserRolesReq
+	(*FindUserRolesResp)(nil),     // 51: permissionrpc.FindUserRolesResp
 }
 var file_blog_permission_proto_depIdxs = []int32{
 	3,  // 0: permissionrpc.Api.children:type_name -> permissionrpc.Api
@@ -3624,73 +3176,64 @@ var file_blog_permission_proto_depIdxs = []int32{
 	18, // 17: permissionrpc.FindMenuListResp.list:type_name -> permissionrpc.Menu
 	19, // 18: permissionrpc.SyncMenuListReq.menus:type_name -> permissionrpc.AddMenuReq
 	18, // 19: permissionrpc.FindAllMenuResp.list:type_name -> permissionrpc.Menu
-	33, // 20: permissionrpc.Role.children:type_name -> permissionrpc.Role
-	33, // 21: permissionrpc.AddRoleResp.role:type_name -> permissionrpc.Role
-	33, // 22: permissionrpc.UpdateRoleResp.role:type_name -> permissionrpc.Role
-	0,  // 23: permissionrpc.FindRoleListReq.paginate:type_name -> permissionrpc.PageReq
-	1,  // 24: permissionrpc.FindRoleListResp.pagination:type_name -> permissionrpc.PageResp
-	33, // 25: permissionrpc.FindRoleListResp.list:type_name -> permissionrpc.Role
-	33, // 26: permissionrpc.FindAllRoleResp.list:type_name -> permissionrpc.Role
-	3,  // 27: permissionrpc.FindUserApisResp.list:type_name -> permissionrpc.Api
-	18, // 28: permissionrpc.FindUserMenusResp.list:type_name -> permissionrpc.Menu
-	33, // 29: permissionrpc.FindUserRolesResp.list:type_name -> permissionrpc.Role
-	4,  // 30: permissionrpc.PermissionRpc.AddApi:input_type -> permissionrpc.AddApiReq
-	6,  // 31: permissionrpc.PermissionRpc.UpdateApi:input_type -> permissionrpc.UpdateApiReq
-	8,  // 32: permissionrpc.PermissionRpc.DeletesApi:input_type -> permissionrpc.DeletesApiReq
-	10, // 33: permissionrpc.PermissionRpc.FindApiList:input_type -> permissionrpc.FindApiListReq
-	12, // 34: permissionrpc.PermissionRpc.SyncApiList:input_type -> permissionrpc.SyncApiListReq
-	14, // 35: permissionrpc.PermissionRpc.CleanApiList:input_type -> permissionrpc.CleanApiListReq
-	16, // 36: permissionrpc.PermissionRpc.FindAllApi:input_type -> permissionrpc.FindAllApiReq
-	19, // 37: permissionrpc.PermissionRpc.AddMenu:input_type -> permissionrpc.AddMenuReq
-	21, // 38: permissionrpc.PermissionRpc.UpdateMenu:input_type -> permissionrpc.UpdateMenuReq
-	23, // 39: permissionrpc.PermissionRpc.DeletesMenu:input_type -> permissionrpc.DeletesMenuReq
-	25, // 40: permissionrpc.PermissionRpc.FindMenuList:input_type -> permissionrpc.FindMenuListReq
-	27, // 41: permissionrpc.PermissionRpc.SyncMenuList:input_type -> permissionrpc.SyncMenuListReq
-	29, // 42: permissionrpc.PermissionRpc.CleanMenuList:input_type -> permissionrpc.CleanMenuListReq
-	31, // 43: permissionrpc.PermissionRpc.FindAllMenu:input_type -> permissionrpc.FindAllMenuReq
-	34, // 44: permissionrpc.PermissionRpc.AddRole:input_type -> permissionrpc.AddRoleReq
-	36, // 45: permissionrpc.PermissionRpc.UpdateRole:input_type -> permissionrpc.UpdateRoleReq
-	38, // 46: permissionrpc.PermissionRpc.DeletesRole:input_type -> permissionrpc.DeletesRoleReq
-	40, // 47: permissionrpc.PermissionRpc.FindRoleList:input_type -> permissionrpc.FindRoleListReq
-	42, // 48: permissionrpc.PermissionRpc.FindAllRole:input_type -> permissionrpc.FindAllRoleReq
-	44, // 49: permissionrpc.PermissionRpc.UpdateRoleMenus:input_type -> permissionrpc.UpdateRoleMenusReq
-	46, // 50: permissionrpc.PermissionRpc.UpdateRoleApis:input_type -> permissionrpc.UpdateRoleApisReq
-	48, // 51: permissionrpc.PermissionRpc.FindRoleResources:input_type -> permissionrpc.FindRoleResourcesReq
-	50, // 52: permissionrpc.PermissionRpc.UpdateUserRole:input_type -> permissionrpc.UpdateUserRoleReq
-	52, // 53: permissionrpc.PermissionRpc.FindUserApis:input_type -> permissionrpc.FindUserApisReq
-	54, // 54: permissionrpc.PermissionRpc.FindUserMenus:input_type -> permissionrpc.FindUserMenusReq
-	56, // 55: permissionrpc.PermissionRpc.FindUserRoles:input_type -> permissionrpc.FindUserRolesReq
-	5,  // 56: permissionrpc.PermissionRpc.AddApi:output_type -> permissionrpc.AddApiResp
-	7,  // 57: permissionrpc.PermissionRpc.UpdateApi:output_type -> permissionrpc.UpdateApiResp
-	9,  // 58: permissionrpc.PermissionRpc.DeletesApi:output_type -> permissionrpc.DeletesApiResp
-	11, // 59: permissionrpc.PermissionRpc.FindApiList:output_type -> permissionrpc.FindApiListResp
-	13, // 60: permissionrpc.PermissionRpc.SyncApiList:output_type -> permissionrpc.SyncApiListResp
-	15, // 61: permissionrpc.PermissionRpc.CleanApiList:output_type -> permissionrpc.CleanApiListResp
-	17, // 62: permissionrpc.PermissionRpc.FindAllApi:output_type -> permissionrpc.FindAllApiResp
-	20, // 63: permissionrpc.PermissionRpc.AddMenu:output_type -> permissionrpc.AddMenuResp
-	22, // 64: permissionrpc.PermissionRpc.UpdateMenu:output_type -> permissionrpc.UpdateMenuResp
-	24, // 65: permissionrpc.PermissionRpc.DeletesMenu:output_type -> permissionrpc.DeletesMenuResp
-	26, // 66: permissionrpc.PermissionRpc.FindMenuList:output_type -> permissionrpc.FindMenuListResp
-	28, // 67: permissionrpc.PermissionRpc.SyncMenuList:output_type -> permissionrpc.SyncMenuListResp
-	30, // 68: permissionrpc.PermissionRpc.CleanMenuList:output_type -> permissionrpc.CleanMenuListResp
-	32, // 69: permissionrpc.PermissionRpc.FindAllMenu:output_type -> permissionrpc.FindAllMenuResp
-	35, // 70: permissionrpc.PermissionRpc.AddRole:output_type -> permissionrpc.AddRoleResp
-	37, // 71: permissionrpc.PermissionRpc.UpdateRole:output_type -> permissionrpc.UpdateRoleResp
-	39, // 72: permissionrpc.PermissionRpc.DeletesRole:output_type -> permissionrpc.DeletesRoleResp
-	41, // 73: permissionrpc.PermissionRpc.FindRoleList:output_type -> permissionrpc.FindRoleListResp
-	43, // 74: permissionrpc.PermissionRpc.FindAllRole:output_type -> permissionrpc.FindAllRoleResp
-	45, // 75: permissionrpc.PermissionRpc.UpdateRoleMenus:output_type -> permissionrpc.UpdateRoleMenusResp
-	47, // 76: permissionrpc.PermissionRpc.UpdateRoleApis:output_type -> permissionrpc.UpdateRoleApisResp
-	49, // 77: permissionrpc.PermissionRpc.FindRoleResources:output_type -> permissionrpc.FindRoleResourcesResp
-	51, // 78: permissionrpc.PermissionRpc.UpdateUserRole:output_type -> permissionrpc.UpdateUserRoleResp
-	53, // 79: permissionrpc.PermissionRpc.FindUserApis:output_type -> permissionrpc.FindUserApisResp
-	55, // 80: permissionrpc.PermissionRpc.FindUserMenus:output_type -> permissionrpc.FindUserMenusResp
-	57, // 81: permissionrpc.PermissionRpc.FindUserRoles:output_type -> permissionrpc.FindUserRolesResp
-	56, // [56:82] is the sub-list for method output_type
-	30, // [30:56] is the sub-list for method input_type
-	30, // [30:30] is the sub-list for extension type_name
-	30, // [30:30] is the sub-list for extension extendee
-	0,  // [0:30] is the sub-list for field type_name
+	0,  // 20: permissionrpc.FindRoleListReq.paginate:type_name -> permissionrpc.PageReq
+	1,  // 21: permissionrpc.FindRoleListResp.pagination:type_name -> permissionrpc.PageResp
+	33, // 22: permissionrpc.FindRoleListResp.list:type_name -> permissionrpc.Role
+	33, // 23: permissionrpc.FindAllRoleResp.list:type_name -> permissionrpc.Role
+	3,  // 24: permissionrpc.FindUserApisResp.list:type_name -> permissionrpc.Api
+	18, // 25: permissionrpc.FindUserMenusResp.list:type_name -> permissionrpc.Menu
+	33, // 26: permissionrpc.FindUserRolesResp.list:type_name -> permissionrpc.Role
+	4,  // 27: permissionrpc.PermissionRpc.AddApi:input_type -> permissionrpc.AddApiReq
+	6,  // 28: permissionrpc.PermissionRpc.UpdateApi:input_type -> permissionrpc.UpdateApiReq
+	8,  // 29: permissionrpc.PermissionRpc.DeletesApi:input_type -> permissionrpc.DeletesApiReq
+	10, // 30: permissionrpc.PermissionRpc.FindApiList:input_type -> permissionrpc.FindApiListReq
+	12, // 31: permissionrpc.PermissionRpc.SyncApiList:input_type -> permissionrpc.SyncApiListReq
+	14, // 32: permissionrpc.PermissionRpc.CleanApiList:input_type -> permissionrpc.CleanApiListReq
+	16, // 33: permissionrpc.PermissionRpc.FindAllApi:input_type -> permissionrpc.FindAllApiReq
+	19, // 34: permissionrpc.PermissionRpc.AddMenu:input_type -> permissionrpc.AddMenuReq
+	21, // 35: permissionrpc.PermissionRpc.UpdateMenu:input_type -> permissionrpc.UpdateMenuReq
+	23, // 36: permissionrpc.PermissionRpc.DeletesMenu:input_type -> permissionrpc.DeletesMenuReq
+	25, // 37: permissionrpc.PermissionRpc.FindMenuList:input_type -> permissionrpc.FindMenuListReq
+	27, // 38: permissionrpc.PermissionRpc.SyncMenuList:input_type -> permissionrpc.SyncMenuListReq
+	29, // 39: permissionrpc.PermissionRpc.CleanMenuList:input_type -> permissionrpc.CleanMenuListReq
+	31, // 40: permissionrpc.PermissionRpc.FindAllMenu:input_type -> permissionrpc.FindAllMenuReq
+	34, // 41: permissionrpc.PermissionRpc.FindRoleList:input_type -> permissionrpc.FindRoleListReq
+	36, // 42: permissionrpc.PermissionRpc.FindAllRole:input_type -> permissionrpc.FindAllRoleReq
+	38, // 43: permissionrpc.PermissionRpc.UpdateRoleMenus:input_type -> permissionrpc.UpdateRoleMenusReq
+	40, // 44: permissionrpc.PermissionRpc.UpdateRoleApis:input_type -> permissionrpc.UpdateRoleApisReq
+	42, // 45: permissionrpc.PermissionRpc.FindRoleResources:input_type -> permissionrpc.FindRoleResourcesReq
+	44, // 46: permissionrpc.PermissionRpc.UpdateUserRole:input_type -> permissionrpc.UpdateUserRoleReq
+	46, // 47: permissionrpc.PermissionRpc.FindUserApis:input_type -> permissionrpc.FindUserApisReq
+	48, // 48: permissionrpc.PermissionRpc.FindUserMenus:input_type -> permissionrpc.FindUserMenusReq
+	50, // 49: permissionrpc.PermissionRpc.FindUserRoles:input_type -> permissionrpc.FindUserRolesReq
+	5,  // 50: permissionrpc.PermissionRpc.AddApi:output_type -> permissionrpc.AddApiResp
+	7,  // 51: permissionrpc.PermissionRpc.UpdateApi:output_type -> permissionrpc.UpdateApiResp
+	9,  // 52: permissionrpc.PermissionRpc.DeletesApi:output_type -> permissionrpc.DeletesApiResp
+	11, // 53: permissionrpc.PermissionRpc.FindApiList:output_type -> permissionrpc.FindApiListResp
+	13, // 54: permissionrpc.PermissionRpc.SyncApiList:output_type -> permissionrpc.SyncApiListResp
+	15, // 55: permissionrpc.PermissionRpc.CleanApiList:output_type -> permissionrpc.CleanApiListResp
+	17, // 56: permissionrpc.PermissionRpc.FindAllApi:output_type -> permissionrpc.FindAllApiResp
+	20, // 57: permissionrpc.PermissionRpc.AddMenu:output_type -> permissionrpc.AddMenuResp
+	22, // 58: permissionrpc.PermissionRpc.UpdateMenu:output_type -> permissionrpc.UpdateMenuResp
+	24, // 59: permissionrpc.PermissionRpc.DeletesMenu:output_type -> permissionrpc.DeletesMenuResp
+	26, // 60: permissionrpc.PermissionRpc.FindMenuList:output_type -> permissionrpc.FindMenuListResp
+	28, // 61: permissionrpc.PermissionRpc.SyncMenuList:output_type -> permissionrpc.SyncMenuListResp
+	30, // 62: permissionrpc.PermissionRpc.CleanMenuList:output_type -> permissionrpc.CleanMenuListResp
+	32, // 63: permissionrpc.PermissionRpc.FindAllMenu:output_type -> permissionrpc.FindAllMenuResp
+	35, // 64: permissionrpc.PermissionRpc.FindRoleList:output_type -> permissionrpc.FindRoleListResp
+	37, // 65: permissionrpc.PermissionRpc.FindAllRole:output_type -> permissionrpc.FindAllRoleResp
+	39, // 66: permissionrpc.PermissionRpc.UpdateRoleMenus:output_type -> permissionrpc.UpdateRoleMenusResp
+	41, // 67: permissionrpc.PermissionRpc.UpdateRoleApis:output_type -> permissionrpc.UpdateRoleApisResp
+	43, // 68: permissionrpc.PermissionRpc.FindRoleResources:output_type -> permissionrpc.FindRoleResourcesResp
+	45, // 69: permissionrpc.PermissionRpc.UpdateUserRole:output_type -> permissionrpc.UpdateUserRoleResp
+	47, // 70: permissionrpc.PermissionRpc.FindUserApis:output_type -> permissionrpc.FindUserApisResp
+	49, // 71: permissionrpc.PermissionRpc.FindUserMenus:output_type -> permissionrpc.FindUserMenusResp
+	51, // 72: permissionrpc.PermissionRpc.FindUserRoles:output_type -> permissionrpc.FindUserRolesResp
+	50, // [50:73] is the sub-list for method output_type
+	27, // [27:50] is the sub-list for method input_type
+	27, // [27:27] is the sub-list for extension type_name
+	27, // [27:27] is the sub-list for extension extendee
+	0,  // [0:27] is the sub-list for field type_name
 }
 
 func init() { file_blog_permission_proto_init() }
@@ -3704,7 +3247,7 @@ func file_blog_permission_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_blog_permission_proto_rawDesc), len(file_blog_permission_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   58,
+			NumMessages:   52,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

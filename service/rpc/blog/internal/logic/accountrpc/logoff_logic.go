@@ -49,17 +49,6 @@ func (l *LogoffLogic) logoffUser(user *model.TUser) error {
 	err := l.svcCtx.SqlConn.TransactCtx(l.ctx, func(ctx context.Context, session sqlx.Session) error {
 		conn := sqlx.NewSqlConnFromSession(session)
 
-		txUserRoleModel := model.NewTUserRoleModel(conn)
-		userRoles, err := txUserRoleModel.FindByUserID(ctx, user.UserId)
-		if err != nil {
-			return err
-		}
-		for _, userRole := range userRoles {
-			if err := txUserRoleModel.Delete(ctx, userRole.Id); err != nil {
-				return err
-			}
-		}
-
 		txUserOauthModel := model.NewTUserOauthModel(conn, buildRegisterModelCacheConf(l.svcCtx.Config.RedisConf))
 		oauthList, err := txUserOauthModel.FindByUserID(ctx, user.UserId)
 		if err != nil {

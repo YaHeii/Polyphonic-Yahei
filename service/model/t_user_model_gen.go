@@ -71,6 +71,8 @@ type (
 
 		IpSource string `db:"ip_source"` // 注册ip 源
 
+		RoleId int64 `db:"role_id"` // 用户角色id
+
 		CreatedAt time.Time `db:"created_at"` // 创建时间
 
 		UpdatedAt time.Time `db:"updated_at"` // 更新时间
@@ -163,8 +165,8 @@ func (m *defaultTUserModel) Insert(ctx context.Context, data *TUser) (sql.Result
 	publicTUserUserIdKey := fmt.Sprintf("%s%v", cachePublicTUserUserIdPrefix, data.UserId)
 	publicTUserUsernameKey := fmt.Sprintf("%s%v", cachePublicTUserUsernamePrefix, data.Username)
 	ret, err := m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
-		query := fmt.Sprintf("insert into %s (%s) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)", m.table, tUserRowsExpectAutoSet)
-		return conn.ExecCtx(ctx, query, data.UserId, data.Username, data.Password, data.Nickname, data.Avatar, data.Email, data.Phone, data.Info, data.Status, data.RegisterType, data.IpAddress, data.IpSource)
+		query := fmt.Sprintf("insert into %s (%s) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)", m.table, tUserRowsExpectAutoSet)
+		return conn.ExecCtx(ctx, query, data.UserId, data.Username, data.Password, data.Nickname, data.Avatar, data.Email, data.Phone, data.Info, data.Status, data.RegisterType, data.IpAddress, data.IpSource, data.RoleId)
 	}, publicTUserIdKey, publicTUserUserIdKey, publicTUserUsernameKey)
 	return ret, err
 }
@@ -180,7 +182,7 @@ func (m *defaultTUserModel) Update(ctx context.Context, newData *TUser) error {
 	publicTUserUsernameKey := fmt.Sprintf("%s%v", cachePublicTUserUsernamePrefix, data.Username)
 	_, err = m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
 		query := fmt.Sprintf("update %s set %s where id = $1", m.table, tUserRowsWithPlaceHolder)
-		return conn.ExecCtx(ctx, query, newData.Id, newData.UserId, newData.Username, newData.Password, newData.Nickname, newData.Avatar, newData.Email, newData.Phone, newData.Info, newData.Status, newData.RegisterType, newData.IpAddress, newData.IpSource)
+		return conn.ExecCtx(ctx, query, newData.Id, newData.UserId, newData.Username, newData.Password, newData.Nickname, newData.Avatar, newData.Email, newData.Phone, newData.Info, newData.Status, newData.RegisterType, newData.IpAddress, newData.IpSource, newData.RoleId)
 	}, publicTUserIdKey, publicTUserUserIdKey, publicTUserUsernameKey)
 	return err
 }

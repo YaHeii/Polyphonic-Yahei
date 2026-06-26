@@ -12,12 +12,6 @@ import (
 )
 
 type stubRolePermissionRPC struct {
-	addReq         *permissionrpc.AddRoleReq
-	addResp        *permissionrpc.AddRoleResp
-	updateReq      *permissionrpc.UpdateRoleReq
-	updateResp     *permissionrpc.UpdateRoleResp
-	deleteReq      *permissionrpc.DeletesRoleReq
-	deleteResp     *permissionrpc.DeletesRoleResp
 	findReq        *permissionrpc.FindRoleListReq
 	findResp       *permissionrpc.FindRoleListResp
 	resReq         *permissionrpc.FindRoleResourcesReq
@@ -68,18 +62,6 @@ func (s *stubRolePermissionRPC) CleanMenuList(context.Context, *permissionrpc.Cl
 func (s *stubRolePermissionRPC) FindAllMenu(context.Context, *permissionrpc.FindAllMenuReq, ...grpc.CallOption) (*permissionrpc.FindAllMenuResp, error) {
 	panic("unexpected call")
 }
-func (s *stubRolePermissionRPC) AddRole(_ context.Context, in *permissionrpc.AddRoleReq, _ ...grpc.CallOption) (*permissionrpc.AddRoleResp, error) {
-	s.addReq = in
-	return s.addResp, nil
-}
-func (s *stubRolePermissionRPC) UpdateRole(_ context.Context, in *permissionrpc.UpdateRoleReq, _ ...grpc.CallOption) (*permissionrpc.UpdateRoleResp, error) {
-	s.updateReq = in
-	return s.updateResp, nil
-}
-func (s *stubRolePermissionRPC) DeletesRole(_ context.Context, in *permissionrpc.DeletesRoleReq, _ ...grpc.CallOption) (*permissionrpc.DeletesRoleResp, error) {
-	s.deleteReq = in
-	return s.deleteResp, nil
-}
 func (s *stubRolePermissionRPC) FindRoleList(_ context.Context, in *permissionrpc.FindRoleListReq, _ ...grpc.CallOption) (*permissionrpc.FindRoleListResp, error) {
 	s.findReq = in
 	return s.findResp, nil
@@ -124,46 +106,6 @@ func (s *stubPermissionHolder) Enforce(string, string, string) error {
 
 var _ permissionx.PermissionHolder = (*stubPermissionHolder)(nil)
 
-func TestAddAndUpdateRoleBuildRequests(t *testing.T) {
-	rpc := &stubRolePermissionRPC{
-		addResp:    &permissionrpc.AddRoleResp{Role: &permissionrpc.Role{Id: 1, RoleKey: "admin"}},
-		updateResp: &permissionrpc.UpdateRoleResp{Role: &permissionrpc.Role{Id: 1, RoleKey: "editor"}},
-	}
-	ctx := context.Background()
-
-	addLogic := NewAddRoleLogic(ctx, &svc.ServiceContext{PermissionRpc: rpc})
-	addResp, err := addLogic.AddRole(&types.NewRoleReq{
-		Id:          1,
-		ParentId:    2,
-		RoleKey:     "admin",
-		RoleLabel:   "Admin",
-		RoleComment: "root",
-		Status:      1,
-		IsDefault:   true,
-	})
-	if err != nil {
-		t.Fatalf("AddRole returned error: %v", err)
-	}
-	if rpc.addReq == nil || rpc.addReq.RoleKey != "admin" || addResp.Id != 1 {
-		t.Fatalf("unexpected add flow: req=%#v resp=%#v", rpc.addReq, addResp)
-	}
-
-	updateLogic := NewUpdateRoleLogic(ctx, &svc.ServiceContext{PermissionRpc: rpc})
-	updateResp, err := updateLogic.UpdateRole(&types.NewRoleReq{
-		Id:          1,
-		RoleKey:     "editor",
-		RoleLabel:   "Editor",
-		RoleComment: "edit",
-		Status:      0,
-	})
-	if err != nil {
-		t.Fatalf("UpdateRole returned error: %v", err)
-	}
-	if rpc.updateReq == nil || rpc.updateReq.RoleKey != "editor" || updateResp.RoleKey != "editor" {
-		t.Fatalf("unexpected update flow: req=%#v resp=%#v", rpc.updateReq, updateResp)
-	}
-}
-
 func TestFindRoleListAndResources(t *testing.T) {
 	rpc := &stubRolePermissionRPC{
 		findResp: &permissionrpc.FindRoleListResp{
@@ -206,10 +148,8 @@ func TestFindRoleListAndResources(t *testing.T) {
 	}
 }
 
-func TestUpdateRolePoliciesAndDelete(t *testing.T) {
-	rpc := &stubRolePermissionRPC{
-		deleteResp: &permissionrpc.DeletesRoleResp{SuccessCount: 1},
-	}
+func TestUpdateRolePolicies(t *testing.T) {
+	rpc := &stubRolePermissionRPC{}
 	holder := &stubPermissionHolder{}
 	ctx := context.Background()
 
@@ -233,14 +173,5 @@ func TestUpdateRolePoliciesAndDelete(t *testing.T) {
 	}
 	if rpc.updateMenusReq == nil || rpc.updateMenusReq.RoleId != 1 || holder.reloadCount != 2 {
 		t.Fatalf("unexpected update menus flow: req=%#v reload=%d", rpc.updateMenusReq, holder.reloadCount)
-	}
-
-	deleteLogic := NewDeletesRoleLogic(ctx, &svc.ServiceContext{PermissionRpc: rpc})
-	deleteResp, err := deleteLogic.DeletesRole(&types.IdsReq{Ids: []int64{1}})
-	if err != nil {
-		t.Fatalf("DeletesRole returned error: %v", err)
-	}
-	if rpc.deleteReq == nil || len(rpc.deleteReq.Ids) != 1 || deleteResp.SuccessCount != 1 {
-		t.Fatalf("unexpected delete flow: req=%#v resp=%#v", rpc.deleteReq, deleteResp)
 	}
 }

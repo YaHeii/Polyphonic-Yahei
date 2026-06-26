@@ -30,8 +30,8 @@ func NewUpdateAccountRolesLogic(ctx context.Context, svcCtx *svc.ServiceContext)
 
 func (l *UpdateAccountRolesLogic) UpdateAccountRoles(req *types.UpdateAccountRolesReq) (resp *types.EmptyResp, err error) {
 	in := &permissionrpc.UpdateUserRoleReq{
-		UserId:  req.UserId,
-		RoleIds: req.RoleIds,
+		UserId: req.UserId,
+		RoleId: req.RoleId,
 	}
 
 	_, err = l.svcCtx.PermissionRpc.UpdateUserRole(l.ctx, in)

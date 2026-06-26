@@ -32,7 +32,6 @@ type ServiceContext struct {
 	TRoleModel      model.TRoleModel
 	TApiModel       model.TApiModel
 	TMenuModel      model.TMenuModel
-	TUserRoleModel  model.TUserRoleModel
 	TRoleApiModel   model.TRoleApiModel
 	TRoleMenuModel  model.TRoleMenuModel
 
@@ -89,7 +88,6 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		TRoleModel:      model.NewTRoleModel(sqlConn, modelCacheConf),
 		TApiModel:       model.NewTApiModel(sqlConn, modelCacheConf),
 		TMenuModel:      model.NewTMenuModel(sqlConn, modelCacheConf),
-		TUserRoleModel:  model.NewTUserRoleModel(sqlConn),
 		TRoleApiModel:   model.NewTRoleApiModel(sqlConn),
 		TRoleMenuModel:  model.NewTRoleMenuModel(sqlConn),
 		// blog models

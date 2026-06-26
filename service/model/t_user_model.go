@@ -24,6 +24,7 @@ type (
 		UpdatePasswordByUserID(ctx context.Context, userID, password string) error
 		UpdateEmailByUserID(ctx context.Context, userID, email string) error
 		UpdatePhoneByUserID(ctx context.Context, userID, phone string) error
+		UpdateRoleByUserID(ctx context.Context, userID string, roleID int64) error
 	}
 
 	customTUserModel struct {
@@ -144,6 +145,16 @@ func (m *customTUserModel) UpdatePhoneByUserID(ctx context.Context, userID, phon
 	return m.updateUserWithExtraKeys(ctx, user, keys)
 }
 
+func (m *customTUserModel) UpdateRoleByUserID(ctx context.Context, userID string, roleID int64) error {
+	user, err := m.FindOneByUserId(ctx, userID)
+	if err != nil {
+		return err
+	}
+
+	user.RoleId = roleID
+	return m.updateUserWithExtraKeys(ctx, user, nil)
+}
+
 func (m *customTUserModel) updateUserWithExtraKeys(ctx context.Context, user *TUser, extraKeys []string) error {
 	publicTUserIdKey := fmt.Sprintf("%s%v", cachePublicTUserIdPrefix, user.Id)
 	publicTUserUserIdKey := fmt.Sprintf("%s%v", cachePublicTUserUserIdPrefix, user.UserId)
@@ -158,7 +169,7 @@ func (m *customTUserModel) updateUserWithExtraKeys(ctx context.Context, user *TU
 
 	_, err := m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
 		query := fmt.Sprintf("update %s set %s where id = $1", m.table, tUserRowsWithPlaceHolder)
-		return conn.ExecCtx(ctx, query, user.Id, user.UserId, user.Username, user.Password, user.Nickname, user.Avatar, user.Email, user.Phone, user.Info, user.Status, user.RegisterType, user.IpAddress, user.IpSource)
+		return conn.ExecCtx(ctx, query, user.Id, user.UserId, user.Username, user.Password, user.Nickname, user.Avatar, user.Email, user.Phone, user.Info, user.Status, user.RegisterType, user.IpAddress, user.IpSource, user.RoleId)
 	}, keys...)
 	return err
 }

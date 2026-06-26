@@ -99,7 +99,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	configRpc := configrpc.NewConfigRpc(zrpc.MustNewClient(c.BlogRpcConf, options...))
 	syslogRpc := syslogrpc.NewSyslogRpc(zrpc.MustNewClient(c.BlogRpcConf, options...))
 
-	ph := permissionx.NewMemoryHolder(permissionRpc)
+	ph := permissionx.NewCasbinHolder(c.RedisConf.Host, permissionRpc)
 	err = ph.LoadPolicy()
 	if err != nil {
 		logx.Infof("load permission policy fail: %v", err)

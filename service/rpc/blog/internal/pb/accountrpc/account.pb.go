@@ -440,8 +440,7 @@ type UserRoleLabel struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	RoleId        int64                  `protobuf:"varint,1,opt,name=role_id,json=roleId,proto3" json:"role_id,omitempty"`
 	RoleKey       string                 `protobuf:"bytes,2,opt,name=role_key,json=roleKey,proto3" json:"role_key,omitempty"`
-	RoleLabel     string                 `protobuf:"bytes,3,opt,name=role_label,json=roleLabel,proto3" json:"role_label,omitempty"`
-	RoleComment   string                 `protobuf:"bytes,4,opt,name=role_comment,json=roleComment,proto3" json:"role_comment,omitempty"`
+	RoleComment   string                 `protobuf:"bytes,3,opt,name=role_comment,json=roleComment,proto3" json:"role_comment,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -486,13 +485,6 @@ func (x *UserRoleLabel) GetRoleId() int64 {
 func (x *UserRoleLabel) GetRoleKey() string {
 	if x != nil {
 		return x.RoleKey
-	}
-	return ""
-}
-
-func (x *UserRoleLabel) GetRoleLabel() string {
-	if x != nil {
-		return x.RoleLabel
 	}
 	return ""
 }
@@ -2930,13 +2922,11 @@ const file_blog_account_proto_rawDesc = "" +
 	"created_at\x18\f \x01(\x03R\tcreatedAt\x12\x1d\n" +
 	"\n" +
 	"updated_at\x18\r \x01(\x03R\tupdatedAt\x12/\n" +
-	"\x05roles\x18\x10 \x03(\v2\x19.accountrpc.UserRoleLabelR\x05roles\"\x85\x01\n" +
+	"\x05roles\x18\x10 \x03(\v2\x19.accountrpc.UserRoleLabelR\x05roles\"f\n" +
 	"\rUserRoleLabel\x12\x17\n" +
 	"\arole_id\x18\x01 \x01(\x03R\x06roleId\x12\x19\n" +
-	"\brole_key\x18\x02 \x01(\tR\aroleKey\x12\x1d\n" +
-	"\n" +
-	"role_label\x18\x03 \x01(\tR\troleLabel\x12!\n" +
-	"\frole_comment\x18\x04 \x01(\tR\vroleComment\"\xb6\x01\n" +
+	"\brole_key\x18\x02 \x01(\tR\aroleKey\x12!\n" +
+	"\frole_comment\x18\x03 \x01(\tR\vroleComment\"\xb6\x01\n" +
 	"\rUserOauthInfo\x12\x1a\n" +
 	"\bplatform\x18\x01 \x01(\tR\bplatform\x12\x17\n" +
 	"\aopen_id\x18\x02 \x01(\tR\x06openId\x12\x1a\n" +

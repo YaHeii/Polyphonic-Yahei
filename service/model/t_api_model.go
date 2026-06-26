@@ -112,8 +112,8 @@ from %s a
 where a.id in (
 	select distinct ra.api_id
 	from "public"."t_role_api" ra
-	join "public"."t_user_role" ur on ur.role_id = ra.role_id
-	where ur.user_id = $1
+	join "public"."t_user" u on u.role_id = ra.role_id
+	where u.user_id = $1
 )
 order by a.id asc`, tApiRows, m.table)
 

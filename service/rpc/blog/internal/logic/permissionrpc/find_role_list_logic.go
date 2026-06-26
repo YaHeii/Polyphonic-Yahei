@@ -33,6 +33,6 @@ func (l *FindRoleListLogic) FindRoleList(in *permissionrpc.FindRoleListReq) (*pe
 
 	return &permissionrpc.FindRoleListResp{
 		Pagination: buildPageResp(page, size, total),
-		List:       buildRoleTree(records),
+		List:       convertRoleListOut(records),
 	}, nil
 }

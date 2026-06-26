@@ -69,9 +69,7 @@ type (
 	}
 	UserRole {
 		Id          int64  `json:"id,optional"` // 主键id
-		ParentId    int64  `json:"parent_id"` // 父id
-		RoleKey     string `json:"role_key"` // 角色名
-		RoleLabel   string `json:"role_label"` // 角色标签
+		RoleKey     string `json:"role_key"` // 角色枚举名
 		RoleComment string `json:"role_comment"` // 角色备注
 	}
 	UserApisResp {
@@ -169,4 +167,3 @@ service admin-api {
 	@handler DeleteUserBindThirdParty
 	post /user/delete_user_bind_third_party (DeleteUserBindThirdPartyReq) returns (EmptyResp)
 }
-

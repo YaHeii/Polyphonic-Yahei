@@ -35,9 +35,8 @@ func (l *FindRoleListLogic) FindRoleList(req *types.QueryRoleReq) (resp *types.P
 			PageSize: req.PageSize,
 			Sorts:    req.Sorts,
 		},
-		RoleKey:   req.RoleKey,
-		RoleLabel: req.RoleLabel,
-		Status:    req.Status,
+		RoleKey: req.RoleKey,
+		Status:  req.Status,
 	}
 
 	out, err := l.svcCtx.PermissionRpc.FindRoleList(l.ctx, in)

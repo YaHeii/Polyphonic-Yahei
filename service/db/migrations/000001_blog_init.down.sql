@@ -26,7 +26,6 @@ DROP FUNCTION IF EXISTS set_updated_at();
 
 DROP TABLE IF EXISTS t_role_api;
 DROP TABLE IF EXISTS t_role_menu;
-DROP TABLE IF EXISTS t_user_role;
 DROP TABLE IF EXISTS t_user_oauth;
 
 DROP TABLE IF EXISTS t_website_config;

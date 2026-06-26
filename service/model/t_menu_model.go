@@ -112,8 +112,8 @@ from %s m
 where m.id in (
 	select distinct rm.menu_id
 	from "public"."t_role_menu" rm
-	join "public"."t_user_role" ur on ur.role_id = rm.role_id
-	where ur.user_id = $1
+	join "public"."t_user" u on u.role_id = rm.role_id
+	where u.user_id = $1
 )
 order by m.rank asc, m.id asc`, tMenuRows, m.table)
 

@@ -61,8 +61,7 @@ message UserInfo {
 message UserRoleLabel{
   int64 role_id = 1;
   string role_key = 2;
-  string role_label = 3;
-  string role_comment = 4;
+  string role_comment = 3;
 }
 
 // 用户第三方授权信息

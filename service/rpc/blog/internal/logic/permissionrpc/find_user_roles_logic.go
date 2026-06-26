@@ -30,5 +30,5 @@ func (l *FindUserRolesLogic) FindUserRoles(in *permissionrpc.FindUserRolesReq) (
 		return nil, err
 	}
 
-	return &permissionrpc.FindUserRolesResp{List: buildRoleTree(records)}, nil
+	return &permissionrpc.FindUserRolesResp{List: convertRoleListOut(records)}, nil
 }
