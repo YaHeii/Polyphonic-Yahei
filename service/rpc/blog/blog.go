@@ -6,6 +6,7 @@ import (
 	"flag"
 	"fmt"
 
+	interceptorx "github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/infra/interceptor"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/internal/config"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/internal/pb/accountrpc"
 	"github.com/YaHeii/Polyphonic-Yahei/service/rpc/blog/internal/pb/articlerpc"
@@ -61,6 +62,11 @@ func main() {
 			reflection.Register(grpcServer)
 		}
 	})
+	s.AddUnaryInterceptors(
+		interceptorx.ServerMetaInterceptor,
+		interceptorx.ServerLogInterceptor,
+		interceptorx.ServerErrorInterceptor,
+	)
 	defer s.Stop()
 
 	fmt.Printf("Starting rpc server at %s...\n", c.ListenOn)

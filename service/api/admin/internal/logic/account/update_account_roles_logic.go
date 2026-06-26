@@ -39,5 +39,8 @@ func (l *UpdateAccountRolesLogic) UpdateAccountRoles(req *types.UpdateAccountRol
 		return nil, err
 	}
 
+	if err = l.svcCtx.PermissionHolder.ReloadPolicy(); err != nil {
+		return nil, err
+	}
 	return &types.EmptyResp{}, nil
 }

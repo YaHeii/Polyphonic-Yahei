@@ -8,6 +8,7 @@ import (
 )
 
 // 输出请求的元数据，方便其他rpc服务获取
+// 后续添加统一降级或者重试
 func ServerMetaInterceptor(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (interface{}, error) {
 	md, ok := metadata.FromIncomingContext(ctx)
 	if ok {
