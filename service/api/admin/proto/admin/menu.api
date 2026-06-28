@@ -44,11 +44,14 @@ type (
 	SyncMenuReq {
 		Menus []*NewMenuReq `json:"menus"`
 	}
-	CleanMenuReq  {}
 	QueryMenuReq {
 		PageQuery
 		Name  string `json:"name,optional"` // 路由名字
 		Title string `json:"title,optional"` // 菜单标题
+	}
+	MenuPageResp {
+		PageMeta
+		List []*MenuBackVO `json:"list"`
 	}
 )
 
@@ -62,7 +65,7 @@ type (
 service admin-api {
 	@doc "分页获取菜单列表"
 	@handler FindMenuList
-	post /menu/find_menu_list (QueryMenuReq) returns (PageResp)
+	post /menu/find_menu_list (QueryMenuReq) returns (MenuPageResp)
 
 	@doc "同步菜单列表"
 	@handler SyncMenuList
@@ -70,7 +73,7 @@ service admin-api {
 
 	@doc "清空菜单列表"
 	@handler CleanMenuList
-	post /menu/clean_menu_list (CleanMenuReq) returns (BatchResp)
+	post /menu/clean_menu_list (EmptyReq) returns (BatchResp)
 
 	@doc "创建菜单"
 	@handler AddMenu
@@ -84,4 +87,3 @@ service admin-api {
 	@handler DeletesMenu
 	delete /menu/deletes_menu (IdsReq) returns (BatchResp)
 }
-

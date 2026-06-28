@@ -30,6 +30,10 @@ type (
 		Ids      []int64 `json:"ids"` // 主键
 		IsDelete bool   `json:"is_delete"` // 是否删除
 	}
+	PhotoPageResp {
+		PageMeta
+		List []*PhotoBackVO `json:"list"`
+	}
 )
 
 @server (
@@ -42,7 +46,7 @@ type (
 service admin-api {
 	@doc "分页获取照片列表"
 	@handler FindPhotoList
-	post /photo/find_photo_list (QueryPhotoReq) returns (PageResp)
+	post /photo/find_photo_list (QueryPhotoReq) returns (PhotoPageResp)
 
 	@doc "创建照片"
 	@handler AddPhoto
@@ -60,4 +64,3 @@ service admin-api {
 	@handler UpdatePhotoDelete
 	put /photo/update_photo_delete (UpdatePhotoDeleteReq) returns (BatchResp)
 }
-

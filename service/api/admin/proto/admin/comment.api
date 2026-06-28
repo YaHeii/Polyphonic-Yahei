@@ -28,6 +28,10 @@ type (
 		Ids    []int64 `json:"ids,optional"`
 		Status int64   `json:"status"` // 状态
 	}
+	CommentPageResp {
+		PageMeta
+		List []*CommentBackVO `json:"list"`
+	}
 )
 
 @server (
@@ -40,7 +44,7 @@ type (
 service admin-api {
 	@doc "查询评论列表(后台)"
 	@handler FindCommentBackList
-	post /comment/find_comment_back_list (QueryCommentReq) returns (PageResp)
+	post /comment/find_comment_back_list (QueryCommentReq) returns (CommentPageResp)
 
 	@doc "更新评论状态"
 	@handler UpdateCommentStatus
@@ -50,4 +54,3 @@ service admin-api {
 	@handler DeletesComment
 	delete /comment/deletes_comment (IdsReq) returns (BatchResp)
 }
-

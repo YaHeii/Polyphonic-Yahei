@@ -31,6 +31,10 @@ type (
 		Ids      []int64 `json:"ids"` // 主键
 		IsDelete bool   `json:"is_delete"` // 是否删除
 	}
+	AlbumPageResp {
+		PageMeta
+		List []*AlbumBackVO `json:"list"`
+	}
 )
 
 @server (
@@ -43,7 +47,7 @@ type (
 service admin-api {
 	@doc "分页获取相册列表"
 	@handler FindAlbumList
-	post /album/find_album_list (QueryAlbumReq) returns (PageResp)
+	post /album/find_album_list (QueryAlbumReq) returns (AlbumPageResp)
 
 	@doc "查询相册"
 	@handler GetAlbum
@@ -65,4 +69,3 @@ service admin-api {
 	@handler UpdateAlbumDelete
 	put /album/update_album_delete (UpdateAlbumDeleteReq) returns (BatchResp)
 }
-

@@ -26,6 +26,11 @@ type NoticeBackVO struct {
 	UpdatedAt     int64  `json:"updated_at"`     // 更新时间
 }
 
+type NoticePageResp struct {
+	PageMeta
+	List []*NoticeBackVO `json:"list"`
+}
+
 type QueryNoticeReq struct {
 	PageQuery
 	Type          string `json:"type,optional"`           // 通知类型

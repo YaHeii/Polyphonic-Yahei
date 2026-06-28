@@ -18,6 +18,10 @@ type (
 		PageQuery
 		UserId string `json:"user_id,optional"` // 用户id
 	}
+	LoginLogPageResp {
+		PageMeta
+		List []*LoginLogBackVO `json:"list"`
+	}
 )
 
 @server (
@@ -30,10 +34,9 @@ type (
 service admin-api {
 	@doc "查询登录日志"
 	@handler FindLoginLogList
-	post /file_log/find_login_log_list (QueryLoginLogReq) returns (PageResp)
+	post /file_log/find_login_log_list (QueryLoginLogReq) returns (LoginLogPageResp)
 
 	@doc "删除登录日志"
 	@handler DeletesLoginLog
 	delete /login_log/deletes_login_log (IdsReq) returns (BatchResp)
 }
-

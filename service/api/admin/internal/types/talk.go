@@ -29,3 +29,8 @@ type TalkBackVO struct {
 	UpdatedAt    int64       `json:"updated_at"`    // 更新时间
 	UserInfo     *UserInfoVO `json:"user_info"`     // 用户信息
 }
+
+type TalkPageResp struct {
+	PageMeta
+	List []*TalkBackVO `json:"list"`
+}

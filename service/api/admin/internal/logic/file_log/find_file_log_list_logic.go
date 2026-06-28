@@ -29,7 +29,7 @@ func NewFindFileLogListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *F
 	}
 }
 
-func (l *FindFileLogListLogic) FindFileLogList(req *types.QueryFileLogReq) (resp *types.PageResp, err error) {
+func (l *FindFileLogListLogic) FindFileLogList(req *types.QueryFileLogReq) (resp *types.FileLogPageResp, err error) {
 	in := &syslogrpc.FindFileLogListReq{
 		Paginate: &syslogrpc.PageReq{
 			Page:     req.Page,
@@ -89,10 +89,12 @@ func (l *FindFileLogListLogic) FindFileLogList(req *types.QueryFileLogReq) (resp
 		})
 	}
 
-	return &types.PageResp{
-		Page:     out.Pagination.Page,
-		PageSize: out.Pagination.PageSize,
-		Total:    out.Pagination.Total,
-		List:     list,
+	return &types.FileLogPageResp{
+		PageMeta: types.PageMeta{
+			Page:     out.Pagination.Page,
+			PageSize: out.Pagination.PageSize,
+			Total:    out.Pagination.Total,
+		},
+		List: list,
 	}, nil
 }

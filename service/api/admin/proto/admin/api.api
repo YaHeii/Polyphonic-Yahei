@@ -30,7 +30,10 @@ type (
 		Path   string `json:"path,optional"` // api路径
 		Method string `json:"method,optional"` // api请求方法
 	}
-	SyncApiReq  {}
+	ApiPageResp {
+		PageMeta
+		List []*ApiBackVO `json:"list"`
+	}
 )
 
 @server (
@@ -43,11 +46,11 @@ type (
 service admin-api {
 	@doc "分页获取api路由列表"
 	@handler FindApiList
-	post /api/find_api_list (QueryApiReq) returns (PageResp)
+	post /api/find_api_list (QueryApiReq) returns (ApiPageResp)
 
 	@doc "同步api列表"
 	@handler SyncApiList
-	post /api/sync_api_list (SyncApiReq) returns (BatchResp)
+	post /api/sync_api_list (EmptyReq) returns (BatchResp)
 
 	@doc "清空接口列表"
 	@handler CleanApiList
@@ -65,4 +68,3 @@ service admin-api {
 	@handler DeletesApi
 	delete /api/deletes_api (IdsReq) returns (BatchResp)
 }
-

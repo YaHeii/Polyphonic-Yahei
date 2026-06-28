@@ -270,7 +270,16 @@ func TestGetSystemState(t *testing.T) {
 	if err != nil {
 		t.Fatalf("GetSystemState returned error: %v", err)
 	}
-	if resp == nil || resp.Os == nil || resp.Cpu == nil || resp.Ram == nil || resp.Disk == nil {
+	if resp == nil {
 		t.Fatalf("unexpected system state response: %#v", resp)
+	}
+	if resp.Os.GoVersion == "" || resp.Os.Goos == "" {
+		t.Fatalf("unexpected os response: %#v", resp.Os)
+	}
+	if resp.Cpu.Cpus == nil || resp.Cpu.Cores < 0 {
+		t.Fatalf("unexpected cpu response: %#v", resp.Cpu)
+	}
+	if resp.Ram.TotalMb < 0 || resp.Disk.TotalMb < 0 {
+		t.Fatalf("unexpected memory or disk response: ram=%#v disk=%#v", resp.Ram, resp.Disk)
 	}
 }

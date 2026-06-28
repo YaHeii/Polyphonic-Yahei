@@ -28,7 +28,7 @@ func NewFindFriendListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fi
 	}
 }
 
-func (l *FindFriendListLogic) FindFriendList(req *types.QueryFriendReq) (resp *types.PageResp, err error) {
+func (l *FindFriendListLogic) FindFriendList(req *types.QueryFriendReq) (resp *types.FriendPageResp, err error) {
 	in := &socialrpc.FindFriendListReq{
 		Paginate: &socialrpc.PageReq{
 			Page:     req.Page,
@@ -48,10 +48,12 @@ func (l *FindFriendListLogic) FindFriendList(req *types.QueryFriendReq) (resp *t
 		list = append(list, convertFriendTypes(item))
 	}
 
-	return &types.PageResp{
-		Page:     out.Pagination.Page,
-		PageSize: out.Pagination.PageSize,
-		Total:    out.Pagination.Total,
-		List:     list,
+	return &types.FriendPageResp{
+		PageMeta: types.PageMeta{
+			Page:     out.Pagination.Page,
+			PageSize: out.Pagination.PageSize,
+			Total:    out.Pagination.Total,
+		},
+		List: list,
 	}, nil
 }

@@ -418,7 +418,7 @@ func TestGetClientInfoMapsRPCResponse(t *testing.T) {
 	svcCtx, _, _, _ := newAuthServiceContext(t)
 
 	logic := NewGetClientInfoLogic(context.Background(), svcCtx)
-	resp, err := logic.GetClientInfo(&types.GetClientInfoReq{})
+	resp, err := logic.GetClientInfo(&types.EmptyReq{})
 	if err != nil {
 		t.Fatalf("GetClientInfo returned error: %v", err)
 	}

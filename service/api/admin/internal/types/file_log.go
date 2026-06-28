@@ -3,6 +3,11 @@
 
 package types
 
+type FileLogPageResp struct {
+	PageMeta
+	List []*FileLogBackVO `json:"list"`
+}
+
 type QueryFileLogReq struct {
 	PageQuery
 	FilePath string `json:"file_path,optional"` // 文件路径

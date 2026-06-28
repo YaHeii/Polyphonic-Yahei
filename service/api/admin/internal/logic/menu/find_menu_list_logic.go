@@ -28,7 +28,7 @@ func NewFindMenuListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Find
 	}
 }
 
-func (l *FindMenuListLogic) FindMenuList(req *types.QueryMenuReq) (resp *types.PageResp, err error) {
+func (l *FindMenuListLogic) FindMenuList(req *types.QueryMenuReq) (resp *types.MenuPageResp, err error) {
 	out, err := l.svcCtx.PermissionRpc.FindMenuList(l.ctx, &permissionrpc.FindMenuListReq{
 		Name:  req.Name,
 		Title: req.Title,
@@ -42,10 +42,12 @@ func (l *FindMenuListLogic) FindMenuList(req *types.QueryMenuReq) (resp *types.P
 		list = append(list, convertMenuTypes(item))
 	}
 
-	return &types.PageResp{
-		Page:     0,
-		PageSize: int64(len(list)),
-		Total:    int64(len(list)),
-		List:     list,
+	return &types.MenuPageResp{
+		PageMeta: types.PageMeta{
+			Page:     0,
+			PageSize: int64(len(list)),
+			Total:    int64(len(list)),
+		},
+		List: list,
 	}, nil
 }

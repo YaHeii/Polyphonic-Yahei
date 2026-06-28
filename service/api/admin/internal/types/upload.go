@@ -7,6 +7,11 @@ type DeletesUploadFileReq struct {
 	FilePaths []string `json:"file_paths,optional"` // 文件路径
 }
 
+type FileInfoPageResp struct {
+	PageMeta
+	List []*FileInfoVO `json:"list"`
+}
+
 type FileInfoVO struct {
 	FilePath  string `json:"file_path"`  // 文件路径
 	FileName  string `json:"file_name"`  // 文件名称
@@ -22,11 +27,9 @@ type ListUploadFileReq struct {
 }
 
 type MultiUploadFileReq struct {
-	Files    []interface{} `form:"files,optional"`     // 文件列表
-	FilePath string        `form:"file_path,optional"` // 文件路径
+	FilePath string `form:"file_path,optional"` // 文件路径
 }
 
 type UploadFileReq struct {
-	File     interface{} `form:"file,optional"`      // 文件
-	FilePath string      `form:"file_path,optional"` // 文件路径
+	FilePath string `form:"file_path,optional"` // 文件路径
 }

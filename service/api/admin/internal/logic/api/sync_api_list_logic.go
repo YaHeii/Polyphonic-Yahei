@@ -34,7 +34,7 @@ func NewSyncApiListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *SyncA
 	}
 }
 
-func (l *SyncApiListLogic) SyncApiList(req *types.SyncApiReq) (resp *types.BatchResp, err error) {
+func (l *SyncApiListLogic) SyncApiList(req *types.EmptyReq) (resp *types.BatchResp, err error) {
 	doc, err := loads.Analyzed(json.RawMessage(docs.Docs), "")
 	if err != nil {
 		panic(err)

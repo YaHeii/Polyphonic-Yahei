@@ -21,9 +21,6 @@ type GetCaptchaCodeResp struct {
 	CaptchaCode   string `json:"captcha_code"`   // 验证码
 }
 
-type GetClientInfoReq struct {
-}
-
 type GetClientInfoResp struct {
 	Id         int64  `json:"id"`          // 访客唯一ID
 	TerminalId string `json:"terminal_id"` // 终端ID

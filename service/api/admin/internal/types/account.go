@@ -3,6 +3,11 @@
 
 package types
 
+type AccountPageResp struct {
+	PageMeta
+	List []*UserInfoDetail `json:"list"`
+}
+
 type QueryAccountReq struct {
 	PageQuery
 	Username string   `json:"username,optional"`

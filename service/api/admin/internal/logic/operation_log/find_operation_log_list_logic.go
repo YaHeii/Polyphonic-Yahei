@@ -29,7 +29,7 @@ func NewFindOperationLogListLogic(ctx context.Context, svcCtx *svc.ServiceContex
 	}
 }
 
-func (l *FindOperationLogListLogic) FindOperationLogList(req *types.QueryOperationLogReq) (resp *types.PageResp, err error) {
+func (l *FindOperationLogListLogic) FindOperationLogList(req *types.QueryOperationLogReq) (resp *types.OperationLogPageResp, err error) {
 	in := &syslogrpc.FindOperationLogListReq{
 		Paginate: &syslogrpc.PageReq{
 			Page:     req.Page,
@@ -88,10 +88,12 @@ func (l *FindOperationLogListLogic) FindOperationLogList(req *types.QueryOperati
 		})
 	}
 
-	return &types.PageResp{
-		Page:     out.Pagination.Page,
-		PageSize: out.Pagination.PageSize,
-		Total:    out.Pagination.Total,
-		List:     list,
+	return &types.OperationLogPageResp{
+		PageMeta: types.PageMeta{
+			Page:     out.Pagination.Page,
+			PageSize: out.Pagination.PageSize,
+			Total:    out.Pagination.Total,
+		},
+		List: list,
 	}, nil
 }

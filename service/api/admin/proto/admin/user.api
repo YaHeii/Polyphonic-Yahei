@@ -15,6 +15,10 @@ type (
 	QueryUserLoginHistoryReq {
 		PageQuery
 	}
+	UserLoginHistoryPageResp {
+		PageMeta
+		List []*UserLoginHistory `json:"list"`
+	}
 	UserThirdPartyInfo {
 		Platform  string `json:"platform"` // 平台
 		OpenId    string `json:"open_id"` // 平台用户id
@@ -121,7 +125,7 @@ type (
 service admin-api {
 	@doc "查询用户登录历史"
 	@handler GetUserLoginHistoryList
-	post /user/get_user_login_history_list (QueryUserLoginHistoryReq) returns (PageResp)
+	post /user/get_user_login_history_list (QueryUserLoginHistoryReq) returns (UserLoginHistoryPageResp)
 
 	@doc "获取用户信息"
 	@handler GetUserInfo

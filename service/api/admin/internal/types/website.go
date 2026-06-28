@@ -45,10 +45,10 @@ type GetVisitTrendResp struct {
 }
 
 type Server struct {
-	Os   interface{} `json:"os"`
-	Cpu  interface{} `json:"cpu"`
-	Ram  interface{} `json:"ram"`
-	Disk interface{} `json:"disk"`
+	Os   ServerOs   `json:"os"`
+	Cpu  ServerCpu  `json:"cpu"`
+	Ram  ServerRam  `json:"ram"`
+	Disk ServerDisk `json:"disk"`
 }
 
 type WebsiteConfigVO struct {

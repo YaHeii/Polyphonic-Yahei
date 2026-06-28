@@ -3,6 +3,11 @@
 
 package types
 
+type OperationLogPageResp struct {
+	PageMeta
+	List []*OperationLogBackVO `json:"list"`
+}
+
 type QueryOperationLogReq struct {
 	PageQuery
 }

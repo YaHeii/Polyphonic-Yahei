@@ -16,6 +16,11 @@ type ApiBackVO struct {
 	Children  []*ApiBackVO `json:"children"`
 }
 
+type ApiPageResp struct {
+	PageMeta
+	List []*ApiBackVO `json:"list"`
+}
+
 type NewApiReq struct {
 	Id        int64  `json:"id,optional"`     // 主键id
 	ParentId  int64  `json:"parent_id"`       // 分组id
@@ -31,7 +36,4 @@ type QueryApiReq struct {
 	Name   string `json:"name,optional"`   // api名称
 	Path   string `json:"path,optional"`   // api路径
 	Method string `json:"method,optional"` // api请求方法
-}
-
-type SyncApiReq struct {
 }

@@ -5,10 +5,14 @@
  * 博客管理平台API接口文档（App-Name 作为普通请求头，默认 admin-web）
  * OpenAPI spec version: v0.0.1
  */
+import type { ServerCpu } from './serverCpu';
+import type { ServerDisk } from './serverDisk';
+import type { ServerOs } from './serverOs';
+import type { ServerRam } from './serverRam';
 
 export interface Server {
-  cpu: unknown;
-  disk: unknown;
-  os: unknown;
-  ram: unknown;
+  cpu: ServerCpu;
+  disk: ServerDisk;
+  os: ServerOs;
+  ram: ServerRam;
 }

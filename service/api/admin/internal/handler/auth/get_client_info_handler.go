@@ -15,7 +15,7 @@ import (
 // 获取客户端信息
 func GetClientInfoHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.GetClientInfoReq
+		var req types.EmptyReq
 		if err := httpx.Parse(r, &req); err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 			return

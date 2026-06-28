@@ -9,3 +9,8 @@ type QueryVisitLogReq struct {
 	TerminalId string `json:"terminal_id,optional"` // 终端id
 	PageName   string `json:"page_name,optional"`   // 页面
 }
+
+type VisitLogPageResp struct {
+	PageMeta
+	List []*VisitLogBackVO `json:"list"`
+}

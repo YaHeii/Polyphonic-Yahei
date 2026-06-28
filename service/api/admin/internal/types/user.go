@@ -61,6 +61,11 @@ type UserInfoResp struct {
 	Perms      []string              `json:"perms"`
 }
 
+type UserLoginHistoryPageResp struct {
+	PageMeta
+	List []*UserLoginHistory `json:"list"`
+}
+
 type UserMenusResp struct {
 	List []*UserMenu `json:"list"`
 }

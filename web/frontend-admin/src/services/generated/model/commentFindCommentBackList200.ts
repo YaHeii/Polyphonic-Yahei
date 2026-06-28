@@ -5,12 +5,12 @@
  * 博客管理平台API接口文档（App-Name 作为普通请求头，默认 admin-web）
  * OpenAPI spec version: v0.0.1
  */
-import type { PageResp } from './pageResp';
+import type { CommentPageResp } from './commentPageResp';
 
 export type CommentFindCommentBackList200 = {
   /** 1001-未登录<br>1002-无权限操作 */
   code?: number;
-  data?: PageResp;
+  data?: CommentPageResp;
   /** business message */
   msg?: string;
 };

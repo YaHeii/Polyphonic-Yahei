@@ -28,7 +28,7 @@ func NewGetClientInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Get
 	}
 }
 
-func (l *GetClientInfoLogic) GetClientInfo(req *types.GetClientInfoReq) (resp *types.GetClientInfoResp, err error) {
+func (l *GetClientInfoLogic) GetClientInfo(req *types.EmptyReq) (resp *types.GetClientInfoResp, err error) {
 	out, err := l.svcCtx.AccountRpc.GetClientInfo(l.ctx, &accountrpc.GetClientInfoReq{})
 	if err != nil {
 		return nil, err

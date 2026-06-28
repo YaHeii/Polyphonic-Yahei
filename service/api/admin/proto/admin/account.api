@@ -45,6 +45,10 @@ type (
 		UserInfoExt
 		RoleLabels []*UserRoleLabel `json:"roles"`
 	}
+	AccountPageResp {
+		PageMeta
+		List []*UserInfoDetail `json:"list"`
+	}
 )
 
 @server (
@@ -57,11 +61,11 @@ type (
 service admin-api {
 	@doc "查询用户列表"
 	@handler FindAccountList
-	post /account/find_account_list (QueryAccountReq) returns (PageResp)
+	post /account/find_account_list (QueryAccountReq) returns (AccountPageResp)
 
 	@doc "查询在线用户列表"
 	@handler FindAccountOnlineList
-	post /account/find_account_online_list (QueryAccountReq) returns (PageResp)
+	post /account/find_account_online_list (QueryAccountReq) returns (AccountPageResp)
 
 	@doc "修改用户状态"
 	@handler UpdateAccountStatus

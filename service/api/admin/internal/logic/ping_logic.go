@@ -30,7 +30,7 @@ func NewPingLogic(ctx context.Context, svcCtx *svc.ServiceContext) *PingLogic {
 	}
 }
 
-func (l *PingLogic) Ping(req *types.PingReq) (resp *types.PingResp, err error) {
+func (l *PingLogic) Ping(req *types.EmptyReq) (resp *types.PingResp, err error) {
 	return &types.PingResp{
 		Env:         l.svcCtx.Config.Mode,
 		Name:        l.svcCtx.Config.Name,

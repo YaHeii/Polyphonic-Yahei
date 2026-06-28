@@ -28,7 +28,7 @@ func NewFindApiListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindA
 	}
 }
 
-func (l *FindApiListLogic) FindApiList(req *types.QueryApiReq) (resp *types.PageResp, err error) {
+func (l *FindApiListLogic) FindApiList(req *types.QueryApiReq) (resp *types.ApiPageResp, err error) {
 	in := &permissionrpc.FindApiListReq{
 		Name:   req.Name,
 		Path:   req.Path,
@@ -46,7 +46,7 @@ func (l *FindApiListLogic) FindApiList(req *types.QueryApiReq) (resp *types.Page
 		list = append(list, m)
 	}
 
-	resp = &types.PageResp{}
+	resp = &types.ApiPageResp{}
 	resp.Page = 0
 	resp.PageSize = int64(len(list))
 	resp.Total = int64(len(list))

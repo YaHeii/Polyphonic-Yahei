@@ -8,3 +8,8 @@ type QueryVisitorReq struct {
 	TerminalId string `json:"terminal_id,optional"` // 终端id
 	IpSource   string `json:"ip_source,optional"`   // IP归属地
 }
+
+type VisitorPageResp struct {
+	PageMeta
+	List []*VisitorBackVO `json:"list"`
+}

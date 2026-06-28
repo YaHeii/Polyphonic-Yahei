@@ -19,6 +19,10 @@ type (
 		TerminalId string `json:"terminal_id,optional"` // 终端id
 		PageName   string `json:"page_name,optional"` // 页面
 	}
+	VisitLogPageResp {
+		PageMeta
+		List []*VisitLogBackVO `json:"list"`
+	}
 )
 
 @server (
@@ -31,10 +35,9 @@ type (
 service admin-api {
 	@doc "分页获取操作记录列表"
 	@handler FindVisitLogList
-	post /visit_log/find_visit_log_list (QueryVisitLogReq) returns (PageResp)
+	post /visit_log/find_visit_log_list (QueryVisitLogReq) returns (VisitLogPageResp)
 
 	@doc "删除操作记录"
 	@handler DeletesVisitLog
 	delete /visit_log/deletes_visit_log (IdsReq) returns (BatchResp)
 }
-

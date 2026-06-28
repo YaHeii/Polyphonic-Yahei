@@ -20,11 +20,10 @@ type (
 	BatchResp {
 		SuccessCount int64 `json:"success_count"`
 	}
-	PageResp {
+	PageMeta {
 		Page     int64       `json:"page"`
 		PageSize int64       `json:"page_size"`
 		Total    int64       `json:"total"`
-		List     interface{} `json:"list"`
 	}
 )
 
@@ -49,4 +48,3 @@ type (
 		IpSource   string `json:"ip_source"` // IP归属地
 	}
 )
-

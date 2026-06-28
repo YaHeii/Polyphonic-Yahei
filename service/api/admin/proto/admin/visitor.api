@@ -18,6 +18,10 @@ type (
 		TerminalId string `json:"terminal_id,optional"` // 终端id
 		IpSource   string `json:"ip_source,optional"` // IP归属地
 	}
+	VisitorPageResp {
+		PageMeta
+		List []*VisitorBackVO `json:"list"`
+	}
 )
 
 @server (
@@ -30,6 +34,5 @@ type (
 service admin-api {
 	@doc "分页获取游客列表"
 	@handler FindVisitorList
-	post /visitor/find_visitor_list (QueryVisitorReq) returns (PageResp)
+	post /visitor/find_visitor_list (QueryVisitorReq) returns (VisitorPageResp)
 }
-

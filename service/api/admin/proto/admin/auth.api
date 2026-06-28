@@ -3,7 +3,6 @@ syntax = "v1"
 import "base.api"
 
 type (
-	GetClientInfoReq  {}
 	GetClientInfoResp {
 		Id         int64  `json:"id"` // 访客唯一ID
 		TerminalId string `json:"terminal_id"` // 终端ID
@@ -95,7 +94,7 @@ type (
 service admin-api {
 	@doc "获取客户端信息"
 	@handler GetClientInfo
-	get /get_client_info (GetClientInfoReq) returns (GetClientInfoResp)
+	get /get_client_info (EmptyReq) returns (GetClientInfoResp)
 }
 
 @server (

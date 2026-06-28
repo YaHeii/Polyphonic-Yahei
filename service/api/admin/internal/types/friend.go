@@ -13,6 +13,11 @@ type FriendBackVO struct {
 	UpdatedAt   int64  `json:"updated_at"`   // 更新时间
 }
 
+type FriendPageResp struct {
+	PageMeta
+	List []*FriendBackVO `json:"list"`
+}
+
 type NewFriendReq struct {
 	Id          int64  `json:"id,optional"`  // id
 	LinkName    string `json:"link_name"`    // 链接名

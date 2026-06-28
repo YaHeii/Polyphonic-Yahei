@@ -28,7 +28,7 @@ func NewFindNoticeListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fi
 	}
 }
 
-func (l *FindNoticeListLogic) FindNoticeList(req *types.QueryNoticeReq) (resp *types.PageResp, err error) {
+func (l *FindNoticeListLogic) FindNoticeList(req *types.QueryNoticeReq) (resp *types.NoticePageResp, err error) {
 	in := &noticerpc.FindNoticeListReq{
 		Paginate: &noticerpc.PageReq{
 			Page:     req.Page,
@@ -51,10 +51,12 @@ func (l *FindNoticeListLogic) FindNoticeList(req *types.QueryNoticeReq) (resp *t
 		list = append(list, convertNoticeOut(item))
 	}
 
-	return &types.PageResp{
-		Page:     out.Pagination.Page,
-		PageSize: out.Pagination.PageSize,
-		Total:    out.Pagination.Total,
-		List:     list,
+	return &types.NoticePageResp{
+		PageMeta: types.PageMeta{
+			Page:     out.Pagination.Page,
+			PageSize: out.Pagination.PageSize,
+			Total:    out.Pagination.Total,
+		},
+		List: list,
 	}, nil
 }

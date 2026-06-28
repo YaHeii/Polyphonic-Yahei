@@ -64,7 +64,7 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/PageResp"
+                  "$ref": "#/definitions/AccountPageResp"
                 },
                 "msg": {
                   "description": "business message",
@@ -115,7 +115,7 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/PageResp"
+                  "$ref": "#/definitions/AccountPageResp"
                 },
                 "msg": {
                   "description": "business message",
@@ -815,7 +815,7 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/PageResp"
+                  "$ref": "#/definitions/AlbumPageResp"
                 },
                 "msg": {
                   "description": "business message",
@@ -1162,7 +1162,7 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/PageResp"
+                  "$ref": "#/definitions/ApiPageResp"
                 },
                 "msg": {
                   "description": "business message",
@@ -1458,7 +1458,7 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/PageResp"
+                  "$ref": "#/definitions/ArticlePageResp"
                 },
                 "msg": {
                   "description": "business message",
@@ -1815,7 +1815,7 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/PageResp"
+                  "$ref": "#/definitions/CategoryPageResp"
                 },
                 "msg": {
                   "description": "business message",
@@ -1968,7 +1968,7 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/PageResp"
+                  "$ref": "#/definitions/CommentPageResp"
                 },
                 "msg": {
                   "description": "business message",
@@ -2172,7 +2172,7 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/PageResp"
+                  "$ref": "#/definitions/FileLogPageResp"
                 },
                 "msg": {
                   "description": "business message",
@@ -2223,7 +2223,7 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/PageResp"
+                  "$ref": "#/definitions/LoginLogPageResp"
                 },
                 "msg": {
                   "description": "business message",
@@ -2376,7 +2376,7 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/PageResp"
+                  "$ref": "#/definitions/FriendPageResp"
                 },
                 "msg": {
                   "description": "business message",
@@ -2942,7 +2942,7 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/PageResp"
+                  "$ref": "#/definitions/MenuPageResp"
                 },
                 "msg": {
                   "description": "business message",
@@ -3146,7 +3146,7 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/PageResp"
+                  "$ref": "#/definitions/MessagePageResp"
                 },
                 "msg": {
                   "description": "business message",
@@ -3350,7 +3350,7 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/PageResp"
+                  "$ref": "#/definitions/NoticePageResp"
                 },
                 "msg": {
                   "description": "business message",
@@ -3401,7 +3401,7 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/PageResp"
+                  "$ref": "#/definitions/NoticePageResp"
                 },
                 "msg": {
                   "description": "business message",
@@ -3643,7 +3643,7 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/PageResp"
+                  "$ref": "#/definitions/OperationLogPageResp"
                 },
                 "msg": {
                   "description": "business message",
@@ -3847,7 +3847,7 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/PageResp"
+                  "$ref": "#/definitions/PhotoPageResp"
                 },
                 "msg": {
                   "description": "business message",
@@ -4188,7 +4188,7 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/PageResp"
+                  "$ref": "#/definitions/RolePageResp"
                 },
                 "msg": {
                   "description": "business message",
@@ -4596,7 +4596,7 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/PageResp"
+                  "$ref": "#/definitions/TalkPageResp"
                 },
                 "msg": {
                   "description": "business message",
@@ -4851,7 +4851,7 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/PageResp"
+                  "$ref": "#/definitions/FileInfoPageResp"
                 },
                 "msg": {
                   "description": "business message",
@@ -4881,13 +4881,6 @@
         "summary": "上传文件列表",
         "operationId": "uploadMultiUploadFile",
         "parameters": [
-          {
-            "type": "array",
-            "description": "文件列表",
-            "name": "files",
-            "in": "formData",
-            "allowEmptyValue": true
-          },
           {
             "type": "string",
             "description": "文件路径",
@@ -4975,12 +4968,6 @@
         "summary": "上传文件",
         "operationId": "uploadUploadFile",
         "parameters": [
-          {
-            "description": "文件",
-            "name": "file",
-            "in": "formData",
-            "allowEmptyValue": true
-          },
           {
             "type": "string",
             "description": "文件路径",
@@ -5179,7 +5166,7 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/PageResp"
+                  "$ref": "#/definitions/UserLoginHistoryPageResp"
                 },
                 "msg": {
                   "description": "business message",
@@ -5663,7 +5650,7 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/PageResp"
+                  "$ref": "#/definitions/VisitLogPageResp"
                 },
                 "msg": {
                   "description": "business message",
@@ -5714,7 +5701,7 @@
                   "example": 0
                 },
                 "data": {
-                  "$ref": "#/definitions/PageResp"
+                  "$ref": "#/definitions/VisitorPageResp"
                 },
                 "msg": {
                   "description": "business message",
@@ -5737,6 +5724,32 @@
       "properties": {
         "content": {
           "type": "string"
+        }
+      }
+    },
+    "AccountPageResp": {
+      "type": "object",
+      "required": [
+        "page",
+        "page_size",
+        "total",
+        "list"
+      ],
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/UserInfoDetail"
+          }
+        },
+        "page": {
+          "type": "integer"
+        },
+        "page_size": {
+          "type": "integer"
+        },
+        "total": {
+          "type": "integer"
         }
       }
     },
@@ -5876,6 +5889,32 @@
         }
       }
     },
+    "AlbumPageResp": {
+      "type": "object",
+      "required": [
+        "page",
+        "page_size",
+        "total",
+        "list"
+      ],
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AlbumBackVO"
+          }
+        },
+        "page": {
+          "type": "integer"
+        },
+        "page_size": {
+          "type": "integer"
+        },
+        "total": {
+          "type": "integer"
+        }
+      }
+    },
     "ApiBackVO": {
       "type": "object",
       "required": [
@@ -5929,6 +5968,32 @@
         },
         "updated_at": {
           "description": "更新时间",
+          "type": "integer"
+        }
+      }
+    },
+    "ApiPageResp": {
+      "type": "object",
+      "required": [
+        "page",
+        "page_size",
+        "total",
+        "list"
+      ],
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ApiBackVO"
+          }
+        },
+        "page": {
+          "type": "integer"
+        },
+        "page_size": {
+          "type": "integer"
+        },
+        "total": {
           "type": "integer"
         }
       }
@@ -6017,6 +6082,32 @@
         }
       }
     },
+    "ArticlePageResp": {
+      "type": "object",
+      "required": [
+        "page",
+        "page_size",
+        "total",
+        "list"
+      ],
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ArticleBackVO"
+          }
+        },
+        "page": {
+          "type": "integer"
+        },
+        "page_size": {
+          "type": "integer"
+        },
+        "total": {
+          "type": "integer"
+        }
+      }
+    },
     "ArticleStatisticsVO": {
       "type": "object",
       "required": [
@@ -6095,6 +6186,32 @@
         }
       }
     },
+    "CategoryPageResp": {
+      "type": "object",
+      "required": [
+        "page",
+        "page_size",
+        "total",
+        "list"
+      ],
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CategoryBackVO"
+          }
+        },
+        "page": {
+          "type": "integer"
+        },
+        "page_size": {
+          "type": "integer"
+        },
+        "total": {
+          "type": "integer"
+        }
+      }
+    },
     "CategoryVO": {
       "type": "object",
       "required": [
@@ -6114,9 +6231,6 @@
           "type": "integer"
         }
       }
-    },
-    "CleanMenuReq": {
-      "type": "object"
     },
     "ClientInfoVO": {
       "type": "object",
@@ -6313,6 +6427,32 @@
         }
       }
     },
+    "CommentPageResp": {
+      "type": "object",
+      "required": [
+        "page",
+        "page_size",
+        "total",
+        "list"
+      ],
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CommentBackVO"
+          }
+        },
+        "page": {
+          "type": "integer"
+        },
+        "page_size": {
+          "type": "integer"
+        },
+        "total": {
+          "type": "integer"
+        }
+      }
+    },
     "DeleteUserBindThirdPartyReq": {
       "type": "object",
       "required": [
@@ -6367,6 +6507,32 @@
     },
     "EmptyResp": {
       "type": "object"
+    },
+    "FileInfoPageResp": {
+      "type": "object",
+      "required": [
+        "page",
+        "page_size",
+        "total",
+        "list"
+      ],
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FileInfoVO"
+          }
+        },
+        "page": {
+          "type": "integer"
+        },
+        "page_size": {
+          "type": "integer"
+        },
+        "total": {
+          "type": "integer"
+        }
+      }
     },
     "FileInfoVO": {
       "type": "object",
@@ -6539,6 +6705,32 @@
         }
       }
     },
+    "FileLogPageResp": {
+      "type": "object",
+      "required": [
+        "page",
+        "page_size",
+        "total",
+        "list"
+      ],
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FileLogBackVO"
+          }
+        },
+        "page": {
+          "type": "integer"
+        },
+        "page_size": {
+          "type": "integer"
+        },
+        "total": {
+          "type": "integer"
+        }
+      }
+    },
     "FriendBackVO": {
       "type": "object",
       "required": [
@@ -6580,6 +6772,32 @@
         }
       }
     },
+    "FriendPageResp": {
+      "type": "object",
+      "required": [
+        "page",
+        "page_size",
+        "total",
+        "list"
+      ],
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FriendBackVO"
+          }
+        },
+        "page": {
+          "type": "integer"
+        },
+        "page_size": {
+          "type": "integer"
+        },
+        "total": {
+          "type": "integer"
+        }
+      }
+    },
     "GetCaptchaCodeReq": {
       "type": "object",
       "properties": {
@@ -6614,9 +6832,6 @@
           "type": "string"
         }
       }
-    },
-    "GetClientInfoReq": {
-      "type": "object"
     },
     "GetClientInfoResp": {
       "type": "object",
@@ -6934,6 +7149,32 @@
         }
       }
     },
+    "LoginLogPageResp": {
+      "type": "object",
+      "required": [
+        "page",
+        "page_size",
+        "total",
+        "list"
+      ],
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/LoginLogBackVO"
+          }
+        },
+        "page": {
+          "type": "integer"
+        },
+        "page_size": {
+          "type": "integer"
+        },
+        "total": {
+          "type": "integer"
+        }
+      }
+    },
     "LoginReq": {
       "type": "object",
       "required": [
@@ -7162,6 +7403,32 @@
         }
       }
     },
+    "MenuPageResp": {
+      "type": "object",
+      "required": [
+        "page",
+        "page_size",
+        "total",
+        "list"
+      ],
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MenuBackVO"
+          }
+        },
+        "page": {
+          "type": "integer"
+        },
+        "page_size": {
+          "type": "integer"
+        },
+        "total": {
+          "type": "integer"
+        }
+      }
+    },
     "MessageBackVO": {
       "type": "object",
       "required": [
@@ -7273,6 +7540,32 @@
             }
           },
           "$ref": "#/definitions/UserInfoVO"
+        }
+      }
+    },
+    "MessagePageResp": {
+      "type": "object",
+      "required": [
+        "page",
+        "page_size",
+        "total",
+        "list"
+      ],
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MessageBackVO"
+          }
+        },
+        "page": {
+          "type": "integer"
+        },
+        "page_size": {
+          "type": "integer"
+        },
+        "total": {
+          "type": "integer"
         }
       }
     },
@@ -7672,6 +7965,32 @@
         }
       }
     },
+    "NoticePageResp": {
+      "type": "object",
+      "required": [
+        "page",
+        "page_size",
+        "total",
+        "list"
+      ],
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/NoticeBackVO"
+          }
+        },
+        "page": {
+          "type": "integer"
+        },
+        "page_size": {
+          "type": "integer"
+        },
+        "total": {
+          "type": "integer"
+        }
+      }
+    },
     "OperationLogBackVO": {
       "type": "object",
       "required": [
@@ -7816,6 +8135,51 @@
         }
       }
     },
+    "OperationLogPageResp": {
+      "type": "object",
+      "required": [
+        "page",
+        "page_size",
+        "total",
+        "list"
+      ],
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OperationLogBackVO"
+          }
+        },
+        "page": {
+          "type": "integer"
+        },
+        "page_size": {
+          "type": "integer"
+        },
+        "total": {
+          "type": "integer"
+        }
+      }
+    },
+    "PageMeta": {
+      "type": "object",
+      "required": [
+        "page",
+        "page_size",
+        "total"
+      ],
+      "properties": {
+        "page": {
+          "type": "integer"
+        },
+        "page_size": {
+          "type": "integer"
+        },
+        "total": {
+          "type": "integer"
+        }
+      }
+    },
     "PageQuery": {
       "type": "object",
       "properties": {
@@ -7835,27 +8199,6 @@
             "type": "string"
           },
           "example": "[]"
-        }
-      }
-    },
-    "PageResp": {
-      "type": "object",
-      "required": [
-        "page",
-        "page_size",
-        "total",
-        "list"
-      ],
-      "properties": {
-        "list": {},
-        "page": {
-          "type": "integer"
-        },
-        "page_size": {
-          "type": "integer"
-        },
-        "total": {
-          "type": "integer"
         }
       }
     },
@@ -7922,8 +8265,31 @@
         }
       }
     },
-    "PingReq": {
-      "type": "object"
+    "PhotoPageResp": {
+      "type": "object",
+      "required": [
+        "page",
+        "page_size",
+        "total",
+        "list"
+      ],
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PhotoBackVO"
+          }
+        },
+        "page": {
+          "type": "integer"
+        },
+        "page_size": {
+          "type": "integer"
+        },
+        "total": {
+          "type": "integer"
+        }
+      }
     },
     "PingResp": {
       "type": "object",
@@ -8690,6 +9056,32 @@
         }
       }
     },
+    "RolePageResp": {
+      "type": "object",
+      "required": [
+        "page",
+        "page_size",
+        "total",
+        "list"
+      ],
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RoleBackVO"
+          }
+        },
+        "page": {
+          "type": "integer"
+        },
+        "page_size": {
+          "type": "integer"
+        },
+        "total": {
+          "type": "integer"
+        }
+      }
+    },
     "RoleResourcesResp": {
       "type": "object",
       "required": [
@@ -8758,10 +9150,192 @@
         "disk"
       ],
       "properties": {
-        "cpu": {},
-        "disk": {},
-        "os": {},
-        "ram": {}
+        "cpu": {
+          "type": "object",
+          "required": [
+            "cpus",
+            "cores"
+          ],
+          "properties": {
+            "cores": {
+              "type": "integer"
+            },
+            "cpus": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
+            }
+          },
+          "$ref": "#/definitions/ServerCpu"
+        },
+        "disk": {
+          "type": "object",
+          "required": [
+            "usedMb",
+            "usedGb",
+            "totalMb",
+            "totalGb",
+            "usedPercent"
+          ],
+          "properties": {
+            "totalGb": {
+              "type": "integer"
+            },
+            "totalMb": {
+              "type": "integer"
+            },
+            "usedGb": {
+              "type": "integer"
+            },
+            "usedMb": {
+              "type": "integer"
+            },
+            "usedPercent": {
+              "type": "integer"
+            }
+          },
+          "$ref": "#/definitions/ServerDisk"
+        },
+        "os": {
+          "type": "object",
+          "required": [
+            "goos",
+            "numCpu",
+            "compiler",
+            "goVersion",
+            "numGoroutine"
+          ],
+          "properties": {
+            "compiler": {
+              "type": "string"
+            },
+            "goVersion": {
+              "type": "string"
+            },
+            "goos": {
+              "type": "string"
+            },
+            "numCpu": {
+              "type": "integer"
+            },
+            "numGoroutine": {
+              "type": "integer"
+            }
+          },
+          "$ref": "#/definitions/ServerOs"
+        },
+        "ram": {
+          "type": "object",
+          "required": [
+            "usedMb",
+            "totalMb",
+            "usedPercent"
+          ],
+          "properties": {
+            "totalMb": {
+              "type": "integer"
+            },
+            "usedMb": {
+              "type": "integer"
+            },
+            "usedPercent": {
+              "type": "integer"
+            }
+          },
+          "$ref": "#/definitions/ServerRam"
+        }
+      }
+    },
+    "ServerCpu": {
+      "type": "object",
+      "required": [
+        "cpus",
+        "cores"
+      ],
+      "properties": {
+        "cores": {
+          "type": "integer"
+        },
+        "cpus": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "ServerDisk": {
+      "type": "object",
+      "required": [
+        "usedMb",
+        "usedGb",
+        "totalMb",
+        "totalGb",
+        "usedPercent"
+      ],
+      "properties": {
+        "totalGb": {
+          "type": "integer"
+        },
+        "totalMb": {
+          "type": "integer"
+        },
+        "usedGb": {
+          "type": "integer"
+        },
+        "usedMb": {
+          "type": "integer"
+        },
+        "usedPercent": {
+          "type": "integer"
+        }
+      }
+    },
+    "ServerOs": {
+      "type": "object",
+      "required": [
+        "goos",
+        "numCpu",
+        "compiler",
+        "goVersion",
+        "numGoroutine"
+      ],
+      "properties": {
+        "compiler": {
+          "type": "string"
+        },
+        "goVersion": {
+          "type": "string"
+        },
+        "goos": {
+          "type": "string"
+        },
+        "numCpu": {
+          "type": "integer"
+        },
+        "numGoroutine": {
+          "type": "integer"
+        }
+      }
+    },
+    "ServerRam": {
+      "type": "object",
+      "required": [
+        "usedMb",
+        "totalMb",
+        "usedPercent"
+      ],
+      "properties": {
+        "totalMb": {
+          "type": "integer"
+        },
+        "usedMb": {
+          "type": "integer"
+        },
+        "usedPercent": {
+          "type": "integer"
+        }
       }
     },
     "SocialAccountInfo": {
@@ -8790,9 +9364,6 @@
           "type": "string"
         }
       }
-    },
-    "SyncApiReq": {
-      "type": "object"
     },
     "SyncMenuReq": {
       "type": "object",
@@ -8919,6 +9490,32 @@
             }
           },
           "$ref": "#/definitions/UserInfoVO"
+        }
+      }
+    },
+    "TalkPageResp": {
+      "type": "object",
+      "required": [
+        "page",
+        "page_size",
+        "total",
+        "list"
+      ],
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TalkBackVO"
+          }
+        },
+        "page": {
+          "type": "integer"
+        },
+        "page_size": {
+          "type": "integer"
+        },
+        "total": {
+          "type": "integer"
         }
       }
     },
@@ -9694,6 +10291,32 @@
         }
       }
     },
+    "UserLoginHistoryPageResp": {
+      "type": "object",
+      "required": [
+        "page",
+        "page_size",
+        "total",
+        "list"
+      ],
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/UserLoginHistory"
+          }
+        },
+        "page": {
+          "type": "integer"
+        },
+        "page_size": {
+          "type": "integer"
+        },
+        "total": {
+          "type": "integer"
+        }
+      }
+    },
     "UserMenu": {
       "type": "object",
       "required": [
@@ -10010,6 +10633,32 @@
         }
       }
     },
+    "VisitLogPageResp": {
+      "type": "object",
+      "required": [
+        "page",
+        "page_size",
+        "total",
+        "list"
+      ],
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/VisitLogBackVO"
+          }
+        },
+        "page": {
+          "type": "integer"
+        },
+        "page_size": {
+          "type": "integer"
+        },
+        "total": {
+          "type": "integer"
+        }
+      }
+    },
     "VisitTrendVO": {
       "type": "object",
       "required": [
@@ -10074,6 +10723,32 @@
         },
         "updated_at": {
           "description": "更新时间",
+          "type": "integer"
+        }
+      }
+    },
+    "VisitorPageResp": {
+      "type": "object",
+      "required": [
+        "page",
+        "page_size",
+        "total",
+        "list"
+      ],
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/VisitorBackVO"
+          }
+        },
+        "page": {
+          "type": "integer"
+        },
+        "page_size": {
+          "type": "integer"
+        },
+        "total": {
           "type": "integer"
         }
       }
@@ -10314,7 +10989,7 @@
       "in": "header"
     }
   },
-  "x-date": "2026-06-25 17:51:54",
+  "x-date": "2026-06-28 21:33:11",
   "x-description": "This is a goctl generated swagger file.",
   "x-github": "https://github.com/zeromicro/go-zero",
   "x-go-zero-doc": "https://go-zero.dev/",

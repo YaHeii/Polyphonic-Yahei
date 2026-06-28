@@ -30,7 +30,7 @@ func NewFindCommentBackListLogic(ctx context.Context, svcCtx *svc.ServiceContext
 	}
 }
 
-func (l *FindCommentBackListLogic) FindCommentBackList(req *types.QueryCommentReq) (resp *types.PageResp, err error) {
+func (l *FindCommentBackListLogic) FindCommentBackList(req *types.QueryCommentReq) (resp *types.CommentPageResp, err error) {
 	out, err := l.svcCtx.NewsRpc.FindCommentList(l.ctx, &newsrpc.FindCommentListReq{
 		Paginate: &newsrpc.PageReq{
 			Page:     req.Page,
@@ -116,10 +116,12 @@ func (l *FindCommentBackListLogic) FindCommentBackList(req *types.QueryCommentRe
 		list = append(list, comment)
 	}
 
-	return &types.PageResp{
-		Page:     out.Pagination.Page,
-		PageSize: out.Pagination.PageSize,
-		Total:    out.Pagination.Total,
-		List:     list,
+	return &types.CommentPageResp{
+		PageMeta: types.PageMeta{
+			Page:     out.Pagination.Page,
+			PageSize: out.Pagination.PageSize,
+			Total:    out.Pagination.Total,
+		},
+		List: list,
 	}, nil
 }

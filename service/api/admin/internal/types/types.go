@@ -137,20 +137,16 @@ type OperationLogBackVO struct {
 	ClientInfo     *ClientInfoVO `json:"client_info"`     // 客户端信息
 }
 
+type PageMeta struct {
+	Page     int64 `json:"page"`
+	PageSize int64 `json:"page_size"`
+	Total    int64 `json:"total"`
+}
+
 type PageQuery struct {
 	Page     int64    `json:"page,optional"`             // 当前页码
 	PageSize int64    `json:"page_size,optional"`        // 每页数量
 	Sorts    []string `json:"sorts,optional,default=[]"` // 排序
-}
-
-type PageResp struct {
-	Page     int64       `json:"page"`
-	PageSize int64       `json:"page_size"`
-	Total    int64       `json:"total"`
-	List     interface{} `json:"list"`
-}
-
-type PingReq struct {
 }
 
 type PingResp struct {
@@ -173,6 +169,33 @@ type RoleBackVO struct {
 	Status      int64  `json:"status"`       // 状态 0正常 1禁用
 	CreatedAt   int64  `json:"created_at"`   // 创建时间
 	UpdatedAt   int64  `json:"updated_at"`   // 更新时间
+}
+
+type ServerCpu struct {
+	Cpus  []float64 `json:"cpus"`
+	Cores int64     `json:"cores"`
+}
+
+type ServerDisk struct {
+	UsedMb      int64 `json:"usedMb"`
+	UsedGb      int64 `json:"usedGb"`
+	TotalMb     int64 `json:"totalMb"`
+	TotalGb     int64 `json:"totalGb"`
+	UsedPercent int64 `json:"usedPercent"`
+}
+
+type ServerOs struct {
+	Goos         string `json:"goos"`
+	NumCpu       int64  `json:"numCpu"`
+	Compiler     string `json:"compiler"`
+	GoVersion    string `json:"goVersion"`
+	NumGoroutine int64  `json:"numGoroutine"`
+}
+
+type ServerRam struct {
+	UsedMb      int64 `json:"usedMb"`
+	TotalMb     int64 `json:"totalMb"`
+	UsedPercent int64 `json:"usedPercent"`
 }
 
 type SocialAccountInfo struct {

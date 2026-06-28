@@ -30,15 +30,45 @@ func NewGetSystemStateLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Ge
 
 func (l *GetSystemStateLogic) GetSystemState(req *types.EmptyReq) (resp *types.Server, err error) {
 	server := &types.Server{}
-	server.Os = systemx.InitOS()
-	if server.Cpu, err = systemx.InitCPU(); err != nil {
+
+	osInfo := systemx.InitOS()
+	server.Os = types.ServerOs{
+		Goos:         osInfo.GOOS,
+		NumCpu:       int64(osInfo.NumCPU),
+		Compiler:     osInfo.Compiler,
+		GoVersion:    osInfo.GoVersion,
+		NumGoroutine: int64(osInfo.NumGoroutine),
+	}
+
+	cpuInfo, err := systemx.InitCPU()
+	if err != nil {
 		return server, err
 	}
-	if server.Ram, err = systemx.InitRAM(); err != nil {
+	server.Cpu = types.ServerCpu{
+		Cpus:  cpuInfo.Cpus,
+		Cores: int64(cpuInfo.Cores),
+	}
+
+	ramInfo, err := systemx.InitRAM()
+	if err != nil {
 		return server, err
 	}
-	if server.Disk, err = systemx.InitDisk(); err != nil {
+	server.Ram = types.ServerRam{
+		UsedMb:      int64(ramInfo.UsedMB),
+		TotalMb:     int64(ramInfo.TotalMB),
+		UsedPercent: int64(ramInfo.UsedPercent),
+	}
+
+	diskInfo, err := systemx.InitDisk()
+	if err != nil {
 		return server, err
+	}
+	server.Disk = types.ServerDisk{
+		UsedMb:      int64(diskInfo.UsedMB),
+		UsedGb:      int64(diskInfo.UsedGB),
+		TotalMb:     int64(diskInfo.TotalMB),
+		TotalGb:     int64(diskInfo.TotalGB),
+		UsedPercent: int64(diskInfo.UsedPercent),
 	}
 
 	return server, nil

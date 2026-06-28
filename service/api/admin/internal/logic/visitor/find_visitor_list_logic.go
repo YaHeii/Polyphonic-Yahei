@@ -28,7 +28,7 @@ func NewFindVisitorListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *F
 	}
 }
 
-func (l *FindVisitorListLogic) FindVisitorList(req *types.QueryVisitorReq) (resp *types.PageResp, err error) {
+func (l *FindVisitorListLogic) FindVisitorList(req *types.QueryVisitorReq) (resp *types.VisitorPageResp, err error) {
 	in := &accountrpc.FindVisitorListReq{
 		Paginate: &accountrpc.PageReq{
 			Page:     req.Page,
@@ -58,10 +58,12 @@ func (l *FindVisitorListLogic) FindVisitorList(req *types.QueryVisitorReq) (resp
 		})
 	}
 
-	return &types.PageResp{
-		Page:     out.Pagination.Page,
-		PageSize: out.Pagination.PageSize,
-		Total:    out.Pagination.Total,
-		List:     list,
+	return &types.VisitorPageResp{
+		PageMeta: types.PageMeta{
+			Page:     out.Pagination.Page,
+			PageSize: out.Pagination.PageSize,
+			Total:    out.Pagination.Total,
+		},
+		List: list,
 	}, nil
 }

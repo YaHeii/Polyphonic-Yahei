@@ -21,6 +21,11 @@ type ArticleBackVO struct {
 	ViewsCount     int64    `json:"views_count"`     // 浏览量
 }
 
+type ArticlePageResp struct {
+	PageMeta
+	List []*ArticleBackVO `json:"list"`
+}
+
 type NewArticleReq struct {
 	Id             int64    `json:"id,optional"`            // id
 	ArticleCover   string   `json:"article_cover"`          // 文章缩略图

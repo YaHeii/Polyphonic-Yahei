@@ -16,7 +16,7 @@ func TestPingReturnsConfigInfo(t *testing.T) {
 	logic.svcCtx.Config.Mode = "dev"
 	logic.svcCtx.Config.Name = "admin-api"
 
-	resp, err := logic.Ping(&types.PingReq{})
+	resp, err := logic.Ping(&types.EmptyReq{})
 	if err != nil {
 		t.Fatalf("Ping returned error: %v", err)
 	}

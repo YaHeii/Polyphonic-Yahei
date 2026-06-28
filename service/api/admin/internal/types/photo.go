@@ -23,6 +23,11 @@ type PhotoBackVO struct {
 	UpdatedAt int64  `json:"updated_at"`  // 更新时间
 }
 
+type PhotoPageResp struct {
+	PageMeta
+	List []*PhotoBackVO `json:"list"`
+}
+
 type QueryPhotoReq struct {
 	PageQuery
 	AlbumId  int64 `json:"album_id,optional"`  // 相册id

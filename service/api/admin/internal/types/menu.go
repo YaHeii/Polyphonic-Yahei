@@ -3,9 +3,6 @@
 
 package types
 
-type CleanMenuReq struct {
-}
-
 type MenuBackVO struct {
 	Id        int64  `json:"id,optional"`        // 主键
 	ParentId  int64  `json:"parent_id,optional"` // 父id
@@ -17,6 +14,11 @@ type MenuBackVO struct {
 	Children  []*MenuBackVO `json:"children,optional"`
 	CreatedAt int64         `json:"created_at"` // 创建时间
 	UpdatedAt int64         `json:"updated_at"` // 更新时间
+}
+
+type MenuPageResp struct {
+	PageMeta
+	List []*MenuBackVO `json:"list"`
 }
 
 type NewMenuReq struct {

@@ -29,7 +29,7 @@ func NewFindMessageListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *F
 	}
 }
 
-func (l *FindMessageListLogic) FindMessageList(req *types.QueryMessageReq) (resp *types.PageResp, err error) {
+func (l *FindMessageListLogic) FindMessageList(req *types.QueryMessageReq) (resp *types.MessagePageResp, err error) {
 	in := &newsrpc.FindMessageListReq{
 		Paginate: &newsrpc.PageReq{
 			Page:     req.Page,
@@ -84,10 +84,12 @@ func (l *FindMessageListLogic) FindMessageList(req *types.QueryMessageReq) (resp
 		})
 	}
 
-	return &types.PageResp{
-		Page:     out.Pagination.Page,
-		PageSize: out.Pagination.PageSize,
-		Total:    out.Pagination.Total,
-		List:     list,
+	return &types.MessagePageResp{
+		PageMeta: types.PageMeta{
+			Page:     out.Pagination.Page,
+			PageSize: out.Pagination.PageSize,
+			Total:    out.Pagination.Total,
+		},
+		List: list,
 	}, nil
 }

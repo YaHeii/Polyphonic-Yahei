@@ -9,6 +9,11 @@ type QueryRoleReq struct {
 	Status  int64  `json:"status,optional"`   // 状态 0正常 1禁用
 }
 
+type RolePageResp struct {
+	PageMeta
+	List []*RoleBackVO `json:"list"`
+}
+
 type RoleResourcesResp struct {
 	RoleId  int64   `json:"role_id"`
 	ApiIds  []int64 `json:"api_ids"`

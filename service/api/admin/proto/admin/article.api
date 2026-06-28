@@ -53,6 +53,10 @@ type (
 		CategoryName string `json:"category_name,optional"` // 文章分类名
 		TagName      string `json:"tag_name,optional"`
 	}
+	ArticlePageResp {
+		PageMeta
+		List []*ArticleBackVO `json:"list"`
+	}
 )
 
 @server (
@@ -65,7 +69,7 @@ type (
 service admin-api {
 	@doc "查询文章列表"
 	@handler FindArticleList
-	post /article/find_article_list (QueryArticleReq) returns (PageResp)
+	post /article/find_article_list (QueryArticleReq) returns (ArticlePageResp)
 
 	@doc "导出文章列表"
 	@handler ExportArticleList
@@ -95,4 +99,3 @@ service admin-api {
 	@handler UpdateArticleTop
 	put /article/update_article_top (UpdateArticleTopReq) returns (EmptyResp)
 }
-

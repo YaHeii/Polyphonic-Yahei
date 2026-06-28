@@ -3,6 +3,11 @@
 
 package types
 
+type CommentPageResp struct {
+	PageMeta
+	List []*CommentBackVO `json:"list"`
+}
+
 type QueryCommentReq struct {
 	PageQuery
 	UserId string `json:"user_id,optional"` // 用户ID

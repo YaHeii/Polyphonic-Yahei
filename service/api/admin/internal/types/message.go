@@ -3,6 +3,11 @@
 
 package types
 
+type MessagePageResp struct {
+	PageMeta
+	List []*MessageBackVO `json:"list"`
+}
+
 type QueryMessageReq struct {
 	PageQuery
 	UserId string `json:"user_id,optional"` // 用户ID

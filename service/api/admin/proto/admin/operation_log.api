@@ -23,6 +23,10 @@ type (
 	QueryOperationLogReq {
 		PageQuery
 	}
+	OperationLogPageResp {
+		PageMeta
+		List []*OperationLogBackVO `json:"list"`
+	}
 )
 
 @server (
@@ -35,10 +39,9 @@ type (
 service admin-api {
 	@doc "分页获取操作记录列表"
 	@handler FindOperationLogList
-	post /operation_log/find_operation_log_list (QueryOperationLogReq) returns (PageResp)
+	post /operation_log/find_operation_log_list (QueryOperationLogReq) returns (OperationLogPageResp)
 
 	@doc "删除操作记录"
 	@handler DeletesOperationLog
 	delete /operation_log/deletes_operation_log (IdsReq) returns (BatchResp)
 }
-

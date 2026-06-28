@@ -3,6 +3,11 @@
 
 package types
 
+type LoginLogPageResp struct {
+	PageMeta
+	List []*LoginLogBackVO `json:"list"`
+}
+
 type QueryLoginLogReq struct {
 	PageQuery
 	UserId string `json:"user_id,optional"` // 用户id

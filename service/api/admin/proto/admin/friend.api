@@ -23,6 +23,10 @@ type (
 		PageQuery
 		LinkName string `json:"link_name,optional"` // 链接名
 	}
+	FriendPageResp {
+		PageMeta
+		List []*FriendBackVO `json:"list"`
+	}
 )
 
 @server (
@@ -35,7 +39,7 @@ type (
 service admin-api {
 	@doc "分页获取友链列表"
 	@handler FindFriendList
-	post /friend/find_friend_list (QueryFriendReq) returns (PageResp)
+	post /friend/find_friend_list (QueryFriendReq) returns (FriendPageResp)
 
 	@doc "创建友链"
 	@handler AddFriend
@@ -49,4 +53,3 @@ service admin-api {
 	@handler DeletesFriend
 	delete /friend/deletes_friend (IdsReq) returns (BatchResp)
 }
-

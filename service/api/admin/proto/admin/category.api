@@ -18,6 +18,10 @@ type (
 		PageQuery
 		CategoryName string `json:"category_name,optional"` // 分类名
 	}
+	CategoryPageResp {
+		PageMeta
+		List []*CategoryBackVO `json:"list"`
+	}
 )
 
 @server (
@@ -30,7 +34,7 @@ type (
 service admin-api {
 	@doc "分页获取文章分类列表"
 	@handler FindCategoryList
-	post /category/find_category_list (QueryCategoryReq) returns (PageResp)
+	post /category/find_category_list (QueryCategoryReq) returns (CategoryPageResp)
 
 	@doc "创建文章分类"
 	@handler AddCategory
@@ -44,4 +48,3 @@ service admin-api {
 	@handler DeletesCategory
 	delete /category/deletes_category (IdsReq) returns (BatchResp)
 }
-

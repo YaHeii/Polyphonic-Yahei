@@ -29,7 +29,7 @@ func NewGetUserLoginHistoryListLogic(ctx context.Context, svcCtx *svc.ServiceCon
 	}
 }
 
-func (l *GetUserLoginHistoryListLogic) GetUserLoginHistoryList(req *types.QueryUserLoginHistoryReq) (resp *types.PageResp, err error) {
+func (l *GetUserLoginHistoryListLogic) GetUserLoginHistoryList(req *types.QueryUserLoginHistoryReq) (resp *types.UserLoginHistoryPageResp, err error) {
 	out, err := l.svcCtx.SyslogRpc.FindLoginLogList(l.ctx, &syslogrpc.FindLoginLogListReq{
 		Paginate: &syslogrpc.PageReq{
 			Page:     req.Page,
@@ -55,10 +55,12 @@ func (l *GetUserLoginHistoryListLogic) GetUserLoginHistoryList(req *types.QueryU
 		})
 	}
 
-	return &types.PageResp{
-		Page:     out.Pagination.Page,
-		PageSize: out.Pagination.PageSize,
-		Total:    out.Pagination.Total,
-		List:     list,
+	return &types.UserLoginHistoryPageResp{
+		PageMeta: types.PageMeta{
+			Page:     out.Pagination.Page,
+			PageSize: out.Pagination.PageSize,
+			Total:    out.Pagination.Total,
+		},
+		List: list,
 	}, nil
 }

@@ -11,6 +11,11 @@ type CategoryBackVO struct {
 	UpdatedAt    int64  `json:"updated_at"` // 更新时间
 }
 
+type CategoryPageResp struct {
+	PageMeta
+	List []*CategoryBackVO `json:"list"`
+}
+
 type NewCategoryReq struct {
 	Id           int64  `json:"id,optional"`
 	CategoryName string `json:"category_name"` // 分类名

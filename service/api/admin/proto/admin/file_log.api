@@ -24,6 +24,10 @@ type (
 		FileName string `json:"file_name,optional"` // 文件名称
 		FileType string `json:"file_type,optional"` // 文件类型
 	}
+	FileLogPageResp {
+		PageMeta
+		List []*FileLogBackVO `json:"list"`
+	}
 )
 
 @server (
@@ -36,10 +40,9 @@ type (
 service admin-api {
 	@doc "查询文件日志"
 	@handler FindFileLogList
-	post /file_log/find_file_log_list (QueryFileLogReq) returns (PageResp)
+	post /file_log/find_file_log_list (QueryFileLogReq) returns (FileLogPageResp)
 
 	@doc "删除文件日志"
 	@handler DeletesFileLog
 	delete /file_log/deletes_file_log (IdsReq) returns (BatchResp)
 }
-

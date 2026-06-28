@@ -27,7 +27,7 @@ func NewListUploadFileLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Li
 	}
 }
 
-func (l *ListUploadFileLogic) ListUploadFile(req *types.ListUploadFileReq) (resp *types.PageResp, err error) {
+func (l *ListUploadFileLogic) ListUploadFile(req *types.ListUploadFileReq) (resp *types.FileInfoPageResp, err error) {
 	files, err := l.svcCtx.Uploader.ListFiles(req.FilePath, int(req.Limit))
 	if err != nil {
 		return nil, err
@@ -45,10 +45,12 @@ func (l *ListUploadFileLogic) ListUploadFile(req *types.ListUploadFileReq) (resp
 		})
 	}
 
-	return &types.PageResp{
-		Page:     1,
-		PageSize: req.Limit,
-		Total:    int64(len(list)),
-		List:     list,
+	return &types.FileInfoPageResp{
+		PageMeta: types.PageMeta{
+			Page:     1,
+			PageSize: req.Limit,
+			Total:    int64(len(list)),
+		},
+		List: list,
 	}, nil
 }

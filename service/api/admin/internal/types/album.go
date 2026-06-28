@@ -15,6 +15,11 @@ type AlbumBackVO struct {
 	PhotoCount int64  `json:"photo_count"` // 照片数量
 }
 
+type AlbumPageResp struct {
+	PageMeta
+	List []*AlbumBackVO `json:"list"`
+}
+
 type NewAlbumReq struct {
 	Id         int64  `json:"id,optional"` // 主键
 	AlbumName  string `json:"album_name"`  // 相册名

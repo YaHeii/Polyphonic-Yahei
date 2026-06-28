@@ -12,16 +12,18 @@ type (
 		UpdatedAt int64  `json:"updated_at"` // 更新时间
 	}
 	UploadFileReq {
-		File     interface{} `form:"file,optional"` // 文件
 		FilePath string      `form:"file_path,optional"` // 文件路径
 	}
 	MultiUploadFileReq {
-		Files    []interface{} `form:"files,optional"` // 文件列表
 		FilePath string        `form:"file_path,optional"` // 文件路径
 	}
 	ListUploadFileReq {
 		FilePath string `json:"file_path,optional"` // 文件路径
 		Limit    int64  `json:"limit,optional"` // 限制
+	}
+	FileInfoPageResp {
+		PageMeta
+		List []*FileInfoVO `json:"list"`
 	}
 	DeletesUploadFileReq {
 		FilePaths []string `json:"file_paths,optional"` // 文件路径
@@ -39,7 +41,7 @@ type (
 service admin-api {
 	@doc "获取文件列表"
 	@handler ListUploadFile
-	post /upload/list_upload_file (ListUploadFileReq) returns (PageResp)
+	post /upload/list_upload_file (ListUploadFileReq) returns (FileInfoPageResp)
 
 	@doc "删除文件列表"
 	@handler DeletesUploadFile
@@ -53,4 +55,3 @@ service admin-api {
 	@handler MultiUploadFile
 	post /upload/multi_upload_file (MultiUploadFileReq) returns ([]*FileInfoVO)
 }
-

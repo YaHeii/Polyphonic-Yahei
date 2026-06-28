@@ -23,6 +23,10 @@ type (
 		Ids    []int64 `json:"ids,optional"`
 		Status int64   `json:"status"` // 状态
 	}
+	MessagePageResp {
+		PageMeta
+		List []*MessageBackVO `json:"list"`
+	}
 )
 
 @server (
@@ -35,7 +39,7 @@ type (
 service admin-api {
 	@doc "分页获取留言列表"
 	@handler FindMessageList
-	post /message/find_message_list (QueryMessageReq) returns (PageResp)
+	post /message/find_message_list (QueryMessageReq) returns (MessagePageResp)
 
 	@doc "更新留言状态"
 	@handler UpdateMessageStatus
@@ -45,4 +49,3 @@ service admin-api {
 	@handler DeletesMessage
 	delete /message/deletes_message (IdsReq) returns (BatchResp)
 }
-

@@ -28,7 +28,7 @@ func NewFindAccountListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *F
 	}
 }
 
-func (l *FindAccountListLogic) FindAccountList(req *types.QueryAccountReq) (resp *types.PageResp, err error) {
+func (l *FindAccountListLogic) FindAccountList(req *types.QueryAccountReq) (resp *types.AccountPageResp, err error) {
 	in := &accountrpc.FindUserListReq{
 		Paginate: &accountrpc.PageReq{
 			Page:     req.Page,
@@ -54,7 +54,7 @@ func (l *FindAccountListLogic) FindAccountList(req *types.QueryAccountReq) (resp
 		list = append(list, m)
 	}
 
-	resp = &types.PageResp{}
+	resp = &types.AccountPageResp{}
 	resp.Page = out.Pagination.Page
 	resp.PageSize = out.Pagination.PageSize
 	resp.Total = out.Pagination.Total

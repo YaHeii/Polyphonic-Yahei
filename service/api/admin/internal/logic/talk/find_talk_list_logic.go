@@ -29,7 +29,7 @@ func NewFindTalkListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Find
 	}
 }
 
-func (l *FindTalkListLogic) FindTalkList(req *types.QueryTalkReq) (resp *types.PageResp, err error) {
+func (l *FindTalkListLogic) FindTalkList(req *types.QueryTalkReq) (resp *types.TalkPageResp, err error) {
 	in := &socialrpc.FindTalkListReq{
 		Paginate: &socialrpc.PageReq{
 			Page:     req.Page,
@@ -63,10 +63,12 @@ func (l *FindTalkListLogic) FindTalkList(req *types.QueryTalkReq) (resp *types.P
 		list = append(list, vo)
 	}
 
-	return &types.PageResp{
-		Page:     out.Pagination.Page,
-		PageSize: out.Pagination.PageSize,
-		Total:    out.Pagination.Total,
-		List:     list,
+	return &types.TalkPageResp{
+		PageMeta: types.PageMeta{
+			Page:     out.Pagination.Page,
+			PageSize: out.Pagination.PageSize,
+			Total:    out.Pagination.Total,
+		},
+		List: list,
 	}, nil
 }

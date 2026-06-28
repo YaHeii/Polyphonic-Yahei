@@ -111,10 +111,37 @@ type (
 )
 
 type Server {
-	Os   interface{} `json:"os"`
-	Cpu  interface{} `json:"cpu"`
-	Ram  interface{} `json:"ram"`
-	Disk interface{} `json:"disk"`
+	Os   ServerOs   `json:"os"`
+	Cpu  ServerCpu  `json:"cpu"`
+	Ram  ServerRam  `json:"ram"`
+	Disk ServerDisk `json:"disk"`
+}
+
+type ServerOs {
+	Goos         string `json:"goos"`
+	NumCpu       int64  `json:"numCpu"`
+	Compiler     string `json:"compiler"`
+	GoVersion    string `json:"goVersion"`
+	NumGoroutine int64  `json:"numGoroutine"`
+}
+
+type ServerCpu {
+	Cpus  []float64 `json:"cpus"`
+	Cores int64     `json:"cores"`
+}
+
+type ServerRam {
+	UsedMb      int64 `json:"usedMb"`
+	TotalMb     int64 `json:"totalMb"`
+	UsedPercent int64 `json:"usedPercent"`
+}
+
+type ServerDisk {
+	UsedMb      int64 `json:"usedMb"`
+	UsedGb      int64 `json:"usedGb"`
+	TotalMb     int64 `json:"totalMb"`
+	TotalGb     int64 `json:"totalGb"`
+	UsedPercent int64 `json:"usedPercent"`
 }
 
 @server (

@@ -29,7 +29,7 @@ func NewFindVisitLogListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 	}
 }
 
-func (l *FindVisitLogListLogic) FindVisitLogList(req *types.QueryVisitLogReq) (resp *types.PageResp, err error) {
+func (l *FindVisitLogListLogic) FindVisitLogList(req *types.QueryVisitLogReq) (resp *types.VisitLogPageResp, err error) {
 	in := &syslogrpc.FindVisitLogListReq{
 		Paginate: &syslogrpc.PageReq{
 			Page:     req.Page,
@@ -84,10 +84,12 @@ func (l *FindVisitLogListLogic) FindVisitLogList(req *types.QueryVisitLogReq) (r
 		})
 	}
 
-	return &types.PageResp{
-		Page:     out.Pagination.Page,
-		PageSize: out.Pagination.PageSize,
-		Total:    out.Pagination.Total,
-		List:     list,
+	return &types.VisitLogPageResp{
+		PageMeta: types.PageMeta{
+			Page:     out.Pagination.Page,
+			PageSize: out.Pagination.PageSize,
+			Total:    out.Pagination.Total,
+		},
+		List: list,
 	}, nil
 }
