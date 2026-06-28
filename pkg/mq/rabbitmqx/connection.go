@@ -7,8 +7,7 @@ import (
 	"time"
 
 	amqp "github.com/rabbitmq/amqp091-go"
-
-	"github.com/YaHeii/Polyphonic-Yahei/pkg/logz"
+	"go.uber.org/zap"
 )
 
 type RabbitmqConn struct {
@@ -24,7 +23,7 @@ type RabbitmqConn struct {
 	close          chan struct{}
 	closed         bool
 
-	logz.Logger
+	*zap.SugaredLogger
 }
 
 func NewRabbitmqConn(url string, config *amqp.Config) (*RabbitmqConn, error) {
@@ -41,7 +40,7 @@ func NewRabbitmqConn(url string, config *amqp.Config) (*RabbitmqConn, error) {
 		reconnectDelay: 5 * time.Second,
 		close:          make(chan struct{}),
 		closed:         false,
-		Logger:         logz.S(),
+		SugaredLogger:  zap.L().Sugar(),
 	}
 
 	if err := r.connect(); err != nil {
