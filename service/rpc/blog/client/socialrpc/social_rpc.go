@@ -14,28 +14,24 @@ import (
 )
 
 type (
-	AddFriendReq         = socialrpc.AddFriendReq
-	AddFriendResp        = socialrpc.AddFriendResp
-	AddTalkReq           = socialrpc.AddTalkReq
-	AddTalkResp          = socialrpc.AddTalkResp
-	DeletesFriendReq     = socialrpc.DeletesFriendReq
-	DeletesFriendResp    = socialrpc.DeletesFriendResp
-	DeletesTalkReq       = socialrpc.DeletesTalkReq
-	DeletesTalkResp      = socialrpc.DeletesTalkResp
-	FindFriendListReq    = socialrpc.FindFriendListReq
-	FindFriendListResp   = socialrpc.FindFriendListResp
-	FindTalkListReq      = socialrpc.FindTalkListReq
-	FindTalkListResp     = socialrpc.FindTalkListResp
-	FindUserLikeTalkReq  = socialrpc.FindUserLikeTalkReq
-	FindUserLikeTalkResp = socialrpc.FindUserLikeTalkResp
-	GetTalkReq           = socialrpc.GetTalkReq
-	GetTalkResp          = socialrpc.GetTalkResp
-	LikeTalkReq          = socialrpc.LikeTalkReq
-	LikeTalkResp         = socialrpc.LikeTalkResp
-	UpdateFriendReq      = socialrpc.UpdateFriendReq
-	UpdateFriendResp     = socialrpc.UpdateFriendResp
-	UpdateTalkReq        = socialrpc.UpdateTalkReq
-	UpdateTalkResp       = socialrpc.UpdateTalkResp
+	AddFriendReq       = socialrpc.AddFriendReq
+	AddFriendResp      = socialrpc.AddFriendResp
+	AddTalkReq         = socialrpc.AddTalkReq
+	AddTalkResp        = socialrpc.AddTalkResp
+	DeletesFriendReq   = socialrpc.DeletesFriendReq
+	DeletesFriendResp  = socialrpc.DeletesFriendResp
+	DeletesTalkReq     = socialrpc.DeletesTalkReq
+	DeletesTalkResp    = socialrpc.DeletesTalkResp
+	FindFriendListReq  = socialrpc.FindFriendListReq
+	FindFriendListResp = socialrpc.FindFriendListResp
+	GetTalkListReq     = socialrpc.GetTalkListReq
+	GetTalkListResp    = socialrpc.GetTalkListResp
+	LikeTalkReq        = socialrpc.LikeTalkReq
+	LikeTalkResp       = socialrpc.LikeTalkResp
+	UpdateFriendReq    = socialrpc.UpdateFriendReq
+	UpdateFriendResp   = socialrpc.UpdateFriendResp
+	UpdateTalkReq      = socialrpc.UpdateTalkReq
+	UpdateTalkResp     = socialrpc.UpdateTalkResp
 
 	SocialRpc interface {
 		// 创建友链
@@ -53,13 +49,9 @@ type (
 		// 删除说说
 		DeletesTalk(ctx context.Context, in *DeletesTalkReq, opts ...grpc.CallOption) (*DeletesTalkResp, error)
 		// 查询说说
-		GetTalk(ctx context.Context, in *GetTalkReq, opts ...grpc.CallOption) (*GetTalkResp, error)
-		// 查询说说列表
-		FindTalkList(ctx context.Context, in *FindTalkListReq, opts ...grpc.CallOption) (*FindTalkListResp, error)
+		GetTalk(ctx context.Context, in *GetTalkListReq, opts ...grpc.CallOption) (*GetTalkListResp, error)
 		// 点赞说说
 		LikeTalk(ctx context.Context, in *LikeTalkReq, opts ...grpc.CallOption) (*LikeTalkResp, error)
-		// 用户点赞的说说
-		FindUserLikeTalk(ctx context.Context, in *FindUserLikeTalkReq, opts ...grpc.CallOption) (*FindUserLikeTalkResp, error)
 	}
 
 	defaultSocialRpc struct {
@@ -116,25 +108,13 @@ func (m *defaultSocialRpc) DeletesTalk(ctx context.Context, in *DeletesTalkReq, 
 }
 
 // 查询说说
-func (m *defaultSocialRpc) GetTalk(ctx context.Context, in *GetTalkReq, opts ...grpc.CallOption) (*GetTalkResp, error) {
+func (m *defaultSocialRpc) GetTalk(ctx context.Context, in *GetTalkListReq, opts ...grpc.CallOption) (*GetTalkListResp, error) {
 	client := socialrpc.NewSocialRpcClient(m.cli.Conn())
 	return client.GetTalk(ctx, in, opts...)
-}
-
-// 查询说说列表
-func (m *defaultSocialRpc) FindTalkList(ctx context.Context, in *FindTalkListReq, opts ...grpc.CallOption) (*FindTalkListResp, error) {
-	client := socialrpc.NewSocialRpcClient(m.cli.Conn())
-	return client.FindTalkList(ctx, in, opts...)
 }
 
 // 点赞说说
 func (m *defaultSocialRpc) LikeTalk(ctx context.Context, in *LikeTalkReq, opts ...grpc.CallOption) (*LikeTalkResp, error) {
 	client := socialrpc.NewSocialRpcClient(m.cli.Conn())
 	return client.LikeTalk(ctx, in, opts...)
-}
-
-// 用户点赞的说说
-func (m *defaultSocialRpc) FindUserLikeTalk(ctx context.Context, in *FindUserLikeTalkReq, opts ...grpc.CallOption) (*FindUserLikeTalkResp, error) {
-	client := socialrpc.NewSocialRpcClient(m.cli.Conn())
-	return client.FindUserLikeTalk(ctx, in, opts...)
 }

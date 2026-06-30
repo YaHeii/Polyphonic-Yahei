@@ -8,7 +8,7 @@ INSERT INTO t_role (
 ) VALUES
     (1, 'root', 'System Owner', 0),
     (2, 'super_admin', 'super admin', 0),
-    (3, 'visitor', 'default registered visitor', 0)
+    (3, 'user', 'default registered user', 0)
 ON CONFLICT (id) DO UPDATE SET
     role_key = EXCLUDED.role_key,
     role_comment = EXCLUDED.role_comment,

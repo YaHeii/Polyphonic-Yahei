@@ -25,12 +25,150 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+// ************* 基础消息 *************
+type MessageStatus int32
+
+const (
+	MessageStatus_MESSAGE_STATUS_ACTIVE  MessageStatus = 0
+	MessageStatus_MESSAGE_STATUS_DELETED MessageStatus = 1
+)
+
+// Enum value maps for MessageStatus.
+var (
+	MessageStatus_name = map[int32]string{
+		0: "MESSAGE_STATUS_ACTIVE",
+		1: "MESSAGE_STATUS_DELETED",
+	}
+	MessageStatus_value = map[string]int32{
+		"MESSAGE_STATUS_ACTIVE":  0,
+		"MESSAGE_STATUS_DELETED": 1,
+	}
+)
+
+func (x MessageStatus) Enum() *MessageStatus {
+	p := new(MessageStatus)
+	*p = x
+	return p
+}
+
+func (x MessageStatus) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (MessageStatus) Descriptor() protoreflect.EnumDescriptor {
+	return file_blog_news_proto_enumTypes[0].Descriptor()
+}
+
+func (MessageStatus) Type() protoreflect.EnumType {
+	return &file_blog_news_proto_enumTypes[0]
+}
+
+func (x MessageStatus) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use MessageStatus.Descriptor instead.
+func (MessageStatus) EnumDescriptor() ([]byte, []int) {
+	return file_blog_news_proto_rawDescGZIP(), []int{0}
+}
+
+type CommentType int32
+
+const (
+	CommentType_ARTICLE CommentType = 0
+	CommentType_TALK    CommentType = 1
+)
+
+// Enum value maps for CommentType.
+var (
+	CommentType_name = map[int32]string{
+		0: "ARTICLE",
+		1: "TALK",
+	}
+	CommentType_value = map[string]int32{
+		"ARTICLE": 0,
+		"TALK":    1,
+	}
+)
+
+func (x CommentType) Enum() *CommentType {
+	p := new(CommentType)
+	*p = x
+	return p
+}
+
+func (x CommentType) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (CommentType) Descriptor() protoreflect.EnumDescriptor {
+	return file_blog_news_proto_enumTypes[1].Descriptor()
+}
+
+func (CommentType) Type() protoreflect.EnumType {
+	return &file_blog_news_proto_enumTypes[1]
+}
+
+func (x CommentType) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use CommentType.Descriptor instead.
+func (CommentType) EnumDescriptor() ([]byte, []int) {
+	return file_blog_news_proto_rawDescGZIP(), []int{1}
+}
+
+type CommentStatus int32
+
+const (
+	CommentStatus_COMMENT_STATUS_ACTIVE  CommentStatus = 0
+	CommentStatus_COMMENT_STATUS_DELETED CommentStatus = 1
+)
+
+// Enum value maps for CommentStatus.
+var (
+	CommentStatus_name = map[int32]string{
+		0: "COMMENT_STATUS_ACTIVE",
+		1: "COMMENT_STATUS_DELETED",
+	}
+	CommentStatus_value = map[string]int32{
+		"COMMENT_STATUS_ACTIVE":  0,
+		"COMMENT_STATUS_DELETED": 1,
+	}
+)
+
+func (x CommentStatus) Enum() *CommentStatus {
+	p := new(CommentStatus)
+	*p = x
+	return p
+}
+
+func (x CommentStatus) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (CommentStatus) Descriptor() protoreflect.EnumDescriptor {
+	return file_blog_news_proto_enumTypes[2].Descriptor()
+}
+
+func (CommentStatus) Type() protoreflect.EnumType {
+	return &file_blog_news_proto_enumTypes[2]
+}
+
+func (x CommentStatus) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use CommentStatus.Descriptor instead.
+func (CommentStatus) EnumDescriptor() ([]byte, []int) {
+	return file_blog_news_proto_rawDescGZIP(), []int{2}
+}
+
 // 分页请求参数
 type PageReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Page          int64                  `protobuf:"varint,1,opt,name=page,proto3" json:"page,omitempty"`                         // 页码
 	PageSize      int64                  `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"` // 每页大小
-	Sorts         []string               `protobuf:"bytes,3,rep,name=sorts,proto3" json:"sorts,omitempty"`                        // 排序字段
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -77,13 +215,6 @@ func (x *PageReq) GetPageSize() int64 {
 		return x.PageSize
 	}
 	return 0
-}
-
-func (x *PageReq) GetSorts() []string {
-	if x != nil {
-		return x.Sorts
-	}
-	return nil
 }
 
 // 分页响应参数
@@ -150,13 +281,13 @@ func (x *PageResp) GetTotal() int64 {
 // 留言信息
 type Message struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
-	Id             int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`                                              // 主键id
-	UserId         string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`                         // 用户id
-	TerminalId     string                 `protobuf:"bytes,3,opt,name=terminal_id,json=terminalId,proto3" json:"terminal_id,omitempty"`             // 终端id
-	MessageContent string                 `protobuf:"bytes,4,opt,name=message_content,json=messageContent,proto3" json:"message_content,omitempty"` // 留言内容
-	Status         int64                  `protobuf:"varint,5,opt,name=status,proto3" json:"status,omitempty"`                                      // 状态
-	CreatedAt      int64                  `protobuf:"varint,9,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`               // 发布时间
-	UpdatedAt      int64                  `protobuf:"varint,10,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`              // 更新时间
+	UserId         string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`                         // 用户id
+	MessageContent string                 `protobuf:"bytes,2,opt,name=message_content,json=messageContent,proto3" json:"message_content,omitempty"` // 留言内容
+	Status         MessageStatus          `protobuf:"varint,3,opt,name=status,proto3,enum=newsrpc.MessageStatus" json:"status,omitempty"`           // 状态
+	IsTop          bool                   `protobuf:"varint,4,opt,name=is_top,json=isTop,proto3" json:"is_top,omitempty"`                           // 是否置顶 1是
+	IsDelete       bool                   `protobuf:"varint,5,opt,name=is_delete,json=isDelete,proto3" json:"is_delete,omitempty"`                  // 是否删除 1是
+	CreatedAt      int64                  `protobuf:"varint,6,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`               // 发布时间
+	UpdatedAt      int64                  `protobuf:"varint,7,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`               // 更新时间
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -191,23 +322,9 @@ func (*Message) Descriptor() ([]byte, []int) {
 	return file_blog_news_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *Message) GetId() int64 {
-	if x != nil {
-		return x.Id
-	}
-	return 0
-}
-
 func (x *Message) GetUserId() string {
 	if x != nil {
 		return x.UserId
-	}
-	return ""
-}
-
-func (x *Message) GetTerminalId() string {
-	if x != nil {
-		return x.TerminalId
 	}
 	return ""
 }
@@ -219,11 +336,25 @@ func (x *Message) GetMessageContent() string {
 	return ""
 }
 
-func (x *Message) GetStatus() int64 {
+func (x *Message) GetStatus() MessageStatus {
 	if x != nil {
 		return x.Status
 	}
-	return 0
+	return MessageStatus_MESSAGE_STATUS_ACTIVE
+}
+
+func (x *Message) GetIsTop() bool {
+	if x != nil {
+		return x.IsTop
+	}
+	return false
+}
+
+func (x *Message) GetIsDelete() bool {
+	if x != nil {
+		return x.IsDelete
+	}
+	return false
 }
 
 func (x *Message) GetCreatedAt() int64 {
@@ -243,19 +374,18 @@ func (x *Message) GetUpdatedAt() int64 {
 // 评论信息
 type Comment struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
-	Id             int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`                                              // 主键
-	UserId         string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`                         // 评论用户id
-	TerminalId     string                 `protobuf:"bytes,3,opt,name=terminal_id,json=terminalId,proto3" json:"terminal_id,omitempty"`             // 终端id
-	TopicId        int64                  `protobuf:"varint,4,opt,name=topic_id,json=topicId,proto3" json:"topic_id,omitempty"`                     // 主题id
-	ParentId       int64                  `protobuf:"varint,5,opt,name=parent_id,json=parentId,proto3" json:"parent_id,omitempty"`                  // 父评论id
-	ReplyId        int64                  `protobuf:"varint,6,opt,name=reply_id,json=replyId,proto3" json:"reply_id,omitempty"`                     // 回复评论id
-	ReplyUserId    string                 `protobuf:"bytes,7,opt,name=reply_user_id,json=replyUserId,proto3" json:"reply_user_id,omitempty"`        // 评论回复用户id
-	CommentContent string                 `protobuf:"bytes,8,opt,name=comment_content,json=commentContent,proto3" json:"comment_content,omitempty"` // 评论内容
-	Type           int64                  `protobuf:"varint,9,opt,name=type,proto3" json:"type,omitempty"`                                          // 评论类型
-	Status         int64                  `protobuf:"varint,10,opt,name=status,proto3" json:"status,omitempty"`                                     // 状态
-	CreatedAt      int64                  `protobuf:"varint,12,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`              // 评论时间
-	UpdatedAt      int64                  `protobuf:"varint,13,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`              // 更新时间
-	LikeCount      int64                  `protobuf:"varint,14,opt,name=like_count,json=likeCount,proto3" json:"like_count,omitempty"`              // 点赞数
+	UserId         string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`                         // 评论用户id
+	TopicId        int64                  `protobuf:"varint,2,opt,name=topic_id,json=topicId,proto3" json:"topic_id,omitempty"`                     // 主题id
+	ParentId       int64                  `protobuf:"varint,3,opt,name=parent_id,json=parentId,proto3" json:"parent_id,omitempty"`                  // 顶层评论id
+	ReplyId        int64                  `protobuf:"varint,4,opt,name=reply_id,json=replyId,proto3" json:"reply_id,omitempty"`                     // 直接回复的评论id
+	ReplyUserId    string                 `protobuf:"bytes,5,opt,name=reply_user_id,json=replyUserId,proto3" json:"reply_user_id,omitempty"`        // 被回复用户id
+	CommentContent string                 `protobuf:"bytes,6,opt,name=comment_content,json=commentContent,proto3" json:"comment_content,omitempty"` // 评论内容
+	Type           CommentType            `protobuf:"varint,7,opt,name=type,proto3,enum=newsrpc.CommentType" json:"type,omitempty"`                 // 评论类型
+	Status         CommentStatus          `protobuf:"varint,8,opt,name=status,proto3,enum=newsrpc.CommentStatus" json:"status,omitempty"`           // 状态
+	IsDelete       bool                   `protobuf:"varint,9,opt,name=is_delete,json=isDelete,proto3" json:"is_delete,omitempty"`                  // 是否删除 1是
+	CreatedAt      int64                  `protobuf:"varint,10,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`              // 评论时间
+	UpdatedAt      int64                  `protobuf:"varint,11,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`              // 更新时间
+	LikeCount      int64                  `protobuf:"varint,12,opt,name=like_count,json=likeCount,proto3" json:"like_count,omitempty"`              // 点赞数
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -290,23 +420,9 @@ func (*Comment) Descriptor() ([]byte, []int) {
 	return file_blog_news_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *Comment) GetId() int64 {
-	if x != nil {
-		return x.Id
-	}
-	return 0
-}
-
 func (x *Comment) GetUserId() string {
 	if x != nil {
 		return x.UserId
-	}
-	return ""
-}
-
-func (x *Comment) GetTerminalId() string {
-	if x != nil {
-		return x.TerminalId
 	}
 	return ""
 }
@@ -346,18 +462,25 @@ func (x *Comment) GetCommentContent() string {
 	return ""
 }
 
-func (x *Comment) GetType() int64 {
+func (x *Comment) GetType() CommentType {
 	if x != nil {
 		return x.Type
 	}
-	return 0
+	return CommentType_ARTICLE
 }
 
-func (x *Comment) GetStatus() int64 {
+func (x *Comment) GetStatus() CommentStatus {
 	if x != nil {
 		return x.Status
 	}
-	return 0
+	return CommentStatus_COMMENT_STATUS_ACTIVE
+}
+
+func (x *Comment) GetIsDelete() bool {
+	if x != nil {
+		return x.IsDelete
+	}
+	return false
 }
 
 func (x *Comment) GetCreatedAt() int64 {
@@ -384,11 +507,8 @@ func (x *Comment) GetLikeCount() int64 {
 // ************* 留言 *************
 type AddMessageReq struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
-	Id             int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`                                              // 主键id
-	UserId         string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`                         // 用户id
-	TerminalId     string                 `protobuf:"bytes,3,opt,name=terminal_id,json=terminalId,proto3" json:"terminal_id,omitempty"`             // 终端id
-	MessageContent string                 `protobuf:"bytes,4,opt,name=message_content,json=messageContent,proto3" json:"message_content,omitempty"` // 留言内容
-	Status         int64                  `protobuf:"varint,5,opt,name=status,proto3" json:"status,omitempty"`                                      // 状态
+	UserId         string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`                         // 用户id
+	MessageContent string                 `protobuf:"bytes,2,opt,name=message_content,json=messageContent,proto3" json:"message_content,omitempty"` // 留言内容
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -423,23 +543,9 @@ func (*AddMessageReq) Descriptor() ([]byte, []int) {
 	return file_blog_news_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *AddMessageReq) GetId() int64 {
-	if x != nil {
-		return x.Id
-	}
-	return 0
-}
-
 func (x *AddMessageReq) GetUserId() string {
 	if x != nil {
 		return x.UserId
-	}
-	return ""
-}
-
-func (x *AddMessageReq) GetTerminalId() string {
-	if x != nil {
-		return x.TerminalId
 	}
 	return ""
 }
@@ -449,13 +555,6 @@ func (x *AddMessageReq) GetMessageContent() string {
 		return x.MessageContent
 	}
 	return ""
-}
-
-func (x *AddMessageReq) GetStatus() int64 {
-	if x != nil {
-		return x.Status
-	}
-	return 0
 }
 
 type AddMessageResp struct {
@@ -504,11 +603,8 @@ func (x *AddMessageResp) GetMessage() *Message {
 
 type UpdateMessageReq struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
-	Id             int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`                                              // 主键id
-	UserId         string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`                         // 用户id
-	TerminalId     string                 `protobuf:"bytes,3,opt,name=terminal_id,json=terminalId,proto3" json:"terminal_id,omitempty"`             // 终端id
-	MessageContent string                 `protobuf:"bytes,4,opt,name=message_content,json=messageContent,proto3" json:"message_content,omitempty"` // 留言内容
-	Status         int64                  `protobuf:"varint,5,opt,name=status,proto3" json:"status,omitempty"`                                      // 状态
+	UserId         string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`                         // 用户id
+	MessageContent string                 `protobuf:"bytes,2,opt,name=message_content,json=messageContent,proto3" json:"message_content,omitempty"` // 留言内容
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -543,23 +639,9 @@ func (*UpdateMessageReq) Descriptor() ([]byte, []int) {
 	return file_blog_news_proto_rawDescGZIP(), []int{6}
 }
 
-func (x *UpdateMessageReq) GetId() int64 {
-	if x != nil {
-		return x.Id
-	}
-	return 0
-}
-
 func (x *UpdateMessageReq) GetUserId() string {
 	if x != nil {
 		return x.UserId
-	}
-	return ""
-}
-
-func (x *UpdateMessageReq) GetTerminalId() string {
-	if x != nil {
-		return x.TerminalId
 	}
 	return ""
 }
@@ -569,13 +651,6 @@ func (x *UpdateMessageReq) GetMessageContent() string {
 		return x.MessageContent
 	}
 	return ""
-}
-
-func (x *UpdateMessageReq) GetStatus() int64 {
-	if x != nil {
-		return x.Status
-	}
-	return 0
 }
 
 type UpdateMessageResp struct {
@@ -624,7 +699,7 @@ func (x *UpdateMessageResp) GetMessage() *Message {
 
 type GetMessageReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"` // 主键id
+	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"` // 用户id
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -659,11 +734,11 @@ func (*GetMessageReq) Descriptor() ([]byte, []int) {
 	return file_blog_news_proto_rawDescGZIP(), []int{8}
 }
 
-func (x *GetMessageReq) GetId() int64 {
+func (x *GetMessageReq) GetUserId() string {
 	if x != nil {
-		return x.Id
+		return x.UserId
 	}
-	return 0
+	return ""
 }
 
 type GetMessageResp struct {
@@ -710,27 +785,28 @@ func (x *GetMessageResp) GetMessage() *Message {
 	return nil
 }
 
-type DeletesMessageReq struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Ids           []int64                `protobuf:"varint,1,rep,packed,name=ids,proto3" json:"ids,omitempty"` // id列表
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+type DeleteMessageReq struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	UserId         string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`                         // 用户id
+	MessageContent string                 `protobuf:"bytes,2,opt,name=message_content,json=messageContent,proto3" json:"message_content,omitempty"` // 留言内容
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
-func (x *DeletesMessageReq) Reset() {
-	*x = DeletesMessageReq{}
+func (x *DeleteMessageReq) Reset() {
+	*x = DeleteMessageReq{}
 	mi := &file_blog_news_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *DeletesMessageReq) String() string {
+func (x *DeleteMessageReq) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*DeletesMessageReq) ProtoMessage() {}
+func (*DeleteMessageReq) ProtoMessage() {}
 
-func (x *DeletesMessageReq) ProtoReflect() protoreflect.Message {
+func (x *DeleteMessageReq) ProtoReflect() protoreflect.Message {
 	mi := &file_blog_news_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -742,67 +818,73 @@ func (x *DeletesMessageReq) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DeletesMessageReq.ProtoReflect.Descriptor instead.
-func (*DeletesMessageReq) Descriptor() ([]byte, []int) {
+// Deprecated: Use DeleteMessageReq.ProtoReflect.Descriptor instead.
+func (*DeleteMessageReq) Descriptor() ([]byte, []int) {
 	return file_blog_news_proto_rawDescGZIP(), []int{10}
 }
 
-func (x *DeletesMessageReq) GetIds() []int64 {
+func (x *DeleteMessageReq) GetUserId() string {
 	if x != nil {
-		return x.Ids
+		return x.UserId
+	}
+	return ""
+}
+
+func (x *DeleteMessageReq) GetMessageContent() string {
+	if x != nil {
+		return x.MessageContent
+	}
+	return ""
+}
+
+type DeleteMessageResp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Message       *Message               `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteMessageResp) Reset() {
+	*x = DeleteMessageResp{}
+	mi := &file_blog_news_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteMessageResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteMessageResp) ProtoMessage() {}
+
+func (x *DeleteMessageResp) ProtoReflect() protoreflect.Message {
+	mi := &file_blog_news_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteMessageResp.ProtoReflect.Descriptor instead.
+func (*DeleteMessageResp) Descriptor() ([]byte, []int) {
+	return file_blog_news_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *DeleteMessageResp) GetMessage() *Message {
+	if x != nil {
+		return x.Message
 	}
 	return nil
 }
 
-type DeletesMessageResp struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	SuccessCount  int64                  `protobuf:"varint,1,opt,name=success_count,json=successCount,proto3" json:"success_count,omitempty"` // 成功数量
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *DeletesMessageResp) Reset() {
-	*x = DeletesMessageResp{}
-	mi := &file_blog_news_proto_msgTypes[11]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *DeletesMessageResp) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*DeletesMessageResp) ProtoMessage() {}
-
-func (x *DeletesMessageResp) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_news_proto_msgTypes[11]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use DeletesMessageResp.ProtoReflect.Descriptor instead.
-func (*DeletesMessageResp) Descriptor() ([]byte, []int) {
-	return file_blog_news_proto_rawDescGZIP(), []int{11}
-}
-
-func (x *DeletesMessageResp) GetSuccessCount() int64 {
-	if x != nil {
-		return x.SuccessCount
-	}
-	return 0
-}
-
 type FindMessageListReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Paginate      *PageReq               `protobuf:"bytes,1,opt,name=paginate,proto3" json:"paginate,omitempty"`           // 分页参数
-	UserId        string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"` // 用户ID
-	Status        int64                  `protobuf:"varint,4,opt,name=status,proto3" json:"status,omitempty"`              // 状态
+	Paginate      *PageReq               `protobuf:"bytes,1,opt,name=paginate,proto3" json:"paginate,omitempty"`                         // 分页参数
+	Status        MessageStatus          `protobuf:"varint,3,opt,name=status,proto3,enum=newsrpc.MessageStatus" json:"status,omitempty"` // 状态
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -844,18 +926,11 @@ func (x *FindMessageListReq) GetPaginate() *PageReq {
 	return nil
 }
 
-func (x *FindMessageListReq) GetUserId() string {
-	if x != nil {
-		return x.UserId
-	}
-	return ""
-}
-
-func (x *FindMessageListReq) GetStatus() int64 {
+func (x *FindMessageListReq) GetStatus() MessageStatus {
 	if x != nil {
 		return x.Status
 	}
-	return 0
+	return MessageStatus_MESSAGE_STATUS_ACTIVE
 }
 
 type FindMessageListResp struct {
@@ -910,122 +985,22 @@ func (x *FindMessageListResp) GetList() []*Message {
 	return nil
 }
 
-type UpdateMessageStatusReq struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Ids           []int64                `protobuf:"varint,1,rep,packed,name=ids,proto3" json:"ids,omitempty"` // 主键
-	Status        int64                  `protobuf:"varint,2,opt,name=status,proto3" json:"status,omitempty"`  // 状态
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *UpdateMessageStatusReq) Reset() {
-	*x = UpdateMessageStatusReq{}
-	mi := &file_blog_news_proto_msgTypes[14]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *UpdateMessageStatusReq) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*UpdateMessageStatusReq) ProtoMessage() {}
-
-func (x *UpdateMessageStatusReq) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_news_proto_msgTypes[14]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UpdateMessageStatusReq.ProtoReflect.Descriptor instead.
-func (*UpdateMessageStatusReq) Descriptor() ([]byte, []int) {
-	return file_blog_news_proto_rawDescGZIP(), []int{14}
-}
-
-func (x *UpdateMessageStatusReq) GetIds() []int64 {
-	if x != nil {
-		return x.Ids
-	}
-	return nil
-}
-
-func (x *UpdateMessageStatusReq) GetStatus() int64 {
-	if x != nil {
-		return x.Status
-	}
-	return 0
-}
-
-type UpdateMessageStatusResp struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	SuccessCount  int64                  `protobuf:"varint,1,opt,name=success_count,json=successCount,proto3" json:"success_count,omitempty"` // 成功数量
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *UpdateMessageStatusResp) Reset() {
-	*x = UpdateMessageStatusResp{}
-	mi := &file_blog_news_proto_msgTypes[15]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *UpdateMessageStatusResp) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*UpdateMessageStatusResp) ProtoMessage() {}
-
-func (x *UpdateMessageStatusResp) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_news_proto_msgTypes[15]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UpdateMessageStatusResp.ProtoReflect.Descriptor instead.
-func (*UpdateMessageStatusResp) Descriptor() ([]byte, []int) {
-	return file_blog_news_proto_rawDescGZIP(), []int{15}
-}
-
-func (x *UpdateMessageStatusResp) GetSuccessCount() int64 {
-	if x != nil {
-		return x.SuccessCount
-	}
-	return 0
-}
-
 // ************* 消息管理（评论） *************
 type AddCommentReq struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
-	Id             int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`                                              // 主键
-	UserId         string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`                         // 评论用户id
-	TerminalId     string                 `protobuf:"bytes,3,opt,name=terminal_id,json=terminalId,proto3" json:"terminal_id,omitempty"`             // 终端id
-	TopicId        int64                  `protobuf:"varint,4,opt,name=topic_id,json=topicId,proto3" json:"topic_id,omitempty"`                     // 主题id
-	ParentId       int64                  `protobuf:"varint,5,opt,name=parent_id,json=parentId,proto3" json:"parent_id,omitempty"`                  // 父评论id
-	ReplyId        int64                  `protobuf:"varint,6,opt,name=reply_id,json=replyId,proto3" json:"reply_id,omitempty"`                     // 回复评论id
-	ReplyUserId    string                 `protobuf:"bytes,7,opt,name=reply_user_id,json=replyUserId,proto3" json:"reply_user_id,omitempty"`        // 评论回复用户id
-	CommentContent string                 `protobuf:"bytes,8,opt,name=comment_content,json=commentContent,proto3" json:"comment_content,omitempty"` // 评论内容
-	Type           int64                  `protobuf:"varint,9,opt,name=type,proto3" json:"type,omitempty"`                                          // 评论类型
-	Status         int64                  `protobuf:"varint,10,opt,name=status,proto3" json:"status,omitempty"`                                     // 状态
+	TopicId        int64                  `protobuf:"varint,1,opt,name=topic_id,json=topicId,proto3" json:"topic_id,omitempty"`                     // 主题id
+	ParentId       int64                  `protobuf:"varint,2,opt,name=parent_id,json=parentId,proto3" json:"parent_id,omitempty"`                  // 顶层评论id，顶层评论传0
+	ReplyId        int64                  `protobuf:"varint,3,opt,name=reply_id,json=replyId,proto3" json:"reply_id,omitempty"`                     // 直接回复的评论id，顶层评论传0
+	ReplyUserId    string                 `protobuf:"bytes,4,opt,name=reply_user_id,json=replyUserId,proto3" json:"reply_user_id,omitempty"`        // 被回复用户id
+	CommentContent string                 `protobuf:"bytes,5,opt,name=comment_content,json=commentContent,proto3" json:"comment_content,omitempty"` // 评论内容
+	Type           CommentType            `protobuf:"varint,6,opt,name=type,proto3,enum=newsrpc.CommentType" json:"type,omitempty"`                 // 评论类型
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
 
 func (x *AddCommentReq) Reset() {
 	*x = AddCommentReq{}
-	mi := &file_blog_news_proto_msgTypes[16]
+	mi := &file_blog_news_proto_msgTypes[14]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1037,7 +1012,7 @@ func (x *AddCommentReq) String() string {
 func (*AddCommentReq) ProtoMessage() {}
 
 func (x *AddCommentReq) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_news_proto_msgTypes[16]
+	mi := &file_blog_news_proto_msgTypes[14]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1050,28 +1025,7 @@ func (x *AddCommentReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AddCommentReq.ProtoReflect.Descriptor instead.
 func (*AddCommentReq) Descriptor() ([]byte, []int) {
-	return file_blog_news_proto_rawDescGZIP(), []int{16}
-}
-
-func (x *AddCommentReq) GetId() int64 {
-	if x != nil {
-		return x.Id
-	}
-	return 0
-}
-
-func (x *AddCommentReq) GetUserId() string {
-	if x != nil {
-		return x.UserId
-	}
-	return ""
-}
-
-func (x *AddCommentReq) GetTerminalId() string {
-	if x != nil {
-		return x.TerminalId
-	}
-	return ""
+	return file_blog_news_proto_rawDescGZIP(), []int{14}
 }
 
 func (x *AddCommentReq) GetTopicId() int64 {
@@ -1109,18 +1063,11 @@ func (x *AddCommentReq) GetCommentContent() string {
 	return ""
 }
 
-func (x *AddCommentReq) GetType() int64 {
+func (x *AddCommentReq) GetType() CommentType {
 	if x != nil {
 		return x.Type
 	}
-	return 0
-}
-
-func (x *AddCommentReq) GetStatus() int64 {
-	if x != nil {
-		return x.Status
-	}
-	return 0
+	return CommentType_ARTICLE
 }
 
 type AddCommentResp struct {
@@ -1132,7 +1079,7 @@ type AddCommentResp struct {
 
 func (x *AddCommentResp) Reset() {
 	*x = AddCommentResp{}
-	mi := &file_blog_news_proto_msgTypes[17]
+	mi := &file_blog_news_proto_msgTypes[15]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1144,7 +1091,7 @@ func (x *AddCommentResp) String() string {
 func (*AddCommentResp) ProtoMessage() {}
 
 func (x *AddCommentResp) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_news_proto_msgTypes[17]
+	mi := &file_blog_news_proto_msgTypes[15]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1157,7 +1104,7 @@ func (x *AddCommentResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AddCommentResp.ProtoReflect.Descriptor instead.
 func (*AddCommentResp) Descriptor() ([]byte, []int) {
-	return file_blog_news_proto_rawDescGZIP(), []int{17}
+	return file_blog_news_proto_rawDescGZIP(), []int{15}
 }
 
 func (x *AddCommentResp) GetComment() *Comment {
@@ -1169,23 +1116,14 @@ func (x *AddCommentResp) GetComment() *Comment {
 
 type UpdateCommentReq struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
-	Id             int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`                                              // 主键
-	UserId         string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`                         // 评论用户id
-	TerminalId     string                 `protobuf:"bytes,3,opt,name=terminal_id,json=terminalId,proto3" json:"terminal_id,omitempty"`             // 终端id
-	TopicId        int64                  `protobuf:"varint,4,opt,name=topic_id,json=topicId,proto3" json:"topic_id,omitempty"`                     // 主题id
-	ParentId       int64                  `protobuf:"varint,5,opt,name=parent_id,json=parentId,proto3" json:"parent_id,omitempty"`                  // 父评论id
-	ReplyId        int64                  `protobuf:"varint,6,opt,name=reply_id,json=replyId,proto3" json:"reply_id,omitempty"`                     // 回复评论id
-	ReplyUserId    string                 `protobuf:"bytes,7,opt,name=reply_user_id,json=replyUserId,proto3" json:"reply_user_id,omitempty"`        // 评论回复用户id
-	CommentContent string                 `protobuf:"bytes,8,opt,name=comment_content,json=commentContent,proto3" json:"comment_content,omitempty"` // 评论内容
-	Type           int64                  `protobuf:"varint,9,opt,name=type,proto3" json:"type,omitempty"`                                          // 评论类型
-	Status         int64                  `protobuf:"varint,10,opt,name=status,proto3" json:"status,omitempty"`                                     // 状态
+	CommentContent string                 `protobuf:"bytes,2,opt,name=comment_content,json=commentContent,proto3" json:"comment_content,omitempty"` // 评论内容
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
 
 func (x *UpdateCommentReq) Reset() {
 	*x = UpdateCommentReq{}
-	mi := &file_blog_news_proto_msgTypes[18]
+	mi := &file_blog_news_proto_msgTypes[16]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1197,7 +1135,7 @@ func (x *UpdateCommentReq) String() string {
 func (*UpdateCommentReq) ProtoMessage() {}
 
 func (x *UpdateCommentReq) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_news_proto_msgTypes[18]
+	mi := &file_blog_news_proto_msgTypes[16]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1210,56 +1148,7 @@ func (x *UpdateCommentReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateCommentReq.ProtoReflect.Descriptor instead.
 func (*UpdateCommentReq) Descriptor() ([]byte, []int) {
-	return file_blog_news_proto_rawDescGZIP(), []int{18}
-}
-
-func (x *UpdateCommentReq) GetId() int64 {
-	if x != nil {
-		return x.Id
-	}
-	return 0
-}
-
-func (x *UpdateCommentReq) GetUserId() string {
-	if x != nil {
-		return x.UserId
-	}
-	return ""
-}
-
-func (x *UpdateCommentReq) GetTerminalId() string {
-	if x != nil {
-		return x.TerminalId
-	}
-	return ""
-}
-
-func (x *UpdateCommentReq) GetTopicId() int64 {
-	if x != nil {
-		return x.TopicId
-	}
-	return 0
-}
-
-func (x *UpdateCommentReq) GetParentId() int64 {
-	if x != nil {
-		return x.ParentId
-	}
-	return 0
-}
-
-func (x *UpdateCommentReq) GetReplyId() int64 {
-	if x != nil {
-		return x.ReplyId
-	}
-	return 0
-}
-
-func (x *UpdateCommentReq) GetReplyUserId() string {
-	if x != nil {
-		return x.ReplyUserId
-	}
-	return ""
+	return file_blog_news_proto_rawDescGZIP(), []int{16}
 }
 
 func (x *UpdateCommentReq) GetCommentContent() string {
@@ -1267,20 +1156,6 @@ func (x *UpdateCommentReq) GetCommentContent() string {
 		return x.CommentContent
 	}
 	return ""
-}
-
-func (x *UpdateCommentReq) GetType() int64 {
-	if x != nil {
-		return x.Type
-	}
-	return 0
-}
-
-func (x *UpdateCommentReq) GetStatus() int64 {
-	if x != nil {
-		return x.Status
-	}
-	return 0
 }
 
 type UpdateCommentResp struct {
@@ -1292,7 +1167,7 @@ type UpdateCommentResp struct {
 
 func (x *UpdateCommentResp) Reset() {
 	*x = UpdateCommentResp{}
-	mi := &file_blog_news_proto_msgTypes[19]
+	mi := &file_blog_news_proto_msgTypes[17]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1304,7 +1179,7 @@ func (x *UpdateCommentResp) String() string {
 func (*UpdateCommentResp) ProtoMessage() {}
 
 func (x *UpdateCommentResp) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_news_proto_msgTypes[19]
+	mi := &file_blog_news_proto_msgTypes[17]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1317,7 +1192,7 @@ func (x *UpdateCommentResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateCommentResp.ProtoReflect.Descriptor instead.
 func (*UpdateCommentResp) Descriptor() ([]byte, []int) {
-	return file_blog_news_proto_rawDescGZIP(), []int{19}
+	return file_blog_news_proto_rawDescGZIP(), []int{17}
 }
 
 func (x *UpdateCommentResp) GetComment() *Comment {
@@ -1329,14 +1204,17 @@ func (x *UpdateCommentResp) GetComment() *Comment {
 
 type GetCommentReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"` // 主键
+	TopicId       int64                  `protobuf:"varint,1,opt,name=topic_id,json=topicId,proto3" json:"topic_id,omitempty"`              // 主题id
+	ParentId      int64                  `protobuf:"varint,2,opt,name=parent_id,json=parentId,proto3" json:"parent_id,omitempty"`           // 顶层评论id，顶层评论传0
+	ReplyId       int64                  `protobuf:"varint,3,opt,name=reply_id,json=replyId,proto3" json:"reply_id,omitempty"`              // 直接回复的评论id，顶层评论传0
+	ReplyUserId   string                 `protobuf:"bytes,4,opt,name=reply_user_id,json=replyUserId,proto3" json:"reply_user_id,omitempty"` // 被回复用户id
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *GetCommentReq) Reset() {
 	*x = GetCommentReq{}
-	mi := &file_blog_news_proto_msgTypes[20]
+	mi := &file_blog_news_proto_msgTypes[18]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1348,7 +1226,7 @@ func (x *GetCommentReq) String() string {
 func (*GetCommentReq) ProtoMessage() {}
 
 func (x *GetCommentReq) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_news_proto_msgTypes[20]
+	mi := &file_blog_news_proto_msgTypes[18]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1361,14 +1239,35 @@ func (x *GetCommentReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetCommentReq.ProtoReflect.Descriptor instead.
 func (*GetCommentReq) Descriptor() ([]byte, []int) {
-	return file_blog_news_proto_rawDescGZIP(), []int{20}
+	return file_blog_news_proto_rawDescGZIP(), []int{18}
 }
 
-func (x *GetCommentReq) GetId() int64 {
+func (x *GetCommentReq) GetTopicId() int64 {
 	if x != nil {
-		return x.Id
+		return x.TopicId
 	}
 	return 0
+}
+
+func (x *GetCommentReq) GetParentId() int64 {
+	if x != nil {
+		return x.ParentId
+	}
+	return 0
+}
+
+func (x *GetCommentReq) GetReplyId() int64 {
+	if x != nil {
+		return x.ReplyId
+	}
+	return 0
+}
+
+func (x *GetCommentReq) GetReplyUserId() string {
+	if x != nil {
+		return x.ReplyUserId
+	}
+	return ""
 }
 
 type GetCommentResp struct {
@@ -1380,7 +1279,7 @@ type GetCommentResp struct {
 
 func (x *GetCommentResp) Reset() {
 	*x = GetCommentResp{}
-	mi := &file_blog_news_proto_msgTypes[21]
+	mi := &file_blog_news_proto_msgTypes[19]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1392,7 +1291,7 @@ func (x *GetCommentResp) String() string {
 func (*GetCommentResp) ProtoMessage() {}
 
 func (x *GetCommentResp) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_news_proto_msgTypes[21]
+	mi := &file_blog_news_proto_msgTypes[19]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1405,7 +1304,7 @@ func (x *GetCommentResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetCommentResp.ProtoReflect.Descriptor instead.
 func (*GetCommentResp) Descriptor() ([]byte, []int) {
-	return file_blog_news_proto_rawDescGZIP(), []int{21}
+	return file_blog_news_proto_rawDescGZIP(), []int{19}
 }
 
 func (x *GetCommentResp) GetComment() *Comment {
@@ -1415,28 +1314,31 @@ func (x *GetCommentResp) GetComment() *Comment {
 	return nil
 }
 
-type DeletesCommentReq struct {
+type DeleteCommentReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Ids           []int64                `protobuf:"varint,1,rep,packed,name=ids,proto3" json:"ids,omitempty"` // id列表
+	TopicId       int64                  `protobuf:"varint,1,opt,name=topic_id,json=topicId,proto3" json:"topic_id,omitempty"`              // 主题id
+	ParentId      int64                  `protobuf:"varint,2,opt,name=parent_id,json=parentId,proto3" json:"parent_id,omitempty"`           // 顶层评论id，顶层评论传0
+	ReplyId       int64                  `protobuf:"varint,3,opt,name=reply_id,json=replyId,proto3" json:"reply_id,omitempty"`              // 直接回复的评论id，顶层评论传0
+	ReplyUserId   string                 `protobuf:"bytes,4,opt,name=reply_user_id,json=replyUserId,proto3" json:"reply_user_id,omitempty"` // 被回复用户id
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *DeletesCommentReq) Reset() {
-	*x = DeletesCommentReq{}
-	mi := &file_blog_news_proto_msgTypes[22]
+func (x *DeleteCommentReq) Reset() {
+	*x = DeleteCommentReq{}
+	mi := &file_blog_news_proto_msgTypes[20]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *DeletesCommentReq) String() string {
+func (x *DeleteCommentReq) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*DeletesCommentReq) ProtoMessage() {}
+func (*DeleteCommentReq) ProtoMessage() {}
 
-func (x *DeletesCommentReq) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_news_proto_msgTypes[22]
+func (x *DeleteCommentReq) ProtoReflect() protoreflect.Message {
+	mi := &file_blog_news_proto_msgTypes[20]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1447,171 +1349,97 @@ func (x *DeletesCommentReq) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DeletesCommentReq.ProtoReflect.Descriptor instead.
-func (*DeletesCommentReq) Descriptor() ([]byte, []int) {
-	return file_blog_news_proto_rawDescGZIP(), []int{22}
+// Deprecated: Use DeleteCommentReq.ProtoReflect.Descriptor instead.
+func (*DeleteCommentReq) Descriptor() ([]byte, []int) {
+	return file_blog_news_proto_rawDescGZIP(), []int{20}
 }
 
-func (x *DeletesCommentReq) GetIds() []int64 {
+func (x *DeleteCommentReq) GetTopicId() int64 {
 	if x != nil {
-		return x.Ids
+		return x.TopicId
+	}
+	return 0
+}
+
+func (x *DeleteCommentReq) GetParentId() int64 {
+	if x != nil {
+		return x.ParentId
+	}
+	return 0
+}
+
+func (x *DeleteCommentReq) GetReplyId() int64 {
+	if x != nil {
+		return x.ReplyId
+	}
+	return 0
+}
+
+func (x *DeleteCommentReq) GetReplyUserId() string {
+	if x != nil {
+		return x.ReplyUserId
+	}
+	return ""
+}
+
+type DeleteCommentResp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Comment       *Comment               `protobuf:"bytes,1,opt,name=comment,proto3" json:"comment,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteCommentResp) Reset() {
+	*x = DeleteCommentResp{}
+	mi := &file_blog_news_proto_msgTypes[21]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteCommentResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteCommentResp) ProtoMessage() {}
+
+func (x *DeleteCommentResp) ProtoReflect() protoreflect.Message {
+	mi := &file_blog_news_proto_msgTypes[21]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteCommentResp.ProtoReflect.Descriptor instead.
+func (*DeleteCommentResp) Descriptor() ([]byte, []int) {
+	return file_blog_news_proto_rawDescGZIP(), []int{21}
+}
+
+func (x *DeleteCommentResp) GetComment() *Comment {
+	if x != nil {
+		return x.Comment
 	}
 	return nil
-}
-
-type DeletesCommentResp struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	SuccessCount  int64                  `protobuf:"varint,1,opt,name=success_count,json=successCount,proto3" json:"success_count,omitempty"` // 成功数量
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *DeletesCommentResp) Reset() {
-	*x = DeletesCommentResp{}
-	mi := &file_blog_news_proto_msgTypes[23]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *DeletesCommentResp) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*DeletesCommentResp) ProtoMessage() {}
-
-func (x *DeletesCommentResp) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_news_proto_msgTypes[23]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use DeletesCommentResp.ProtoReflect.Descriptor instead.
-func (*DeletesCommentResp) Descriptor() ([]byte, []int) {
-	return file_blog_news_proto_rawDescGZIP(), []int{23}
-}
-
-func (x *DeletesCommentResp) GetSuccessCount() int64 {
-	if x != nil {
-		return x.SuccessCount
-	}
-	return 0
-}
-
-type UpdateCommentStatusReq struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Ids           []int64                `protobuf:"varint,1,rep,packed,name=ids,proto3" json:"ids,omitempty"` // 主键
-	Status        int64                  `protobuf:"varint,2,opt,name=status,proto3" json:"status,omitempty"`  // 状态
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *UpdateCommentStatusReq) Reset() {
-	*x = UpdateCommentStatusReq{}
-	mi := &file_blog_news_proto_msgTypes[24]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *UpdateCommentStatusReq) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*UpdateCommentStatusReq) ProtoMessage() {}
-
-func (x *UpdateCommentStatusReq) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_news_proto_msgTypes[24]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UpdateCommentStatusReq.ProtoReflect.Descriptor instead.
-func (*UpdateCommentStatusReq) Descriptor() ([]byte, []int) {
-	return file_blog_news_proto_rawDescGZIP(), []int{24}
-}
-
-func (x *UpdateCommentStatusReq) GetIds() []int64 {
-	if x != nil {
-		return x.Ids
-	}
-	return nil
-}
-
-func (x *UpdateCommentStatusReq) GetStatus() int64 {
-	if x != nil {
-		return x.Status
-	}
-	return 0
-}
-
-type UpdateCommentStatusResp struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	SuccessCount  int64                  `protobuf:"varint,1,opt,name=success_count,json=successCount,proto3" json:"success_count,omitempty"` // 成功数量
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *UpdateCommentStatusResp) Reset() {
-	*x = UpdateCommentStatusResp{}
-	mi := &file_blog_news_proto_msgTypes[25]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *UpdateCommentStatusResp) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*UpdateCommentStatusResp) ProtoMessage() {}
-
-func (x *UpdateCommentStatusResp) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_news_proto_msgTypes[25]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UpdateCommentStatusResp.ProtoReflect.Descriptor instead.
-func (*UpdateCommentStatusResp) Descriptor() ([]byte, []int) {
-	return file_blog_news_proto_rawDescGZIP(), []int{25}
-}
-
-func (x *UpdateCommentStatusResp) GetSuccessCount() int64 {
-	if x != nil {
-		return x.SuccessCount
-	}
-	return 0
 }
 
 type FindCommentListReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Paginate      *PageReq               `protobuf:"bytes,1,opt,name=paginate,proto3" json:"paginate,omitempty"`           // 分页参数
-	UserId        string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"` // 用户ID
-	Status        int64                  `protobuf:"varint,3,opt,name=status,proto3" json:"status,omitempty"`              // 状态
-	Type          int64                  `protobuf:"varint,4,opt,name=type,proto3" json:"type,omitempty"`                  // 评论类型
+	Paginate      *PageReq               `protobuf:"bytes,1,opt,name=paginate,proto3" json:"paginate,omitempty"`                         // 分页参数
+	UserId        string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`               // 用户ID
+	Status        CommentStatus          `protobuf:"varint,3,opt,name=status,proto3,enum=newsrpc.CommentStatus" json:"status,omitempty"` // 状态
+	Type          CommentType            `protobuf:"varint,4,opt,name=type,proto3,enum=newsrpc.CommentType" json:"type,omitempty"`       // 评论类型
+	TopicId       int64                  `protobuf:"varint,5,opt,name=topic_id,json=topicId,proto3" json:"topic_id,omitempty"`           // 主题id
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *FindCommentListReq) Reset() {
 	*x = FindCommentListReq{}
-	mi := &file_blog_news_proto_msgTypes[26]
+	mi := &file_blog_news_proto_msgTypes[22]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1623,7 +1451,7 @@ func (x *FindCommentListReq) String() string {
 func (*FindCommentListReq) ProtoMessage() {}
 
 func (x *FindCommentListReq) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_news_proto_msgTypes[26]
+	mi := &file_blog_news_proto_msgTypes[22]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1636,7 +1464,7 @@ func (x *FindCommentListReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FindCommentListReq.ProtoReflect.Descriptor instead.
 func (*FindCommentListReq) Descriptor() ([]byte, []int) {
-	return file_blog_news_proto_rawDescGZIP(), []int{26}
+	return file_blog_news_proto_rawDescGZIP(), []int{22}
 }
 
 func (x *FindCommentListReq) GetPaginate() *PageReq {
@@ -1653,16 +1481,23 @@ func (x *FindCommentListReq) GetUserId() string {
 	return ""
 }
 
-func (x *FindCommentListReq) GetStatus() int64 {
+func (x *FindCommentListReq) GetStatus() CommentStatus {
 	if x != nil {
 		return x.Status
 	}
-	return 0
+	return CommentStatus_COMMENT_STATUS_ACTIVE
 }
 
-func (x *FindCommentListReq) GetType() int64 {
+func (x *FindCommentListReq) GetType() CommentType {
 	if x != nil {
 		return x.Type
+	}
+	return CommentType_ARTICLE
+}
+
+func (x *FindCommentListReq) GetTopicId() int64 {
+	if x != nil {
+		return x.TopicId
 	}
 	return 0
 }
@@ -1677,7 +1512,7 @@ type FindCommentListResp struct {
 
 func (x *FindCommentListResp) Reset() {
 	*x = FindCommentListResp{}
-	mi := &file_blog_news_proto_msgTypes[27]
+	mi := &file_blog_news_proto_msgTypes[23]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1689,7 +1524,7 @@ func (x *FindCommentListResp) String() string {
 func (*FindCommentListResp) ProtoMessage() {}
 
 func (x *FindCommentListResp) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_news_proto_msgTypes[27]
+	mi := &file_blog_news_proto_msgTypes[23]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1702,7 +1537,7 @@ func (x *FindCommentListResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FindCommentListResp.ProtoReflect.Descriptor instead.
 func (*FindCommentListResp) Descriptor() ([]byte, []int) {
-	return file_blog_news_proto_rawDescGZIP(), []int{27}
+	return file_blog_news_proto_rawDescGZIP(), []int{23}
 }
 
 func (x *FindCommentListResp) GetPagination() *PageResp {
@@ -1719,390 +1554,6 @@ func (x *FindCommentListResp) GetList() []*Comment {
 	return nil
 }
 
-type FindCommentReplyListReq struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Paginate      *PageReq               `protobuf:"bytes,1,opt,name=paginate,proto3" json:"paginate,omitempty"`                  // 分页参数
-	TopicId       int64                  `protobuf:"varint,2,opt,name=topic_id,json=topicId,proto3" json:"topic_id,omitempty"`    // 主题id
-	ParentId      int64                  `protobuf:"varint,3,opt,name=parent_id,json=parentId,proto3" json:"parent_id,omitempty"` // 父评论id
-	ReplyId       int64                  `protobuf:"varint,4,opt,name=reply_id,json=replyId,proto3" json:"reply_id,omitempty"`    // 回复评论id
-	Type          int64                  `protobuf:"varint,5,opt,name=type,proto3" json:"type,omitempty"`                         // 评论类型
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *FindCommentReplyListReq) Reset() {
-	*x = FindCommentReplyListReq{}
-	mi := &file_blog_news_proto_msgTypes[28]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *FindCommentReplyListReq) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*FindCommentReplyListReq) ProtoMessage() {}
-
-func (x *FindCommentReplyListReq) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_news_proto_msgTypes[28]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use FindCommentReplyListReq.ProtoReflect.Descriptor instead.
-func (*FindCommentReplyListReq) Descriptor() ([]byte, []int) {
-	return file_blog_news_proto_rawDescGZIP(), []int{28}
-}
-
-func (x *FindCommentReplyListReq) GetPaginate() *PageReq {
-	if x != nil {
-		return x.Paginate
-	}
-	return nil
-}
-
-func (x *FindCommentReplyListReq) GetTopicId() int64 {
-	if x != nil {
-		return x.TopicId
-	}
-	return 0
-}
-
-func (x *FindCommentReplyListReq) GetParentId() int64 {
-	if x != nil {
-		return x.ParentId
-	}
-	return 0
-}
-
-func (x *FindCommentReplyListReq) GetReplyId() int64 {
-	if x != nil {
-		return x.ReplyId
-	}
-	return 0
-}
-
-func (x *FindCommentReplyListReq) GetType() int64 {
-	if x != nil {
-		return x.Type
-	}
-	return 0
-}
-
-type FindCommentReplyListResp struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Pagination    *PageResp              `protobuf:"bytes,1,opt,name=pagination,proto3" json:"pagination,omitempty"` // 分页信息
-	List          []*Comment             `protobuf:"bytes,2,rep,name=list,proto3" json:"list,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *FindCommentReplyListResp) Reset() {
-	*x = FindCommentReplyListResp{}
-	mi := &file_blog_news_proto_msgTypes[29]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *FindCommentReplyListResp) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*FindCommentReplyListResp) ProtoMessage() {}
-
-func (x *FindCommentReplyListResp) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_news_proto_msgTypes[29]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use FindCommentReplyListResp.ProtoReflect.Descriptor instead.
-func (*FindCommentReplyListResp) Descriptor() ([]byte, []int) {
-	return file_blog_news_proto_rawDescGZIP(), []int{29}
-}
-
-func (x *FindCommentReplyListResp) GetPagination() *PageResp {
-	if x != nil {
-		return x.Pagination
-	}
-	return nil
-}
-
-func (x *FindCommentReplyListResp) GetList() []*Comment {
-	if x != nil {
-		return x.List
-	}
-	return nil
-}
-
-type FindLikeCommentResp struct {
-	state           protoimpl.MessageState `protogen:"open.v1"`
-	LikeCommentList []int64                `protobuf:"varint,1,rep,packed,name=like_comment_list,json=likeCommentList,proto3" json:"like_comment_list,omitempty"`
-	unknownFields   protoimpl.UnknownFields
-	sizeCache       protoimpl.SizeCache
-}
-
-func (x *FindLikeCommentResp) Reset() {
-	*x = FindLikeCommentResp{}
-	mi := &file_blog_news_proto_msgTypes[30]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *FindLikeCommentResp) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*FindLikeCommentResp) ProtoMessage() {}
-
-func (x *FindLikeCommentResp) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_news_proto_msgTypes[30]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use FindLikeCommentResp.ProtoReflect.Descriptor instead.
-func (*FindLikeCommentResp) Descriptor() ([]byte, []int) {
-	return file_blog_news_proto_rawDescGZIP(), []int{30}
-}
-
-func (x *FindLikeCommentResp) GetLikeCommentList() []int64 {
-	if x != nil {
-		return x.LikeCommentList
-	}
-	return nil
-}
-
-type FindCommentReplyCountsReq struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	TopicIds      []int64                `protobuf:"varint,1,rep,packed,name=topic_ids,json=topicIds,proto3" json:"topic_ids,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *FindCommentReplyCountsReq) Reset() {
-	*x = FindCommentReplyCountsReq{}
-	mi := &file_blog_news_proto_msgTypes[31]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *FindCommentReplyCountsReq) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*FindCommentReplyCountsReq) ProtoMessage() {}
-
-func (x *FindCommentReplyCountsReq) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_news_proto_msgTypes[31]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use FindCommentReplyCountsReq.ProtoReflect.Descriptor instead.
-func (*FindCommentReplyCountsReq) Descriptor() ([]byte, []int) {
-	return file_blog_news_proto_rawDescGZIP(), []int{31}
-}
-
-func (x *FindCommentReplyCountsReq) GetTopicIds() []int64 {
-	if x != nil {
-		return x.TopicIds
-	}
-	return nil
-}
-
-type FindCommentReplyCountsResp struct {
-	state              protoimpl.MessageState `protogen:"open.v1"`
-	TopicCommentCounts map[int64]int64        `protobuf:"bytes,1,rep,name=topic_comment_counts,json=topicCommentCounts,proto3" json:"topic_comment_counts,omitempty" protobuf_key:"varint,1,opt,name=key" protobuf_val:"varint,2,opt,name=value"`
-	unknownFields      protoimpl.UnknownFields
-	sizeCache          protoimpl.SizeCache
-}
-
-func (x *FindCommentReplyCountsResp) Reset() {
-	*x = FindCommentReplyCountsResp{}
-	mi := &file_blog_news_proto_msgTypes[32]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *FindCommentReplyCountsResp) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*FindCommentReplyCountsResp) ProtoMessage() {}
-
-func (x *FindCommentReplyCountsResp) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_news_proto_msgTypes[32]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use FindCommentReplyCountsResp.ProtoReflect.Descriptor instead.
-func (*FindCommentReplyCountsResp) Descriptor() ([]byte, []int) {
-	return file_blog_news_proto_rawDescGZIP(), []int{32}
-}
-
-func (x *FindCommentReplyCountsResp) GetTopicCommentCounts() map[int64]int64 {
-	if x != nil {
-		return x.TopicCommentCounts
-	}
-	return nil
-}
-
-type LikeCommentReq struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"` // 评论id
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *LikeCommentReq) Reset() {
-	*x = LikeCommentReq{}
-	mi := &file_blog_news_proto_msgTypes[33]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *LikeCommentReq) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*LikeCommentReq) ProtoMessage() {}
-
-func (x *LikeCommentReq) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_news_proto_msgTypes[33]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use LikeCommentReq.ProtoReflect.Descriptor instead.
-func (*LikeCommentReq) Descriptor() ([]byte, []int) {
-	return file_blog_news_proto_rawDescGZIP(), []int{33}
-}
-
-func (x *LikeCommentReq) GetId() int64 {
-	if x != nil {
-		return x.Id
-	}
-	return 0
-}
-
-type LikeCommentResp struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *LikeCommentResp) Reset() {
-	*x = LikeCommentResp{}
-	mi := &file_blog_news_proto_msgTypes[34]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *LikeCommentResp) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*LikeCommentResp) ProtoMessage() {}
-
-func (x *LikeCommentResp) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_news_proto_msgTypes[34]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use LikeCommentResp.ProtoReflect.Descriptor instead.
-func (*LikeCommentResp) Descriptor() ([]byte, []int) {
-	return file_blog_news_proto_rawDescGZIP(), []int{34}
-}
-
-type FindUserLikeCommentReq struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *FindUserLikeCommentReq) Reset() {
-	*x = FindUserLikeCommentReq{}
-	mi := &file_blog_news_proto_msgTypes[35]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *FindUserLikeCommentReq) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*FindUserLikeCommentReq) ProtoMessage() {}
-
-func (x *FindUserLikeCommentReq) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_news_proto_msgTypes[35]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use FindUserLikeCommentReq.ProtoReflect.Descriptor instead.
-func (*FindUserLikeCommentReq) Descriptor() ([]byte, []int) {
-	return file_blog_news_proto_rawDescGZIP(), []int{35}
-}
-
-func (x *FindUserLikeCommentReq) GetUserId() string {
-	if x != nil {
-		return x.UserId
-	}
-	return ""
-}
-
 // ************* 数据分析 *************
 type AnalysisMessageReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -2112,7 +1563,7 @@ type AnalysisMessageReq struct {
 
 func (x *AnalysisMessageReq) Reset() {
 	*x = AnalysisMessageReq{}
-	mi := &file_blog_news_proto_msgTypes[36]
+	mi := &file_blog_news_proto_msgTypes[24]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2124,7 +1575,7 @@ func (x *AnalysisMessageReq) String() string {
 func (*AnalysisMessageReq) ProtoMessage() {}
 
 func (x *AnalysisMessageReq) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_news_proto_msgTypes[36]
+	mi := &file_blog_news_proto_msgTypes[24]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2137,7 +1588,7 @@ func (x *AnalysisMessageReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AnalysisMessageReq.ProtoReflect.Descriptor instead.
 func (*AnalysisMessageReq) Descriptor() ([]byte, []int) {
-	return file_blog_news_proto_rawDescGZIP(), []int{36}
+	return file_blog_news_proto_rawDescGZIP(), []int{24}
 }
 
 type AnalysisMessageResp struct {
@@ -2149,7 +1600,7 @@ type AnalysisMessageResp struct {
 
 func (x *AnalysisMessageResp) Reset() {
 	*x = AnalysisMessageResp{}
-	mi := &file_blog_news_proto_msgTypes[37]
+	mi := &file_blog_news_proto_msgTypes[25]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2161,7 +1612,7 @@ func (x *AnalysisMessageResp) String() string {
 func (*AnalysisMessageResp) ProtoMessage() {}
 
 func (x *AnalysisMessageResp) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_news_proto_msgTypes[37]
+	mi := &file_blog_news_proto_msgTypes[25]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2174,7 +1625,7 @@ func (x *AnalysisMessageResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AnalysisMessageResp.ProtoReflect.Descriptor instead.
 func (*AnalysisMessageResp) Descriptor() ([]byte, []int) {
-	return file_blog_news_proto_rawDescGZIP(), []int{37}
+	return file_blog_news_proto_rawDescGZIP(), []int{25}
 }
 
 func (x *AnalysisMessageResp) GetMessageCount() int64 {
@@ -2188,190 +1639,134 @@ var File_blog_news_proto protoreflect.FileDescriptor
 
 const file_blog_news_proto_rawDesc = "" +
 	"\n" +
-	"\x0fblog/news.proto\x12\anewsrpc\"P\n" +
+	"\x0fblog/news.proto\x12\anewsrpc\":\n" +
 	"\aPageReq\x12\x12\n" +
 	"\x04page\x18\x01 \x01(\x03R\x04page\x12\x1b\n" +
-	"\tpage_size\x18\x02 \x01(\x03R\bpageSize\x12\x14\n" +
-	"\x05sorts\x18\x03 \x03(\tR\x05sorts\"Q\n" +
+	"\tpage_size\x18\x02 \x01(\x03R\bpageSize\"Q\n" +
 	"\bPageResp\x12\x12\n" +
 	"\x04page\x18\x01 \x01(\x03R\x04page\x12\x1b\n" +
 	"\tpage_size\x18\x02 \x01(\x03R\bpageSize\x12\x14\n" +
-	"\x05total\x18\x03 \x01(\x03R\x05total\"\xd2\x01\n" +
-	"\aMessage\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x17\n" +
-	"\auser_id\x18\x02 \x01(\tR\x06userId\x12\x1f\n" +
-	"\vterminal_id\x18\x03 \x01(\tR\n" +
-	"terminalId\x12'\n" +
-	"\x0fmessage_content\x18\x04 \x01(\tR\x0emessageContent\x12\x16\n" +
-	"\x06status\x18\x05 \x01(\x03R\x06status\x12\x1d\n" +
+	"\x05total\x18\x03 \x01(\x03R\x05total\"\xed\x01\n" +
+	"\aMessage\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\x12'\n" +
+	"\x0fmessage_content\x18\x02 \x01(\tR\x0emessageContent\x12.\n" +
+	"\x06status\x18\x03 \x01(\x0e2\x16.newsrpc.messageStatusR\x06status\x12\x15\n" +
+	"\x06is_top\x18\x04 \x01(\bR\x05isTop\x12\x1b\n" +
+	"\tis_delete\x18\x05 \x01(\bR\bisDelete\x12\x1d\n" +
 	"\n" +
-	"created_at\x18\t \x01(\x03R\tcreatedAt\x12\x1d\n" +
+	"created_at\x18\x06 \x01(\x03R\tcreatedAt\x12\x1d\n" +
 	"\n" +
-	"updated_at\x18\n" +
-	" \x01(\x03R\tupdatedAt\"\xfc\x02\n" +
-	"\aComment\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x17\n" +
-	"\auser_id\x18\x02 \x01(\tR\x06userId\x12\x1f\n" +
-	"\vterminal_id\x18\x03 \x01(\tR\n" +
-	"terminalId\x12\x19\n" +
-	"\btopic_id\x18\x04 \x01(\x03R\atopicId\x12\x1b\n" +
-	"\tparent_id\x18\x05 \x01(\x03R\bparentId\x12\x19\n" +
-	"\breply_id\x18\x06 \x01(\x03R\areplyId\x12\"\n" +
-	"\rreply_user_id\x18\a \x01(\tR\vreplyUserId\x12'\n" +
-	"\x0fcomment_content\x18\b \x01(\tR\x0ecommentContent\x12\x12\n" +
-	"\x04type\x18\t \x01(\x03R\x04type\x12\x16\n" +
-	"\x06status\x18\n" +
-	" \x01(\x03R\x06status\x12\x1d\n" +
+	"updated_at\x18\a \x01(\x03R\tupdatedAt\"\x96\x03\n" +
+	"\aComment\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x19\n" +
+	"\btopic_id\x18\x02 \x01(\x03R\atopicId\x12\x1b\n" +
+	"\tparent_id\x18\x03 \x01(\x03R\bparentId\x12\x19\n" +
+	"\breply_id\x18\x04 \x01(\x03R\areplyId\x12\"\n" +
+	"\rreply_user_id\x18\x05 \x01(\tR\vreplyUserId\x12'\n" +
+	"\x0fcomment_content\x18\x06 \x01(\tR\x0ecommentContent\x12(\n" +
+	"\x04type\x18\a \x01(\x0e2\x14.newsrpc.CommentTypeR\x04type\x12.\n" +
+	"\x06status\x18\b \x01(\x0e2\x16.newsrpc.CommentStatusR\x06status\x12\x1b\n" +
+	"\tis_delete\x18\t \x01(\bR\bisDelete\x12\x1d\n" +
 	"\n" +
-	"created_at\x18\f \x01(\x03R\tcreatedAt\x12\x1d\n" +
+	"created_at\x18\n" +
+	" \x01(\x03R\tcreatedAt\x12\x1d\n" +
 	"\n" +
-	"updated_at\x18\r \x01(\x03R\tupdatedAt\x12\x1d\n" +
+	"updated_at\x18\v \x01(\x03R\tupdatedAt\x12\x1d\n" +
 	"\n" +
-	"like_count\x18\x0e \x01(\x03R\tlikeCount\"\x9a\x01\n" +
-	"\rAddMessageReq\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x17\n" +
-	"\auser_id\x18\x02 \x01(\tR\x06userId\x12\x1f\n" +
-	"\vterminal_id\x18\x03 \x01(\tR\n" +
-	"terminalId\x12'\n" +
-	"\x0fmessage_content\x18\x04 \x01(\tR\x0emessageContent\x12\x16\n" +
-	"\x06status\x18\x05 \x01(\x03R\x06status\"<\n" +
+	"like_count\x18\f \x01(\x03R\tlikeCount\"Q\n" +
+	"\rAddMessageReq\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\x12'\n" +
+	"\x0fmessage_content\x18\x02 \x01(\tR\x0emessageContent\"<\n" +
 	"\x0eAddMessageResp\x12*\n" +
-	"\amessage\x18\x01 \x01(\v2\x10.newsrpc.MessageR\amessage\"\x9d\x01\n" +
-	"\x10UpdateMessageReq\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x17\n" +
-	"\auser_id\x18\x02 \x01(\tR\x06userId\x12\x1f\n" +
-	"\vterminal_id\x18\x03 \x01(\tR\n" +
-	"terminalId\x12'\n" +
-	"\x0fmessage_content\x18\x04 \x01(\tR\x0emessageContent\x12\x16\n" +
-	"\x06status\x18\x05 \x01(\x03R\x06status\"?\n" +
+	"\amessage\x18\x01 \x01(\v2\x10.newsrpc.MessageR\amessage\"T\n" +
+	"\x10UpdateMessageReq\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\x12'\n" +
+	"\x0fmessage_content\x18\x02 \x01(\tR\x0emessageContent\"?\n" +
 	"\x11UpdateMessageResp\x12*\n" +
-	"\amessage\x18\x01 \x01(\v2\x10.newsrpc.MessageR\amessage\"\x1f\n" +
-	"\rGetMessageReq\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\"<\n" +
+	"\amessage\x18\x01 \x01(\v2\x10.newsrpc.MessageR\amessage\"(\n" +
+	"\rGetMessageReq\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\"<\n" +
 	"\x0eGetMessageResp\x12*\n" +
-	"\amessage\x18\x01 \x01(\v2\x10.newsrpc.MessageR\amessage\"%\n" +
-	"\x11DeletesMessageReq\x12\x10\n" +
-	"\x03ids\x18\x01 \x03(\x03R\x03ids\"9\n" +
-	"\x12DeletesMessageResp\x12#\n" +
-	"\rsuccess_count\x18\x01 \x01(\x03R\fsuccessCount\"s\n" +
+	"\amessage\x18\x01 \x01(\v2\x10.newsrpc.MessageR\amessage\"T\n" +
+	"\x10DeleteMessageReq\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\x12'\n" +
+	"\x0fmessage_content\x18\x02 \x01(\tR\x0emessageContent\"?\n" +
+	"\x11DeleteMessageResp\x12*\n" +
+	"\amessage\x18\x01 \x01(\v2\x10.newsrpc.MessageR\amessage\"r\n" +
 	"\x12FindMessageListReq\x12,\n" +
-	"\bpaginate\x18\x01 \x01(\v2\x10.newsrpc.PageReqR\bpaginate\x12\x17\n" +
-	"\auser_id\x18\x02 \x01(\tR\x06userId\x12\x16\n" +
-	"\x06status\x18\x04 \x01(\x03R\x06status\"n\n" +
+	"\bpaginate\x18\x01 \x01(\v2\x10.newsrpc.PageReqR\bpaginate\x12.\n" +
+	"\x06status\x18\x03 \x01(\x0e2\x16.newsrpc.messageStatusR\x06status\"n\n" +
 	"\x13FindMessageListResp\x121\n" +
 	"\n" +
 	"pagination\x18\x01 \x01(\v2\x11.newsrpc.PageRespR\n" +
 	"pagination\x12$\n" +
-	"\x04list\x18\x02 \x03(\v2\x10.newsrpc.MessageR\x04list\"B\n" +
-	"\x16UpdateMessageStatusReq\x12\x10\n" +
-	"\x03ids\x18\x01 \x03(\x03R\x03ids\x12\x16\n" +
-	"\x06status\x18\x02 \x01(\x03R\x06status\">\n" +
-	"\x17UpdateMessageStatusResp\x12#\n" +
-	"\rsuccess_count\x18\x01 \x01(\x03R\fsuccessCount\"\xa5\x02\n" +
-	"\rAddCommentReq\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x17\n" +
-	"\auser_id\x18\x02 \x01(\tR\x06userId\x12\x1f\n" +
-	"\vterminal_id\x18\x03 \x01(\tR\n" +
-	"terminalId\x12\x19\n" +
-	"\btopic_id\x18\x04 \x01(\x03R\atopicId\x12\x1b\n" +
-	"\tparent_id\x18\x05 \x01(\x03R\bparentId\x12\x19\n" +
-	"\breply_id\x18\x06 \x01(\x03R\areplyId\x12\"\n" +
-	"\rreply_user_id\x18\a \x01(\tR\vreplyUserId\x12'\n" +
-	"\x0fcomment_content\x18\b \x01(\tR\x0ecommentContent\x12\x12\n" +
-	"\x04type\x18\t \x01(\x03R\x04type\x12\x16\n" +
-	"\x06status\x18\n" +
-	" \x01(\x03R\x06status\"<\n" +
+	"\x04list\x18\x02 \x03(\v2\x10.newsrpc.MessageR\x04list\"\xd9\x01\n" +
+	"\rAddCommentReq\x12\x19\n" +
+	"\btopic_id\x18\x01 \x01(\x03R\atopicId\x12\x1b\n" +
+	"\tparent_id\x18\x02 \x01(\x03R\bparentId\x12\x19\n" +
+	"\breply_id\x18\x03 \x01(\x03R\areplyId\x12\"\n" +
+	"\rreply_user_id\x18\x04 \x01(\tR\vreplyUserId\x12'\n" +
+	"\x0fcomment_content\x18\x05 \x01(\tR\x0ecommentContent\x12(\n" +
+	"\x04type\x18\x06 \x01(\x0e2\x14.newsrpc.CommentTypeR\x04type\"<\n" +
 	"\x0eAddCommentResp\x12*\n" +
-	"\acomment\x18\x01 \x01(\v2\x10.newsrpc.CommentR\acomment\"\xa8\x02\n" +
-	"\x10UpdateCommentReq\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x17\n" +
-	"\auser_id\x18\x02 \x01(\tR\x06userId\x12\x1f\n" +
-	"\vterminal_id\x18\x03 \x01(\tR\n" +
-	"terminalId\x12\x19\n" +
-	"\btopic_id\x18\x04 \x01(\x03R\atopicId\x12\x1b\n" +
-	"\tparent_id\x18\x05 \x01(\x03R\bparentId\x12\x19\n" +
-	"\breply_id\x18\x06 \x01(\x03R\areplyId\x12\"\n" +
-	"\rreply_user_id\x18\a \x01(\tR\vreplyUserId\x12'\n" +
-	"\x0fcomment_content\x18\b \x01(\tR\x0ecommentContent\x12\x12\n" +
-	"\x04type\x18\t \x01(\x03R\x04type\x12\x16\n" +
-	"\x06status\x18\n" +
-	" \x01(\x03R\x06status\"?\n" +
+	"\acomment\x18\x01 \x01(\v2\x10.newsrpc.CommentR\acomment\";\n" +
+	"\x10UpdateCommentReq\x12'\n" +
+	"\x0fcomment_content\x18\x02 \x01(\tR\x0ecommentContent\"?\n" +
 	"\x11UpdateCommentResp\x12*\n" +
-	"\acomment\x18\x01 \x01(\v2\x10.newsrpc.CommentR\acomment\"\x1f\n" +
-	"\rGetCommentReq\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\"<\n" +
+	"\acomment\x18\x01 \x01(\v2\x10.newsrpc.CommentR\acomment\"\x86\x01\n" +
+	"\rGetCommentReq\x12\x19\n" +
+	"\btopic_id\x18\x01 \x01(\x03R\atopicId\x12\x1b\n" +
+	"\tparent_id\x18\x02 \x01(\x03R\bparentId\x12\x19\n" +
+	"\breply_id\x18\x03 \x01(\x03R\areplyId\x12\"\n" +
+	"\rreply_user_id\x18\x04 \x01(\tR\vreplyUserId\"<\n" +
 	"\x0eGetCommentResp\x12*\n" +
-	"\acomment\x18\x01 \x01(\v2\x10.newsrpc.CommentR\acomment\"%\n" +
-	"\x11DeletesCommentReq\x12\x10\n" +
-	"\x03ids\x18\x01 \x03(\x03R\x03ids\"9\n" +
-	"\x12DeletesCommentResp\x12#\n" +
-	"\rsuccess_count\x18\x01 \x01(\x03R\fsuccessCount\"B\n" +
-	"\x16UpdateCommentStatusReq\x12\x10\n" +
-	"\x03ids\x18\x01 \x03(\x03R\x03ids\x12\x16\n" +
-	"\x06status\x18\x02 \x01(\x03R\x06status\">\n" +
-	"\x17UpdateCommentStatusResp\x12#\n" +
-	"\rsuccess_count\x18\x01 \x01(\x03R\fsuccessCount\"\x87\x01\n" +
+	"\acomment\x18\x01 \x01(\v2\x10.newsrpc.CommentR\acomment\"\x89\x01\n" +
+	"\x10DeleteCommentReq\x12\x19\n" +
+	"\btopic_id\x18\x01 \x01(\x03R\atopicId\x12\x1b\n" +
+	"\tparent_id\x18\x02 \x01(\x03R\bparentId\x12\x19\n" +
+	"\breply_id\x18\x03 \x01(\x03R\areplyId\x12\"\n" +
+	"\rreply_user_id\x18\x04 \x01(\tR\vreplyUserId\"?\n" +
+	"\x11DeleteCommentResp\x12*\n" +
+	"\acomment\x18\x01 \x01(\v2\x10.newsrpc.CommentR\acomment\"\xd0\x01\n" +
 	"\x12FindCommentListReq\x12,\n" +
 	"\bpaginate\x18\x01 \x01(\v2\x10.newsrpc.PageReqR\bpaginate\x12\x17\n" +
-	"\auser_id\x18\x02 \x01(\tR\x06userId\x12\x16\n" +
-	"\x06status\x18\x03 \x01(\x03R\x06status\x12\x12\n" +
-	"\x04type\x18\x04 \x01(\x03R\x04type\"n\n" +
+	"\auser_id\x18\x02 \x01(\tR\x06userId\x12.\n" +
+	"\x06status\x18\x03 \x01(\x0e2\x16.newsrpc.CommentStatusR\x06status\x12(\n" +
+	"\x04type\x18\x04 \x01(\x0e2\x14.newsrpc.CommentTypeR\x04type\x12\x19\n" +
+	"\btopic_id\x18\x05 \x01(\x03R\atopicId\"n\n" +
 	"\x13FindCommentListResp\x121\n" +
 	"\n" +
 	"pagination\x18\x01 \x01(\v2\x11.newsrpc.PageRespR\n" +
 	"pagination\x12$\n" +
-	"\x04list\x18\x02 \x03(\v2\x10.newsrpc.CommentR\x04list\"\xae\x01\n" +
-	"\x17FindCommentReplyListReq\x12,\n" +
-	"\bpaginate\x18\x01 \x01(\v2\x10.newsrpc.PageReqR\bpaginate\x12\x19\n" +
-	"\btopic_id\x18\x02 \x01(\x03R\atopicId\x12\x1b\n" +
-	"\tparent_id\x18\x03 \x01(\x03R\bparentId\x12\x19\n" +
-	"\breply_id\x18\x04 \x01(\x03R\areplyId\x12\x12\n" +
-	"\x04type\x18\x05 \x01(\x03R\x04type\"s\n" +
-	"\x18FindCommentReplyListResp\x121\n" +
-	"\n" +
-	"pagination\x18\x01 \x01(\v2\x11.newsrpc.PageRespR\n" +
-	"pagination\x12$\n" +
-	"\x04list\x18\x02 \x03(\v2\x10.newsrpc.CommentR\x04list\"A\n" +
-	"\x13FindLikeCommentResp\x12*\n" +
-	"\x11like_comment_list\x18\x01 \x03(\x03R\x0flikeCommentList\"8\n" +
-	"\x19FindCommentReplyCountsReq\x12\x1b\n" +
-	"\ttopic_ids\x18\x01 \x03(\x03R\btopicIds\"\xd2\x01\n" +
-	"\x1aFindCommentReplyCountsResp\x12m\n" +
-	"\x14topic_comment_counts\x18\x01 \x03(\v2;.newsrpc.FindCommentReplyCountsResp.TopicCommentCountsEntryR\x12topicCommentCounts\x1aE\n" +
-	"\x17TopicCommentCountsEntry\x12\x10\n" +
-	"\x03key\x18\x01 \x01(\x03R\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\x03R\x05value:\x028\x01\" \n" +
-	"\x0eLikeCommentReq\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\"\x11\n" +
-	"\x0fLikeCommentResp\"1\n" +
-	"\x16FindUserLikeCommentReq\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\"\x14\n" +
+	"\x04list\x18\x02 \x03(\v2\x10.newsrpc.CommentR\x04list\"\x14\n" +
 	"\x12AnalysisMessageReq\":\n" +
 	"\x13AnalysisMessageResp\x12#\n" +
-	"\rmessage_count\x18\x01 \x01(\x03R\fmessageCount2\xa1\n" +
-	"\n" +
+	"\rmessage_count\x18\x01 \x01(\x03R\fmessageCount*F\n" +
+	"\rmessageStatus\x12\x19\n" +
+	"\x15MESSAGE_STATUS_ACTIVE\x10\x00\x12\x1a\n" +
+	"\x16MESSAGE_STATUS_DELETED\x10\x01*$\n" +
+	"\vCommentType\x12\v\n" +
+	"\aARTICLE\x10\x00\x12\b\n" +
+	"\x04TALK\x10\x01*F\n" +
+	"\rCommentStatus\x12\x19\n" +
+	"\x15COMMENT_STATUS_ACTIVE\x10\x00\x12\x1a\n" +
+	"\x16COMMENT_STATUS_DELETED\x10\x012\x91\x06\n" +
 	"\aNewsRpc\x12L\n" +
 	"\x0fAnalysisMessage\x12\x1b.newsrpc.AnalysisMessageReq\x1a\x1c.newsrpc.AnalysisMessageResp\x12=\n" +
 	"\n" +
 	"AddMessage\x12\x16.newsrpc.AddMessageReq\x1a\x17.newsrpc.AddMessageResp\x12F\n" +
 	"\rUpdateMessage\x12\x19.newsrpc.UpdateMessageReq\x1a\x1a.newsrpc.UpdateMessageResp\x12=\n" +
 	"\n" +
-	"GetMessage\x12\x16.newsrpc.GetMessageReq\x1a\x17.newsrpc.GetMessageResp\x12I\n" +
-	"\x0eDeletesMessage\x12\x1a.newsrpc.DeletesMessageReq\x1a\x1b.newsrpc.DeletesMessageResp\x12L\n" +
-	"\x0fFindMessageList\x12\x1b.newsrpc.FindMessageListReq\x1a\x1c.newsrpc.FindMessageListResp\x12X\n" +
-	"\x13UpdateMessageStatus\x12\x1f.newsrpc.UpdateMessageStatusReq\x1a .newsrpc.UpdateMessageStatusResp\x12=\n" +
+	"GetMessage\x12\x16.newsrpc.GetMessageReq\x1a\x17.newsrpc.GetMessageResp\x12G\n" +
+	"\x0eDeletesMessage\x12\x19.newsrpc.DeleteMessageReq\x1a\x1a.newsrpc.DeleteMessageResp\x12L\n" +
+	"\x0fFindMessageList\x12\x1b.newsrpc.FindMessageListReq\x1a\x1c.newsrpc.FindMessageListResp\x12=\n" +
 	"\n" +
 	"AddComment\x12\x16.newsrpc.AddCommentReq\x1a\x17.newsrpc.AddCommentResp\x12F\n" +
 	"\rUpdateComment\x12\x19.newsrpc.UpdateCommentReq\x1a\x1a.newsrpc.UpdateCommentResp\x12=\n" +
 	"\n" +
-	"GetComment\x12\x16.newsrpc.GetCommentReq\x1a\x17.newsrpc.GetCommentResp\x12I\n" +
-	"\x0eDeletesComment\x12\x1a.newsrpc.DeletesCommentReq\x1a\x1b.newsrpc.DeletesCommentResp\x12L\n" +
-	"\x0fFindCommentList\x12\x1b.newsrpc.FindCommentListReq\x1a\x1c.newsrpc.FindCommentListResp\x12[\n" +
-	"\x14FindCommentReplyList\x12 .newsrpc.FindCommentReplyListReq\x1a!.newsrpc.FindCommentReplyListResp\x12a\n" +
-	"\x16FindCommentReplyCounts\x12\".newsrpc.FindCommentReplyCountsReq\x1a#.newsrpc.FindCommentReplyCountsResp\x12X\n" +
-	"\x13UpdateCommentStatus\x12\x1f.newsrpc.UpdateCommentStatusReq\x1a .newsrpc.UpdateCommentStatusResp\x12@\n" +
-	"\vLikeComment\x12\x17.newsrpc.LikeCommentReq\x1a\x18.newsrpc.LikeCommentResp\x12T\n" +
-	"\x13FindUserLikeComment\x12\x1f.newsrpc.FindUserLikeCommentReq\x1a\x1c.newsrpc.FindLikeCommentRespB\vZ\t./newsrpcb\x06proto3"
+	"GetComment\x12\x16.newsrpc.GetCommentReq\x1a\x17.newsrpc.GetCommentResp\x12G\n" +
+	"\x0eDeletesComment\x12\x19.newsrpc.DeleteCommentReq\x1a\x1a.newsrpc.DeleteCommentResp\x12L\n" +
+	"\x0fFindCommentList\x12\x1b.newsrpc.FindCommentListReq\x1a\x1c.newsrpc.FindCommentListRespB\vZ\t./newsrpcb\x06proto3"
 
 var (
 	file_blog_news_proto_rawDescOnce sync.Once
@@ -2385,104 +1780,88 @@ func file_blog_news_proto_rawDescGZIP() []byte {
 	return file_blog_news_proto_rawDescData
 }
 
-var file_blog_news_proto_msgTypes = make([]protoimpl.MessageInfo, 39)
+var file_blog_news_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
+var file_blog_news_proto_msgTypes = make([]protoimpl.MessageInfo, 26)
 var file_blog_news_proto_goTypes = []any{
-	(*PageReq)(nil),                    // 0: newsrpc.PageReq
-	(*PageResp)(nil),                   // 1: newsrpc.PageResp
-	(*Message)(nil),                    // 2: newsrpc.Message
-	(*Comment)(nil),                    // 3: newsrpc.Comment
-	(*AddMessageReq)(nil),              // 4: newsrpc.AddMessageReq
-	(*AddMessageResp)(nil),             // 5: newsrpc.AddMessageResp
-	(*UpdateMessageReq)(nil),           // 6: newsrpc.UpdateMessageReq
-	(*UpdateMessageResp)(nil),          // 7: newsrpc.UpdateMessageResp
-	(*GetMessageReq)(nil),              // 8: newsrpc.GetMessageReq
-	(*GetMessageResp)(nil),             // 9: newsrpc.GetMessageResp
-	(*DeletesMessageReq)(nil),          // 10: newsrpc.DeletesMessageReq
-	(*DeletesMessageResp)(nil),         // 11: newsrpc.DeletesMessageResp
-	(*FindMessageListReq)(nil),         // 12: newsrpc.FindMessageListReq
-	(*FindMessageListResp)(nil),        // 13: newsrpc.FindMessageListResp
-	(*UpdateMessageStatusReq)(nil),     // 14: newsrpc.UpdateMessageStatusReq
-	(*UpdateMessageStatusResp)(nil),    // 15: newsrpc.UpdateMessageStatusResp
-	(*AddCommentReq)(nil),              // 16: newsrpc.AddCommentReq
-	(*AddCommentResp)(nil),             // 17: newsrpc.AddCommentResp
-	(*UpdateCommentReq)(nil),           // 18: newsrpc.UpdateCommentReq
-	(*UpdateCommentResp)(nil),          // 19: newsrpc.UpdateCommentResp
-	(*GetCommentReq)(nil),              // 20: newsrpc.GetCommentReq
-	(*GetCommentResp)(nil),             // 21: newsrpc.GetCommentResp
-	(*DeletesCommentReq)(nil),          // 22: newsrpc.DeletesCommentReq
-	(*DeletesCommentResp)(nil),         // 23: newsrpc.DeletesCommentResp
-	(*UpdateCommentStatusReq)(nil),     // 24: newsrpc.UpdateCommentStatusReq
-	(*UpdateCommentStatusResp)(nil),    // 25: newsrpc.UpdateCommentStatusResp
-	(*FindCommentListReq)(nil),         // 26: newsrpc.FindCommentListReq
-	(*FindCommentListResp)(nil),        // 27: newsrpc.FindCommentListResp
-	(*FindCommentReplyListReq)(nil),    // 28: newsrpc.FindCommentReplyListReq
-	(*FindCommentReplyListResp)(nil),   // 29: newsrpc.FindCommentReplyListResp
-	(*FindLikeCommentResp)(nil),        // 30: newsrpc.FindLikeCommentResp
-	(*FindCommentReplyCountsReq)(nil),  // 31: newsrpc.FindCommentReplyCountsReq
-	(*FindCommentReplyCountsResp)(nil), // 32: newsrpc.FindCommentReplyCountsResp
-	(*LikeCommentReq)(nil),             // 33: newsrpc.LikeCommentReq
-	(*LikeCommentResp)(nil),            // 34: newsrpc.LikeCommentResp
-	(*FindUserLikeCommentReq)(nil),     // 35: newsrpc.FindUserLikeCommentReq
-	(*AnalysisMessageReq)(nil),         // 36: newsrpc.AnalysisMessageReq
-	(*AnalysisMessageResp)(nil),        // 37: newsrpc.AnalysisMessageResp
-	nil,                                // 38: newsrpc.FindCommentReplyCountsResp.TopicCommentCountsEntry
+	(MessageStatus)(0),          // 0: newsrpc.messageStatus
+	(CommentType)(0),            // 1: newsrpc.CommentType
+	(CommentStatus)(0),          // 2: newsrpc.CommentStatus
+	(*PageReq)(nil),             // 3: newsrpc.PageReq
+	(*PageResp)(nil),            // 4: newsrpc.PageResp
+	(*Message)(nil),             // 5: newsrpc.Message
+	(*Comment)(nil),             // 6: newsrpc.Comment
+	(*AddMessageReq)(nil),       // 7: newsrpc.AddMessageReq
+	(*AddMessageResp)(nil),      // 8: newsrpc.AddMessageResp
+	(*UpdateMessageReq)(nil),    // 9: newsrpc.UpdateMessageReq
+	(*UpdateMessageResp)(nil),   // 10: newsrpc.UpdateMessageResp
+	(*GetMessageReq)(nil),       // 11: newsrpc.GetMessageReq
+	(*GetMessageResp)(nil),      // 12: newsrpc.GetMessageResp
+	(*DeleteMessageReq)(nil),    // 13: newsrpc.DeleteMessageReq
+	(*DeleteMessageResp)(nil),   // 14: newsrpc.DeleteMessageResp
+	(*FindMessageListReq)(nil),  // 15: newsrpc.FindMessageListReq
+	(*FindMessageListResp)(nil), // 16: newsrpc.FindMessageListResp
+	(*AddCommentReq)(nil),       // 17: newsrpc.AddCommentReq
+	(*AddCommentResp)(nil),      // 18: newsrpc.AddCommentResp
+	(*UpdateCommentReq)(nil),    // 19: newsrpc.UpdateCommentReq
+	(*UpdateCommentResp)(nil),   // 20: newsrpc.UpdateCommentResp
+	(*GetCommentReq)(nil),       // 21: newsrpc.GetCommentReq
+	(*GetCommentResp)(nil),      // 22: newsrpc.GetCommentResp
+	(*DeleteCommentReq)(nil),    // 23: newsrpc.DeleteCommentReq
+	(*DeleteCommentResp)(nil),   // 24: newsrpc.DeleteCommentResp
+	(*FindCommentListReq)(nil),  // 25: newsrpc.FindCommentListReq
+	(*FindCommentListResp)(nil), // 26: newsrpc.FindCommentListResp
+	(*AnalysisMessageReq)(nil),  // 27: newsrpc.AnalysisMessageReq
+	(*AnalysisMessageResp)(nil), // 28: newsrpc.AnalysisMessageResp
 }
 var file_blog_news_proto_depIdxs = []int32{
-	2,  // 0: newsrpc.AddMessageResp.message:type_name -> newsrpc.Message
-	2,  // 1: newsrpc.UpdateMessageResp.message:type_name -> newsrpc.Message
-	2,  // 2: newsrpc.GetMessageResp.message:type_name -> newsrpc.Message
-	0,  // 3: newsrpc.FindMessageListReq.paginate:type_name -> newsrpc.PageReq
-	1,  // 4: newsrpc.FindMessageListResp.pagination:type_name -> newsrpc.PageResp
-	2,  // 5: newsrpc.FindMessageListResp.list:type_name -> newsrpc.Message
-	3,  // 6: newsrpc.AddCommentResp.comment:type_name -> newsrpc.Comment
-	3,  // 7: newsrpc.UpdateCommentResp.comment:type_name -> newsrpc.Comment
-	3,  // 8: newsrpc.GetCommentResp.comment:type_name -> newsrpc.Comment
-	0,  // 9: newsrpc.FindCommentListReq.paginate:type_name -> newsrpc.PageReq
-	1,  // 10: newsrpc.FindCommentListResp.pagination:type_name -> newsrpc.PageResp
-	3,  // 11: newsrpc.FindCommentListResp.list:type_name -> newsrpc.Comment
-	0,  // 12: newsrpc.FindCommentReplyListReq.paginate:type_name -> newsrpc.PageReq
-	1,  // 13: newsrpc.FindCommentReplyListResp.pagination:type_name -> newsrpc.PageResp
-	3,  // 14: newsrpc.FindCommentReplyListResp.list:type_name -> newsrpc.Comment
-	38, // 15: newsrpc.FindCommentReplyCountsResp.topic_comment_counts:type_name -> newsrpc.FindCommentReplyCountsResp.TopicCommentCountsEntry
-	36, // 16: newsrpc.NewsRpc.AnalysisMessage:input_type -> newsrpc.AnalysisMessageReq
-	4,  // 17: newsrpc.NewsRpc.AddMessage:input_type -> newsrpc.AddMessageReq
-	6,  // 18: newsrpc.NewsRpc.UpdateMessage:input_type -> newsrpc.UpdateMessageReq
-	8,  // 19: newsrpc.NewsRpc.GetMessage:input_type -> newsrpc.GetMessageReq
-	10, // 20: newsrpc.NewsRpc.DeletesMessage:input_type -> newsrpc.DeletesMessageReq
-	12, // 21: newsrpc.NewsRpc.FindMessageList:input_type -> newsrpc.FindMessageListReq
-	14, // 22: newsrpc.NewsRpc.UpdateMessageStatus:input_type -> newsrpc.UpdateMessageStatusReq
-	16, // 23: newsrpc.NewsRpc.AddComment:input_type -> newsrpc.AddCommentReq
-	18, // 24: newsrpc.NewsRpc.UpdateComment:input_type -> newsrpc.UpdateCommentReq
-	20, // 25: newsrpc.NewsRpc.GetComment:input_type -> newsrpc.GetCommentReq
-	22, // 26: newsrpc.NewsRpc.DeletesComment:input_type -> newsrpc.DeletesCommentReq
-	26, // 27: newsrpc.NewsRpc.FindCommentList:input_type -> newsrpc.FindCommentListReq
-	28, // 28: newsrpc.NewsRpc.FindCommentReplyList:input_type -> newsrpc.FindCommentReplyListReq
-	31, // 29: newsrpc.NewsRpc.FindCommentReplyCounts:input_type -> newsrpc.FindCommentReplyCountsReq
-	24, // 30: newsrpc.NewsRpc.UpdateCommentStatus:input_type -> newsrpc.UpdateCommentStatusReq
-	33, // 31: newsrpc.NewsRpc.LikeComment:input_type -> newsrpc.LikeCommentReq
-	35, // 32: newsrpc.NewsRpc.FindUserLikeComment:input_type -> newsrpc.FindUserLikeCommentReq
-	37, // 33: newsrpc.NewsRpc.AnalysisMessage:output_type -> newsrpc.AnalysisMessageResp
-	5,  // 34: newsrpc.NewsRpc.AddMessage:output_type -> newsrpc.AddMessageResp
-	7,  // 35: newsrpc.NewsRpc.UpdateMessage:output_type -> newsrpc.UpdateMessageResp
-	9,  // 36: newsrpc.NewsRpc.GetMessage:output_type -> newsrpc.GetMessageResp
-	11, // 37: newsrpc.NewsRpc.DeletesMessage:output_type -> newsrpc.DeletesMessageResp
-	13, // 38: newsrpc.NewsRpc.FindMessageList:output_type -> newsrpc.FindMessageListResp
-	15, // 39: newsrpc.NewsRpc.UpdateMessageStatus:output_type -> newsrpc.UpdateMessageStatusResp
-	17, // 40: newsrpc.NewsRpc.AddComment:output_type -> newsrpc.AddCommentResp
-	19, // 41: newsrpc.NewsRpc.UpdateComment:output_type -> newsrpc.UpdateCommentResp
-	21, // 42: newsrpc.NewsRpc.GetComment:output_type -> newsrpc.GetCommentResp
-	23, // 43: newsrpc.NewsRpc.DeletesComment:output_type -> newsrpc.DeletesCommentResp
-	27, // 44: newsrpc.NewsRpc.FindCommentList:output_type -> newsrpc.FindCommentListResp
-	29, // 45: newsrpc.NewsRpc.FindCommentReplyList:output_type -> newsrpc.FindCommentReplyListResp
-	32, // 46: newsrpc.NewsRpc.FindCommentReplyCounts:output_type -> newsrpc.FindCommentReplyCountsResp
-	25, // 47: newsrpc.NewsRpc.UpdateCommentStatus:output_type -> newsrpc.UpdateCommentStatusResp
-	34, // 48: newsrpc.NewsRpc.LikeComment:output_type -> newsrpc.LikeCommentResp
-	30, // 49: newsrpc.NewsRpc.FindUserLikeComment:output_type -> newsrpc.FindLikeCommentResp
-	33, // [33:50] is the sub-list for method output_type
-	16, // [16:33] is the sub-list for method input_type
-	16, // [16:16] is the sub-list for extension type_name
-	16, // [16:16] is the sub-list for extension extendee
-	0,  // [0:16] is the sub-list for field type_name
+	0,  // 0: newsrpc.Message.status:type_name -> newsrpc.messageStatus
+	1,  // 1: newsrpc.Comment.type:type_name -> newsrpc.CommentType
+	2,  // 2: newsrpc.Comment.status:type_name -> newsrpc.CommentStatus
+	5,  // 3: newsrpc.AddMessageResp.message:type_name -> newsrpc.Message
+	5,  // 4: newsrpc.UpdateMessageResp.message:type_name -> newsrpc.Message
+	5,  // 5: newsrpc.GetMessageResp.message:type_name -> newsrpc.Message
+	5,  // 6: newsrpc.DeleteMessageResp.message:type_name -> newsrpc.Message
+	3,  // 7: newsrpc.FindMessageListReq.paginate:type_name -> newsrpc.PageReq
+	0,  // 8: newsrpc.FindMessageListReq.status:type_name -> newsrpc.messageStatus
+	4,  // 9: newsrpc.FindMessageListResp.pagination:type_name -> newsrpc.PageResp
+	5,  // 10: newsrpc.FindMessageListResp.list:type_name -> newsrpc.Message
+	1,  // 11: newsrpc.AddCommentReq.type:type_name -> newsrpc.CommentType
+	6,  // 12: newsrpc.AddCommentResp.comment:type_name -> newsrpc.Comment
+	6,  // 13: newsrpc.UpdateCommentResp.comment:type_name -> newsrpc.Comment
+	6,  // 14: newsrpc.GetCommentResp.comment:type_name -> newsrpc.Comment
+	6,  // 15: newsrpc.DeleteCommentResp.comment:type_name -> newsrpc.Comment
+	3,  // 16: newsrpc.FindCommentListReq.paginate:type_name -> newsrpc.PageReq
+	2,  // 17: newsrpc.FindCommentListReq.status:type_name -> newsrpc.CommentStatus
+	1,  // 18: newsrpc.FindCommentListReq.type:type_name -> newsrpc.CommentType
+	4,  // 19: newsrpc.FindCommentListResp.pagination:type_name -> newsrpc.PageResp
+	6,  // 20: newsrpc.FindCommentListResp.list:type_name -> newsrpc.Comment
+	27, // 21: newsrpc.NewsRpc.AnalysisMessage:input_type -> newsrpc.AnalysisMessageReq
+	7,  // 22: newsrpc.NewsRpc.AddMessage:input_type -> newsrpc.AddMessageReq
+	9,  // 23: newsrpc.NewsRpc.UpdateMessage:input_type -> newsrpc.UpdateMessageReq
+	11, // 24: newsrpc.NewsRpc.GetMessage:input_type -> newsrpc.GetMessageReq
+	13, // 25: newsrpc.NewsRpc.DeletesMessage:input_type -> newsrpc.DeleteMessageReq
+	15, // 26: newsrpc.NewsRpc.FindMessageList:input_type -> newsrpc.FindMessageListReq
+	17, // 27: newsrpc.NewsRpc.AddComment:input_type -> newsrpc.AddCommentReq
+	19, // 28: newsrpc.NewsRpc.UpdateComment:input_type -> newsrpc.UpdateCommentReq
+	21, // 29: newsrpc.NewsRpc.GetComment:input_type -> newsrpc.GetCommentReq
+	23, // 30: newsrpc.NewsRpc.DeletesComment:input_type -> newsrpc.DeleteCommentReq
+	25, // 31: newsrpc.NewsRpc.FindCommentList:input_type -> newsrpc.FindCommentListReq
+	28, // 32: newsrpc.NewsRpc.AnalysisMessage:output_type -> newsrpc.AnalysisMessageResp
+	8,  // 33: newsrpc.NewsRpc.AddMessage:output_type -> newsrpc.AddMessageResp
+	10, // 34: newsrpc.NewsRpc.UpdateMessage:output_type -> newsrpc.UpdateMessageResp
+	12, // 35: newsrpc.NewsRpc.GetMessage:output_type -> newsrpc.GetMessageResp
+	14, // 36: newsrpc.NewsRpc.DeletesMessage:output_type -> newsrpc.DeleteMessageResp
+	16, // 37: newsrpc.NewsRpc.FindMessageList:output_type -> newsrpc.FindMessageListResp
+	18, // 38: newsrpc.NewsRpc.AddComment:output_type -> newsrpc.AddCommentResp
+	20, // 39: newsrpc.NewsRpc.UpdateComment:output_type -> newsrpc.UpdateCommentResp
+	22, // 40: newsrpc.NewsRpc.GetComment:output_type -> newsrpc.GetCommentResp
+	24, // 41: newsrpc.NewsRpc.DeletesComment:output_type -> newsrpc.DeleteCommentResp
+	26, // 42: newsrpc.NewsRpc.FindCommentList:output_type -> newsrpc.FindCommentListResp
+	32, // [32:43] is the sub-list for method output_type
+	21, // [21:32] is the sub-list for method input_type
+	21, // [21:21] is the sub-list for extension type_name
+	21, // [21:21] is the sub-list for extension extendee
+	0,  // [0:21] is the sub-list for field type_name
 }
 
 func init() { file_blog_news_proto_init() }
@@ -2495,13 +1874,14 @@ func file_blog_news_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_blog_news_proto_rawDesc), len(file_blog_news_proto_rawDesc)),
-			NumEnums:      0,
-			NumMessages:   39,
+			NumEnums:      3,
+			NumMessages:   26,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
 		GoTypes:           file_blog_news_proto_goTypes,
 		DependencyIndexes: file_blog_news_proto_depIdxs,
+		EnumInfos:         file_blog_news_proto_enumTypes,
 		MessageInfos:      file_blog_news_proto_msgTypes,
 	}.Build()
 	File_blog_news_proto = out.File

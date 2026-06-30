@@ -66,25 +66,13 @@ func (s *SocialRpcServer) DeletesTalk(ctx context.Context, in *socialrpc.Deletes
 }
 
 // 查询说说
-func (s *SocialRpcServer) GetTalk(ctx context.Context, in *socialrpc.GetTalkReq) (*socialrpc.GetTalkResp, error) {
+func (s *SocialRpcServer) GetTalk(ctx context.Context, in *socialrpc.GetTalkListReq) (*socialrpc.GetTalkListResp, error) {
 	l := socialrpclogic.NewGetTalkLogic(ctx, s.svcCtx)
 	return l.GetTalk(in)
-}
-
-// 查询说说列表
-func (s *SocialRpcServer) FindTalkList(ctx context.Context, in *socialrpc.FindTalkListReq) (*socialrpc.FindTalkListResp, error) {
-	l := socialrpclogic.NewFindTalkListLogic(ctx, s.svcCtx)
-	return l.FindTalkList(in)
 }
 
 // 点赞说说
 func (s *SocialRpcServer) LikeTalk(ctx context.Context, in *socialrpc.LikeTalkReq) (*socialrpc.LikeTalkResp, error) {
 	l := socialrpclogic.NewLikeTalkLogic(ctx, s.svcCtx)
 	return l.LikeTalk(in)
-}
-
-// 用户点赞的说说
-func (s *SocialRpcServer) FindUserLikeTalk(ctx context.Context, in *socialrpc.FindUserLikeTalkReq) (*socialrpc.FindUserLikeTalkResp, error) {
-	l := socialrpclogic.NewFindUserLikeTalkLogic(ctx, s.svcCtx)
-	return l.FindUserLikeTalk(in)
 }

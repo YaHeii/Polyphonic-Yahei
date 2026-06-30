@@ -12,7 +12,6 @@ option go_package = "./noticerpc";
 message PageReq {
   int64 page = 1;      // 页码
   int64 page_size = 2; // 每页大小
-  repeated string sorts = 3; // 排序字段
 }
 
 // 分页响应参数

@@ -30,7 +30,6 @@ type PageReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Page          int64                  `protobuf:"varint,1,opt,name=page,proto3" json:"page,omitempty"`                         // 页码
 	PageSize      int64                  `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"` // 每页大小
-	Sorts         []string               `protobuf:"bytes,3,rep,name=sorts,proto3" json:"sorts,omitempty"`                        // 排序字段
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -77,13 +76,6 @@ func (x *PageReq) GetPageSize() int64 {
 		return x.PageSize
 	}
 	return 0
-}
-
-func (x *PageReq) GetSorts() []string {
-	if x != nil {
-		return x.Sorts
-	}
-	return nil
 }
 
 // 分页响应参数
@@ -148,141 +140,24 @@ func (x *PageResp) GetTotal() int64 {
 }
 
 // ************* API管理 *************
-type MenuMeta struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Type          string                 `protobuf:"bytes,11,opt,name=type,proto3" json:"type,omitempty"`                                // 菜单类型（0代表目录、1代表菜单、2代表按钮、3代表外链）
-	Title         string                 `protobuf:"bytes,12,opt,name=title,proto3" json:"title,omitempty"`                              // 菜单标题
-	Icon          string                 `protobuf:"bytes,13,opt,name=icon,proto3" json:"icon,omitempty"`                                // 菜单标题
-	Rank          int64                  `protobuf:"varint,14,opt,name=rank,proto3" json:"rank,omitempty"`                               // 菜单排序
-	Perm          string                 `protobuf:"bytes,15,opt,name=perm,proto3" json:"perm,omitempty"`                                // 权限标识
-	Params        string                 `protobuf:"bytes,16,opt,name=params,proto3" json:"params,omitempty"`                            // 路由参数(json)
-	KeepAlive     bool                   `protobuf:"varint,17,opt,name=keep_alive,json=keepAlive,proto3" json:"keep_alive,omitempty"`    // 是否缓存
-	AlwaysShow    bool                   `protobuf:"varint,18,opt,name=always_show,json=alwaysShow,proto3" json:"always_show,omitempty"` // 是否一直显示菜单
-	Visible       bool                   `protobuf:"varint,19,opt,name=visible,proto3" json:"visible,omitempty"`                         // 菜单是否可见
-	Status        bool                   `protobuf:"varint,20,opt,name=status,proto3" json:"status,omitempty"`                           // 是否禁用
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *MenuMeta) Reset() {
-	*x = MenuMeta{}
-	mi := &file_blog_permission_proto_msgTypes[2]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *MenuMeta) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*MenuMeta) ProtoMessage() {}
-
-func (x *MenuMeta) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[2]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use MenuMeta.ProtoReflect.Descriptor instead.
-func (*MenuMeta) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{2}
-}
-
-func (x *MenuMeta) GetType() string {
-	if x != nil {
-		return x.Type
-	}
-	return ""
-}
-
-func (x *MenuMeta) GetTitle() string {
-	if x != nil {
-		return x.Title
-	}
-	return ""
-}
-
-func (x *MenuMeta) GetIcon() string {
-	if x != nil {
-		return x.Icon
-	}
-	return ""
-}
-
-func (x *MenuMeta) GetRank() int64 {
-	if x != nil {
-		return x.Rank
-	}
-	return 0
-}
-
-func (x *MenuMeta) GetPerm() string {
-	if x != nil {
-		return x.Perm
-	}
-	return ""
-}
-
-func (x *MenuMeta) GetParams() string {
-	if x != nil {
-		return x.Params
-	}
-	return ""
-}
-
-func (x *MenuMeta) GetKeepAlive() bool {
-	if x != nil {
-		return x.KeepAlive
-	}
-	return false
-}
-
-func (x *MenuMeta) GetAlwaysShow() bool {
-	if x != nil {
-		return x.AlwaysShow
-	}
-	return false
-}
-
-func (x *MenuMeta) GetVisible() bool {
-	if x != nil {
-		return x.Visible
-	}
-	return false
-}
-
-func (x *MenuMeta) GetStatus() bool {
-	if x != nil {
-		return x.Status
-	}
-	return false
-}
-
 type Api struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`                                // 主键id
-	ParentId      int64                  `protobuf:"varint,2,opt,name=parent_id,json=parentId,proto3" json:"parent_id,omitempty"`    // 分组id
-	Path          string                 `protobuf:"bytes,3,opt,name=path,proto3" json:"path,omitempty"`                             // api路径
-	Name          string                 `protobuf:"bytes,4,opt,name=name,proto3" json:"name,omitempty"`                             // api名称
-	Method        string                 `protobuf:"bytes,5,opt,name=method,proto3" json:"method,omitempty"`                         // api请求方法
-	Traceable     int64                  `protobuf:"varint,6,opt,name=traceable,proto3" json:"traceable,omitempty"`                  // 是否追溯操作记录 0需要，1是
-	Status        int64                  `protobuf:"varint,7,opt,name=status,proto3" json:"status,omitempty"`                        // 状态  0正常 1禁用
-	CreatedAt     int64                  `protobuf:"varint,8,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"` // 创建时间
-	UpdatedAt     int64                  `protobuf:"varint,9,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"` // 更新时间
-	Children      []*Api                 `protobuf:"bytes,10,rep,name=children,proto3" json:"children,omitempty"`
+	ParentId      int64                  `protobuf:"varint,1,opt,name=parent_id,json=parentId,proto3" json:"parent_id,omitempty"`    // 分组id
+	Path          string                 `protobuf:"bytes,2,opt,name=path,proto3" json:"path,omitempty"`                             // api路径
+	Name          string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`                             // api名称
+	Method        string                 `protobuf:"bytes,4,opt,name=method,proto3" json:"method,omitempty"`                         // api请求方法
+	Traceable     int64                  `protobuf:"varint,5,opt,name=traceable,proto3" json:"traceable,omitempty"`                  // 是否追溯操作记录 0需要，1是
+	Status        int64                  `protobuf:"varint,6,opt,name=status,proto3" json:"status,omitempty"`                        // 状态  0正常 1禁用
+	CreatedAt     int64                  `protobuf:"varint,7,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"` // 创建时间
+	UpdatedAt     int64                  `protobuf:"varint,8,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"` // 更新时间
+	Children      []*Api                 `protobuf:"bytes,9,rep,name=children,proto3" json:"children,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *Api) Reset() {
 	*x = Api{}
-	mi := &file_blog_permission_proto_msgTypes[3]
+	mi := &file_blog_permission_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -294,7 +169,7 @@ func (x *Api) String() string {
 func (*Api) ProtoMessage() {}
 
 func (x *Api) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[3]
+	mi := &file_blog_permission_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -307,14 +182,7 @@ func (x *Api) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Api.ProtoReflect.Descriptor instead.
 func (*Api) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{3}
-}
-
-func (x *Api) GetId() int64 {
-	if x != nil {
-		return x.Id
-	}
-	return 0
+	return file_blog_permission_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *Api) GetParentId() int64 {
@@ -382,21 +250,20 @@ func (x *Api) GetChildren() []*Api {
 
 type AddApiReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`                             // 主键id
-	ParentId      int64                  `protobuf:"varint,2,opt,name=parent_id,json=parentId,proto3" json:"parent_id,omitempty"` // 分组id
-	Path          string                 `protobuf:"bytes,3,opt,name=path,proto3" json:"path,omitempty"`                          // api路径
-	Name          string                 `protobuf:"bytes,4,opt,name=name,proto3" json:"name,omitempty"`                          // api名称
-	Method        string                 `protobuf:"bytes,5,opt,name=method,proto3" json:"method,omitempty"`                      // api请求方法
-	Traceable     int64                  `protobuf:"varint,6,opt,name=traceable,proto3" json:"traceable,omitempty"`               // 是否追溯操作记录 0需要，1是
-	Status        int64                  `protobuf:"varint,7,opt,name=status,proto3" json:"status,omitempty"`                     // 状态  0正常 1禁用
-	Children      []*AddApiReq           `protobuf:"bytes,10,rep,name=children,proto3" json:"children,omitempty"`
+	ParentId      int64                  `protobuf:"varint,1,opt,name=parent_id,json=parentId,proto3" json:"parent_id,omitempty"` // 分组id
+	Path          string                 `protobuf:"bytes,2,opt,name=path,proto3" json:"path,omitempty"`                          // api路径
+	Name          string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`                          // api名称
+	Method        string                 `protobuf:"bytes,4,opt,name=method,proto3" json:"method,omitempty"`                      // api请求方法
+	Traceable     int64                  `protobuf:"varint,5,opt,name=traceable,proto3" json:"traceable,omitempty"`               // 是否追溯操作记录 0需要，1是
+	Status        int64                  `protobuf:"varint,6,opt,name=status,proto3" json:"status,omitempty"`                     // 状态  0正常 1禁用
+	Children      []*AddApiReq           `protobuf:"bytes,7,rep,name=children,proto3" json:"children,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *AddApiReq) Reset() {
 	*x = AddApiReq{}
-	mi := &file_blog_permission_proto_msgTypes[4]
+	mi := &file_blog_permission_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -408,7 +275,7 @@ func (x *AddApiReq) String() string {
 func (*AddApiReq) ProtoMessage() {}
 
 func (x *AddApiReq) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[4]
+	mi := &file_blog_permission_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -421,14 +288,7 @@ func (x *AddApiReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AddApiReq.ProtoReflect.Descriptor instead.
 func (*AddApiReq) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{4}
-}
-
-func (x *AddApiReq) GetId() int64 {
-	if x != nil {
-		return x.Id
-	}
-	return 0
+	return file_blog_permission_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *AddApiReq) GetParentId() int64 {
@@ -489,7 +349,7 @@ type AddApiResp struct {
 
 func (x *AddApiResp) Reset() {
 	*x = AddApiResp{}
-	mi := &file_blog_permission_proto_msgTypes[5]
+	mi := &file_blog_permission_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -501,7 +361,7 @@ func (x *AddApiResp) String() string {
 func (*AddApiResp) ProtoMessage() {}
 
 func (x *AddApiResp) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[5]
+	mi := &file_blog_permission_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -514,7 +374,7 @@ func (x *AddApiResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AddApiResp.ProtoReflect.Descriptor instead.
 func (*AddApiResp) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{5}
+	return file_blog_permission_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *AddApiResp) GetApi() *Api {
@@ -526,21 +386,20 @@ func (x *AddApiResp) GetApi() *Api {
 
 type UpdateApiReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`                             // 主键id
-	ParentId      int64                  `protobuf:"varint,2,opt,name=parent_id,json=parentId,proto3" json:"parent_id,omitempty"` // 分组id
-	Path          string                 `protobuf:"bytes,3,opt,name=path,proto3" json:"path,omitempty"`                          // api路径
-	Name          string                 `protobuf:"bytes,4,opt,name=name,proto3" json:"name,omitempty"`                          // api名称
-	Method        string                 `protobuf:"bytes,5,opt,name=method,proto3" json:"method,omitempty"`                      // api请求方法
-	Traceable     int64                  `protobuf:"varint,6,opt,name=traceable,proto3" json:"traceable,omitempty"`               // 是否追溯操作记录 0需要，1是
-	Status        int64                  `protobuf:"varint,7,opt,name=status,proto3" json:"status,omitempty"`                     // 状态  0正常 1禁用
-	Children      []*UpdateApiReq        `protobuf:"bytes,10,rep,name=children,proto3" json:"children,omitempty"`
+	ParentId      int64                  `protobuf:"varint,1,opt,name=parent_id,json=parentId,proto3" json:"parent_id,omitempty"` // 分组id
+	Path          string                 `protobuf:"bytes,2,opt,name=path,proto3" json:"path,omitempty"`                          // api路径
+	Name          string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`                          // api名称
+	Method        string                 `protobuf:"bytes,4,opt,name=method,proto3" json:"method,omitempty"`                      // api请求方法
+	Traceable     int64                  `protobuf:"varint,5,opt,name=traceable,proto3" json:"traceable,omitempty"`               // 是否追溯操作记录 0需要，1是
+	Status        int64                  `protobuf:"varint,6,opt,name=status,proto3" json:"status,omitempty"`                     // 状态  0正常 1禁用
+	Children      []*AddApiReq           `protobuf:"bytes,7,rep,name=children,proto3" json:"children,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *UpdateApiReq) Reset() {
 	*x = UpdateApiReq{}
-	mi := &file_blog_permission_proto_msgTypes[6]
+	mi := &file_blog_permission_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -552,7 +411,7 @@ func (x *UpdateApiReq) String() string {
 func (*UpdateApiReq) ProtoMessage() {}
 
 func (x *UpdateApiReq) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[6]
+	mi := &file_blog_permission_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -565,14 +424,7 @@ func (x *UpdateApiReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateApiReq.ProtoReflect.Descriptor instead.
 func (*UpdateApiReq) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{6}
-}
-
-func (x *UpdateApiReq) GetId() int64 {
-	if x != nil {
-		return x.Id
-	}
-	return 0
+	return file_blog_permission_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *UpdateApiReq) GetParentId() int64 {
@@ -617,7 +469,7 @@ func (x *UpdateApiReq) GetStatus() int64 {
 	return 0
 }
 
-func (x *UpdateApiReq) GetChildren() []*UpdateApiReq {
+func (x *UpdateApiReq) GetChildren() []*AddApiReq {
 	if x != nil {
 		return x.Children
 	}
@@ -633,7 +485,7 @@ type UpdateApiResp struct {
 
 func (x *UpdateApiResp) Reset() {
 	*x = UpdateApiResp{}
-	mi := &file_blog_permission_proto_msgTypes[7]
+	mi := &file_blog_permission_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -645,7 +497,7 @@ func (x *UpdateApiResp) String() string {
 func (*UpdateApiResp) ProtoMessage() {}
 
 func (x *UpdateApiResp) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[7]
+	mi := &file_blog_permission_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -658,7 +510,7 @@ func (x *UpdateApiResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateApiResp.ProtoReflect.Descriptor instead.
 func (*UpdateApiResp) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{7}
+	return file_blog_permission_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *UpdateApiResp) GetApi() *Api {
@@ -668,16 +520,104 @@ func (x *UpdateApiResp) GetApi() *Api {
 	return nil
 }
 
+type DeleteApiReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ParentId      int64                  `protobuf:"varint,1,opt,name=parent_id,json=parentId,proto3" json:"parent_id,omitempty"` // 分组id
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteApiReq) Reset() {
+	*x = DeleteApiReq{}
+	mi := &file_blog_permission_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteApiReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteApiReq) ProtoMessage() {}
+
+func (x *DeleteApiReq) ProtoReflect() protoreflect.Message {
+	mi := &file_blog_permission_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteApiReq.ProtoReflect.Descriptor instead.
+func (*DeleteApiReq) Descriptor() ([]byte, []int) {
+	return file_blog_permission_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *DeleteApiReq) GetParentId() int64 {
+	if x != nil {
+		return x.ParentId
+	}
+	return 0
+}
+
+type DeleteApiResp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Api           []*Api                 `protobuf:"bytes,1,rep,name=api,proto3" json:"api,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteApiResp) Reset() {
+	*x = DeleteApiResp{}
+	mi := &file_blog_permission_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteApiResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteApiResp) ProtoMessage() {}
+
+func (x *DeleteApiResp) ProtoReflect() protoreflect.Message {
+	mi := &file_blog_permission_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteApiResp.ProtoReflect.Descriptor instead.
+func (*DeleteApiResp) Descriptor() ([]byte, []int) {
+	return file_blog_permission_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *DeleteApiResp) GetApi() []*Api {
+	if x != nil {
+		return x.Api
+	}
+	return nil
+}
+
 type DeletesApiReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Ids           []int64                `protobuf:"varint,1,rep,packed,name=ids,proto3" json:"ids,omitempty"` // id列表
+	Ids           []int64                `protobuf:"varint,1,rep,packed,name=ids,proto3" json:"ids,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *DeletesApiReq) Reset() {
 	*x = DeletesApiReq{}
-	mi := &file_blog_permission_proto_msgTypes[8]
+	mi := &file_blog_permission_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -689,7 +629,7 @@ func (x *DeletesApiReq) String() string {
 func (*DeletesApiReq) ProtoMessage() {}
 
 func (x *DeletesApiReq) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[8]
+	mi := &file_blog_permission_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -702,7 +642,7 @@ func (x *DeletesApiReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeletesApiReq.ProtoReflect.Descriptor instead.
 func (*DeletesApiReq) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{8}
+	return file_blog_permission_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *DeletesApiReq) GetIds() []int64 {
@@ -714,14 +654,14 @@ func (x *DeletesApiReq) GetIds() []int64 {
 
 type DeletesApiResp struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	SuccessCount  int64                  `protobuf:"varint,1,opt,name=success_count,json=successCount,proto3" json:"success_count,omitempty"` // 成功数量
+	SuccessCount  int64                  `protobuf:"varint,1,opt,name=success_count,json=successCount,proto3" json:"success_count,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *DeletesApiResp) Reset() {
 	*x = DeletesApiResp{}
-	mi := &file_blog_permission_proto_msgTypes[9]
+	mi := &file_blog_permission_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -733,7 +673,7 @@ func (x *DeletesApiResp) String() string {
 func (*DeletesApiResp) ProtoMessage() {}
 
 func (x *DeletesApiResp) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[9]
+	mi := &file_blog_permission_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -746,7 +686,7 @@ func (x *DeletesApiResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeletesApiResp.ProtoReflect.Descriptor instead.
 func (*DeletesApiResp) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{9}
+	return file_blog_permission_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *DeletesApiResp) GetSuccessCount() int64 {
@@ -767,7 +707,7 @@ type FindApiListReq struct {
 
 func (x *FindApiListReq) Reset() {
 	*x = FindApiListReq{}
-	mi := &file_blog_permission_proto_msgTypes[10]
+	mi := &file_blog_permission_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -779,7 +719,7 @@ func (x *FindApiListReq) String() string {
 func (*FindApiListReq) ProtoMessage() {}
 
 func (x *FindApiListReq) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[10]
+	mi := &file_blog_permission_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -792,7 +732,7 @@ func (x *FindApiListReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FindApiListReq.ProtoReflect.Descriptor instead.
 func (*FindApiListReq) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{10}
+	return file_blog_permission_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *FindApiListReq) GetName() string {
@@ -826,7 +766,7 @@ type FindApiListResp struct {
 
 func (x *FindApiListResp) Reset() {
 	*x = FindApiListResp{}
-	mi := &file_blog_permission_proto_msgTypes[11]
+	mi := &file_blog_permission_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -838,7 +778,7 @@ func (x *FindApiListResp) String() string {
 func (*FindApiListResp) ProtoMessage() {}
 
 func (x *FindApiListResp) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[11]
+	mi := &file_blog_permission_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -851,7 +791,7 @@ func (x *FindApiListResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FindApiListResp.ProtoReflect.Descriptor instead.
 func (*FindApiListResp) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{11}
+	return file_blog_permission_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *FindApiListResp) GetPagination() *PageResp {
@@ -868,6 +808,86 @@ func (x *FindApiListResp) GetList() []*Api {
 	return nil
 }
 
+type FindAllApiReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *FindAllApiReq) Reset() {
+	*x = FindAllApiReq{}
+	mi := &file_blog_permission_proto_msgTypes[13]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *FindAllApiReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*FindAllApiReq) ProtoMessage() {}
+
+func (x *FindAllApiReq) ProtoReflect() protoreflect.Message {
+	mi := &file_blog_permission_proto_msgTypes[13]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use FindAllApiReq.ProtoReflect.Descriptor instead.
+func (*FindAllApiReq) Descriptor() ([]byte, []int) {
+	return file_blog_permission_proto_rawDescGZIP(), []int{13}
+}
+
+type FindAllApiResp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	List          []*Api                 `protobuf:"bytes,1,rep,name=list,proto3" json:"list,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *FindAllApiResp) Reset() {
+	*x = FindAllApiResp{}
+	mi := &file_blog_permission_proto_msgTypes[14]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *FindAllApiResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*FindAllApiResp) ProtoMessage() {}
+
+func (x *FindAllApiResp) ProtoReflect() protoreflect.Message {
+	mi := &file_blog_permission_proto_msgTypes[14]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use FindAllApiResp.ProtoReflect.Descriptor instead.
+func (*FindAllApiResp) Descriptor() ([]byte, []int) {
+	return file_blog_permission_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *FindAllApiResp) GetList() []*Api {
+	if x != nil {
+		return x.List
+	}
+	return nil
+}
+
 type SyncApiListReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Apis          []*AddApiReq           `protobuf:"bytes,1,rep,name=apis,proto3" json:"apis,omitempty"`
@@ -877,7 +897,7 @@ type SyncApiListReq struct {
 
 func (x *SyncApiListReq) Reset() {
 	*x = SyncApiListReq{}
-	mi := &file_blog_permission_proto_msgTypes[12]
+	mi := &file_blog_permission_proto_msgTypes[15]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -889,7 +909,7 @@ func (x *SyncApiListReq) String() string {
 func (*SyncApiListReq) ProtoMessage() {}
 
 func (x *SyncApiListReq) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[12]
+	mi := &file_blog_permission_proto_msgTypes[15]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -902,7 +922,7 @@ func (x *SyncApiListReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SyncApiListReq.ProtoReflect.Descriptor instead.
 func (*SyncApiListReq) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{12}
+	return file_blog_permission_proto_rawDescGZIP(), []int{15}
 }
 
 func (x *SyncApiListReq) GetApis() []*AddApiReq {
@@ -914,14 +934,14 @@ func (x *SyncApiListReq) GetApis() []*AddApiReq {
 
 type SyncApiListResp struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	SuccessCount  int64                  `protobuf:"varint,1,opt,name=success_count,json=successCount,proto3" json:"success_count,omitempty"` // 成功数量
+	SuccessCount  int64                  `protobuf:"varint,1,opt,name=success_count,json=successCount,proto3" json:"success_count,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *SyncApiListResp) Reset() {
 	*x = SyncApiListResp{}
-	mi := &file_blog_permission_proto_msgTypes[13]
+	mi := &file_blog_permission_proto_msgTypes[16]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -933,7 +953,7 @@ func (x *SyncApiListResp) String() string {
 func (*SyncApiListResp) ProtoMessage() {}
 
 func (x *SyncApiListResp) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[13]
+	mi := &file_blog_permission_proto_msgTypes[16]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -946,7 +966,7 @@ func (x *SyncApiListResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SyncApiListResp.ProtoReflect.Descriptor instead.
 func (*SyncApiListResp) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{13}
+	return file_blog_permission_proto_rawDescGZIP(), []int{16}
 }
 
 func (x *SyncApiListResp) GetSuccessCount() int64 {
@@ -964,7 +984,7 @@ type CleanApiListReq struct {
 
 func (x *CleanApiListReq) Reset() {
 	*x = CleanApiListReq{}
-	mi := &file_blog_permission_proto_msgTypes[14]
+	mi := &file_blog_permission_proto_msgTypes[17]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -976,7 +996,7 @@ func (x *CleanApiListReq) String() string {
 func (*CleanApiListReq) ProtoMessage() {}
 
 func (x *CleanApiListReq) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[14]
+	mi := &file_blog_permission_proto_msgTypes[17]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -989,19 +1009,19 @@ func (x *CleanApiListReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CleanApiListReq.ProtoReflect.Descriptor instead.
 func (*CleanApiListReq) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{14}
+	return file_blog_permission_proto_rawDescGZIP(), []int{17}
 }
 
 type CleanApiListResp struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	SuccessCount  int64                  `protobuf:"varint,1,opt,name=success_count,json=successCount,proto3" json:"success_count,omitempty"` // 成功数量
+	SuccessCount  int64                  `protobuf:"varint,1,opt,name=success_count,json=successCount,proto3" json:"success_count,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *CleanApiListResp) Reset() {
 	*x = CleanApiListResp{}
-	mi := &file_blog_permission_proto_msgTypes[15]
+	mi := &file_blog_permission_proto_msgTypes[18]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1013,7 +1033,7 @@ func (x *CleanApiListResp) String() string {
 func (*CleanApiListResp) ProtoMessage() {}
 
 func (x *CleanApiListResp) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[15]
+	mi := &file_blog_permission_proto_msgTypes[18]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1026,7 +1046,7 @@ func (x *CleanApiListResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CleanApiListResp.ProtoReflect.Descriptor instead.
 func (*CleanApiListResp) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{15}
+	return file_blog_permission_proto_rawDescGZIP(), []int{18}
 }
 
 func (x *CleanApiListResp) GetSuccessCount() int64 {
@@ -1036,939 +1056,21 @@ func (x *CleanApiListResp) GetSuccessCount() int64 {
 	return 0
 }
 
-type FindAllApiReq struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *FindAllApiReq) Reset() {
-	*x = FindAllApiReq{}
-	mi := &file_blog_permission_proto_msgTypes[16]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *FindAllApiReq) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*FindAllApiReq) ProtoMessage() {}
-
-func (x *FindAllApiReq) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[16]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use FindAllApiReq.ProtoReflect.Descriptor instead.
-func (*FindAllApiReq) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{16}
-}
-
-type FindAllApiResp struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	List          []*Api                 `protobuf:"bytes,1,rep,name=list,proto3" json:"list,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *FindAllApiResp) Reset() {
-	*x = FindAllApiResp{}
-	mi := &file_blog_permission_proto_msgTypes[17]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *FindAllApiResp) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*FindAllApiResp) ProtoMessage() {}
-
-func (x *FindAllApiResp) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[17]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use FindAllApiResp.ProtoReflect.Descriptor instead.
-func (*FindAllApiResp) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{17}
-}
-
-func (x *FindAllApiResp) GetList() []*Api {
-	if x != nil {
-		return x.List
-	}
-	return nil
-}
-
-// ************* 菜单管理 *************
-type Menu struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`                                // 主键
-	ParentId      int64                  `protobuf:"varint,2,opt,name=parent_id,json=parentId,proto3" json:"parent_id,omitempty"`    // 父id
-	Path          string                 `protobuf:"bytes,3,opt,name=path,proto3" json:"path,omitempty"`                             // 路由路径
-	Name          string                 `protobuf:"bytes,4,opt,name=name,proto3" json:"name,omitempty"`                             // 路由名称
-	Component     string                 `protobuf:"bytes,5,opt,name=component,proto3" json:"component,omitempty"`                   // 路由组件
-	Redirect      string                 `protobuf:"bytes,6,opt,name=redirect,proto3" json:"redirect,omitempty"`                     // 路由重定向
-	CreatedAt     int64                  `protobuf:"varint,7,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"` // 创建时间
-	UpdatedAt     int64                  `protobuf:"varint,8,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"` // 更新时间
-	Children      []*Menu                `protobuf:"bytes,10,rep,name=children,proto3" json:"children,omitempty"`
-	Meta          *MenuMeta              `protobuf:"bytes,11,opt,name=meta,proto3" json:"meta,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *Menu) Reset() {
-	*x = Menu{}
-	mi := &file_blog_permission_proto_msgTypes[18]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *Menu) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*Menu) ProtoMessage() {}
-
-func (x *Menu) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[18]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Menu.ProtoReflect.Descriptor instead.
-func (*Menu) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{18}
-}
-
-func (x *Menu) GetId() int64 {
-	if x != nil {
-		return x.Id
-	}
-	return 0
-}
-
-func (x *Menu) GetParentId() int64 {
-	if x != nil {
-		return x.ParentId
-	}
-	return 0
-}
-
-func (x *Menu) GetPath() string {
-	if x != nil {
-		return x.Path
-	}
-	return ""
-}
-
-func (x *Menu) GetName() string {
-	if x != nil {
-		return x.Name
-	}
-	return ""
-}
-
-func (x *Menu) GetComponent() string {
-	if x != nil {
-		return x.Component
-	}
-	return ""
-}
-
-func (x *Menu) GetRedirect() string {
-	if x != nil {
-		return x.Redirect
-	}
-	return ""
-}
-
-func (x *Menu) GetCreatedAt() int64 {
-	if x != nil {
-		return x.CreatedAt
-	}
-	return 0
-}
-
-func (x *Menu) GetUpdatedAt() int64 {
-	if x != nil {
-		return x.UpdatedAt
-	}
-	return 0
-}
-
-func (x *Menu) GetChildren() []*Menu {
-	if x != nil {
-		return x.Children
-	}
-	return nil
-}
-
-func (x *Menu) GetMeta() *MenuMeta {
-	if x != nil {
-		return x.Meta
-	}
-	return nil
-}
-
-type AddMenuReq struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`                             // 主键
-	ParentId      int64                  `protobuf:"varint,2,opt,name=parent_id,json=parentId,proto3" json:"parent_id,omitempty"` // 父id
-	Path          string                 `protobuf:"bytes,3,opt,name=path,proto3" json:"path,omitempty"`                          // 路由路径
-	Name          string                 `protobuf:"bytes,4,opt,name=name,proto3" json:"name,omitempty"`                          // 路由名称
-	Component     string                 `protobuf:"bytes,5,opt,name=component,proto3" json:"component,omitempty"`                // 路由组件
-	Redirect      string                 `protobuf:"bytes,6,opt,name=redirect,proto3" json:"redirect,omitempty"`                  // 路由重定向
-	Children      []*AddMenuReq          `protobuf:"bytes,10,rep,name=children,proto3" json:"children,omitempty"`
-	Meta          *MenuMeta              `protobuf:"bytes,11,opt,name=meta,proto3" json:"meta,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *AddMenuReq) Reset() {
-	*x = AddMenuReq{}
-	mi := &file_blog_permission_proto_msgTypes[19]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *AddMenuReq) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*AddMenuReq) ProtoMessage() {}
-
-func (x *AddMenuReq) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[19]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use AddMenuReq.ProtoReflect.Descriptor instead.
-func (*AddMenuReq) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{19}
-}
-
-func (x *AddMenuReq) GetId() int64 {
-	if x != nil {
-		return x.Id
-	}
-	return 0
-}
-
-func (x *AddMenuReq) GetParentId() int64 {
-	if x != nil {
-		return x.ParentId
-	}
-	return 0
-}
-
-func (x *AddMenuReq) GetPath() string {
-	if x != nil {
-		return x.Path
-	}
-	return ""
-}
-
-func (x *AddMenuReq) GetName() string {
-	if x != nil {
-		return x.Name
-	}
-	return ""
-}
-
-func (x *AddMenuReq) GetComponent() string {
-	if x != nil {
-		return x.Component
-	}
-	return ""
-}
-
-func (x *AddMenuReq) GetRedirect() string {
-	if x != nil {
-		return x.Redirect
-	}
-	return ""
-}
-
-func (x *AddMenuReq) GetChildren() []*AddMenuReq {
-	if x != nil {
-		return x.Children
-	}
-	return nil
-}
-
-func (x *AddMenuReq) GetMeta() *MenuMeta {
-	if x != nil {
-		return x.Meta
-	}
-	return nil
-}
-
-type AddMenuResp struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Menu          *Menu                  `protobuf:"bytes,1,opt,name=menu,proto3" json:"menu,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *AddMenuResp) Reset() {
-	*x = AddMenuResp{}
-	mi := &file_blog_permission_proto_msgTypes[20]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *AddMenuResp) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*AddMenuResp) ProtoMessage() {}
-
-func (x *AddMenuResp) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[20]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use AddMenuResp.ProtoReflect.Descriptor instead.
-func (*AddMenuResp) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{20}
-}
-
-func (x *AddMenuResp) GetMenu() *Menu {
-	if x != nil {
-		return x.Menu
-	}
-	return nil
-}
-
-type UpdateMenuReq struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`                             // 主键
-	ParentId      int64                  `protobuf:"varint,2,opt,name=parent_id,json=parentId,proto3" json:"parent_id,omitempty"` // 父id
-	Path          string                 `protobuf:"bytes,3,opt,name=path,proto3" json:"path,omitempty"`                          // 路由路径
-	Name          string                 `protobuf:"bytes,4,opt,name=name,proto3" json:"name,omitempty"`                          // 路由名称
-	Component     string                 `protobuf:"bytes,5,opt,name=component,proto3" json:"component,omitempty"`                // 路由组件
-	Redirect      string                 `protobuf:"bytes,6,opt,name=redirect,proto3" json:"redirect,omitempty"`                  // 路由重定向
-	Meta          *MenuMeta              `protobuf:"bytes,11,opt,name=meta,proto3" json:"meta,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *UpdateMenuReq) Reset() {
-	*x = UpdateMenuReq{}
-	mi := &file_blog_permission_proto_msgTypes[21]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *UpdateMenuReq) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*UpdateMenuReq) ProtoMessage() {}
-
-func (x *UpdateMenuReq) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[21]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UpdateMenuReq.ProtoReflect.Descriptor instead.
-func (*UpdateMenuReq) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{21}
-}
-
-func (x *UpdateMenuReq) GetId() int64 {
-	if x != nil {
-		return x.Id
-	}
-	return 0
-}
-
-func (x *UpdateMenuReq) GetParentId() int64 {
-	if x != nil {
-		return x.ParentId
-	}
-	return 0
-}
-
-func (x *UpdateMenuReq) GetPath() string {
-	if x != nil {
-		return x.Path
-	}
-	return ""
-}
-
-func (x *UpdateMenuReq) GetName() string {
-	if x != nil {
-		return x.Name
-	}
-	return ""
-}
-
-func (x *UpdateMenuReq) GetComponent() string {
-	if x != nil {
-		return x.Component
-	}
-	return ""
-}
-
-func (x *UpdateMenuReq) GetRedirect() string {
-	if x != nil {
-		return x.Redirect
-	}
-	return ""
-}
-
-func (x *UpdateMenuReq) GetMeta() *MenuMeta {
-	if x != nil {
-		return x.Meta
-	}
-	return nil
-}
-
-type UpdateMenuResp struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Menu          *Menu                  `protobuf:"bytes,1,opt,name=menu,proto3" json:"menu,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *UpdateMenuResp) Reset() {
-	*x = UpdateMenuResp{}
-	mi := &file_blog_permission_proto_msgTypes[22]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *UpdateMenuResp) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*UpdateMenuResp) ProtoMessage() {}
-
-func (x *UpdateMenuResp) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[22]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UpdateMenuResp.ProtoReflect.Descriptor instead.
-func (*UpdateMenuResp) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{22}
-}
-
-func (x *UpdateMenuResp) GetMenu() *Menu {
-	if x != nil {
-		return x.Menu
-	}
-	return nil
-}
-
-type DeletesMenuReq struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Ids           []int64                `protobuf:"varint,1,rep,packed,name=ids,proto3" json:"ids,omitempty"` // id列表
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *DeletesMenuReq) Reset() {
-	*x = DeletesMenuReq{}
-	mi := &file_blog_permission_proto_msgTypes[23]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *DeletesMenuReq) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*DeletesMenuReq) ProtoMessage() {}
-
-func (x *DeletesMenuReq) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[23]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use DeletesMenuReq.ProtoReflect.Descriptor instead.
-func (*DeletesMenuReq) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{23}
-}
-
-func (x *DeletesMenuReq) GetIds() []int64 {
-	if x != nil {
-		return x.Ids
-	}
-	return nil
-}
-
-type DeletesMenuResp struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	SuccessCount  int64                  `protobuf:"varint,1,opt,name=success_count,json=successCount,proto3" json:"success_count,omitempty"` // 成功数量
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *DeletesMenuResp) Reset() {
-	*x = DeletesMenuResp{}
-	mi := &file_blog_permission_proto_msgTypes[24]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *DeletesMenuResp) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*DeletesMenuResp) ProtoMessage() {}
-
-func (x *DeletesMenuResp) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[24]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use DeletesMenuResp.ProtoReflect.Descriptor instead.
-func (*DeletesMenuResp) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{24}
-}
-
-func (x *DeletesMenuResp) GetSuccessCount() int64 {
-	if x != nil {
-		return x.SuccessCount
-	}
-	return 0
-}
-
-type FindMenuListReq struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Title         string                 `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"` // 菜单标题
-	Name          string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`   // 路由名字
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *FindMenuListReq) Reset() {
-	*x = FindMenuListReq{}
-	mi := &file_blog_permission_proto_msgTypes[25]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *FindMenuListReq) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*FindMenuListReq) ProtoMessage() {}
-
-func (x *FindMenuListReq) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[25]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use FindMenuListReq.ProtoReflect.Descriptor instead.
-func (*FindMenuListReq) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{25}
-}
-
-func (x *FindMenuListReq) GetTitle() string {
-	if x != nil {
-		return x.Title
-	}
-	return ""
-}
-
-func (x *FindMenuListReq) GetName() string {
-	if x != nil {
-		return x.Name
-	}
-	return ""
-}
-
-type FindMenuListResp struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Pagination    *PageResp              `protobuf:"bytes,1,opt,name=pagination,proto3" json:"pagination,omitempty"` // 分页信息
-	List          []*Menu                `protobuf:"bytes,2,rep,name=list,proto3" json:"list,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *FindMenuListResp) Reset() {
-	*x = FindMenuListResp{}
-	mi := &file_blog_permission_proto_msgTypes[26]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *FindMenuListResp) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*FindMenuListResp) ProtoMessage() {}
-
-func (x *FindMenuListResp) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[26]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use FindMenuListResp.ProtoReflect.Descriptor instead.
-func (*FindMenuListResp) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{26}
-}
-
-func (x *FindMenuListResp) GetPagination() *PageResp {
-	if x != nil {
-		return x.Pagination
-	}
-	return nil
-}
-
-func (x *FindMenuListResp) GetList() []*Menu {
-	if x != nil {
-		return x.List
-	}
-	return nil
-}
-
-type SyncMenuListReq struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Menus         []*AddMenuReq          `protobuf:"bytes,1,rep,name=menus,proto3" json:"menus,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *SyncMenuListReq) Reset() {
-	*x = SyncMenuListReq{}
-	mi := &file_blog_permission_proto_msgTypes[27]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *SyncMenuListReq) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*SyncMenuListReq) ProtoMessage() {}
-
-func (x *SyncMenuListReq) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[27]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use SyncMenuListReq.ProtoReflect.Descriptor instead.
-func (*SyncMenuListReq) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{27}
-}
-
-func (x *SyncMenuListReq) GetMenus() []*AddMenuReq {
-	if x != nil {
-		return x.Menus
-	}
-	return nil
-}
-
-type SyncMenuListResp struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	SuccessCount  int64                  `protobuf:"varint,1,opt,name=success_count,json=successCount,proto3" json:"success_count,omitempty"` // 成功数量
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *SyncMenuListResp) Reset() {
-	*x = SyncMenuListResp{}
-	mi := &file_blog_permission_proto_msgTypes[28]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *SyncMenuListResp) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*SyncMenuListResp) ProtoMessage() {}
-
-func (x *SyncMenuListResp) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[28]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use SyncMenuListResp.ProtoReflect.Descriptor instead.
-func (*SyncMenuListResp) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{28}
-}
-
-func (x *SyncMenuListResp) GetSuccessCount() int64 {
-	if x != nil {
-		return x.SuccessCount
-	}
-	return 0
-}
-
-type CleanMenuListReq struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *CleanMenuListReq) Reset() {
-	*x = CleanMenuListReq{}
-	mi := &file_blog_permission_proto_msgTypes[29]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *CleanMenuListReq) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*CleanMenuListReq) ProtoMessage() {}
-
-func (x *CleanMenuListReq) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[29]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use CleanMenuListReq.ProtoReflect.Descriptor instead.
-func (*CleanMenuListReq) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{29}
-}
-
-type CleanMenuListResp struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	SuccessCount  int64                  `protobuf:"varint,1,opt,name=success_count,json=successCount,proto3" json:"success_count,omitempty"` // 成功数量
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *CleanMenuListResp) Reset() {
-	*x = CleanMenuListResp{}
-	mi := &file_blog_permission_proto_msgTypes[30]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *CleanMenuListResp) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*CleanMenuListResp) ProtoMessage() {}
-
-func (x *CleanMenuListResp) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[30]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use CleanMenuListResp.ProtoReflect.Descriptor instead.
-func (*CleanMenuListResp) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{30}
-}
-
-func (x *CleanMenuListResp) GetSuccessCount() int64 {
-	if x != nil {
-		return x.SuccessCount
-	}
-	return 0
-}
-
-type FindAllMenuReq struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *FindAllMenuReq) Reset() {
-	*x = FindAllMenuReq{}
-	mi := &file_blog_permission_proto_msgTypes[31]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *FindAllMenuReq) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*FindAllMenuReq) ProtoMessage() {}
-
-func (x *FindAllMenuReq) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[31]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use FindAllMenuReq.ProtoReflect.Descriptor instead.
-func (*FindAllMenuReq) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{31}
-}
-
-type FindAllMenuResp struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	List          []*Menu                `protobuf:"bytes,1,rep,name=list,proto3" json:"list,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *FindAllMenuResp) Reset() {
-	*x = FindAllMenuResp{}
-	mi := &file_blog_permission_proto_msgTypes[32]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *FindAllMenuResp) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*FindAllMenuResp) ProtoMessage() {}
-
-func (x *FindAllMenuResp) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[32]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use FindAllMenuResp.ProtoReflect.Descriptor instead.
-func (*FindAllMenuResp) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{32}
-}
-
-func (x *FindAllMenuResp) GetList() []*Menu {
-	if x != nil {
-		return x.List
-	}
-	return nil
-}
-
 // ************* 角色管理 *************
 type Role struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`                                     // 主键id
-	RoleKey       string                 `protobuf:"bytes,2,opt,name=role_key,json=roleKey,proto3" json:"role_key,omitempty"`             // 角色枚举名
-	RoleComment   string                 `protobuf:"bytes,3,opt,name=role_comment,json=roleComment,proto3" json:"role_comment,omitempty"` // 角色备注
-	Status        int64                  `protobuf:"varint,4,opt,name=status,proto3" json:"status,omitempty"`                             // 状态  0正常 1禁用
-	CreatedAt     int64                  `protobuf:"varint,5,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`      // 创建时间
-	UpdatedAt     int64                  `protobuf:"varint,6,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`      // 更新时间
+	RoleKey       string                 `protobuf:"bytes,1,opt,name=role_key,json=roleKey,proto3" json:"role_key,omitempty"`             // 角色枚举名
+	RoleComment   string                 `protobuf:"bytes,2,opt,name=role_comment,json=roleComment,proto3" json:"role_comment,omitempty"` // 角色备注
+	Status        int64                  `protobuf:"varint,3,opt,name=status,proto3" json:"status,omitempty"`                             // 状态  0正常 1禁用
+	CreatedAt     int64                  `protobuf:"varint,4,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`      // 创建时间
+	UpdatedAt     int64                  `protobuf:"varint,5,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`      // 更新时间
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *Role) Reset() {
 	*x = Role{}
-	mi := &file_blog_permission_proto_msgTypes[33]
+	mi := &file_blog_permission_proto_msgTypes[19]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1980,7 +1082,7 @@ func (x *Role) String() string {
 func (*Role) ProtoMessage() {}
 
 func (x *Role) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[33]
+	mi := &file_blog_permission_proto_msgTypes[19]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1993,14 +1095,7 @@ func (x *Role) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Role.ProtoReflect.Descriptor instead.
 func (*Role) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{33}
-}
-
-func (x *Role) GetId() int64 {
-	if x != nil {
-		return x.Id
-	}
-	return 0
+	return file_blog_permission_proto_rawDescGZIP(), []int{19}
 }
 
 func (x *Role) GetRoleKey() string {
@@ -2049,7 +1144,7 @@ type FindRoleListReq struct {
 
 func (x *FindRoleListReq) Reset() {
 	*x = FindRoleListReq{}
-	mi := &file_blog_permission_proto_msgTypes[34]
+	mi := &file_blog_permission_proto_msgTypes[20]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2061,7 +1156,7 @@ func (x *FindRoleListReq) String() string {
 func (*FindRoleListReq) ProtoMessage() {}
 
 func (x *FindRoleListReq) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[34]
+	mi := &file_blog_permission_proto_msgTypes[20]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2074,7 +1169,7 @@ func (x *FindRoleListReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FindRoleListReq.ProtoReflect.Descriptor instead.
 func (*FindRoleListReq) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{34}
+	return file_blog_permission_proto_rawDescGZIP(), []int{20}
 }
 
 func (x *FindRoleListReq) GetPaginate() *PageReq {
@@ -2108,7 +1203,7 @@ type FindRoleListResp struct {
 
 func (x *FindRoleListResp) Reset() {
 	*x = FindRoleListResp{}
-	mi := &file_blog_permission_proto_msgTypes[35]
+	mi := &file_blog_permission_proto_msgTypes[21]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2120,7 +1215,7 @@ func (x *FindRoleListResp) String() string {
 func (*FindRoleListResp) ProtoMessage() {}
 
 func (x *FindRoleListResp) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[35]
+	mi := &file_blog_permission_proto_msgTypes[21]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2133,7 +1228,7 @@ func (x *FindRoleListResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FindRoleListResp.ProtoReflect.Descriptor instead.
 func (*FindRoleListResp) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{35}
+	return file_blog_permission_proto_rawDescGZIP(), []int{21}
 }
 
 func (x *FindRoleListResp) GetPagination() *PageResp {
@@ -2158,7 +1253,7 @@ type FindAllRoleReq struct {
 
 func (x *FindAllRoleReq) Reset() {
 	*x = FindAllRoleReq{}
-	mi := &file_blog_permission_proto_msgTypes[36]
+	mi := &file_blog_permission_proto_msgTypes[22]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2170,7 +1265,7 @@ func (x *FindAllRoleReq) String() string {
 func (*FindAllRoleReq) ProtoMessage() {}
 
 func (x *FindAllRoleReq) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[36]
+	mi := &file_blog_permission_proto_msgTypes[22]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2183,7 +1278,7 @@ func (x *FindAllRoleReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FindAllRoleReq.ProtoReflect.Descriptor instead.
 func (*FindAllRoleReq) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{36}
+	return file_blog_permission_proto_rawDescGZIP(), []int{22}
 }
 
 type FindAllRoleResp struct {
@@ -2195,7 +1290,7 @@ type FindAllRoleResp struct {
 
 func (x *FindAllRoleResp) Reset() {
 	*x = FindAllRoleResp{}
-	mi := &file_blog_permission_proto_msgTypes[37]
+	mi := &file_blog_permission_proto_msgTypes[23]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2207,7 +1302,7 @@ func (x *FindAllRoleResp) String() string {
 func (*FindAllRoleResp) ProtoMessage() {}
 
 func (x *FindAllRoleResp) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[37]
+	mi := &file_blog_permission_proto_msgTypes[23]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2220,7 +1315,7 @@ func (x *FindAllRoleResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FindAllRoleResp.ProtoReflect.Descriptor instead.
 func (*FindAllRoleResp) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{37}
+	return file_blog_permission_proto_rawDescGZIP(), []int{23}
 }
 
 func (x *FindAllRoleResp) GetList() []*Role {
@@ -2230,105 +1325,16 @@ func (x *FindAllRoleResp) GetList() []*Role {
 	return nil
 }
 
-type UpdateRoleMenusReq struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	RoleId        int64                  `protobuf:"varint,1,opt,name=role_id,json=roleId,proto3" json:"role_id,omitempty"`
-	MenuIds       []int64                `protobuf:"varint,2,rep,packed,name=menu_ids,json=menuIds,proto3" json:"menu_ids,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *UpdateRoleMenusReq) Reset() {
-	*x = UpdateRoleMenusReq{}
-	mi := &file_blog_permission_proto_msgTypes[38]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *UpdateRoleMenusReq) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*UpdateRoleMenusReq) ProtoMessage() {}
-
-func (x *UpdateRoleMenusReq) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[38]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UpdateRoleMenusReq.ProtoReflect.Descriptor instead.
-func (*UpdateRoleMenusReq) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{38}
-}
-
-func (x *UpdateRoleMenusReq) GetRoleId() int64 {
-	if x != nil {
-		return x.RoleId
-	}
-	return 0
-}
-
-func (x *UpdateRoleMenusReq) GetMenuIds() []int64 {
-	if x != nil {
-		return x.MenuIds
-	}
-	return nil
-}
-
-type UpdateRoleMenusResp struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *UpdateRoleMenusResp) Reset() {
-	*x = UpdateRoleMenusResp{}
-	mi := &file_blog_permission_proto_msgTypes[39]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *UpdateRoleMenusResp) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*UpdateRoleMenusResp) ProtoMessage() {}
-
-func (x *UpdateRoleMenusResp) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[39]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UpdateRoleMenusResp.ProtoReflect.Descriptor instead.
-func (*UpdateRoleMenusResp) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{39}
-}
-
 type UpdateRoleApisReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	RoleId        int64                  `protobuf:"varint,1,opt,name=role_id,json=roleId,proto3" json:"role_id,omitempty"`
-	ApiIds        []int64                `protobuf:"varint,2,rep,packed,name=api_ids,json=apiIds,proto3" json:"api_ids,omitempty"`
+	RoleKey       string                 `protobuf:"bytes,1,opt,name=role_key,json=roleKey,proto3" json:"role_key,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *UpdateRoleApisReq) Reset() {
 	*x = UpdateRoleApisReq{}
-	mi := &file_blog_permission_proto_msgTypes[40]
+	mi := &file_blog_permission_proto_msgTypes[24]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2340,7 +1346,7 @@ func (x *UpdateRoleApisReq) String() string {
 func (*UpdateRoleApisReq) ProtoMessage() {}
 
 func (x *UpdateRoleApisReq) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[40]
+	mi := &file_blog_permission_proto_msgTypes[24]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2353,32 +1359,26 @@ func (x *UpdateRoleApisReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateRoleApisReq.ProtoReflect.Descriptor instead.
 func (*UpdateRoleApisReq) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{40}
+	return file_blog_permission_proto_rawDescGZIP(), []int{24}
 }
 
-func (x *UpdateRoleApisReq) GetRoleId() int64 {
+func (x *UpdateRoleApisReq) GetRoleKey() string {
 	if x != nil {
-		return x.RoleId
+		return x.RoleKey
 	}
-	return 0
-}
-
-func (x *UpdateRoleApisReq) GetApiIds() []int64 {
-	if x != nil {
-		return x.ApiIds
-	}
-	return nil
+	return ""
 }
 
 type UpdateRoleApisResp struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	List          *Role                  `protobuf:"bytes,1,opt,name=list,proto3" json:"list,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *UpdateRoleApisResp) Reset() {
 	*x = UpdateRoleApisResp{}
-	mi := &file_blog_permission_proto_msgTypes[41]
+	mi := &file_blog_permission_proto_msgTypes[25]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2390,7 +1390,7 @@ func (x *UpdateRoleApisResp) String() string {
 func (*UpdateRoleApisResp) ProtoMessage() {}
 
 func (x *UpdateRoleApisResp) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[41]
+	mi := &file_blog_permission_proto_msgTypes[25]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2403,19 +1403,26 @@ func (x *UpdateRoleApisResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateRoleApisResp.ProtoReflect.Descriptor instead.
 func (*UpdateRoleApisResp) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{41}
+	return file_blog_permission_proto_rawDescGZIP(), []int{25}
+}
+
+func (x *UpdateRoleApisResp) GetList() *Role {
+	if x != nil {
+		return x.List
+	}
+	return nil
 }
 
 type FindRoleResourcesReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"` // 角色id
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *FindRoleResourcesReq) Reset() {
 	*x = FindRoleResourcesReq{}
-	mi := &file_blog_permission_proto_msgTypes[42]
+	mi := &file_blog_permission_proto_msgTypes[26]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2427,7 +1434,7 @@ func (x *FindRoleResourcesReq) String() string {
 func (*FindRoleResourcesReq) ProtoMessage() {}
 
 func (x *FindRoleResourcesReq) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[42]
+	mi := &file_blog_permission_proto_msgTypes[26]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2440,7 +1447,7 @@ func (x *FindRoleResourcesReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FindRoleResourcesReq.ProtoReflect.Descriptor instead.
 func (*FindRoleResourcesReq) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{42}
+	return file_blog_permission_proto_rawDescGZIP(), []int{26}
 }
 
 func (x *FindRoleResourcesReq) GetId() int64 {
@@ -2461,7 +1468,7 @@ type FindRoleResourcesResp struct {
 
 func (x *FindRoleResourcesResp) Reset() {
 	*x = FindRoleResourcesResp{}
-	mi := &file_blog_permission_proto_msgTypes[43]
+	mi := &file_blog_permission_proto_msgTypes[27]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2473,7 +1480,7 @@ func (x *FindRoleResourcesResp) String() string {
 func (*FindRoleResourcesResp) ProtoMessage() {}
 
 func (x *FindRoleResourcesResp) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[43]
+	mi := &file_blog_permission_proto_msgTypes[27]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2486,7 +1493,7 @@ func (x *FindRoleResourcesResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FindRoleResourcesResp.ProtoReflect.Descriptor instead.
 func (*FindRoleResourcesResp) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{43}
+	return file_blog_permission_proto_rawDescGZIP(), []int{27}
 }
 
 func (x *FindRoleResourcesResp) GetRoleId() int64 {
@@ -2512,15 +1519,15 @@ func (x *FindRoleResourcesResp) GetMenuIds() []int64 {
 
 type UpdateUserRoleReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`  // 用户id
-	RoleId        int64                  `protobuf:"varint,2,opt,name=role_id,json=roleId,proto3" json:"role_id,omitempty"` // 角色id
+	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`    // 用户id
+	RoleKey       string                 `protobuf:"bytes,2,opt,name=role_key,json=roleKey,proto3" json:"role_key,omitempty"` // 角色id
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *UpdateUserRoleReq) Reset() {
 	*x = UpdateUserRoleReq{}
-	mi := &file_blog_permission_proto_msgTypes[44]
+	mi := &file_blog_permission_proto_msgTypes[28]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2532,7 +1539,7 @@ func (x *UpdateUserRoleReq) String() string {
 func (*UpdateUserRoleReq) ProtoMessage() {}
 
 func (x *UpdateUserRoleReq) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[44]
+	mi := &file_blog_permission_proto_msgTypes[28]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2545,7 +1552,7 @@ func (x *UpdateUserRoleReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateUserRoleReq.ProtoReflect.Descriptor instead.
 func (*UpdateUserRoleReq) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{44}
+	return file_blog_permission_proto_rawDescGZIP(), []int{28}
 }
 
 func (x *UpdateUserRoleReq) GetUserId() string {
@@ -2555,22 +1562,23 @@ func (x *UpdateUserRoleReq) GetUserId() string {
 	return ""
 }
 
-func (x *UpdateUserRoleReq) GetRoleId() int64 {
+func (x *UpdateUserRoleReq) GetRoleKey() string {
 	if x != nil {
-		return x.RoleId
+		return x.RoleKey
 	}
-	return 0
+	return ""
 }
 
 type UpdateUserRoleResp struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	Role          *Role                  `protobuf:"bytes,1,opt,name=role,proto3" json:"role,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *UpdateUserRoleResp) Reset() {
 	*x = UpdateUserRoleResp{}
-	mi := &file_blog_permission_proto_msgTypes[45]
+	mi := &file_blog_permission_proto_msgTypes[29]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2582,7 +1590,7 @@ func (x *UpdateUserRoleResp) String() string {
 func (*UpdateUserRoleResp) ProtoMessage() {}
 
 func (x *UpdateUserRoleResp) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[45]
+	mi := &file_blog_permission_proto_msgTypes[29]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2595,7 +1603,14 @@ func (x *UpdateUserRoleResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateUserRoleResp.ProtoReflect.Descriptor instead.
 func (*UpdateUserRoleResp) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{45}
+	return file_blog_permission_proto_rawDescGZIP(), []int{29}
+}
+
+func (x *UpdateUserRoleResp) GetRole() *Role {
+	if x != nil {
+		return x.Role
+	}
+	return nil
 }
 
 type FindUserApisReq struct {
@@ -2607,7 +1622,7 @@ type FindUserApisReq struct {
 
 func (x *FindUserApisReq) Reset() {
 	*x = FindUserApisReq{}
-	mi := &file_blog_permission_proto_msgTypes[46]
+	mi := &file_blog_permission_proto_msgTypes[30]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2619,7 +1634,7 @@ func (x *FindUserApisReq) String() string {
 func (*FindUserApisReq) ProtoMessage() {}
 
 func (x *FindUserApisReq) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[46]
+	mi := &file_blog_permission_proto_msgTypes[30]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2632,7 +1647,7 @@ func (x *FindUserApisReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FindUserApisReq.ProtoReflect.Descriptor instead.
 func (*FindUserApisReq) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{46}
+	return file_blog_permission_proto_rawDescGZIP(), []int{30}
 }
 
 func (x *FindUserApisReq) GetUserId() string {
@@ -2651,7 +1666,7 @@ type FindUserApisResp struct {
 
 func (x *FindUserApisResp) Reset() {
 	*x = FindUserApisResp{}
-	mi := &file_blog_permission_proto_msgTypes[47]
+	mi := &file_blog_permission_proto_msgTypes[31]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2663,7 +1678,7 @@ func (x *FindUserApisResp) String() string {
 func (*FindUserApisResp) ProtoMessage() {}
 
 func (x *FindUserApisResp) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[47]
+	mi := &file_blog_permission_proto_msgTypes[31]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2676,98 +1691,10 @@ func (x *FindUserApisResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FindUserApisResp.ProtoReflect.Descriptor instead.
 func (*FindUserApisResp) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{47}
+	return file_blog_permission_proto_rawDescGZIP(), []int{31}
 }
 
 func (x *FindUserApisResp) GetList() []*Api {
-	if x != nil {
-		return x.List
-	}
-	return nil
-}
-
-type FindUserMenusReq struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"` // 用户id
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *FindUserMenusReq) Reset() {
-	*x = FindUserMenusReq{}
-	mi := &file_blog_permission_proto_msgTypes[48]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *FindUserMenusReq) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*FindUserMenusReq) ProtoMessage() {}
-
-func (x *FindUserMenusReq) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[48]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use FindUserMenusReq.ProtoReflect.Descriptor instead.
-func (*FindUserMenusReq) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{48}
-}
-
-func (x *FindUserMenusReq) GetUserId() string {
-	if x != nil {
-		return x.UserId
-	}
-	return ""
-}
-
-type FindUserMenusResp struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	List          []*Menu                `protobuf:"bytes,1,rep,name=list,proto3" json:"list,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *FindUserMenusResp) Reset() {
-	*x = FindUserMenusResp{}
-	mi := &file_blog_permission_proto_msgTypes[49]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *FindUserMenusResp) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*FindUserMenusResp) ProtoMessage() {}
-
-func (x *FindUserMenusResp) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[49]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use FindUserMenusResp.ProtoReflect.Descriptor instead.
-func (*FindUserMenusResp) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{49}
-}
-
-func (x *FindUserMenusResp) GetList() []*Menu {
 	if x != nil {
 		return x.List
 	}
@@ -2783,7 +1710,7 @@ type FindUserRolesReq struct {
 
 func (x *FindUserRolesReq) Reset() {
 	*x = FindUserRolesReq{}
-	mi := &file_blog_permission_proto_msgTypes[50]
+	mi := &file_blog_permission_proto_msgTypes[32]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2795,7 +1722,7 @@ func (x *FindUserRolesReq) String() string {
 func (*FindUserRolesReq) ProtoMessage() {}
 
 func (x *FindUserRolesReq) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[50]
+	mi := &file_blog_permission_proto_msgTypes[32]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2808,7 +1735,7 @@ func (x *FindUserRolesReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FindUserRolesReq.ProtoReflect.Descriptor instead.
 func (*FindUserRolesReq) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{50}
+	return file_blog_permission_proto_rawDescGZIP(), []int{32}
 }
 
 func (x *FindUserRolesReq) GetUserId() string {
@@ -2827,7 +1754,7 @@ type FindUserRolesResp struct {
 
 func (x *FindUserRolesResp) Reset() {
 	*x = FindUserRolesResp{}
-	mi := &file_blog_permission_proto_msgTypes[51]
+	mi := &file_blog_permission_proto_msgTypes[33]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2839,7 +1766,7 @@ func (x *FindUserRolesResp) String() string {
 func (*FindUserRolesResp) ProtoMessage() {}
 
 func (x *FindUserRolesResp) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_permission_proto_msgTypes[51]
+	mi := &file_blog_permission_proto_msgTypes[33]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2852,7 +1779,7 @@ func (x *FindUserRolesResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FindUserRolesResp.ProtoReflect.Descriptor instead.
 func (*FindUserRolesResp) Descriptor() ([]byte, []int) {
-	return file_blog_permission_proto_rawDescGZIP(), []int{51}
+	return file_blog_permission_proto_rawDescGZIP(), []int{33}
 }
 
 func (x *FindUserRolesResp) GetList() []*Role {
@@ -2866,67 +1793,51 @@ var File_blog_permission_proto protoreflect.FileDescriptor
 
 const file_blog_permission_proto_rawDesc = "" +
 	"\n" +
-	"\x15blog/permission.proto\x12\rpermissionrpc\"P\n" +
+	"\x15blog/permission.proto\x12\rpermissionrpc\":\n" +
 	"\aPageReq\x12\x12\n" +
 	"\x04page\x18\x01 \x01(\x03R\x04page\x12\x1b\n" +
-	"\tpage_size\x18\x02 \x01(\x03R\bpageSize\x12\x14\n" +
-	"\x05sorts\x18\x03 \x03(\tR\x05sorts\"Q\n" +
+	"\tpage_size\x18\x02 \x01(\x03R\bpageSize\"Q\n" +
 	"\bPageResp\x12\x12\n" +
 	"\x04page\x18\x01 \x01(\x03R\x04page\x12\x1b\n" +
 	"\tpage_size\x18\x02 \x01(\x03R\bpageSize\x12\x14\n" +
-	"\x05total\x18\x03 \x01(\x03R\x05total\"\xfa\x01\n" +
-	"\bMenuMeta\x12\x12\n" +
-	"\x04type\x18\v \x01(\tR\x04type\x12\x14\n" +
-	"\x05title\x18\f \x01(\tR\x05title\x12\x12\n" +
-	"\x04icon\x18\r \x01(\tR\x04icon\x12\x12\n" +
-	"\x04rank\x18\x0e \x01(\x03R\x04rank\x12\x12\n" +
-	"\x04perm\x18\x0f \x01(\tR\x04perm\x12\x16\n" +
-	"\x06params\x18\x10 \x01(\tR\x06params\x12\x1d\n" +
+	"\x05total\x18\x03 \x01(\x03R\x05total\"\x86\x02\n" +
+	"\x03Api\x12\x1b\n" +
+	"\tparent_id\x18\x01 \x01(\x03R\bparentId\x12\x12\n" +
+	"\x04path\x18\x02 \x01(\tR\x04path\x12\x12\n" +
+	"\x04name\x18\x03 \x01(\tR\x04name\x12\x16\n" +
+	"\x06method\x18\x04 \x01(\tR\x06method\x12\x1c\n" +
+	"\ttraceable\x18\x05 \x01(\x03R\ttraceable\x12\x16\n" +
+	"\x06status\x18\x06 \x01(\x03R\x06status\x12\x1d\n" +
 	"\n" +
-	"keep_alive\x18\x11 \x01(\bR\tkeepAlive\x12\x1f\n" +
-	"\valways_show\x18\x12 \x01(\bR\n" +
-	"alwaysShow\x12\x18\n" +
-	"\avisible\x18\x13 \x01(\bR\avisible\x12\x16\n" +
-	"\x06status\x18\x14 \x01(\bR\x06status\"\x96\x02\n" +
-	"\x03Api\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x1b\n" +
-	"\tparent_id\x18\x02 \x01(\x03R\bparentId\x12\x12\n" +
-	"\x04path\x18\x03 \x01(\tR\x04path\x12\x12\n" +
-	"\x04name\x18\x04 \x01(\tR\x04name\x12\x16\n" +
-	"\x06method\x18\x05 \x01(\tR\x06method\x12\x1c\n" +
-	"\ttraceable\x18\x06 \x01(\x03R\ttraceable\x12\x16\n" +
-	"\x06status\x18\a \x01(\x03R\x06status\x12\x1d\n" +
+	"created_at\x18\a \x01(\x03R\tcreatedAt\x12\x1d\n" +
 	"\n" +
-	"created_at\x18\b \x01(\x03R\tcreatedAt\x12\x1d\n" +
-	"\n" +
-	"updated_at\x18\t \x01(\x03R\tupdatedAt\x12.\n" +
-	"\bchildren\x18\n" +
-	" \x03(\v2\x12.permissionrpc.ApiR\bchildren\"\xe4\x01\n" +
-	"\tAddApiReq\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x1b\n" +
-	"\tparent_id\x18\x02 \x01(\x03R\bparentId\x12\x12\n" +
-	"\x04path\x18\x03 \x01(\tR\x04path\x12\x12\n" +
-	"\x04name\x18\x04 \x01(\tR\x04name\x12\x16\n" +
-	"\x06method\x18\x05 \x01(\tR\x06method\x12\x1c\n" +
-	"\ttraceable\x18\x06 \x01(\x03R\ttraceable\x12\x16\n" +
-	"\x06status\x18\a \x01(\x03R\x06status\x124\n" +
-	"\bchildren\x18\n" +
-	" \x03(\v2\x18.permissionrpc.AddApiReqR\bchildren\"2\n" +
+	"updated_at\x18\b \x01(\x03R\tupdatedAt\x12.\n" +
+	"\bchildren\x18\t \x03(\v2\x12.permissionrpc.ApiR\bchildren\"\xd4\x01\n" +
+	"\tAddApiReq\x12\x1b\n" +
+	"\tparent_id\x18\x01 \x01(\x03R\bparentId\x12\x12\n" +
+	"\x04path\x18\x02 \x01(\tR\x04path\x12\x12\n" +
+	"\x04name\x18\x03 \x01(\tR\x04name\x12\x16\n" +
+	"\x06method\x18\x04 \x01(\tR\x06method\x12\x1c\n" +
+	"\ttraceable\x18\x05 \x01(\x03R\ttraceable\x12\x16\n" +
+	"\x06status\x18\x06 \x01(\x03R\x06status\x124\n" +
+	"\bchildren\x18\a \x03(\v2\x18.permissionrpc.AddApiReqR\bchildren\"2\n" +
 	"\n" +
 	"AddApiResp\x12$\n" +
-	"\x03api\x18\x01 \x01(\v2\x12.permissionrpc.ApiR\x03api\"\xea\x01\n" +
-	"\fUpdateApiReq\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x1b\n" +
-	"\tparent_id\x18\x02 \x01(\x03R\bparentId\x12\x12\n" +
-	"\x04path\x18\x03 \x01(\tR\x04path\x12\x12\n" +
-	"\x04name\x18\x04 \x01(\tR\x04name\x12\x16\n" +
-	"\x06method\x18\x05 \x01(\tR\x06method\x12\x1c\n" +
-	"\ttraceable\x18\x06 \x01(\x03R\ttraceable\x12\x16\n" +
-	"\x06status\x18\a \x01(\x03R\x06status\x127\n" +
-	"\bchildren\x18\n" +
-	" \x03(\v2\x1b.permissionrpc.UpdateApiReqR\bchildren\"5\n" +
+	"\x03api\x18\x01 \x01(\v2\x12.permissionrpc.ApiR\x03api\"\xd7\x01\n" +
+	"\fUpdateApiReq\x12\x1b\n" +
+	"\tparent_id\x18\x01 \x01(\x03R\bparentId\x12\x12\n" +
+	"\x04path\x18\x02 \x01(\tR\x04path\x12\x12\n" +
+	"\x04name\x18\x03 \x01(\tR\x04name\x12\x16\n" +
+	"\x06method\x18\x04 \x01(\tR\x06method\x12\x1c\n" +
+	"\ttraceable\x18\x05 \x01(\x03R\ttraceable\x12\x16\n" +
+	"\x06status\x18\x06 \x01(\x03R\x06status\x124\n" +
+	"\bchildren\x18\a \x03(\v2\x18.permissionrpc.AddApiReqR\bchildren\"5\n" +
 	"\rUpdateApiResp\x12$\n" +
-	"\x03api\x18\x01 \x01(\v2\x12.permissionrpc.ApiR\x03api\"!\n" +
+	"\x03api\x18\x01 \x01(\v2\x12.permissionrpc.ApiR\x03api\"+\n" +
+	"\fDeleteApiReq\x12\x1b\n" +
+	"\tparent_id\x18\x01 \x01(\x03R\bparentId\"5\n" +
+	"\rDeleteApiResp\x12$\n" +
+	"\x03api\x18\x01 \x03(\v2\x12.permissionrpc.ApiR\x03api\"!\n" +
 	"\rDeletesApiReq\x12\x10\n" +
 	"\x03ids\x18\x01 \x03(\x03R\x03ids\"5\n" +
 	"\x0eDeletesApiResp\x12#\n" +
@@ -2939,85 +1850,25 @@ const file_blog_permission_proto_rawDesc = "" +
 	"\n" +
 	"pagination\x18\x01 \x01(\v2\x17.permissionrpc.PageRespR\n" +
 	"pagination\x12&\n" +
-	"\x04list\x18\x02 \x03(\v2\x12.permissionrpc.ApiR\x04list\">\n" +
+	"\x04list\x18\x02 \x03(\v2\x12.permissionrpc.ApiR\x04list\"\x0f\n" +
+	"\rFindAllApiReq\"8\n" +
+	"\x0eFindAllApiResp\x12&\n" +
+	"\x04list\x18\x01 \x03(\v2\x12.permissionrpc.ApiR\x04list\">\n" +
 	"\x0eSyncApiListReq\x12,\n" +
 	"\x04apis\x18\x01 \x03(\v2\x18.permissionrpc.AddApiReqR\x04apis\"6\n" +
 	"\x0fSyncApiListResp\x12#\n" +
 	"\rsuccess_count\x18\x01 \x01(\x03R\fsuccessCount\"\x11\n" +
 	"\x0fCleanApiListReq\"7\n" +
 	"\x10CleanApiListResp\x12#\n" +
-	"\rsuccess_count\x18\x01 \x01(\x03R\fsuccessCount\"\x0f\n" +
-	"\rFindAllApiReq\"8\n" +
-	"\x0eFindAllApiResp\x12&\n" +
-	"\x04list\x18\x01 \x03(\v2\x12.permissionrpc.ApiR\x04list\"\xb1\x02\n" +
-	"\x04Menu\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x1b\n" +
-	"\tparent_id\x18\x02 \x01(\x03R\bparentId\x12\x12\n" +
-	"\x04path\x18\x03 \x01(\tR\x04path\x12\x12\n" +
-	"\x04name\x18\x04 \x01(\tR\x04name\x12\x1c\n" +
-	"\tcomponent\x18\x05 \x01(\tR\tcomponent\x12\x1a\n" +
-	"\bredirect\x18\x06 \x01(\tR\bredirect\x12\x1d\n" +
+	"\rsuccess_count\x18\x01 \x01(\x03R\fsuccessCount\"\x9a\x01\n" +
+	"\x04Role\x12\x19\n" +
+	"\brole_key\x18\x01 \x01(\tR\aroleKey\x12!\n" +
+	"\frole_comment\x18\x02 \x01(\tR\vroleComment\x12\x16\n" +
+	"\x06status\x18\x03 \x01(\x03R\x06status\x12\x1d\n" +
 	"\n" +
-	"created_at\x18\a \x01(\x03R\tcreatedAt\x12\x1d\n" +
+	"created_at\x18\x04 \x01(\x03R\tcreatedAt\x12\x1d\n" +
 	"\n" +
-	"updated_at\x18\b \x01(\x03R\tupdatedAt\x12/\n" +
-	"\bchildren\x18\n" +
-	" \x03(\v2\x13.permissionrpc.MenuR\bchildren\x12+\n" +
-	"\x04meta\x18\v \x01(\v2\x17.permissionrpc.MenuMetaR\x04meta\"\xff\x01\n" +
-	"\n" +
-	"AddMenuReq\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x1b\n" +
-	"\tparent_id\x18\x02 \x01(\x03R\bparentId\x12\x12\n" +
-	"\x04path\x18\x03 \x01(\tR\x04path\x12\x12\n" +
-	"\x04name\x18\x04 \x01(\tR\x04name\x12\x1c\n" +
-	"\tcomponent\x18\x05 \x01(\tR\tcomponent\x12\x1a\n" +
-	"\bredirect\x18\x06 \x01(\tR\bredirect\x125\n" +
-	"\bchildren\x18\n" +
-	" \x03(\v2\x19.permissionrpc.AddMenuReqR\bchildren\x12+\n" +
-	"\x04meta\x18\v \x01(\v2\x17.permissionrpc.MenuMetaR\x04meta\"6\n" +
-	"\vAddMenuResp\x12'\n" +
-	"\x04menu\x18\x01 \x01(\v2\x13.permissionrpc.MenuR\x04menu\"\xcb\x01\n" +
-	"\rUpdateMenuReq\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x1b\n" +
-	"\tparent_id\x18\x02 \x01(\x03R\bparentId\x12\x12\n" +
-	"\x04path\x18\x03 \x01(\tR\x04path\x12\x12\n" +
-	"\x04name\x18\x04 \x01(\tR\x04name\x12\x1c\n" +
-	"\tcomponent\x18\x05 \x01(\tR\tcomponent\x12\x1a\n" +
-	"\bredirect\x18\x06 \x01(\tR\bredirect\x12+\n" +
-	"\x04meta\x18\v \x01(\v2\x17.permissionrpc.MenuMetaR\x04meta\"9\n" +
-	"\x0eUpdateMenuResp\x12'\n" +
-	"\x04menu\x18\x01 \x01(\v2\x13.permissionrpc.MenuR\x04menu\"\"\n" +
-	"\x0eDeletesMenuReq\x12\x10\n" +
-	"\x03ids\x18\x01 \x03(\x03R\x03ids\"6\n" +
-	"\x0fDeletesMenuResp\x12#\n" +
-	"\rsuccess_count\x18\x01 \x01(\x03R\fsuccessCount\";\n" +
-	"\x0fFindMenuListReq\x12\x14\n" +
-	"\x05title\x18\x02 \x01(\tR\x05title\x12\x12\n" +
-	"\x04name\x18\x03 \x01(\tR\x04name\"t\n" +
-	"\x10FindMenuListResp\x127\n" +
-	"\n" +
-	"pagination\x18\x01 \x01(\v2\x17.permissionrpc.PageRespR\n" +
-	"pagination\x12'\n" +
-	"\x04list\x18\x02 \x03(\v2\x13.permissionrpc.MenuR\x04list\"B\n" +
-	"\x0fSyncMenuListReq\x12/\n" +
-	"\x05menus\x18\x01 \x03(\v2\x19.permissionrpc.AddMenuReqR\x05menus\"7\n" +
-	"\x10SyncMenuListResp\x12#\n" +
-	"\rsuccess_count\x18\x01 \x01(\x03R\fsuccessCount\"\x12\n" +
-	"\x10CleanMenuListReq\"8\n" +
-	"\x11CleanMenuListResp\x12#\n" +
-	"\rsuccess_count\x18\x01 \x01(\x03R\fsuccessCount\"\x10\n" +
-	"\x0eFindAllMenuReq\":\n" +
-	"\x0fFindAllMenuResp\x12'\n" +
-	"\x04list\x18\x01 \x03(\v2\x13.permissionrpc.MenuR\x04list\"\xaa\x01\n" +
-	"\x04Role\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x19\n" +
-	"\brole_key\x18\x02 \x01(\tR\aroleKey\x12!\n" +
-	"\frole_comment\x18\x03 \x01(\tR\vroleComment\x12\x16\n" +
-	"\x06status\x18\x04 \x01(\x03R\x06status\x12\x1d\n" +
-	"\n" +
-	"created_at\x18\x05 \x01(\x03R\tcreatedAt\x12\x1d\n" +
-	"\n" +
-	"updated_at\x18\x06 \x01(\x03R\tupdatedAt\"x\n" +
+	"updated_at\x18\x05 \x01(\x03R\tupdatedAt\"x\n" +
 	"\x0fFindRoleListReq\x122\n" +
 	"\bpaginate\x18\x01 \x01(\v2\x16.permissionrpc.PageReqR\bpaginate\x12\x19\n" +
 	"\brole_key\x18\x02 \x01(\tR\aroleKey\x12\x16\n" +
@@ -3029,37 +1880,30 @@ const file_blog_permission_proto_rawDesc = "" +
 	"\x04list\x18\x02 \x03(\v2\x13.permissionrpc.RoleR\x04list\"\x10\n" +
 	"\x0eFindAllRoleReq\":\n" +
 	"\x0fFindAllRoleResp\x12'\n" +
-	"\x04list\x18\x01 \x03(\v2\x13.permissionrpc.RoleR\x04list\"H\n" +
-	"\x12UpdateRoleMenusReq\x12\x17\n" +
-	"\arole_id\x18\x01 \x01(\x03R\x06roleId\x12\x19\n" +
-	"\bmenu_ids\x18\x02 \x03(\x03R\amenuIds\"\x15\n" +
-	"\x13UpdateRoleMenusResp\"E\n" +
-	"\x11UpdateRoleApisReq\x12\x17\n" +
-	"\arole_id\x18\x01 \x01(\x03R\x06roleId\x12\x17\n" +
-	"\aapi_ids\x18\x02 \x03(\x03R\x06apiIds\"\x14\n" +
-	"\x12UpdateRoleApisResp\"&\n" +
+	"\x04list\x18\x01 \x03(\v2\x13.permissionrpc.RoleR\x04list\".\n" +
+	"\x11UpdateRoleApisReq\x12\x19\n" +
+	"\brole_key\x18\x01 \x01(\tR\aroleKey\"=\n" +
+	"\x12UpdateRoleApisResp\x12'\n" +
+	"\x04list\x18\x01 \x01(\v2\x13.permissionrpc.RoleR\x04list\"&\n" +
 	"\x14FindRoleResourcesReq\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\"d\n" +
 	"\x15FindRoleResourcesResp\x12\x17\n" +
 	"\arole_id\x18\x01 \x01(\x03R\x06roleId\x12\x17\n" +
 	"\aapi_ids\x18\x02 \x03(\x03R\x06apiIds\x12\x19\n" +
-	"\bmenu_ids\x18\x03 \x03(\x03R\amenuIds\"E\n" +
+	"\bmenu_ids\x18\x03 \x03(\x03R\amenuIds\"G\n" +
 	"\x11UpdateUserRoleReq\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x17\n" +
-	"\arole_id\x18\x02 \x01(\x03R\x06roleId\"\x14\n" +
-	"\x12UpdateUserRoleResp\"*\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x19\n" +
+	"\brole_key\x18\x02 \x01(\tR\aroleKey\"=\n" +
+	"\x12UpdateUserRoleResp\x12'\n" +
+	"\x04role\x18\x01 \x01(\v2\x13.permissionrpc.RoleR\x04role\"*\n" +
 	"\x0fFindUserApisReq\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\":\n" +
 	"\x10FindUserApisResp\x12&\n" +
 	"\x04list\x18\x01 \x03(\v2\x12.permissionrpc.ApiR\x04list\"+\n" +
-	"\x10FindUserMenusReq\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\"<\n" +
-	"\x11FindUserMenusResp\x12'\n" +
-	"\x04list\x18\x01 \x03(\v2\x13.permissionrpc.MenuR\x04list\"+\n" +
 	"\x10FindUserRolesReq\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\"<\n" +
 	"\x11FindUserRolesResp\x12'\n" +
-	"\x04list\x18\x01 \x03(\v2\x13.permissionrpc.RoleR\x04list2\xb8\x0e\n" +
+	"\x04list\x18\x01 \x03(\v2\x13.permissionrpc.RoleR\x04list2\xeb\b\n" +
 	"\rPermissionRpc\x12=\n" +
 	"\x06AddApi\x12\x18.permissionrpc.AddApiReq\x1a\x19.permissionrpc.AddApiResp\x12F\n" +
 	"\tUpdateApi\x12\x1b.permissionrpc.UpdateApiReq\x1a\x1c.permissionrpc.UpdateApiResp\x12I\n" +
@@ -3069,23 +1913,13 @@ const file_blog_permission_proto_rawDesc = "" +
 	"\vSyncApiList\x12\x1d.permissionrpc.SyncApiListReq\x1a\x1e.permissionrpc.SyncApiListResp\x12O\n" +
 	"\fCleanApiList\x12\x1e.permissionrpc.CleanApiListReq\x1a\x1f.permissionrpc.CleanApiListResp\x12I\n" +
 	"\n" +
-	"FindAllApi\x12\x1c.permissionrpc.FindAllApiReq\x1a\x1d.permissionrpc.FindAllApiResp\x12@\n" +
-	"\aAddMenu\x12\x19.permissionrpc.AddMenuReq\x1a\x1a.permissionrpc.AddMenuResp\x12I\n" +
-	"\n" +
-	"UpdateMenu\x12\x1c.permissionrpc.UpdateMenuReq\x1a\x1d.permissionrpc.UpdateMenuResp\x12L\n" +
-	"\vDeletesMenu\x12\x1d.permissionrpc.DeletesMenuReq\x1a\x1e.permissionrpc.DeletesMenuResp\x12O\n" +
-	"\fFindMenuList\x12\x1e.permissionrpc.FindMenuListReq\x1a\x1f.permissionrpc.FindMenuListResp\x12O\n" +
-	"\fSyncMenuList\x12\x1e.permissionrpc.SyncMenuListReq\x1a\x1f.permissionrpc.SyncMenuListResp\x12R\n" +
-	"\rCleanMenuList\x12\x1f.permissionrpc.CleanMenuListReq\x1a .permissionrpc.CleanMenuListResp\x12L\n" +
-	"\vFindAllMenu\x12\x1d.permissionrpc.FindAllMenuReq\x1a\x1e.permissionrpc.FindAllMenuResp\x12O\n" +
+	"FindAllApi\x12\x1c.permissionrpc.FindAllApiReq\x1a\x1d.permissionrpc.FindAllApiResp\x12O\n" +
 	"\fFindRoleList\x12\x1e.permissionrpc.FindRoleListReq\x1a\x1f.permissionrpc.FindRoleListResp\x12L\n" +
-	"\vFindAllRole\x12\x1d.permissionrpc.FindAllRoleReq\x1a\x1e.permissionrpc.FindAllRoleResp\x12X\n" +
-	"\x0fUpdateRoleMenus\x12!.permissionrpc.UpdateRoleMenusReq\x1a\".permissionrpc.UpdateRoleMenusResp\x12U\n" +
+	"\vFindAllRole\x12\x1d.permissionrpc.FindAllRoleReq\x1a\x1e.permissionrpc.FindAllRoleResp\x12U\n" +
 	"\x0eUpdateRoleApis\x12 .permissionrpc.UpdateRoleApisReq\x1a!.permissionrpc.UpdateRoleApisResp\x12^\n" +
 	"\x11FindRoleResources\x12#.permissionrpc.FindRoleResourcesReq\x1a$.permissionrpc.FindRoleResourcesResp\x12U\n" +
 	"\x0eUpdateUserRole\x12 .permissionrpc.UpdateUserRoleReq\x1a!.permissionrpc.UpdateUserRoleResp\x12O\n" +
 	"\fFindUserApis\x12\x1e.permissionrpc.FindUserApisReq\x1a\x1f.permissionrpc.FindUserApisResp\x12R\n" +
-	"\rFindUserMenus\x12\x1f.permissionrpc.FindUserMenusReq\x1a .permissionrpc.FindUserMenusResp\x12R\n" +
 	"\rFindUserRoles\x12\x1f.permissionrpc.FindUserRolesReq\x1a .permissionrpc.FindUserRolesRespB\x11Z\x0f./permissionrpcb\x06proto3"
 
 var (
@@ -3100,140 +1934,95 @@ func file_blog_permission_proto_rawDescGZIP() []byte {
 	return file_blog_permission_proto_rawDescData
 }
 
-var file_blog_permission_proto_msgTypes = make([]protoimpl.MessageInfo, 52)
+var file_blog_permission_proto_msgTypes = make([]protoimpl.MessageInfo, 34)
 var file_blog_permission_proto_goTypes = []any{
 	(*PageReq)(nil),               // 0: permissionrpc.PageReq
 	(*PageResp)(nil),              // 1: permissionrpc.PageResp
-	(*MenuMeta)(nil),              // 2: permissionrpc.MenuMeta
-	(*Api)(nil),                   // 3: permissionrpc.Api
-	(*AddApiReq)(nil),             // 4: permissionrpc.AddApiReq
-	(*AddApiResp)(nil),            // 5: permissionrpc.AddApiResp
-	(*UpdateApiReq)(nil),          // 6: permissionrpc.UpdateApiReq
-	(*UpdateApiResp)(nil),         // 7: permissionrpc.UpdateApiResp
-	(*DeletesApiReq)(nil),         // 8: permissionrpc.DeletesApiReq
-	(*DeletesApiResp)(nil),        // 9: permissionrpc.DeletesApiResp
-	(*FindApiListReq)(nil),        // 10: permissionrpc.FindApiListReq
-	(*FindApiListResp)(nil),       // 11: permissionrpc.FindApiListResp
-	(*SyncApiListReq)(nil),        // 12: permissionrpc.SyncApiListReq
-	(*SyncApiListResp)(nil),       // 13: permissionrpc.SyncApiListResp
-	(*CleanApiListReq)(nil),       // 14: permissionrpc.CleanApiListReq
-	(*CleanApiListResp)(nil),      // 15: permissionrpc.CleanApiListResp
-	(*FindAllApiReq)(nil),         // 16: permissionrpc.FindAllApiReq
-	(*FindAllApiResp)(nil),        // 17: permissionrpc.FindAllApiResp
-	(*Menu)(nil),                  // 18: permissionrpc.Menu
-	(*AddMenuReq)(nil),            // 19: permissionrpc.AddMenuReq
-	(*AddMenuResp)(nil),           // 20: permissionrpc.AddMenuResp
-	(*UpdateMenuReq)(nil),         // 21: permissionrpc.UpdateMenuReq
-	(*UpdateMenuResp)(nil),        // 22: permissionrpc.UpdateMenuResp
-	(*DeletesMenuReq)(nil),        // 23: permissionrpc.DeletesMenuReq
-	(*DeletesMenuResp)(nil),       // 24: permissionrpc.DeletesMenuResp
-	(*FindMenuListReq)(nil),       // 25: permissionrpc.FindMenuListReq
-	(*FindMenuListResp)(nil),      // 26: permissionrpc.FindMenuListResp
-	(*SyncMenuListReq)(nil),       // 27: permissionrpc.SyncMenuListReq
-	(*SyncMenuListResp)(nil),      // 28: permissionrpc.SyncMenuListResp
-	(*CleanMenuListReq)(nil),      // 29: permissionrpc.CleanMenuListReq
-	(*CleanMenuListResp)(nil),     // 30: permissionrpc.CleanMenuListResp
-	(*FindAllMenuReq)(nil),        // 31: permissionrpc.FindAllMenuReq
-	(*FindAllMenuResp)(nil),       // 32: permissionrpc.FindAllMenuResp
-	(*Role)(nil),                  // 33: permissionrpc.Role
-	(*FindRoleListReq)(nil),       // 34: permissionrpc.FindRoleListReq
-	(*FindRoleListResp)(nil),      // 35: permissionrpc.FindRoleListResp
-	(*FindAllRoleReq)(nil),        // 36: permissionrpc.FindAllRoleReq
-	(*FindAllRoleResp)(nil),       // 37: permissionrpc.FindAllRoleResp
-	(*UpdateRoleMenusReq)(nil),    // 38: permissionrpc.UpdateRoleMenusReq
-	(*UpdateRoleMenusResp)(nil),   // 39: permissionrpc.UpdateRoleMenusResp
-	(*UpdateRoleApisReq)(nil),     // 40: permissionrpc.UpdateRoleApisReq
-	(*UpdateRoleApisResp)(nil),    // 41: permissionrpc.UpdateRoleApisResp
-	(*FindRoleResourcesReq)(nil),  // 42: permissionrpc.FindRoleResourcesReq
-	(*FindRoleResourcesResp)(nil), // 43: permissionrpc.FindRoleResourcesResp
-	(*UpdateUserRoleReq)(nil),     // 44: permissionrpc.UpdateUserRoleReq
-	(*UpdateUserRoleResp)(nil),    // 45: permissionrpc.UpdateUserRoleResp
-	(*FindUserApisReq)(nil),       // 46: permissionrpc.FindUserApisReq
-	(*FindUserApisResp)(nil),      // 47: permissionrpc.FindUserApisResp
-	(*FindUserMenusReq)(nil),      // 48: permissionrpc.FindUserMenusReq
-	(*FindUserMenusResp)(nil),     // 49: permissionrpc.FindUserMenusResp
-	(*FindUserRolesReq)(nil),      // 50: permissionrpc.FindUserRolesReq
-	(*FindUserRolesResp)(nil),     // 51: permissionrpc.FindUserRolesResp
+	(*Api)(nil),                   // 2: permissionrpc.Api
+	(*AddApiReq)(nil),             // 3: permissionrpc.AddApiReq
+	(*AddApiResp)(nil),            // 4: permissionrpc.AddApiResp
+	(*UpdateApiReq)(nil),          // 5: permissionrpc.UpdateApiReq
+	(*UpdateApiResp)(nil),         // 6: permissionrpc.UpdateApiResp
+	(*DeleteApiReq)(nil),          // 7: permissionrpc.DeleteApiReq
+	(*DeleteApiResp)(nil),         // 8: permissionrpc.DeleteApiResp
+	(*DeletesApiReq)(nil),         // 9: permissionrpc.DeletesApiReq
+	(*DeletesApiResp)(nil),        // 10: permissionrpc.DeletesApiResp
+	(*FindApiListReq)(nil),        // 11: permissionrpc.FindApiListReq
+	(*FindApiListResp)(nil),       // 12: permissionrpc.FindApiListResp
+	(*FindAllApiReq)(nil),         // 13: permissionrpc.FindAllApiReq
+	(*FindAllApiResp)(nil),        // 14: permissionrpc.FindAllApiResp
+	(*SyncApiListReq)(nil),        // 15: permissionrpc.SyncApiListReq
+	(*SyncApiListResp)(nil),       // 16: permissionrpc.SyncApiListResp
+	(*CleanApiListReq)(nil),       // 17: permissionrpc.CleanApiListReq
+	(*CleanApiListResp)(nil),      // 18: permissionrpc.CleanApiListResp
+	(*Role)(nil),                  // 19: permissionrpc.Role
+	(*FindRoleListReq)(nil),       // 20: permissionrpc.FindRoleListReq
+	(*FindRoleListResp)(nil),      // 21: permissionrpc.FindRoleListResp
+	(*FindAllRoleReq)(nil),        // 22: permissionrpc.FindAllRoleReq
+	(*FindAllRoleResp)(nil),       // 23: permissionrpc.FindAllRoleResp
+	(*UpdateRoleApisReq)(nil),     // 24: permissionrpc.UpdateRoleApisReq
+	(*UpdateRoleApisResp)(nil),    // 25: permissionrpc.UpdateRoleApisResp
+	(*FindRoleResourcesReq)(nil),  // 26: permissionrpc.FindRoleResourcesReq
+	(*FindRoleResourcesResp)(nil), // 27: permissionrpc.FindRoleResourcesResp
+	(*UpdateUserRoleReq)(nil),     // 28: permissionrpc.UpdateUserRoleReq
+	(*UpdateUserRoleResp)(nil),    // 29: permissionrpc.UpdateUserRoleResp
+	(*FindUserApisReq)(nil),       // 30: permissionrpc.FindUserApisReq
+	(*FindUserApisResp)(nil),      // 31: permissionrpc.FindUserApisResp
+	(*FindUserRolesReq)(nil),      // 32: permissionrpc.FindUserRolesReq
+	(*FindUserRolesResp)(nil),     // 33: permissionrpc.FindUserRolesResp
 }
 var file_blog_permission_proto_depIdxs = []int32{
-	3,  // 0: permissionrpc.Api.children:type_name -> permissionrpc.Api
-	4,  // 1: permissionrpc.AddApiReq.children:type_name -> permissionrpc.AddApiReq
-	3,  // 2: permissionrpc.AddApiResp.api:type_name -> permissionrpc.Api
-	6,  // 3: permissionrpc.UpdateApiReq.children:type_name -> permissionrpc.UpdateApiReq
-	3,  // 4: permissionrpc.UpdateApiResp.api:type_name -> permissionrpc.Api
-	1,  // 5: permissionrpc.FindApiListResp.pagination:type_name -> permissionrpc.PageResp
-	3,  // 6: permissionrpc.FindApiListResp.list:type_name -> permissionrpc.Api
-	4,  // 7: permissionrpc.SyncApiListReq.apis:type_name -> permissionrpc.AddApiReq
-	3,  // 8: permissionrpc.FindAllApiResp.list:type_name -> permissionrpc.Api
-	18, // 9: permissionrpc.Menu.children:type_name -> permissionrpc.Menu
-	2,  // 10: permissionrpc.Menu.meta:type_name -> permissionrpc.MenuMeta
-	19, // 11: permissionrpc.AddMenuReq.children:type_name -> permissionrpc.AddMenuReq
-	2,  // 12: permissionrpc.AddMenuReq.meta:type_name -> permissionrpc.MenuMeta
-	18, // 13: permissionrpc.AddMenuResp.menu:type_name -> permissionrpc.Menu
-	2,  // 14: permissionrpc.UpdateMenuReq.meta:type_name -> permissionrpc.MenuMeta
-	18, // 15: permissionrpc.UpdateMenuResp.menu:type_name -> permissionrpc.Menu
-	1,  // 16: permissionrpc.FindMenuListResp.pagination:type_name -> permissionrpc.PageResp
-	18, // 17: permissionrpc.FindMenuListResp.list:type_name -> permissionrpc.Menu
-	19, // 18: permissionrpc.SyncMenuListReq.menus:type_name -> permissionrpc.AddMenuReq
-	18, // 19: permissionrpc.FindAllMenuResp.list:type_name -> permissionrpc.Menu
-	0,  // 20: permissionrpc.FindRoleListReq.paginate:type_name -> permissionrpc.PageReq
-	1,  // 21: permissionrpc.FindRoleListResp.pagination:type_name -> permissionrpc.PageResp
-	33, // 22: permissionrpc.FindRoleListResp.list:type_name -> permissionrpc.Role
-	33, // 23: permissionrpc.FindAllRoleResp.list:type_name -> permissionrpc.Role
-	3,  // 24: permissionrpc.FindUserApisResp.list:type_name -> permissionrpc.Api
-	18, // 25: permissionrpc.FindUserMenusResp.list:type_name -> permissionrpc.Menu
-	33, // 26: permissionrpc.FindUserRolesResp.list:type_name -> permissionrpc.Role
-	4,  // 27: permissionrpc.PermissionRpc.AddApi:input_type -> permissionrpc.AddApiReq
-	6,  // 28: permissionrpc.PermissionRpc.UpdateApi:input_type -> permissionrpc.UpdateApiReq
-	8,  // 29: permissionrpc.PermissionRpc.DeletesApi:input_type -> permissionrpc.DeletesApiReq
-	10, // 30: permissionrpc.PermissionRpc.FindApiList:input_type -> permissionrpc.FindApiListReq
-	12, // 31: permissionrpc.PermissionRpc.SyncApiList:input_type -> permissionrpc.SyncApiListReq
-	14, // 32: permissionrpc.PermissionRpc.CleanApiList:input_type -> permissionrpc.CleanApiListReq
-	16, // 33: permissionrpc.PermissionRpc.FindAllApi:input_type -> permissionrpc.FindAllApiReq
-	19, // 34: permissionrpc.PermissionRpc.AddMenu:input_type -> permissionrpc.AddMenuReq
-	21, // 35: permissionrpc.PermissionRpc.UpdateMenu:input_type -> permissionrpc.UpdateMenuReq
-	23, // 36: permissionrpc.PermissionRpc.DeletesMenu:input_type -> permissionrpc.DeletesMenuReq
-	25, // 37: permissionrpc.PermissionRpc.FindMenuList:input_type -> permissionrpc.FindMenuListReq
-	27, // 38: permissionrpc.PermissionRpc.SyncMenuList:input_type -> permissionrpc.SyncMenuListReq
-	29, // 39: permissionrpc.PermissionRpc.CleanMenuList:input_type -> permissionrpc.CleanMenuListReq
-	31, // 40: permissionrpc.PermissionRpc.FindAllMenu:input_type -> permissionrpc.FindAllMenuReq
-	34, // 41: permissionrpc.PermissionRpc.FindRoleList:input_type -> permissionrpc.FindRoleListReq
-	36, // 42: permissionrpc.PermissionRpc.FindAllRole:input_type -> permissionrpc.FindAllRoleReq
-	38, // 43: permissionrpc.PermissionRpc.UpdateRoleMenus:input_type -> permissionrpc.UpdateRoleMenusReq
-	40, // 44: permissionrpc.PermissionRpc.UpdateRoleApis:input_type -> permissionrpc.UpdateRoleApisReq
-	42, // 45: permissionrpc.PermissionRpc.FindRoleResources:input_type -> permissionrpc.FindRoleResourcesReq
-	44, // 46: permissionrpc.PermissionRpc.UpdateUserRole:input_type -> permissionrpc.UpdateUserRoleReq
-	46, // 47: permissionrpc.PermissionRpc.FindUserApis:input_type -> permissionrpc.FindUserApisReq
-	48, // 48: permissionrpc.PermissionRpc.FindUserMenus:input_type -> permissionrpc.FindUserMenusReq
-	50, // 49: permissionrpc.PermissionRpc.FindUserRoles:input_type -> permissionrpc.FindUserRolesReq
-	5,  // 50: permissionrpc.PermissionRpc.AddApi:output_type -> permissionrpc.AddApiResp
-	7,  // 51: permissionrpc.PermissionRpc.UpdateApi:output_type -> permissionrpc.UpdateApiResp
-	9,  // 52: permissionrpc.PermissionRpc.DeletesApi:output_type -> permissionrpc.DeletesApiResp
-	11, // 53: permissionrpc.PermissionRpc.FindApiList:output_type -> permissionrpc.FindApiListResp
-	13, // 54: permissionrpc.PermissionRpc.SyncApiList:output_type -> permissionrpc.SyncApiListResp
-	15, // 55: permissionrpc.PermissionRpc.CleanApiList:output_type -> permissionrpc.CleanApiListResp
-	17, // 56: permissionrpc.PermissionRpc.FindAllApi:output_type -> permissionrpc.FindAllApiResp
-	20, // 57: permissionrpc.PermissionRpc.AddMenu:output_type -> permissionrpc.AddMenuResp
-	22, // 58: permissionrpc.PermissionRpc.UpdateMenu:output_type -> permissionrpc.UpdateMenuResp
-	24, // 59: permissionrpc.PermissionRpc.DeletesMenu:output_type -> permissionrpc.DeletesMenuResp
-	26, // 60: permissionrpc.PermissionRpc.FindMenuList:output_type -> permissionrpc.FindMenuListResp
-	28, // 61: permissionrpc.PermissionRpc.SyncMenuList:output_type -> permissionrpc.SyncMenuListResp
-	30, // 62: permissionrpc.PermissionRpc.CleanMenuList:output_type -> permissionrpc.CleanMenuListResp
-	32, // 63: permissionrpc.PermissionRpc.FindAllMenu:output_type -> permissionrpc.FindAllMenuResp
-	35, // 64: permissionrpc.PermissionRpc.FindRoleList:output_type -> permissionrpc.FindRoleListResp
-	37, // 65: permissionrpc.PermissionRpc.FindAllRole:output_type -> permissionrpc.FindAllRoleResp
-	39, // 66: permissionrpc.PermissionRpc.UpdateRoleMenus:output_type -> permissionrpc.UpdateRoleMenusResp
-	41, // 67: permissionrpc.PermissionRpc.UpdateRoleApis:output_type -> permissionrpc.UpdateRoleApisResp
-	43, // 68: permissionrpc.PermissionRpc.FindRoleResources:output_type -> permissionrpc.FindRoleResourcesResp
-	45, // 69: permissionrpc.PermissionRpc.UpdateUserRole:output_type -> permissionrpc.UpdateUserRoleResp
-	47, // 70: permissionrpc.PermissionRpc.FindUserApis:output_type -> permissionrpc.FindUserApisResp
-	49, // 71: permissionrpc.PermissionRpc.FindUserMenus:output_type -> permissionrpc.FindUserMenusResp
-	51, // 72: permissionrpc.PermissionRpc.FindUserRoles:output_type -> permissionrpc.FindUserRolesResp
-	50, // [50:73] is the sub-list for method output_type
-	27, // [27:50] is the sub-list for method input_type
-	27, // [27:27] is the sub-list for extension type_name
-	27, // [27:27] is the sub-list for extension extendee
-	0,  // [0:27] is the sub-list for field type_name
+	2,  // 0: permissionrpc.Api.children:type_name -> permissionrpc.Api
+	3,  // 1: permissionrpc.AddApiReq.children:type_name -> permissionrpc.AddApiReq
+	2,  // 2: permissionrpc.AddApiResp.api:type_name -> permissionrpc.Api
+	3,  // 3: permissionrpc.UpdateApiReq.children:type_name -> permissionrpc.AddApiReq
+	2,  // 4: permissionrpc.UpdateApiResp.api:type_name -> permissionrpc.Api
+	2,  // 5: permissionrpc.DeleteApiResp.api:type_name -> permissionrpc.Api
+	1,  // 6: permissionrpc.FindApiListResp.pagination:type_name -> permissionrpc.PageResp
+	2,  // 7: permissionrpc.FindApiListResp.list:type_name -> permissionrpc.Api
+	2,  // 8: permissionrpc.FindAllApiResp.list:type_name -> permissionrpc.Api
+	3,  // 9: permissionrpc.SyncApiListReq.apis:type_name -> permissionrpc.AddApiReq
+	0,  // 10: permissionrpc.FindRoleListReq.paginate:type_name -> permissionrpc.PageReq
+	1,  // 11: permissionrpc.FindRoleListResp.pagination:type_name -> permissionrpc.PageResp
+	19, // 12: permissionrpc.FindRoleListResp.list:type_name -> permissionrpc.Role
+	19, // 13: permissionrpc.FindAllRoleResp.list:type_name -> permissionrpc.Role
+	19, // 14: permissionrpc.UpdateRoleApisResp.list:type_name -> permissionrpc.Role
+	19, // 15: permissionrpc.UpdateUserRoleResp.role:type_name -> permissionrpc.Role
+	2,  // 16: permissionrpc.FindUserApisResp.list:type_name -> permissionrpc.Api
+	19, // 17: permissionrpc.FindUserRolesResp.list:type_name -> permissionrpc.Role
+	3,  // 18: permissionrpc.PermissionRpc.AddApi:input_type -> permissionrpc.AddApiReq
+	5,  // 19: permissionrpc.PermissionRpc.UpdateApi:input_type -> permissionrpc.UpdateApiReq
+	9,  // 20: permissionrpc.PermissionRpc.DeletesApi:input_type -> permissionrpc.DeletesApiReq
+	11, // 21: permissionrpc.PermissionRpc.FindApiList:input_type -> permissionrpc.FindApiListReq
+	15, // 22: permissionrpc.PermissionRpc.SyncApiList:input_type -> permissionrpc.SyncApiListReq
+	17, // 23: permissionrpc.PermissionRpc.CleanApiList:input_type -> permissionrpc.CleanApiListReq
+	13, // 24: permissionrpc.PermissionRpc.FindAllApi:input_type -> permissionrpc.FindAllApiReq
+	20, // 25: permissionrpc.PermissionRpc.FindRoleList:input_type -> permissionrpc.FindRoleListReq
+	22, // 26: permissionrpc.PermissionRpc.FindAllRole:input_type -> permissionrpc.FindAllRoleReq
+	24, // 27: permissionrpc.PermissionRpc.UpdateRoleApis:input_type -> permissionrpc.UpdateRoleApisReq
+	26, // 28: permissionrpc.PermissionRpc.FindRoleResources:input_type -> permissionrpc.FindRoleResourcesReq
+	28, // 29: permissionrpc.PermissionRpc.UpdateUserRole:input_type -> permissionrpc.UpdateUserRoleReq
+	30, // 30: permissionrpc.PermissionRpc.FindUserApis:input_type -> permissionrpc.FindUserApisReq
+	32, // 31: permissionrpc.PermissionRpc.FindUserRoles:input_type -> permissionrpc.FindUserRolesReq
+	4,  // 32: permissionrpc.PermissionRpc.AddApi:output_type -> permissionrpc.AddApiResp
+	6,  // 33: permissionrpc.PermissionRpc.UpdateApi:output_type -> permissionrpc.UpdateApiResp
+	10, // 34: permissionrpc.PermissionRpc.DeletesApi:output_type -> permissionrpc.DeletesApiResp
+	12, // 35: permissionrpc.PermissionRpc.FindApiList:output_type -> permissionrpc.FindApiListResp
+	16, // 36: permissionrpc.PermissionRpc.SyncApiList:output_type -> permissionrpc.SyncApiListResp
+	18, // 37: permissionrpc.PermissionRpc.CleanApiList:output_type -> permissionrpc.CleanApiListResp
+	14, // 38: permissionrpc.PermissionRpc.FindAllApi:output_type -> permissionrpc.FindAllApiResp
+	21, // 39: permissionrpc.PermissionRpc.FindRoleList:output_type -> permissionrpc.FindRoleListResp
+	23, // 40: permissionrpc.PermissionRpc.FindAllRole:output_type -> permissionrpc.FindAllRoleResp
+	25, // 41: permissionrpc.PermissionRpc.UpdateRoleApis:output_type -> permissionrpc.UpdateRoleApisResp
+	27, // 42: permissionrpc.PermissionRpc.FindRoleResources:output_type -> permissionrpc.FindRoleResourcesResp
+	29, // 43: permissionrpc.PermissionRpc.UpdateUserRole:output_type -> permissionrpc.UpdateUserRoleResp
+	31, // 44: permissionrpc.PermissionRpc.FindUserApis:output_type -> permissionrpc.FindUserApisResp
+	33, // 45: permissionrpc.PermissionRpc.FindUserRoles:output_type -> permissionrpc.FindUserRolesResp
+	32, // [32:46] is the sub-list for method output_type
+	18, // [18:32] is the sub-list for method input_type
+	18, // [18:18] is the sub-list for extension type_name
+	18, // [18:18] is the sub-list for extension extendee
+	0,  // [0:18] is the sub-list for field type_name
 }
 
 func init() { file_blog_permission_proto_init() }
@@ -3247,7 +2036,7 @@ func file_blog_permission_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_blog_permission_proto_rawDesc), len(file_blog_permission_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   52,
+			NumMessages:   34,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

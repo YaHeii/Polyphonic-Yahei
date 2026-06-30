@@ -12,7 +12,6 @@ option go_package = "./articlerpc";
 message PageReq {
   int64 page = 1;      // 页码
   int64 page_size = 2; // 每页大小
-  repeated string sorts = 3; // 排序字段
 }
 
 // 分页响应参数
@@ -23,63 +22,75 @@ message PageResp {
 }
 
 /************** 基础消息 **************/
+enum articleStatus {
+  ARTICLE_STATUS_PUBLIC = 0;
+  ARTICLE_STATUS_PRIVATE = 1;
+  ARTICLE_STATUS_DRAFT = 2;
+}
+
+enum articleType {
+  ARTICLE_TYPE_ORIGINAL = 0;
+  ARTICLE_TYPE_REPOST = 1;
+  ARTICLE_TYPE_TRANSLATE = 2;
+}
+
+enum categoryStatus {
+  CATEGORY_STATUS_PUBLIC = 0;
+  CATEGORY_STATUS_PRIVATE = 1;
+}
+
 // 文章预览信息
 message ArticlePreview {
-  int64 id = 1;// id
-  string article_cover = 4;// 文章缩略图
-  string article_title = 5;// 标题
-  int64 created_at = 12;// 发表时间
-  int64 like_count = 16;// 点赞数
-  int64 view_count = 17;// 查看数量
+  string article_cover = 2;// 文章缩略图
+  string article_title = 3;// 标题
+  int64 created_at = 4;// 发表时间
+  int64 like_count = 5;// 点赞数
+  int64 view_count = 6;// 查看数量
+  bool is_top = 7;// 是否置顶 1是
+  bool is_delete = 8;// 是否删除 1是
 }
 
-// 文章分类信息
-message ArticleCategory {
-  int64 id = 1;// id
-  string category_name = 2;// 分类名
-}
 
-// 文章标签信息
-message ArticleTag{
-  string tag_name = 1;// 标签名
-}
-
-// 文章详情信息
-message ArticleDetails {
-  int64 id = 1;// id
+message ArticleInfo {
   string user_id = 2;// 作者
   int64 category_id = 3;// 文章分类
   string article_cover = 4;// 文章缩略图
   string article_title = 5;// 标题
   string article_content = 6;// 内容
-  int64 article_type = 7;// 文章类型 1原创 2转载 3翻译
-  string original_url = 8;// 原文链接
-  bool is_top = 9;// 是否置顶 1是
-  bool is_delete = 10;// 是否删除 1是
-  int64 status = 11;// 状态值 1公开 2私密 3草稿 4已删除
-  int64 created_at = 12;// 发表时间
-  int64 updated_at = 13;// 更新时间
-  ArticleCategory category = 14; // 分类
-  repeated ArticleTag tag_list = 15; // 标签
-  int64 like_count = 16;// 点赞数
-  int64 view_count = 17;// 查看数量
+  articleType article_type = 7;// 文章类型 0原创 1转载 2翻译
+  bool is_top = 8;// 是否置顶 1是
+  bool is_delete = 9;// 是否删除 1是
+  articleStatus status = 10;// 状态值 0公开 1私密 2草稿
+  int64 created_at = 11;// 发表时间
+  int64 updated_at = 12;// 更新时间
+  repeated string tag_name = 13; // 标签
+  int64 like_count = 14;// 点赞数
+  int64 view_count = 15;// 查看数量
 }
 
 // 分类预览信息
-message Category{
-  int64 id = 1;// id
-  string category_name = 2;// 分类名
-  int64 created_at = 3;// 创建时间
-  int64 updated_at = 4;// 更新时间
+message CategoryPreview{
+  string category_name = 1;// 分类名
+  bool is_top = 2;// 是否置顶 1是
+  bool is_delete = 3;// 是否删除 1是
+  categoryStatus status = 4;// 状态
+  int64 article_count = 5;// 文章数量
+  string comment = 6;// 简介
+  int64 created_at = 7;// 创建时间
+  int64 updated_at = 8;// 更新时间
 }
 
 // 分类详情信息
-message CategoryDetails {
-  int64 id = 1;// id
-  string category_name = 2;// 分类名
-  int64 created_at = 3;// 创建时间
-  int64 updated_at = 4;// 更新时间
-  int64 article_count = 5;// 文章数量
+message CategoryInfo {
+  string category_name = 1;// 分类名
+  bool is_top = 2;// 是否置顶 1是
+  bool is_delete = 3;// 是否删除 1是
+  categoryStatus status = 4;// 状态
+  int64 created_at = 5;// 创建时间
+  int64 updated_at = 6;// 更新时间
+  int64 article_count = 7;// 文章数量
+  repeated ArticlePreview artilelist = 8;
+  string comment = 9;
 }
 
 // 标签详情信息
@@ -96,17 +107,7 @@ message ArticleDailyStatistics{
 
 /************** article 相关 **************/
 message AddArticleReq {
-  int64 id = 1;// id
-  string user_id = 2;// 作者
-  string article_cover = 4;// 文章缩略图
-  string article_title = 5;// 标题
-  string article_content = 6;// 内容
-  int64 article_type = 7;// 文章类型 1原创 2转载 3翻译
-  string original_url = 8;// 原文链接
-  bool is_top = 9;// 是否置顶
-  int64 status = 11;// 状态值 1 公开 2 私密 3 草稿 4 已删除
-  string category_name = 15;// 分类名
-  repeated string tag_name_list = 16; // 标签名
+  ArticleInfo artile=1;
 }
 
 message AddArticleResp {
@@ -114,17 +115,7 @@ message AddArticleResp {
 }
 
 message UpdateArticleReq {
-  int64 id = 1;// id
-  string user_id = 2;// 作者
-  string article_cover = 4;// 文章缩略图
-  string article_title = 5;// 标题
-  string article_content = 6;// 内容
-  int64 article_type = 7;// 文章类型 1原创 2转载 3翻译
-  string original_url = 8;// 原文链接
-  bool is_top = 9;// 是否置顶
-  int64 status = 11;// 状态值 1 公开 2 私密 3 草稿 4 已删除
-  string category_name = 15;// 分类名
-  repeated string tag_name_list = 16; // 标签名
+  ArticleInfo artile=1;
 }
 
 message UpdateArticleResp {
@@ -132,7 +123,7 @@ message UpdateArticleResp {
 }
 
 message UpdateArticleDeleteReq{
-  int64 article_id = 1;
+  string article_title = 1;
   bool is_delete = 2;// 是否删除
 }
 
@@ -150,17 +141,17 @@ message UpdateArticleTopResp {
 }
 
 message GetArticleReq {
-  int64 id = 1;
+  string article_title = 1;
 }
 
 message GetArticleResp {
-  ArticleDetails article = 1;
+  ArticleInfo article = 1;
 }
 
 message GetArticleRelationReq {
-  int64 id = 1;
+  string article_title = 1;
 }
-
+// TODO:完成推荐算法的设计
 message GetArticleRelationResp {
   ArticlePreview last = 1;
   ArticlePreview next = 2;
@@ -168,26 +159,28 @@ message GetArticleRelationResp {
   repeated ArticlePreview newest = 4;
 }
 
-message DeletesArticleReq {
-  repeated int64 ids = 1;
+message DeleteArticleReq {
+  string article_title = 1;
 }
 
-message DeletesArticleResp {
-  int64 success_count = 1;
+message DeleteArticleResp {
+  ArticlePreview article=1;
 }
 
 message AddArticleVisitsReq {
-  int64 id = 1;
+  string article_title = 1;
 }
 
 message AddArticleVisitsResp{
+  ArticlePreview article = 1;
 }
 
 message LikeArticleReq {
-  int64 id = 1;
+  string article_title = 1;
 }
 
 message LikeArticleResp {
+  ArticlePreview article = 1;
 }
 
 message FindUserLikeArticleReq {
@@ -212,31 +205,24 @@ message FindArticleListReq{
 
 message FindArticleListResp {
   PageResp pagination = 1; // 分页信息
-  repeated ArticleDetails list = 2;
-}
-
-message FindArticlePreviewListResp{
-  PageResp pagination = 1; // 分页信息
-  repeated ArticlePreview list = 2;
+  repeated ArticleInfo list = 2;
 }
 
 /************** category 相关 **************/
 message AddCategoryReq {
-  int64 id = 1;// id
-  string category_name = 2;// 分类名
+  CategoryInfo category=1;
 }
 
 message AddCategoryResp {
-  Category category = 1;
+  CategoryPreview category=1;
 }
 
 message UpdateCategoryReq {
-  int64 id = 1;// id
-  string category_name = 2;// 分类名
+  CategoryInfo category=1;
 }
 
 message UpdateCategoryResp {
-  Category category = 1;
+  CategoryPreview category=1;
 }
 
 message GetCategoryReq {
@@ -244,15 +230,16 @@ message GetCategoryReq {
 }
 
 message GetCategoryResp {
-  CategoryDetails category = 1;
+  CategoryInfo category = 1;
 }
 
-message DeletesCategoryReq {
-  repeated int64 ids = 1;
+message DeleteCategoryReq {
+  string category_name = 1;
+  bool is_delete = 2;// 是否删除
 }
 
-message DeletesCategoryResp {
-  int64 success_count = 1;
+message DeleteCategoryResp {
+  CategoryPreview category=1;
 }
 
 message FindCategoryListReq{
@@ -262,7 +249,7 @@ message FindCategoryListReq{
 
 message FindCategoryListResp {
   PageResp pagination = 1; // 分页信息
-  repeated CategoryDetails list = 2;
+  repeated CategoryInfo list = 2;
 }
 
 /************** analysis 相关 **************/
@@ -274,7 +261,7 @@ message AnalysisArticleResp{
   int64 category_count = 2;
   int64 tag_count = 3;
 
-  repeated CategoryDetails category_list = 4;
+  repeated CategoryInfo category_list = 4;
   repeated TagDetails tag_list = 5;
   repeated ArticlePreview article_rank_list = 6; // 文章浏览排序
 
@@ -284,7 +271,7 @@ message AnalysisArticleResp{
 
 // article服务
 service ArticleRpc {
-  // 分析文章数量
+  // 分析站内文章数据
   rpc AnalysisArticle(AnalysisArticleReq) returns(AnalysisArticleResp);
   // 添加文章访问量
   rpc AddArticleVisits(AddArticleVisitsReq) returns(AddArticleVisitsResp);
@@ -298,7 +285,7 @@ service ArticleRpc {
   // 更新文章置顶
   rpc UpdateArticleTop(UpdateArticleTopReq) returns(UpdateArticleTopResp);
   // 删除文章
-  rpc DeletesArticle(DeletesArticleReq) returns(DeletesArticleResp);
+  rpc DeletesArticle(DeleteArticleReq) returns(DeleteArticleResp);
   // 查询文章
   rpc GetArticle(GetArticleReq) returns(GetArticleResp);
   // 查询关联文章
@@ -306,8 +293,6 @@ service ArticleRpc {
 
   // 查询文章列表
   rpc FindArticleList(FindArticleListReq) returns(FindArticleListResp);
-  // 查询文章列表
-  rpc FindArticlePreviewList(FindArticleListReq) returns(FindArticlePreviewListResp);
 
   // 点赞文章
   rpc LikeArticle(LikeArticleReq) returns(LikeArticleResp);
@@ -321,7 +306,7 @@ service ArticleRpc {
   // 查询文章分类
   rpc GetCategory(GetCategoryReq) returns(GetCategoryResp);
   // 删除文章分类
-  rpc DeletesCategory(DeletesCategoryReq) returns(DeletesCategoryResp);
+  rpc DeletesCategory(DeleteCategoryReq) returns(DeleteCategoryResp);
   // 查询文章分类列表
   rpc FindCategoryList(FindCategoryListReq) returns(FindCategoryListResp);
 

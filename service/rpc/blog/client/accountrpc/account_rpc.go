@@ -14,52 +14,47 @@ import (
 )
 
 type (
-	AdminResetUserPasswordReq  = accountrpc.AdminResetUserPasswordReq
-	AdminResetUserPasswordResp = accountrpc.AdminResetUserPasswordResp
-	AdminUpdateUserStatusReq   = accountrpc.AdminUpdateUserStatusReq
-	AdminUpdateUserStatusResp  = accountrpc.AdminUpdateUserStatusResp
-	AnalysisUserAreasReq       = accountrpc.AnalysisUserAreasReq
-	AnalysisUserAreasResp      = accountrpc.AnalysisUserAreasResp
-	AnalysisUserReq            = accountrpc.AnalysisUserReq
-	AnalysisUserResp           = accountrpc.AnalysisUserResp
-	BindUserEmailReq           = accountrpc.BindUserEmailReq
-	BindUserEmailResp          = accountrpc.BindUserEmailResp
-	BindUserOauthReq           = accountrpc.BindUserOauthReq
-	BindUserOauthResp          = accountrpc.BindUserOauthResp
-	BindUserPhoneReq           = accountrpc.BindUserPhoneReq
-	BindUserPhoneResp          = accountrpc.BindUserPhoneResp
-	EmailLoginReq              = accountrpc.EmailLoginReq
-	FindUserInfoListResp       = accountrpc.FindUserInfoListResp
-	FindUserListReq            = accountrpc.FindUserListReq
-	FindUserListResp           = accountrpc.FindUserListResp
-	FindVisitorListReq         = accountrpc.FindVisitorListReq
-	FindVisitorListResp        = accountrpc.FindVisitorListResp
-	GetClientInfoReq           = accountrpc.GetClientInfoReq
-	GetClientInfoResp          = accountrpc.GetClientInfoResp
-	GetUserInfoReq             = accountrpc.GetUserInfoReq
-	GetUserInfoResp            = accountrpc.GetUserInfoResp
-	GetUserOauthInfoReq        = accountrpc.GetUserOauthInfoReq
-	GetUserOauthInfoResp       = accountrpc.GetUserOauthInfoResp
-	LoginReq                   = accountrpc.LoginReq
-	LoginResp                  = accountrpc.LoginResp
-	LogoffReq                  = accountrpc.LogoffReq
-	LogoffResp                 = accountrpc.LogoffResp
-	LogoutReq                  = accountrpc.LogoutReq
-	LogoutResp                 = accountrpc.LogoutResp
-	PhoneLoginReq              = accountrpc.PhoneLoginReq
-	RegisterReq                = accountrpc.RegisterReq
-	RegisterResp               = accountrpc.RegisterResp
-	ResetPasswordReq           = accountrpc.ResetPasswordReq
-	ResetPasswordResp          = accountrpc.ResetPasswordResp
-	ThirdLoginReq              = accountrpc.ThirdLoginReq
-	UnbindUserOauthReq         = accountrpc.UnbindUserOauthReq
-	UnbindUserOauthResp        = accountrpc.UnbindUserOauthResp
-	UpdateUserAvatarReq        = accountrpc.UpdateUserAvatarReq
-	UpdateUserAvatarResp       = accountrpc.UpdateUserAvatarResp
-	UpdateUserInfoReq          = accountrpc.UpdateUserInfoReq
-	UpdateUserInfoResp         = accountrpc.UpdateUserInfoResp
-	UpdateUserPasswordReq      = accountrpc.UpdateUserPasswordReq
-	UpdateUserPasswordResp     = accountrpc.UpdateUserPasswordResp
+	AdminUpdateUserStatusReq  = accountrpc.AdminUpdateUserStatusReq
+	AdminUpdateUserStatusResp = accountrpc.AdminUpdateUserStatusResp
+	AnalysisUserAreasReq      = accountrpc.AnalysisUserAreasReq
+	AnalysisUserAreasResp     = accountrpc.AnalysisUserAreasResp
+	AnalysisUserReq           = accountrpc.AnalysisUserReq
+	AnalysisUserResp          = accountrpc.AnalysisUserResp
+	BindUserEmailReq          = accountrpc.BindUserEmailReq
+	BindUserEmailResp         = accountrpc.BindUserEmailResp
+	BindUserOauthReq          = accountrpc.BindUserOauthReq
+	BindUserOauthResp         = accountrpc.BindUserOauthResp
+	BindUserPhoneReq          = accountrpc.BindUserPhoneReq
+	BindUserPhoneResp         = accountrpc.BindUserPhoneResp
+	EmailLoginReq             = accountrpc.EmailLoginReq
+	FindUserInfoListResp      = accountrpc.FindUserInfoListResp
+	FindUserListReq           = accountrpc.FindUserListReq
+	FindVisitorListReq        = accountrpc.FindVisitorListReq
+	FindVisitorListResp       = accountrpc.FindVisitorListResp
+	GetUserInfoReq            = accountrpc.GetUserInfoReq
+	GetUserInfoResp           = accountrpc.GetUserInfoResp
+	GetUserOauthInfoReq       = accountrpc.GetUserOauthInfoReq
+	GetUserOauthInfoResp      = accountrpc.GetUserOauthInfoResp
+	LoginReq                  = accountrpc.LoginReq
+	LoginResp                 = accountrpc.LoginResp
+	LogoffReq                 = accountrpc.LogoffReq
+	LogoffResp                = accountrpc.LogoffResp
+	LogoutReq                 = accountrpc.LogoutReq
+	LogoutResp                = accountrpc.LogoutResp
+	PhoneLoginReq             = accountrpc.PhoneLoginReq
+	RegisterReq               = accountrpc.RegisterReq
+	RegisterResp              = accountrpc.RegisterResp
+	ResetPasswordReq          = accountrpc.ResetPasswordReq
+	ResetPasswordResp         = accountrpc.ResetPasswordResp
+	ThirdLoginReq             = accountrpc.ThirdLoginReq
+	UnbindUserOauthReq        = accountrpc.UnbindUserOauthReq
+	UnbindUserOauthResp       = accountrpc.UnbindUserOauthResp
+	UpdateUserAvatarReq       = accountrpc.UpdateUserAvatarReq
+	UpdateUserAvatarResp      = accountrpc.UpdateUserAvatarResp
+	UpdateUserInfoReq         = accountrpc.UpdateUserInfoReq
+	UpdateUserInfoResp        = accountrpc.UpdateUserInfoResp
+	UpdateUserPasswordReq     = accountrpc.UpdateUserPasswordReq
+	UpdateUserPasswordResp    = accountrpc.UpdateUserPasswordResp
 
 	AccountRpc interface {
 		// 登录
@@ -98,10 +93,6 @@ type (
 		UnbindUserOauth(ctx context.Context, in *UnbindUserOauthReq, opts ...grpc.CallOption) (*UnbindUserOauthResp, error)
 		// 修改用户状态
 		AdminUpdateUserStatus(ctx context.Context, in *AdminUpdateUserStatusReq, opts ...grpc.CallOption) (*AdminUpdateUserStatusResp, error)
-		// 管理员重置用户密码
-		AdminResetUserPassword(ctx context.Context, in *AdminResetUserPasswordReq, opts ...grpc.CallOption) (*AdminResetUserPasswordResp, error)
-		// 查找用户列表
-		FindUserList(ctx context.Context, in *FindUserListReq, opts ...grpc.CallOption) (*FindUserListResp, error)
 		// 查找用户信息列表
 		FindUserInfoList(ctx context.Context, in *FindUserListReq, opts ...grpc.CallOption) (*FindUserInfoListResp, error)
 		// 查找在线用户列表
@@ -110,8 +101,6 @@ type (
 		AnalysisUser(ctx context.Context, in *AnalysisUserReq, opts ...grpc.CallOption) (*AnalysisUserResp, error)
 		// 查询用户分布区域
 		AnalysisUserAreas(ctx context.Context, in *AnalysisUserAreasReq, opts ...grpc.CallOption) (*AnalysisUserAreasResp, error)
-		// 获取客户端信息
-		GetClientInfo(ctx context.Context, in *GetClientInfoReq, opts ...grpc.CallOption) (*GetClientInfoResp, error)
 		// 查询游客信息
 		FindVisitorList(ctx context.Context, in *FindVisitorListReq, opts ...grpc.CallOption) (*FindVisitorListResp, error)
 	}
@@ -235,18 +224,6 @@ func (m *defaultAccountRpc) AdminUpdateUserStatus(ctx context.Context, in *Admin
 	return client.AdminUpdateUserStatus(ctx, in, opts...)
 }
 
-// 管理员重置用户密码
-func (m *defaultAccountRpc) AdminResetUserPassword(ctx context.Context, in *AdminResetUserPasswordReq, opts ...grpc.CallOption) (*AdminResetUserPasswordResp, error) {
-	client := accountrpc.NewAccountRpcClient(m.cli.Conn())
-	return client.AdminResetUserPassword(ctx, in, opts...)
-}
-
-// 查找用户列表
-func (m *defaultAccountRpc) FindUserList(ctx context.Context, in *FindUserListReq, opts ...grpc.CallOption) (*FindUserListResp, error) {
-	client := accountrpc.NewAccountRpcClient(m.cli.Conn())
-	return client.FindUserList(ctx, in, opts...)
-}
-
 // 查找用户信息列表
 func (m *defaultAccountRpc) FindUserInfoList(ctx context.Context, in *FindUserListReq, opts ...grpc.CallOption) (*FindUserInfoListResp, error) {
 	client := accountrpc.NewAccountRpcClient(m.cli.Conn())
@@ -269,12 +246,6 @@ func (m *defaultAccountRpc) AnalysisUser(ctx context.Context, in *AnalysisUserRe
 func (m *defaultAccountRpc) AnalysisUserAreas(ctx context.Context, in *AnalysisUserAreasReq, opts ...grpc.CallOption) (*AnalysisUserAreasResp, error) {
 	client := accountrpc.NewAccountRpcClient(m.cli.Conn())
 	return client.AnalysisUserAreas(ctx, in, opts...)
-}
-
-// 获取客户端信息
-func (m *defaultAccountRpc) GetClientInfo(ctx context.Context, in *GetClientInfoReq, opts ...grpc.CallOption) (*GetClientInfoResp, error) {
-	client := accountrpc.NewAccountRpcClient(m.cli.Conn())
-	return client.GetClientInfo(ctx, in, opts...)
 }
 
 // 查询游客信息

@@ -23,24 +23,23 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	ArticleRpc_AnalysisArticle_FullMethodName        = "/articlerpc.ArticleRpc/AnalysisArticle"
-	ArticleRpc_AddArticleVisits_FullMethodName       = "/articlerpc.ArticleRpc/AddArticleVisits"
-	ArticleRpc_AddArticle_FullMethodName             = "/articlerpc.ArticleRpc/AddArticle"
-	ArticleRpc_UpdateArticle_FullMethodName          = "/articlerpc.ArticleRpc/UpdateArticle"
-	ArticleRpc_UpdateArticleDelete_FullMethodName    = "/articlerpc.ArticleRpc/UpdateArticleDelete"
-	ArticleRpc_UpdateArticleTop_FullMethodName       = "/articlerpc.ArticleRpc/UpdateArticleTop"
-	ArticleRpc_DeletesArticle_FullMethodName         = "/articlerpc.ArticleRpc/DeletesArticle"
-	ArticleRpc_GetArticle_FullMethodName             = "/articlerpc.ArticleRpc/GetArticle"
-	ArticleRpc_GetArticleRelation_FullMethodName     = "/articlerpc.ArticleRpc/GetArticleRelation"
-	ArticleRpc_FindArticleList_FullMethodName        = "/articlerpc.ArticleRpc/FindArticleList"
-	ArticleRpc_FindArticlePreviewList_FullMethodName = "/articlerpc.ArticleRpc/FindArticlePreviewList"
-	ArticleRpc_LikeArticle_FullMethodName            = "/articlerpc.ArticleRpc/LikeArticle"
-	ArticleRpc_FindUserLikeArticle_FullMethodName    = "/articlerpc.ArticleRpc/FindUserLikeArticle"
-	ArticleRpc_AddCategory_FullMethodName            = "/articlerpc.ArticleRpc/AddCategory"
-	ArticleRpc_UpdateCategory_FullMethodName         = "/articlerpc.ArticleRpc/UpdateCategory"
-	ArticleRpc_GetCategory_FullMethodName            = "/articlerpc.ArticleRpc/GetCategory"
-	ArticleRpc_DeletesCategory_FullMethodName        = "/articlerpc.ArticleRpc/DeletesCategory"
-	ArticleRpc_FindCategoryList_FullMethodName       = "/articlerpc.ArticleRpc/FindCategoryList"
+	ArticleRpc_AnalysisArticle_FullMethodName     = "/articlerpc.ArticleRpc/AnalysisArticle"
+	ArticleRpc_AddArticleVisits_FullMethodName    = "/articlerpc.ArticleRpc/AddArticleVisits"
+	ArticleRpc_AddArticle_FullMethodName          = "/articlerpc.ArticleRpc/AddArticle"
+	ArticleRpc_UpdateArticle_FullMethodName       = "/articlerpc.ArticleRpc/UpdateArticle"
+	ArticleRpc_UpdateArticleDelete_FullMethodName = "/articlerpc.ArticleRpc/UpdateArticleDelete"
+	ArticleRpc_UpdateArticleTop_FullMethodName    = "/articlerpc.ArticleRpc/UpdateArticleTop"
+	ArticleRpc_DeletesArticle_FullMethodName      = "/articlerpc.ArticleRpc/DeletesArticle"
+	ArticleRpc_GetArticle_FullMethodName          = "/articlerpc.ArticleRpc/GetArticle"
+	ArticleRpc_GetArticleRelation_FullMethodName  = "/articlerpc.ArticleRpc/GetArticleRelation"
+	ArticleRpc_FindArticleList_FullMethodName     = "/articlerpc.ArticleRpc/FindArticleList"
+	ArticleRpc_LikeArticle_FullMethodName         = "/articlerpc.ArticleRpc/LikeArticle"
+	ArticleRpc_FindUserLikeArticle_FullMethodName = "/articlerpc.ArticleRpc/FindUserLikeArticle"
+	ArticleRpc_AddCategory_FullMethodName         = "/articlerpc.ArticleRpc/AddCategory"
+	ArticleRpc_UpdateCategory_FullMethodName      = "/articlerpc.ArticleRpc/UpdateCategory"
+	ArticleRpc_GetCategory_FullMethodName         = "/articlerpc.ArticleRpc/GetCategory"
+	ArticleRpc_DeletesCategory_FullMethodName     = "/articlerpc.ArticleRpc/DeletesCategory"
+	ArticleRpc_FindCategoryList_FullMethodName    = "/articlerpc.ArticleRpc/FindCategoryList"
 )
 
 // ArticleRpcClient is the client API for ArticleRpc service.
@@ -49,7 +48,7 @@ const (
 //
 // article服务
 type ArticleRpcClient interface {
-	// 分析文章数量
+	// 分析站内文章数据
 	AnalysisArticle(ctx context.Context, in *AnalysisArticleReq, opts ...grpc.CallOption) (*AnalysisArticleResp, error)
 	// 添加文章访问量
 	AddArticleVisits(ctx context.Context, in *AddArticleVisitsReq, opts ...grpc.CallOption) (*AddArticleVisitsResp, error)
@@ -62,15 +61,13 @@ type ArticleRpcClient interface {
 	// 更新文章置顶
 	UpdateArticleTop(ctx context.Context, in *UpdateArticleTopReq, opts ...grpc.CallOption) (*UpdateArticleTopResp, error)
 	// 删除文章
-	DeletesArticle(ctx context.Context, in *DeletesArticleReq, opts ...grpc.CallOption) (*DeletesArticleResp, error)
+	DeletesArticle(ctx context.Context, in *DeleteArticleReq, opts ...grpc.CallOption) (*DeleteArticleResp, error)
 	// 查询文章
 	GetArticle(ctx context.Context, in *GetArticleReq, opts ...grpc.CallOption) (*GetArticleResp, error)
 	// 查询关联文章
 	GetArticleRelation(ctx context.Context, in *GetArticleRelationReq, opts ...grpc.CallOption) (*GetArticleRelationResp, error)
 	// 查询文章列表
 	FindArticleList(ctx context.Context, in *FindArticleListReq, opts ...grpc.CallOption) (*FindArticleListResp, error)
-	// 查询文章列表
-	FindArticlePreviewList(ctx context.Context, in *FindArticleListReq, opts ...grpc.CallOption) (*FindArticlePreviewListResp, error)
 	// 点赞文章
 	LikeArticle(ctx context.Context, in *LikeArticleReq, opts ...grpc.CallOption) (*LikeArticleResp, error)
 	// 用户点赞的文章
@@ -82,7 +79,7 @@ type ArticleRpcClient interface {
 	// 查询文章分类
 	GetCategory(ctx context.Context, in *GetCategoryReq, opts ...grpc.CallOption) (*GetCategoryResp, error)
 	// 删除文章分类
-	DeletesCategory(ctx context.Context, in *DeletesCategoryReq, opts ...grpc.CallOption) (*DeletesCategoryResp, error)
+	DeletesCategory(ctx context.Context, in *DeleteCategoryReq, opts ...grpc.CallOption) (*DeleteCategoryResp, error)
 	// 查询文章分类列表
 	FindCategoryList(ctx context.Context, in *FindCategoryListReq, opts ...grpc.CallOption) (*FindCategoryListResp, error)
 }
@@ -155,9 +152,9 @@ func (c *articleRpcClient) UpdateArticleTop(ctx context.Context, in *UpdateArtic
 	return out, nil
 }
 
-func (c *articleRpcClient) DeletesArticle(ctx context.Context, in *DeletesArticleReq, opts ...grpc.CallOption) (*DeletesArticleResp, error) {
+func (c *articleRpcClient) DeletesArticle(ctx context.Context, in *DeleteArticleReq, opts ...grpc.CallOption) (*DeleteArticleResp, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(DeletesArticleResp)
+	out := new(DeleteArticleResp)
 	err := c.cc.Invoke(ctx, ArticleRpc_DeletesArticle_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -189,16 +186,6 @@ func (c *articleRpcClient) FindArticleList(ctx context.Context, in *FindArticleL
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(FindArticleListResp)
 	err := c.cc.Invoke(ctx, ArticleRpc_FindArticleList_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *articleRpcClient) FindArticlePreviewList(ctx context.Context, in *FindArticleListReq, opts ...grpc.CallOption) (*FindArticlePreviewListResp, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(FindArticlePreviewListResp)
-	err := c.cc.Invoke(ctx, ArticleRpc_FindArticlePreviewList_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -255,9 +242,9 @@ func (c *articleRpcClient) GetCategory(ctx context.Context, in *GetCategoryReq, 
 	return out, nil
 }
 
-func (c *articleRpcClient) DeletesCategory(ctx context.Context, in *DeletesCategoryReq, opts ...grpc.CallOption) (*DeletesCategoryResp, error) {
+func (c *articleRpcClient) DeletesCategory(ctx context.Context, in *DeleteCategoryReq, opts ...grpc.CallOption) (*DeleteCategoryResp, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(DeletesCategoryResp)
+	out := new(DeleteCategoryResp)
 	err := c.cc.Invoke(ctx, ArticleRpc_DeletesCategory_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -281,7 +268,7 @@ func (c *articleRpcClient) FindCategoryList(ctx context.Context, in *FindCategor
 //
 // article服务
 type ArticleRpcServer interface {
-	// 分析文章数量
+	// 分析站内文章数据
 	AnalysisArticle(context.Context, *AnalysisArticleReq) (*AnalysisArticleResp, error)
 	// 添加文章访问量
 	AddArticleVisits(context.Context, *AddArticleVisitsReq) (*AddArticleVisitsResp, error)
@@ -294,15 +281,13 @@ type ArticleRpcServer interface {
 	// 更新文章置顶
 	UpdateArticleTop(context.Context, *UpdateArticleTopReq) (*UpdateArticleTopResp, error)
 	// 删除文章
-	DeletesArticle(context.Context, *DeletesArticleReq) (*DeletesArticleResp, error)
+	DeletesArticle(context.Context, *DeleteArticleReq) (*DeleteArticleResp, error)
 	// 查询文章
 	GetArticle(context.Context, *GetArticleReq) (*GetArticleResp, error)
 	// 查询关联文章
 	GetArticleRelation(context.Context, *GetArticleRelationReq) (*GetArticleRelationResp, error)
 	// 查询文章列表
 	FindArticleList(context.Context, *FindArticleListReq) (*FindArticleListResp, error)
-	// 查询文章列表
-	FindArticlePreviewList(context.Context, *FindArticleListReq) (*FindArticlePreviewListResp, error)
 	// 点赞文章
 	LikeArticle(context.Context, *LikeArticleReq) (*LikeArticleResp, error)
 	// 用户点赞的文章
@@ -314,7 +299,7 @@ type ArticleRpcServer interface {
 	// 查询文章分类
 	GetCategory(context.Context, *GetCategoryReq) (*GetCategoryResp, error)
 	// 删除文章分类
-	DeletesCategory(context.Context, *DeletesCategoryReq) (*DeletesCategoryResp, error)
+	DeletesCategory(context.Context, *DeleteCategoryReq) (*DeleteCategoryResp, error)
 	// 查询文章分类列表
 	FindCategoryList(context.Context, *FindCategoryListReq) (*FindCategoryListResp, error)
 	mustEmbedUnimplementedArticleRpcServer()
@@ -345,7 +330,7 @@ func (UnimplementedArticleRpcServer) UpdateArticleDelete(context.Context, *Updat
 func (UnimplementedArticleRpcServer) UpdateArticleTop(context.Context, *UpdateArticleTopReq) (*UpdateArticleTopResp, error) {
 	return nil, status.Error(codes.Unimplemented, "method UpdateArticleTop not implemented")
 }
-func (UnimplementedArticleRpcServer) DeletesArticle(context.Context, *DeletesArticleReq) (*DeletesArticleResp, error) {
+func (UnimplementedArticleRpcServer) DeletesArticle(context.Context, *DeleteArticleReq) (*DeleteArticleResp, error) {
 	return nil, status.Error(codes.Unimplemented, "method DeletesArticle not implemented")
 }
 func (UnimplementedArticleRpcServer) GetArticle(context.Context, *GetArticleReq) (*GetArticleResp, error) {
@@ -356,9 +341,6 @@ func (UnimplementedArticleRpcServer) GetArticleRelation(context.Context, *GetArt
 }
 func (UnimplementedArticleRpcServer) FindArticleList(context.Context, *FindArticleListReq) (*FindArticleListResp, error) {
 	return nil, status.Error(codes.Unimplemented, "method FindArticleList not implemented")
-}
-func (UnimplementedArticleRpcServer) FindArticlePreviewList(context.Context, *FindArticleListReq) (*FindArticlePreviewListResp, error) {
-	return nil, status.Error(codes.Unimplemented, "method FindArticlePreviewList not implemented")
 }
 func (UnimplementedArticleRpcServer) LikeArticle(context.Context, *LikeArticleReq) (*LikeArticleResp, error) {
 	return nil, status.Error(codes.Unimplemented, "method LikeArticle not implemented")
@@ -375,7 +357,7 @@ func (UnimplementedArticleRpcServer) UpdateCategory(context.Context, *UpdateCate
 func (UnimplementedArticleRpcServer) GetCategory(context.Context, *GetCategoryReq) (*GetCategoryResp, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetCategory not implemented")
 }
-func (UnimplementedArticleRpcServer) DeletesCategory(context.Context, *DeletesCategoryReq) (*DeletesCategoryResp, error) {
+func (UnimplementedArticleRpcServer) DeletesCategory(context.Context, *DeleteCategoryReq) (*DeleteCategoryResp, error) {
 	return nil, status.Error(codes.Unimplemented, "method DeletesCategory not implemented")
 }
 func (UnimplementedArticleRpcServer) FindCategoryList(context.Context, *FindCategoryListReq) (*FindCategoryListResp, error) {
@@ -511,7 +493,7 @@ func _ArticleRpc_UpdateArticleTop_Handler(srv interface{}, ctx context.Context, 
 }
 
 func _ArticleRpc_DeletesArticle_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeletesArticleReq)
+	in := new(DeleteArticleReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -523,7 +505,7 @@ func _ArticleRpc_DeletesArticle_Handler(srv interface{}, ctx context.Context, de
 		FullMethod: ArticleRpc_DeletesArticle_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ArticleRpcServer).DeletesArticle(ctx, req.(*DeletesArticleReq))
+		return srv.(ArticleRpcServer).DeletesArticle(ctx, req.(*DeleteArticleReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -578,24 +560,6 @@ func _ArticleRpc_FindArticleList_Handler(srv interface{}, ctx context.Context, d
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ArticleRpcServer).FindArticleList(ctx, req.(*FindArticleListReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ArticleRpc_FindArticlePreviewList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(FindArticleListReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ArticleRpcServer).FindArticlePreviewList(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: ArticleRpc_FindArticlePreviewList_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ArticleRpcServer).FindArticlePreviewList(ctx, req.(*FindArticleListReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -691,7 +655,7 @@ func _ArticleRpc_GetCategory_Handler(srv interface{}, ctx context.Context, dec f
 }
 
 func _ArticleRpc_DeletesCategory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeletesCategoryReq)
+	in := new(DeleteCategoryReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -703,7 +667,7 @@ func _ArticleRpc_DeletesCategory_Handler(srv interface{}, ctx context.Context, d
 		FullMethod: ArticleRpc_DeletesCategory_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ArticleRpcServer).DeletesCategory(ctx, req.(*DeletesCategoryReq))
+		return srv.(ArticleRpcServer).DeletesCategory(ctx, req.(*DeleteCategoryReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -772,10 +736,6 @@ var ArticleRpc_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "FindArticleList",
 			Handler:    _ArticleRpc_FindArticleList_Handler,
-		},
-		{
-			MethodName: "FindArticlePreviewList",
-			Handler:    _ArticleRpc_FindArticlePreviewList_Handler,
 		},
 		{
 			MethodName: "LikeArticle",

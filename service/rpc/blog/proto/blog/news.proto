@@ -12,7 +12,6 @@ option go_package = "./newsrpc";
 message PageReq {
   int64 page = 1;      // 页码
   int64 page_size = 2; // 每页大小
-  repeated string sorts = 3; // 排序字段
 }
 
 // 分页响应参数
@@ -23,41 +22,52 @@ message PageResp {
 }
 
 /************** 基础消息 **************/
+enum messageStatus {
+  MESSAGE_STATUS_ACTIVE = 0;
+  MESSAGE_STATUS_DELETED = 1;
+}
+
+enum CommentType {
+  ARTICLE = 0;
+  TALK = 1;
+}
+
+enum CommentStatus {
+  COMMENT_STATUS_ACTIVE = 0;
+  COMMENT_STATUS_DELETED = 1;
+}
+
 // 留言信息
 message Message {
-  int64 id = 1;// 主键id
-  string user_id = 2;// 用户id
-  string terminal_id = 3;// 终端id
-  string message_content = 4;// 留言内容
-  int64 status = 5; // 状态
-  int64 created_at = 9;// 发布时间
-  int64 updated_at = 10;// 更新时间
+  string user_id = 1;// 用户id
+  string message_content = 2;// 留言内容
+  messageStatus status = 3; // 状态
+  bool is_top = 4;// 是否置顶 1是
+  bool is_delete = 5;// 是否删除 1是
+  int64 created_at = 6;// 发布时间
+  int64 updated_at = 7;// 更新时间
 }
 
 // 评论信息
 message Comment {
-  int64 id = 1;// 主键
-  string user_id = 2;// 评论用户id
-  string terminal_id = 3;// 终端id
-  int64 topic_id = 4;// 主题id
-  int64 parent_id = 5;// 父评论id
-  int64 reply_id = 6;// 回复评论id
-  string reply_user_id = 7;// 评论回复用户id
-  string comment_content = 8;// 评论内容
-  int64 type = 9;// 评论类型
-  int64 status = 10;// 状态
-  int64 created_at = 12;// 评论时间
-  int64 updated_at = 13;// 更新时间
-  int64 like_count = 14;// 点赞数
+  string user_id = 1;// 评论用户id
+  int64 topic_id = 2;// 主题id
+  int64 parent_id = 3;// 顶层评论id
+  int64 reply_id = 4;// 直接回复的评论id
+  string reply_user_id = 5;// 被回复用户id
+  string comment_content = 6;// 评论内容
+  CommentType type = 7;// 评论类型
+  CommentStatus status = 8;// 状态
+  bool is_delete = 9;// 是否删除 1是
+  int64 created_at = 10;// 评论时间
+  int64 updated_at = 11;// 更新时间
+  int64 like_count = 12;// 点赞数
 }
 
 /************** 留言 **************/
 message AddMessageReq {
-  int64 id = 1;// 主键id
-  string user_id = 2;// 用户id
-  string terminal_id = 3;// 终端id
-  string message_content = 4;// 留言内容
-  int64 status = 5; // 状态
+  string user_id = 1;// 用户id
+  string message_content = 2;// 留言内容
 }
 
 message AddMessageResp {
@@ -65,11 +75,8 @@ message AddMessageResp {
 }
 
 message UpdateMessageReq {
-  int64 id = 1;// 主键id
-  string user_id = 2;// 用户id
-  string terminal_id = 3;// 终端id
-  string message_content = 4;// 留言内容
-  int64 status = 5; // 状态
+  string user_id = 1;// 用户id
+  string message_content = 2;// 留言内容
 }
 
 message UpdateMessageResp {
@@ -77,25 +84,25 @@ message UpdateMessageResp {
 }
 
 message GetMessageReq {
-  int64 id = 1; // 主键id
+  string user_id = 1;// 用户id
 }
 
 message GetMessageResp {
   Message message = 1;
 }
 
-message DeletesMessageReq {
-  repeated int64 ids = 1; // id列表
+message DeleteMessageReq {
+  string user_id = 1;// 用户id
+  string message_content = 2;// 留言内容
 }
 
-message DeletesMessageResp {
-  int64 success_count = 1; // 成功数量
+message DeleteMessageResp {
+  Message message = 1;
 }
 
 message FindMessageListReq {
   PageReq paginate = 1;    // 分页参数
-  string user_id = 2;// 用户ID
-  int64 status = 4;// 状态
+  messageStatus status = 3;// 状态
 }
 
 message FindMessageListResp {
@@ -103,27 +110,14 @@ message FindMessageListResp {
   repeated Message list = 2;
 }
 
-message UpdateMessageStatusReq{
-  repeated int64 ids = 1;// 主键
-  int64 status = 2;// 状态
-}
-
-message UpdateMessageStatusResp {
-  int64 success_count = 1; // 成功数量
-}
-
 /************** 消息管理（评论） **************/
 message AddCommentReq {
-  int64 id = 1;// 主键
-  string user_id = 2;// 评论用户id
-  string terminal_id = 3;// 终端id
-  int64 topic_id = 4;// 主题id
-  int64 parent_id = 5;// 父评论id
-  int64 reply_id = 6;// 回复评论id
-  string reply_user_id = 7;// 评论回复用户id
-  string comment_content = 8;// 评论内容
-  int64 type = 9;// 评论类型
-  int64 status = 10;// 状态
+  int64 topic_id = 1;// 主题id
+  int64 parent_id = 2;// 顶层评论id，顶层评论传0
+  int64 reply_id = 3;// 直接回复的评论id，顶层评论传0
+  string reply_user_id = 4;// 被回复用户id
+  string comment_content = 5;// 评论内容
+  CommentType type = 6;// 评论类型
 }
 
 message AddCommentResp {
@@ -131,16 +125,7 @@ message AddCommentResp {
 }
 
 message UpdateCommentReq {
-  int64 id = 1;// 主键
-  string user_id = 2;// 评论用户id
-  string terminal_id = 3;// 终端id
-  int64 topic_id = 4;// 主题id
-  int64 parent_id = 5;// 父评论id
-  int64 reply_id = 6;// 回复评论id
-  string reply_user_id = 7;// 评论回复用户id
-  string comment_content = 8;// 评论内容
-  int64 type = 9;// 评论类型
-  int64 status = 10;// 状态
+  string comment_content = 2;// 评论内容
 }
 
 message UpdateCommentResp {
@@ -148,76 +133,38 @@ message UpdateCommentResp {
 }
 
 message GetCommentReq {
-  int64 id = 1; // 主键
+  int64 topic_id = 1;// 主题id
+  int64 parent_id = 2;// 顶层评论id，顶层评论传0
+  int64 reply_id = 3;// 直接回复的评论id，顶层评论传0
+  string reply_user_id = 4;// 被回复用户id
 }
 
 message GetCommentResp {
   Comment comment = 1;
 }
 
-message DeletesCommentReq {
-  repeated int64 ids = 1; // id列表
+message DeleteCommentReq {
+  int64 topic_id = 1;// 主题id
+  int64 parent_id = 2;// 顶层评论id，顶层评论传0
+  int64 reply_id = 3;// 直接回复的评论id，顶层评论传0
+  string reply_user_id = 4;// 被回复用户id
 }
 
-message DeletesCommentResp {
-  int64 success_count = 1; // 成功数量
-}
-
-message UpdateCommentStatusReq{
-  repeated int64 ids = 1;// 主键
-  int64 status = 2;// 状态
-}
-
-message UpdateCommentStatusResp {
-  int64 success_count = 1; // 成功数量
+message DeleteCommentResp {
+  Comment comment = 1;
 }
 
 message FindCommentListReq {
   PageReq paginate = 1;    // 分页参数
   string user_id = 2;// 用户ID
-  int64 status = 3;// 状态
-  int64 type = 4;// 评论类型
+  CommentStatus status = 3;// 状态
+  CommentType type = 4;// 评论类型
+  int64 topic_id = 5;// 主题id
 }
 
 message FindCommentListResp {
   PageResp pagination = 1; // 分页信息
   repeated Comment list = 2;
-}
-
-message FindCommentReplyListReq {
-  PageReq paginate = 1;    // 分页参数
-  int64 topic_id = 2;// 主题id
-  int64 parent_id = 3;// 父评论id
-  int64 reply_id = 4;// 回复评论id
-  int64 type = 5;// 评论类型
-}
-
-message FindCommentReplyListResp {
-  PageResp pagination = 1; // 分页信息
-  repeated Comment list = 2;
-}
-
-message FindLikeCommentResp{
-  repeated int64 like_comment_list = 1;
-}
-
-message FindCommentReplyCountsReq{
-  repeated int64 topic_ids = 1;
-}
-
-message FindCommentReplyCountsResp{
-  map<int64, int64> topic_comment_counts = 1;
-}
-
-message LikeCommentReq {
-  int64 id = 1; // 评论id
-}
-
-message LikeCommentResp {
-}
-
-message FindUserLikeCommentReq {
-  string user_id = 1;
 }
 
 /************** 数据分析 **************/
@@ -240,11 +187,9 @@ service NewsRpc {
   // 查询留言
   rpc GetMessage(GetMessageReq) returns(GetMessageResp);
   // 删除留言
-  rpc DeletesMessage(DeletesMessageReq) returns(DeletesMessageResp);
+  rpc DeletesMessage(DeleteMessageReq) returns(DeleteMessageResp);
   // 查询留言列表
   rpc FindMessageList(FindMessageListReq) returns(FindMessageListResp);
-  // 更新留言状态
-  rpc UpdateMessageStatus(UpdateMessageStatusReq) returns(UpdateMessageStatusResp);
 
   // 创建评论
   rpc AddComment(AddCommentReq) returns(AddCommentResp);
@@ -253,18 +198,7 @@ service NewsRpc {
   // 查询评论
   rpc GetComment(GetCommentReq) returns(GetCommentResp);
   // 删除评论
-  rpc DeletesComment(DeletesCommentReq) returns(DeletesCommentResp);
+  rpc DeletesComment(DeleteCommentReq) returns(DeleteCommentResp);
   // 查询评论列表
   rpc FindCommentList(FindCommentListReq) returns(FindCommentListResp);
-  // 查询评论回复列表
-  rpc FindCommentReplyList(FindCommentReplyListReq) returns(FindCommentReplyListResp);
-  // 查询评论回复数量
-  rpc FindCommentReplyCounts(FindCommentReplyCountsReq) returns(FindCommentReplyCountsResp);
-  // 更新评论状态
-  rpc UpdateCommentStatus(UpdateCommentStatusReq) returns(UpdateCommentStatusResp);
-
-  // 点赞评论
-  rpc LikeComment(LikeCommentReq) returns(LikeCommentResp);
-  // 用户点赞的评论
-  rpc FindUserLikeComment(FindUserLikeCommentReq) returns(FindLikeCommentResp);
 }

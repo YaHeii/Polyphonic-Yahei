@@ -65,48 +65,6 @@ func (s *PermissionRpcServer) FindAllApi(ctx context.Context, in *permissionrpc.
 	return l.FindAllApi(in)
 }
 
-// 创建菜单
-func (s *PermissionRpcServer) AddMenu(ctx context.Context, in *permissionrpc.AddMenuReq) (*permissionrpc.AddMenuResp, error) {
-	l := permissionrpclogic.NewAddMenuLogic(ctx, s.svcCtx)
-	return l.AddMenu(in)
-}
-
-// 更新菜单
-func (s *PermissionRpcServer) UpdateMenu(ctx context.Context, in *permissionrpc.UpdateMenuReq) (*permissionrpc.UpdateMenuResp, error) {
-	l := permissionrpclogic.NewUpdateMenuLogic(ctx, s.svcCtx)
-	return l.UpdateMenu(in)
-}
-
-// 删除菜单
-func (s *PermissionRpcServer) DeletesMenu(ctx context.Context, in *permissionrpc.DeletesMenuReq) (*permissionrpc.DeletesMenuResp, error) {
-	l := permissionrpclogic.NewDeletesMenuLogic(ctx, s.svcCtx)
-	return l.DeletesMenu(in)
-}
-
-// 查询菜单列表
-func (s *PermissionRpcServer) FindMenuList(ctx context.Context, in *permissionrpc.FindMenuListReq) (*permissionrpc.FindMenuListResp, error) {
-	l := permissionrpclogic.NewFindMenuListLogic(ctx, s.svcCtx)
-	return l.FindMenuList(in)
-}
-
-// 同步菜单列表
-func (s *PermissionRpcServer) SyncMenuList(ctx context.Context, in *permissionrpc.SyncMenuListReq) (*permissionrpc.SyncMenuListResp, error) {
-	l := permissionrpclogic.NewSyncMenuListLogic(ctx, s.svcCtx)
-	return l.SyncMenuList(in)
-}
-
-// 清空菜单列表
-func (s *PermissionRpcServer) CleanMenuList(ctx context.Context, in *permissionrpc.CleanMenuListReq) (*permissionrpc.CleanMenuListResp, error) {
-	l := permissionrpclogic.NewCleanMenuListLogic(ctx, s.svcCtx)
-	return l.CleanMenuList(in)
-}
-
-// 查找所有菜单
-func (s *PermissionRpcServer) FindAllMenu(ctx context.Context, in *permissionrpc.FindAllMenuReq) (*permissionrpc.FindAllMenuResp, error) {
-	l := permissionrpclogic.NewFindAllMenuLogic(ctx, s.svcCtx)
-	return l.FindAllMenu(in)
-}
-
 // 查询角色列表
 func (s *PermissionRpcServer) FindRoleList(ctx context.Context, in *permissionrpc.FindRoleListReq) (*permissionrpc.FindRoleListResp, error) {
 	l := permissionrpclogic.NewFindRoleListLogic(ctx, s.svcCtx)
@@ -117,12 +75,6 @@ func (s *PermissionRpcServer) FindRoleList(ctx context.Context, in *permissionrp
 func (s *PermissionRpcServer) FindAllRole(ctx context.Context, in *permissionrpc.FindAllRoleReq) (*permissionrpc.FindAllRoleResp, error) {
 	l := permissionrpclogic.NewFindAllRoleLogic(ctx, s.svcCtx)
 	return l.FindAllRole(in)
-}
-
-// 更新角色菜单
-func (s *PermissionRpcServer) UpdateRoleMenus(ctx context.Context, in *permissionrpc.UpdateRoleMenusReq) (*permissionrpc.UpdateRoleMenusResp, error) {
-	l := permissionrpclogic.NewUpdateRoleMenusLogic(ctx, s.svcCtx)
-	return l.UpdateRoleMenus(in)
 }
 
 // 更新角色资源
@@ -147,12 +99,6 @@ func (s *PermissionRpcServer) UpdateUserRole(ctx context.Context, in *permission
 func (s *PermissionRpcServer) FindUserApis(ctx context.Context, in *permissionrpc.FindUserApisReq) (*permissionrpc.FindUserApisResp, error) {
 	l := permissionrpclogic.NewFindUserApisLogic(ctx, s.svcCtx)
 	return l.FindUserApis(in)
-}
-
-// 获取用户菜单权限
-func (s *PermissionRpcServer) FindUserMenus(ctx context.Context, in *permissionrpc.FindUserMenusReq) (*permissionrpc.FindUserMenusResp, error) {
-	l := permissionrpclogic.NewFindUserMenusLogic(ctx, s.svcCtx)
-	return l.FindUserMenus(in)
 }
 
 // 获取用户角色信息

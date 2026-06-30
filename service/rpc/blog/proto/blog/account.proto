@@ -11,7 +11,6 @@ option go_package = "./accountrpc";
 message PageReq {
   int64 page = 1;      // 页码
   int64 page_size = 2; // 每页大小
-  repeated string sorts = 3; // 排序字段
 }
 
 // 分页响应参数
@@ -21,22 +20,35 @@ message PageResp {
   int64 total = 3;     // 总数
 }
 
+// 定义偏移量分页的响应元数据。
+message OffsetPageMeta {
+  // 满足查询条件的总记录数。
+  // 意图：供前端计算总页数及渲染页码栏。
+  int64 total = 1;
+  
+  // 服务端实际采用的当前页码。
+  int32 page_num = 2;
+  
+  // 服务端实际采用的每页数据量。
+  int32 page_size = 3;
+}
+
 /************** 基础消息 **************/
-// 用户基础信息
-message User {
-  string user_id = 1; // 用户id
-  string username = 2;// 用户名
-  string nickname = 3;// 用户昵称
-  string avatar = 4;// 用户头像
-  string email = 5;// 用户邮箱
-  string phone = 6;// 用户手机号
-  string info = 7;// 用户信息
-  int64 status = 8;
-  string register_type = 9;
-  string ip_address = 10;// IP 地址
-  string ip_source = 11;// IP 归属地
-  int64 created_at = 12;
-  int64 updated_at = 13;
+// 意图：收敛状态边界，拒绝非法数值。
+enum UserStatus {
+  ACTIVE = 0;                  // 正常
+  FROZEN = 1;                  // 冻结
+  DELETED = 2;                 // 已删除
+}
+
+enum UserRegisterType {
+  OAUTH = 0;
+  EMAIL = 1;
+}
+enum RoleKey {
+  ROOT = 0;
+  SUPER_ADMIN = 1;
+  VISITOR = 2;
 }
 
 // 用户信息响应基础结构
@@ -48,20 +60,21 @@ message UserInfo {
   string email = 5;// 用户邮箱
   string phone = 6;// 用户手机号
   string info = 7;// 用户信息
-  int64 status = 8;
-  string register_type = 9;
+  UserStatus status = 8;
+  UserRegisterType register_type = 9;
   string ip_address = 10;// IP 地址
   string ip_source = 11;// IP 归属地
   int64 created_at = 12;
   int64 updated_at = 13;
-  repeated UserRoleLabel roles = 16;
+  RoleKey roles = 14; //用户对应单一角色
 }
 
-// 用户角色标签
-message UserRoleLabel{
-  int64 role_id = 1;
-  string role_key = 2;
-  string role_comment = 3;
+// 游客信息
+message VisitorInfo{
+  string ip_address = 5;        // IP地址
+  string ip_source = 6;         // IP归属地
+  int64 created_at = 7;         // 创建时间
+  int64 updated_at = 8;         // 更新时间
 }
 
 // 用户第三方授权信息
@@ -76,20 +89,8 @@ message UserOauthInfo {
 
 // 用户地区分布信息
 message UserArea {
-  string area = 1; // 地区
-  int64 count = 2; // 数量
-}
-
-// 游客信息
-message VisitorInfo{
-  int64 id = 1;                 // 游客ID
-  string terminal_id = 2;       // 终端标识
-  string os = 3;                // 操作系统
-  string browser = 4;           // 浏览器
-  string ip_address = 5;        // IP地址
-  string ip_source = 6;         // IP归属地
-  int64 created_at = 7;         // 创建时间
-  int64 updated_at = 8;         // 更新时间
+  string ip_address = 10;// IP 地址
+  string ip_source = 11;// IP 归属地
 }
 
 /************** auth 登录相关 **************/
@@ -116,6 +117,7 @@ message LogoffReq {
 }
 
 message LogoffResp {
+  int64 logoff_at = 1;
 }
 
 message RegisterReq {
@@ -130,10 +132,12 @@ message RegisterResp {
 
 message ResetPasswordReq {
   string email = 1;
-  string password = 2;
+  string user_id = 2;
+  string password = 3;
 }
 
 message ResetPasswordResp {
+  UserInfo user = 1;
 }
 
 message EmailLoginReq {
@@ -143,6 +147,7 @@ message EmailLoginReq {
 
 message PhoneLoginReq {
   string phone = 1; // 手机号
+  string password = 2; // 密码
 }
 
 message ThirdLoginReq {
@@ -164,10 +169,11 @@ message GetUserOauthInfoReq{
 
 message UpdateUserInfoReq {
   string nickname = 1;// 昵称
-  string info = 2;// 用户信息
+  UserInfo info = 2;// 用户信息
 }
 
 message UpdateUserInfoResp {
+  UserInfo user = 1;
 }
 
 message UpdateUserAvatarReq {
@@ -175,14 +181,17 @@ message UpdateUserAvatarReq {
 }
 
 message UpdateUserAvatarResp {
+  UserInfo user = 1;
 }
 
 message UpdateUserPasswordReq {
-  string old_password = 1; // 旧密码
-  string new_password = 2; // 新密码
+  string user_id = 1;
+  string old_password = 2; // 旧密码
+  string new_password = 3; // 新密码
 }
 
 message UpdateUserPasswordResp {
+  UserInfo user = 1;
 }
 
 message BindUserEmailReq {
@@ -190,6 +199,7 @@ message BindUserEmailReq {
 }
 
 message BindUserEmailResp {
+  UserInfo user = 1;
 }
 
 message BindUserPhoneReq {
@@ -197,6 +207,7 @@ message BindUserPhoneReq {
 }
 
 message BindUserPhoneResp {
+  UserInfo user = 1;
 }
 
 message BindUserOauthReq {
@@ -207,13 +218,16 @@ message BindUserOauthReq {
 }
 
 message BindUserOauthResp {
+  UserInfo user = 1;
 }
 
 message UnbindUserOauthReq {
   string platform = 1;// 平台
+  string nickname = 2;// 昵称
 }
 
 message UnbindUserOauthResp {
+  UserInfo user = 1;
 }
 
 message GetUserOauthInfoResp {
@@ -221,19 +235,17 @@ message GetUserOauthInfoResp {
 }
 
 message AdminUpdateUserStatusReq {
-  string user_id = 1; // 用户id
-  int64 status = 2;
+  // 意图：传递独立的变更请求列表，彻底消除长度不对齐与索引错乱风险。
+  repeated UserStatusUpdate updates = 1;
+}
+
+message UserStatusUpdate {
+  repeated string user_id = 1;
+  UserStatus status = 2;
 }
 
 message AdminUpdateUserStatusResp {
-}
-
-message AdminResetUserPasswordReq {
-  string user_id = 1; // 用户id
-  string password = 2;
-}
-
-message AdminResetUserPasswordResp {
+  repeated UserInfo user = 1;
 }
 
 message FindUserListReq {
@@ -246,18 +258,18 @@ message FindUserListReq {
   repeated string user_ids = 7;
 }
 
-message FindUserListResp{
-  PageResp pagination = 1; // 分页信息
-  repeated User list = 2;
-}
-
 message FindUserInfoListResp{
   PageResp pagination = 1; // 分页信息
   repeated UserInfo list = 2;
 }
 
+enum UserType {
+  USER_TYPE_USER = 0;
+  USER_TYPE_VISITOR = 1;
+}
+
 message AnalysisUserReq {
-  int64 user_type = 1; // 用户类型 0用户 1游客
+  UserType user_type = 1; // 用户类型 0用户 1游客
 }
 
 message AnalysisUserResp {
@@ -265,25 +277,17 @@ message AnalysisUserResp {
 }
 
 message AnalysisUserAreasReq {
-  int64 user_type = 1; // 用户类型 0用户 1游客
+  int64 user_type = 1;
 }
 
 message AnalysisUserAreasResp {
   repeated UserArea list = 1;
 }
 
-message GetClientInfoReq{
-}
-
-message GetClientInfoResp {
-  VisitorInfo visitor = 1;
-}
 
 message FindVisitorListReq{
   PageReq paginate = 1;    // 分页参数
-  string terminal_id = 2;
-  repeated string terminal_ids = 3;
-  string ip_source = 4;
+  string ip_source = 2;
 }
 
 message FindVisitorListResp{
@@ -336,11 +340,7 @@ service AccountRpc {
 
   // 修改用户状态
   rpc AdminUpdateUserStatus(AdminUpdateUserStatusReq) returns(AdminUpdateUserStatusResp);
-  // 管理员重置用户密码
-  rpc AdminResetUserPassword(AdminResetUserPasswordReq) returns(AdminResetUserPasswordResp);
 
-  // 查找用户列表
-  rpc FindUserList(FindUserListReq) returns(FindUserListResp);
   // 查找用户信息列表
   rpc FindUserInfoList(FindUserListReq) returns(FindUserInfoListResp);
   // 查找在线用户列表
@@ -351,8 +351,6 @@ service AccountRpc {
   // 查询用户分布区域
   rpc AnalysisUserAreas(AnalysisUserAreasReq) returns(AnalysisUserAreasResp);
 
-  // 获取客户端信息
-  rpc GetClientInfo(GetClientInfoReq) returns(GetClientInfoResp);
   // 查询游客信息
   rpc FindVisitorList(FindVisitorListReq) returns(FindVisitorListResp);
 }

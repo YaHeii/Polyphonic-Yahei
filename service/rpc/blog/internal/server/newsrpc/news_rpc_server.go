@@ -48,7 +48,7 @@ func (s *NewsRpcServer) GetMessage(ctx context.Context, in *newsrpc.GetMessageRe
 }
 
 // 删除留言
-func (s *NewsRpcServer) DeletesMessage(ctx context.Context, in *newsrpc.DeletesMessageReq) (*newsrpc.DeletesMessageResp, error) {
+func (s *NewsRpcServer) DeletesMessage(ctx context.Context, in *newsrpc.DeleteMessageReq) (*newsrpc.DeleteMessageResp, error) {
 	l := newsrpclogic.NewDeletesMessageLogic(ctx, s.svcCtx)
 	return l.DeletesMessage(in)
 }
@@ -57,12 +57,6 @@ func (s *NewsRpcServer) DeletesMessage(ctx context.Context, in *newsrpc.DeletesM
 func (s *NewsRpcServer) FindMessageList(ctx context.Context, in *newsrpc.FindMessageListReq) (*newsrpc.FindMessageListResp, error) {
 	l := newsrpclogic.NewFindMessageListLogic(ctx, s.svcCtx)
 	return l.FindMessageList(in)
-}
-
-// 更新留言状态
-func (s *NewsRpcServer) UpdateMessageStatus(ctx context.Context, in *newsrpc.UpdateMessageStatusReq) (*newsrpc.UpdateMessageStatusResp, error) {
-	l := newsrpclogic.NewUpdateMessageStatusLogic(ctx, s.svcCtx)
-	return l.UpdateMessageStatus(in)
 }
 
 // 创建评论
@@ -84,7 +78,7 @@ func (s *NewsRpcServer) GetComment(ctx context.Context, in *newsrpc.GetCommentRe
 }
 
 // 删除评论
-func (s *NewsRpcServer) DeletesComment(ctx context.Context, in *newsrpc.DeletesCommentReq) (*newsrpc.DeletesCommentResp, error) {
+func (s *NewsRpcServer) DeletesComment(ctx context.Context, in *newsrpc.DeleteCommentReq) (*newsrpc.DeleteCommentResp, error) {
 	l := newsrpclogic.NewDeletesCommentLogic(ctx, s.svcCtx)
 	return l.DeletesComment(in)
 }
@@ -93,34 +87,4 @@ func (s *NewsRpcServer) DeletesComment(ctx context.Context, in *newsrpc.DeletesC
 func (s *NewsRpcServer) FindCommentList(ctx context.Context, in *newsrpc.FindCommentListReq) (*newsrpc.FindCommentListResp, error) {
 	l := newsrpclogic.NewFindCommentListLogic(ctx, s.svcCtx)
 	return l.FindCommentList(in)
-}
-
-// 查询评论回复列表
-func (s *NewsRpcServer) FindCommentReplyList(ctx context.Context, in *newsrpc.FindCommentReplyListReq) (*newsrpc.FindCommentReplyListResp, error) {
-	l := newsrpclogic.NewFindCommentReplyListLogic(ctx, s.svcCtx)
-	return l.FindCommentReplyList(in)
-}
-
-// 查询评论回复数量
-func (s *NewsRpcServer) FindCommentReplyCounts(ctx context.Context, in *newsrpc.FindCommentReplyCountsReq) (*newsrpc.FindCommentReplyCountsResp, error) {
-	l := newsrpclogic.NewFindCommentReplyCountsLogic(ctx, s.svcCtx)
-	return l.FindCommentReplyCounts(in)
-}
-
-// 更新评论状态
-func (s *NewsRpcServer) UpdateCommentStatus(ctx context.Context, in *newsrpc.UpdateCommentStatusReq) (*newsrpc.UpdateCommentStatusResp, error) {
-	l := newsrpclogic.NewUpdateCommentStatusLogic(ctx, s.svcCtx)
-	return l.UpdateCommentStatus(in)
-}
-
-// 点赞评论
-func (s *NewsRpcServer) LikeComment(ctx context.Context, in *newsrpc.LikeCommentReq) (*newsrpc.LikeCommentResp, error) {
-	l := newsrpclogic.NewLikeCommentLogic(ctx, s.svcCtx)
-	return l.LikeComment(in)
-}
-
-// 用户点赞的评论
-func (s *NewsRpcServer) FindUserLikeComment(ctx context.Context, in *newsrpc.FindUserLikeCommentReq) (*newsrpc.FindLikeCommentResp, error) {
-	l := newsrpclogic.NewFindUserLikeCommentLogic(ctx, s.svcCtx)
-	return l.FindUserLikeComment(in)
 }

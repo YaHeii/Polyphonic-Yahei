@@ -23,23 +23,17 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	NewsRpc_AnalysisMessage_FullMethodName        = "/newsrpc.NewsRpc/AnalysisMessage"
-	NewsRpc_AddMessage_FullMethodName             = "/newsrpc.NewsRpc/AddMessage"
-	NewsRpc_UpdateMessage_FullMethodName          = "/newsrpc.NewsRpc/UpdateMessage"
-	NewsRpc_GetMessage_FullMethodName             = "/newsrpc.NewsRpc/GetMessage"
-	NewsRpc_DeletesMessage_FullMethodName         = "/newsrpc.NewsRpc/DeletesMessage"
-	NewsRpc_FindMessageList_FullMethodName        = "/newsrpc.NewsRpc/FindMessageList"
-	NewsRpc_UpdateMessageStatus_FullMethodName    = "/newsrpc.NewsRpc/UpdateMessageStatus"
-	NewsRpc_AddComment_FullMethodName             = "/newsrpc.NewsRpc/AddComment"
-	NewsRpc_UpdateComment_FullMethodName          = "/newsrpc.NewsRpc/UpdateComment"
-	NewsRpc_GetComment_FullMethodName             = "/newsrpc.NewsRpc/GetComment"
-	NewsRpc_DeletesComment_FullMethodName         = "/newsrpc.NewsRpc/DeletesComment"
-	NewsRpc_FindCommentList_FullMethodName        = "/newsrpc.NewsRpc/FindCommentList"
-	NewsRpc_FindCommentReplyList_FullMethodName   = "/newsrpc.NewsRpc/FindCommentReplyList"
-	NewsRpc_FindCommentReplyCounts_FullMethodName = "/newsrpc.NewsRpc/FindCommentReplyCounts"
-	NewsRpc_UpdateCommentStatus_FullMethodName    = "/newsrpc.NewsRpc/UpdateCommentStatus"
-	NewsRpc_LikeComment_FullMethodName            = "/newsrpc.NewsRpc/LikeComment"
-	NewsRpc_FindUserLikeComment_FullMethodName    = "/newsrpc.NewsRpc/FindUserLikeComment"
+	NewsRpc_AnalysisMessage_FullMethodName = "/newsrpc.NewsRpc/AnalysisMessage"
+	NewsRpc_AddMessage_FullMethodName      = "/newsrpc.NewsRpc/AddMessage"
+	NewsRpc_UpdateMessage_FullMethodName   = "/newsrpc.NewsRpc/UpdateMessage"
+	NewsRpc_GetMessage_FullMethodName      = "/newsrpc.NewsRpc/GetMessage"
+	NewsRpc_DeletesMessage_FullMethodName  = "/newsrpc.NewsRpc/DeletesMessage"
+	NewsRpc_FindMessageList_FullMethodName = "/newsrpc.NewsRpc/FindMessageList"
+	NewsRpc_AddComment_FullMethodName      = "/newsrpc.NewsRpc/AddComment"
+	NewsRpc_UpdateComment_FullMethodName   = "/newsrpc.NewsRpc/UpdateComment"
+	NewsRpc_GetComment_FullMethodName      = "/newsrpc.NewsRpc/GetComment"
+	NewsRpc_DeletesComment_FullMethodName  = "/newsrpc.NewsRpc/DeletesComment"
+	NewsRpc_FindCommentList_FullMethodName = "/newsrpc.NewsRpc/FindCommentList"
 )
 
 // NewsRpcClient is the client API for NewsRpc service.
@@ -57,11 +51,9 @@ type NewsRpcClient interface {
 	// 查询留言
 	GetMessage(ctx context.Context, in *GetMessageReq, opts ...grpc.CallOption) (*GetMessageResp, error)
 	// 删除留言
-	DeletesMessage(ctx context.Context, in *DeletesMessageReq, opts ...grpc.CallOption) (*DeletesMessageResp, error)
+	DeletesMessage(ctx context.Context, in *DeleteMessageReq, opts ...grpc.CallOption) (*DeleteMessageResp, error)
 	// 查询留言列表
 	FindMessageList(ctx context.Context, in *FindMessageListReq, opts ...grpc.CallOption) (*FindMessageListResp, error)
-	// 更新留言状态
-	UpdateMessageStatus(ctx context.Context, in *UpdateMessageStatusReq, opts ...grpc.CallOption) (*UpdateMessageStatusResp, error)
 	// 创建评论
 	AddComment(ctx context.Context, in *AddCommentReq, opts ...grpc.CallOption) (*AddCommentResp, error)
 	// 更新评论
@@ -69,19 +61,9 @@ type NewsRpcClient interface {
 	// 查询评论
 	GetComment(ctx context.Context, in *GetCommentReq, opts ...grpc.CallOption) (*GetCommentResp, error)
 	// 删除评论
-	DeletesComment(ctx context.Context, in *DeletesCommentReq, opts ...grpc.CallOption) (*DeletesCommentResp, error)
+	DeletesComment(ctx context.Context, in *DeleteCommentReq, opts ...grpc.CallOption) (*DeleteCommentResp, error)
 	// 查询评论列表
 	FindCommentList(ctx context.Context, in *FindCommentListReq, opts ...grpc.CallOption) (*FindCommentListResp, error)
-	// 查询评论回复列表
-	FindCommentReplyList(ctx context.Context, in *FindCommentReplyListReq, opts ...grpc.CallOption) (*FindCommentReplyListResp, error)
-	// 查询评论回复数量
-	FindCommentReplyCounts(ctx context.Context, in *FindCommentReplyCountsReq, opts ...grpc.CallOption) (*FindCommentReplyCountsResp, error)
-	// 更新评论状态
-	UpdateCommentStatus(ctx context.Context, in *UpdateCommentStatusReq, opts ...grpc.CallOption) (*UpdateCommentStatusResp, error)
-	// 点赞评论
-	LikeComment(ctx context.Context, in *LikeCommentReq, opts ...grpc.CallOption) (*LikeCommentResp, error)
-	// 用户点赞的评论
-	FindUserLikeComment(ctx context.Context, in *FindUserLikeCommentReq, opts ...grpc.CallOption) (*FindLikeCommentResp, error)
 }
 
 type newsRpcClient struct {
@@ -132,9 +114,9 @@ func (c *newsRpcClient) GetMessage(ctx context.Context, in *GetMessageReq, opts 
 	return out, nil
 }
 
-func (c *newsRpcClient) DeletesMessage(ctx context.Context, in *DeletesMessageReq, opts ...grpc.CallOption) (*DeletesMessageResp, error) {
+func (c *newsRpcClient) DeletesMessage(ctx context.Context, in *DeleteMessageReq, opts ...grpc.CallOption) (*DeleteMessageResp, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(DeletesMessageResp)
+	out := new(DeleteMessageResp)
 	err := c.cc.Invoke(ctx, NewsRpc_DeletesMessage_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -146,16 +128,6 @@ func (c *newsRpcClient) FindMessageList(ctx context.Context, in *FindMessageList
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(FindMessageListResp)
 	err := c.cc.Invoke(ctx, NewsRpc_FindMessageList_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *newsRpcClient) UpdateMessageStatus(ctx context.Context, in *UpdateMessageStatusReq, opts ...grpc.CallOption) (*UpdateMessageStatusResp, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(UpdateMessageStatusResp)
-	err := c.cc.Invoke(ctx, NewsRpc_UpdateMessageStatus_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -192,9 +164,9 @@ func (c *newsRpcClient) GetComment(ctx context.Context, in *GetCommentReq, opts 
 	return out, nil
 }
 
-func (c *newsRpcClient) DeletesComment(ctx context.Context, in *DeletesCommentReq, opts ...grpc.CallOption) (*DeletesCommentResp, error) {
+func (c *newsRpcClient) DeletesComment(ctx context.Context, in *DeleteCommentReq, opts ...grpc.CallOption) (*DeleteCommentResp, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(DeletesCommentResp)
+	out := new(DeleteCommentResp)
 	err := c.cc.Invoke(ctx, NewsRpc_DeletesComment_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -206,56 +178,6 @@ func (c *newsRpcClient) FindCommentList(ctx context.Context, in *FindCommentList
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(FindCommentListResp)
 	err := c.cc.Invoke(ctx, NewsRpc_FindCommentList_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *newsRpcClient) FindCommentReplyList(ctx context.Context, in *FindCommentReplyListReq, opts ...grpc.CallOption) (*FindCommentReplyListResp, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(FindCommentReplyListResp)
-	err := c.cc.Invoke(ctx, NewsRpc_FindCommentReplyList_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *newsRpcClient) FindCommentReplyCounts(ctx context.Context, in *FindCommentReplyCountsReq, opts ...grpc.CallOption) (*FindCommentReplyCountsResp, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(FindCommentReplyCountsResp)
-	err := c.cc.Invoke(ctx, NewsRpc_FindCommentReplyCounts_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *newsRpcClient) UpdateCommentStatus(ctx context.Context, in *UpdateCommentStatusReq, opts ...grpc.CallOption) (*UpdateCommentStatusResp, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(UpdateCommentStatusResp)
-	err := c.cc.Invoke(ctx, NewsRpc_UpdateCommentStatus_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *newsRpcClient) LikeComment(ctx context.Context, in *LikeCommentReq, opts ...grpc.CallOption) (*LikeCommentResp, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(LikeCommentResp)
-	err := c.cc.Invoke(ctx, NewsRpc_LikeComment_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *newsRpcClient) FindUserLikeComment(ctx context.Context, in *FindUserLikeCommentReq, opts ...grpc.CallOption) (*FindLikeCommentResp, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(FindLikeCommentResp)
-	err := c.cc.Invoke(ctx, NewsRpc_FindUserLikeComment_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -277,11 +199,9 @@ type NewsRpcServer interface {
 	// 查询留言
 	GetMessage(context.Context, *GetMessageReq) (*GetMessageResp, error)
 	// 删除留言
-	DeletesMessage(context.Context, *DeletesMessageReq) (*DeletesMessageResp, error)
+	DeletesMessage(context.Context, *DeleteMessageReq) (*DeleteMessageResp, error)
 	// 查询留言列表
 	FindMessageList(context.Context, *FindMessageListReq) (*FindMessageListResp, error)
-	// 更新留言状态
-	UpdateMessageStatus(context.Context, *UpdateMessageStatusReq) (*UpdateMessageStatusResp, error)
 	// 创建评论
 	AddComment(context.Context, *AddCommentReq) (*AddCommentResp, error)
 	// 更新评论
@@ -289,19 +209,9 @@ type NewsRpcServer interface {
 	// 查询评论
 	GetComment(context.Context, *GetCommentReq) (*GetCommentResp, error)
 	// 删除评论
-	DeletesComment(context.Context, *DeletesCommentReq) (*DeletesCommentResp, error)
+	DeletesComment(context.Context, *DeleteCommentReq) (*DeleteCommentResp, error)
 	// 查询评论列表
 	FindCommentList(context.Context, *FindCommentListReq) (*FindCommentListResp, error)
-	// 查询评论回复列表
-	FindCommentReplyList(context.Context, *FindCommentReplyListReq) (*FindCommentReplyListResp, error)
-	// 查询评论回复数量
-	FindCommentReplyCounts(context.Context, *FindCommentReplyCountsReq) (*FindCommentReplyCountsResp, error)
-	// 更新评论状态
-	UpdateCommentStatus(context.Context, *UpdateCommentStatusReq) (*UpdateCommentStatusResp, error)
-	// 点赞评论
-	LikeComment(context.Context, *LikeCommentReq) (*LikeCommentResp, error)
-	// 用户点赞的评论
-	FindUserLikeComment(context.Context, *FindUserLikeCommentReq) (*FindLikeCommentResp, error)
 	mustEmbedUnimplementedNewsRpcServer()
 }
 
@@ -324,14 +234,11 @@ func (UnimplementedNewsRpcServer) UpdateMessage(context.Context, *UpdateMessageR
 func (UnimplementedNewsRpcServer) GetMessage(context.Context, *GetMessageReq) (*GetMessageResp, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetMessage not implemented")
 }
-func (UnimplementedNewsRpcServer) DeletesMessage(context.Context, *DeletesMessageReq) (*DeletesMessageResp, error) {
+func (UnimplementedNewsRpcServer) DeletesMessage(context.Context, *DeleteMessageReq) (*DeleteMessageResp, error) {
 	return nil, status.Error(codes.Unimplemented, "method DeletesMessage not implemented")
 }
 func (UnimplementedNewsRpcServer) FindMessageList(context.Context, *FindMessageListReq) (*FindMessageListResp, error) {
 	return nil, status.Error(codes.Unimplemented, "method FindMessageList not implemented")
-}
-func (UnimplementedNewsRpcServer) UpdateMessageStatus(context.Context, *UpdateMessageStatusReq) (*UpdateMessageStatusResp, error) {
-	return nil, status.Error(codes.Unimplemented, "method UpdateMessageStatus not implemented")
 }
 func (UnimplementedNewsRpcServer) AddComment(context.Context, *AddCommentReq) (*AddCommentResp, error) {
 	return nil, status.Error(codes.Unimplemented, "method AddComment not implemented")
@@ -342,26 +249,11 @@ func (UnimplementedNewsRpcServer) UpdateComment(context.Context, *UpdateCommentR
 func (UnimplementedNewsRpcServer) GetComment(context.Context, *GetCommentReq) (*GetCommentResp, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetComment not implemented")
 }
-func (UnimplementedNewsRpcServer) DeletesComment(context.Context, *DeletesCommentReq) (*DeletesCommentResp, error) {
+func (UnimplementedNewsRpcServer) DeletesComment(context.Context, *DeleteCommentReq) (*DeleteCommentResp, error) {
 	return nil, status.Error(codes.Unimplemented, "method DeletesComment not implemented")
 }
 func (UnimplementedNewsRpcServer) FindCommentList(context.Context, *FindCommentListReq) (*FindCommentListResp, error) {
 	return nil, status.Error(codes.Unimplemented, "method FindCommentList not implemented")
-}
-func (UnimplementedNewsRpcServer) FindCommentReplyList(context.Context, *FindCommentReplyListReq) (*FindCommentReplyListResp, error) {
-	return nil, status.Error(codes.Unimplemented, "method FindCommentReplyList not implemented")
-}
-func (UnimplementedNewsRpcServer) FindCommentReplyCounts(context.Context, *FindCommentReplyCountsReq) (*FindCommentReplyCountsResp, error) {
-	return nil, status.Error(codes.Unimplemented, "method FindCommentReplyCounts not implemented")
-}
-func (UnimplementedNewsRpcServer) UpdateCommentStatus(context.Context, *UpdateCommentStatusReq) (*UpdateCommentStatusResp, error) {
-	return nil, status.Error(codes.Unimplemented, "method UpdateCommentStatus not implemented")
-}
-func (UnimplementedNewsRpcServer) LikeComment(context.Context, *LikeCommentReq) (*LikeCommentResp, error) {
-	return nil, status.Error(codes.Unimplemented, "method LikeComment not implemented")
-}
-func (UnimplementedNewsRpcServer) FindUserLikeComment(context.Context, *FindUserLikeCommentReq) (*FindLikeCommentResp, error) {
-	return nil, status.Error(codes.Unimplemented, "method FindUserLikeComment not implemented")
 }
 func (UnimplementedNewsRpcServer) mustEmbedUnimplementedNewsRpcServer() {}
 func (UnimplementedNewsRpcServer) testEmbeddedByValue()                 {}
@@ -457,7 +349,7 @@ func _NewsRpc_GetMessage_Handler(srv interface{}, ctx context.Context, dec func(
 }
 
 func _NewsRpc_DeletesMessage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeletesMessageReq)
+	in := new(DeleteMessageReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -469,7 +361,7 @@ func _NewsRpc_DeletesMessage_Handler(srv interface{}, ctx context.Context, dec f
 		FullMethod: NewsRpc_DeletesMessage_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(NewsRpcServer).DeletesMessage(ctx, req.(*DeletesMessageReq))
+		return srv.(NewsRpcServer).DeletesMessage(ctx, req.(*DeleteMessageReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -488,24 +380,6 @@ func _NewsRpc_FindMessageList_Handler(srv interface{}, ctx context.Context, dec 
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(NewsRpcServer).FindMessageList(ctx, req.(*FindMessageListReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _NewsRpc_UpdateMessageStatus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateMessageStatusReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(NewsRpcServer).UpdateMessageStatus(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: NewsRpc_UpdateMessageStatus_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(NewsRpcServer).UpdateMessageStatus(ctx, req.(*UpdateMessageStatusReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -565,7 +439,7 @@ func _NewsRpc_GetComment_Handler(srv interface{}, ctx context.Context, dec func(
 }
 
 func _NewsRpc_DeletesComment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeletesCommentReq)
+	in := new(DeleteCommentReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -577,7 +451,7 @@ func _NewsRpc_DeletesComment_Handler(srv interface{}, ctx context.Context, dec f
 		FullMethod: NewsRpc_DeletesComment_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(NewsRpcServer).DeletesComment(ctx, req.(*DeletesCommentReq))
+		return srv.(NewsRpcServer).DeletesComment(ctx, req.(*DeleteCommentReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -596,96 +470,6 @@ func _NewsRpc_FindCommentList_Handler(srv interface{}, ctx context.Context, dec 
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(NewsRpcServer).FindCommentList(ctx, req.(*FindCommentListReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _NewsRpc_FindCommentReplyList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(FindCommentReplyListReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(NewsRpcServer).FindCommentReplyList(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: NewsRpc_FindCommentReplyList_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(NewsRpcServer).FindCommentReplyList(ctx, req.(*FindCommentReplyListReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _NewsRpc_FindCommentReplyCounts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(FindCommentReplyCountsReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(NewsRpcServer).FindCommentReplyCounts(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: NewsRpc_FindCommentReplyCounts_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(NewsRpcServer).FindCommentReplyCounts(ctx, req.(*FindCommentReplyCountsReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _NewsRpc_UpdateCommentStatus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateCommentStatusReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(NewsRpcServer).UpdateCommentStatus(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: NewsRpc_UpdateCommentStatus_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(NewsRpcServer).UpdateCommentStatus(ctx, req.(*UpdateCommentStatusReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _NewsRpc_LikeComment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(LikeCommentReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(NewsRpcServer).LikeComment(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: NewsRpc_LikeComment_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(NewsRpcServer).LikeComment(ctx, req.(*LikeCommentReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _NewsRpc_FindUserLikeComment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(FindUserLikeCommentReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(NewsRpcServer).FindUserLikeComment(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: NewsRpc_FindUserLikeComment_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(NewsRpcServer).FindUserLikeComment(ctx, req.(*FindUserLikeCommentReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -722,10 +506,6 @@ var NewsRpc_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _NewsRpc_FindMessageList_Handler,
 		},
 		{
-			MethodName: "UpdateMessageStatus",
-			Handler:    _NewsRpc_UpdateMessageStatus_Handler,
-		},
-		{
 			MethodName: "AddComment",
 			Handler:    _NewsRpc_AddComment_Handler,
 		},
@@ -744,26 +524,6 @@ var NewsRpc_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "FindCommentList",
 			Handler:    _NewsRpc_FindCommentList_Handler,
-		},
-		{
-			MethodName: "FindCommentReplyList",
-			Handler:    _NewsRpc_FindCommentReplyList_Handler,
-		},
-		{
-			MethodName: "FindCommentReplyCounts",
-			Handler:    _NewsRpc_FindCommentReplyCounts_Handler,
-		},
-		{
-			MethodName: "UpdateCommentStatus",
-			Handler:    _NewsRpc_UpdateCommentStatus_Handler,
-		},
-		{
-			MethodName: "LikeComment",
-			Handler:    _NewsRpc_LikeComment_Handler,
-		},
-		{
-			MethodName: "FindUserLikeComment",
-			Handler:    _NewsRpc_FindUserLikeComment_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

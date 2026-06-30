@@ -25,12 +25,58 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+// ************* 说说管理 *************
+type TalkStatus int32
+
+const (
+	TalkStatus_PUBLIC  TalkStatus = 0
+	TalkStatus_PRIVATE TalkStatus = 1
+)
+
+// Enum value maps for TalkStatus.
+var (
+	TalkStatus_name = map[int32]string{
+		0: "PUBLIC",
+		1: "PRIVATE",
+	}
+	TalkStatus_value = map[string]int32{
+		"PUBLIC":  0,
+		"PRIVATE": 1,
+	}
+)
+
+func (x TalkStatus) Enum() *TalkStatus {
+	p := new(TalkStatus)
+	*p = x
+	return p
+}
+
+func (x TalkStatus) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (TalkStatus) Descriptor() protoreflect.EnumDescriptor {
+	return file_blog_social_proto_enumTypes[0].Descriptor()
+}
+
+func (TalkStatus) Type() protoreflect.EnumType {
+	return &file_blog_social_proto_enumTypes[0]
+}
+
+func (x TalkStatus) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use TalkStatus.Descriptor instead.
+func (TalkStatus) EnumDescriptor() ([]byte, []int) {
+	return file_blog_social_proto_rawDescGZIP(), []int{0}
+}
+
 // 分页请求参数
 type PageReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Page          int64                  `protobuf:"varint,1,opt,name=page,proto3" json:"page,omitempty"`                         // 页码
 	PageSize      int64                  `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"` // 每页大小
-	Sorts         []string               `protobuf:"bytes,3,rep,name=sorts,proto3" json:"sorts,omitempty"`                        // 排序字段
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -77,13 +123,6 @@ func (x *PageReq) GetPageSize() int64 {
 		return x.PageSize
 	}
 	return 0
-}
-
-func (x *PageReq) GetSorts() []string {
-	if x != nil {
-		return x.Sorts
-	}
-	return nil
 }
 
 // 分页响应参数
@@ -150,7 +189,6 @@ func (x *PageResp) GetTotal() int64 {
 // ************* 友链管理 *************
 type Friend struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`                                     // id
 	LinkName      string                 `protobuf:"bytes,2,opt,name=link_name,json=linkName,proto3" json:"link_name,omitempty"`          // 链接名
 	LinkAvatar    string                 `protobuf:"bytes,3,opt,name=link_avatar,json=linkAvatar,proto3" json:"link_avatar,omitempty"`    // 链接头像
 	LinkAddress   string                 `protobuf:"bytes,4,opt,name=link_address,json=linkAddress,proto3" json:"link_address,omitempty"` // 链接地址
@@ -189,13 +227,6 @@ func (x *Friend) ProtoReflect() protoreflect.Message {
 // Deprecated: Use Friend.ProtoReflect.Descriptor instead.
 func (*Friend) Descriptor() ([]byte, []int) {
 	return file_blog_social_proto_rawDescGZIP(), []int{2}
-}
-
-func (x *Friend) GetId() int64 {
-	if x != nil {
-		return x.Id
-	}
-	return 0
 }
 
 func (x *Friend) GetLinkName() string {
@@ -242,7 +273,6 @@ func (x *Friend) GetUpdatedAt() int64 {
 
 type AddFriendReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`                                     // id
 	LinkName      string                 `protobuf:"bytes,2,opt,name=link_name,json=linkName,proto3" json:"link_name,omitempty"`          // 链接名
 	LinkAvatar    string                 `protobuf:"bytes,3,opt,name=link_avatar,json=linkAvatar,proto3" json:"link_avatar,omitempty"`    // 链接头像
 	LinkAddress   string                 `protobuf:"bytes,4,opt,name=link_address,json=linkAddress,proto3" json:"link_address,omitempty"` // 链接地址
@@ -279,13 +309,6 @@ func (x *AddFriendReq) ProtoReflect() protoreflect.Message {
 // Deprecated: Use AddFriendReq.ProtoReflect.Descriptor instead.
 func (*AddFriendReq) Descriptor() ([]byte, []int) {
 	return file_blog_social_proto_rawDescGZIP(), []int{3}
-}
-
-func (x *AddFriendReq) GetId() int64 {
-	if x != nil {
-		return x.Id
-	}
-	return 0
 }
 
 func (x *AddFriendReq) GetLinkName() string {
@@ -362,7 +385,6 @@ func (x *AddFriendResp) GetFriend() *Friend {
 
 type UpdateFriendReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`                                     // id
 	LinkName      string                 `protobuf:"bytes,2,opt,name=link_name,json=linkName,proto3" json:"link_name,omitempty"`          // 链接名
 	LinkAvatar    string                 `protobuf:"bytes,3,opt,name=link_avatar,json=linkAvatar,proto3" json:"link_avatar,omitempty"`    // 链接头像
 	LinkAddress   string                 `protobuf:"bytes,4,opt,name=link_address,json=linkAddress,proto3" json:"link_address,omitempty"` // 链接地址
@@ -399,13 +421,6 @@ func (x *UpdateFriendReq) ProtoReflect() protoreflect.Message {
 // Deprecated: Use UpdateFriendReq.ProtoReflect.Descriptor instead.
 func (*UpdateFriendReq) Descriptor() ([]byte, []int) {
 	return file_blog_social_proto_rawDescGZIP(), []int{5}
-}
-
-func (x *UpdateFriendReq) GetId() int64 {
-	if x != nil {
-		return x.Id
-	}
-	return 0
 }
 
 func (x *UpdateFriendReq) GetLinkName() string {
@@ -482,7 +497,7 @@ func (x *UpdateFriendResp) GetFriend() *Friend {
 
 type DeletesFriendReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Ids           []int64                `protobuf:"varint,1,rep,packed,name=ids,proto3" json:"ids,omitempty"` // id列表
+	LinkName      string                 `protobuf:"bytes,2,opt,name=link_name,json=linkName,proto3" json:"link_name,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -517,16 +532,16 @@ func (*DeletesFriendReq) Descriptor() ([]byte, []int) {
 	return file_blog_social_proto_rawDescGZIP(), []int{7}
 }
 
-func (x *DeletesFriendReq) GetIds() []int64 {
+func (x *DeletesFriendReq) GetLinkName() string {
 	if x != nil {
-		return x.Ids
+		return x.LinkName
 	}
-	return nil
+	return ""
 }
 
 type DeletesFriendResp struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	SuccessCount  int64                  `protobuf:"varint,1,opt,name=success_count,json=successCount,proto3" json:"success_count,omitempty"` // 成功数量
+	Friend        *Friend                `protobuf:"bytes,1,opt,name=friend,proto3" json:"friend,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -561,11 +576,11 @@ func (*DeletesFriendResp) Descriptor() ([]byte, []int) {
 	return file_blog_social_proto_rawDescGZIP(), []int{8}
 }
 
-func (x *DeletesFriendResp) GetSuccessCount() int64 {
+func (x *DeletesFriendResp) GetFriend() *Friend {
 	if x != nil {
-		return x.SuccessCount
+		return x.Friend
 	}
-	return 0
+	return nil
 }
 
 type FindFriendListReq struct {
@@ -672,15 +687,13 @@ func (x *FindFriendListResp) GetList() []*Friend {
 	return nil
 }
 
-// ************* 说说管理 *************
 type Talk struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`                                          // 说说id
 	UserId        string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`                     // 用户id
 	Content       string                 `protobuf:"bytes,3,opt,name=content,proto3" json:"content,omitempty"`                                 // 说说内容
 	ImgList       []string               `protobuf:"bytes,4,rep,name=img_list,json=imgList,proto3" json:"img_list,omitempty"`                  // 图片URL列表
 	IsTop         bool                   `protobuf:"varint,5,opt,name=is_top,json=isTop,proto3" json:"is_top,omitempty"`                       // 是否置顶
-	Status        int64                  `protobuf:"varint,6,opt,name=status,proto3" json:"status,omitempty"`                                  // 状态 1.公开 2.私密
+	Status        TalkStatus             `protobuf:"varint,6,opt,name=status,proto3,enum=socialrpc.TalkStatus" json:"status,omitempty"`        // 状态 0.公开 1.私密
 	CreatedAt     int64                  `protobuf:"varint,7,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`           // 创建时间
 	UpdatedAt     int64                  `protobuf:"varint,8,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`           // 更新时间
 	LikeCount     int64                  `protobuf:"varint,9,opt,name=like_count,json=likeCount,proto3" json:"like_count,omitempty"`           // 点赞量
@@ -719,13 +732,6 @@ func (*Talk) Descriptor() ([]byte, []int) {
 	return file_blog_social_proto_rawDescGZIP(), []int{11}
 }
 
-func (x *Talk) GetId() int64 {
-	if x != nil {
-		return x.Id
-	}
-	return 0
-}
-
 func (x *Talk) GetUserId() string {
 	if x != nil {
 		return x.UserId
@@ -754,11 +760,11 @@ func (x *Talk) GetIsTop() bool {
 	return false
 }
 
-func (x *Talk) GetStatus() int64 {
+func (x *Talk) GetStatus() TalkStatus {
 	if x != nil {
 		return x.Status
 	}
-	return 0
+	return TalkStatus_PUBLIC
 }
 
 func (x *Talk) GetCreatedAt() int64 {
@@ -791,12 +797,11 @@ func (x *Talk) GetCommentCount() int64 {
 
 type AddTalkReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`                         // 说说id
-	UserId        string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`    // 用户id
-	Content       string                 `protobuf:"bytes,3,opt,name=content,proto3" json:"content,omitempty"`                // 说说内容
-	ImgList       []string               `protobuf:"bytes,4,rep,name=img_list,json=imgList,proto3" json:"img_list,omitempty"` // 图片URL列表
-	IsTop         bool                   `protobuf:"varint,5,opt,name=is_top,json=isTop,proto3" json:"is_top,omitempty"`      // 是否置顶
-	Status        int64                  `protobuf:"varint,6,opt,name=status,proto3" json:"status,omitempty"`                 // 状态 1.公开 2.私密
+	UserId        string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`              // 用户id
+	Content       string                 `protobuf:"bytes,3,opt,name=content,proto3" json:"content,omitempty"`                          // 说说内容
+	ImgList       []string               `protobuf:"bytes,4,rep,name=img_list,json=imgList,proto3" json:"img_list,omitempty"`           // 图片URL列表
+	IsTop         bool                   `protobuf:"varint,5,opt,name=is_top,json=isTop,proto3" json:"is_top,omitempty"`                // 是否置顶
+	Status        TalkStatus             `protobuf:"varint,6,opt,name=status,proto3,enum=socialrpc.TalkStatus" json:"status,omitempty"` // 状态 0.公开 1.私密
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -831,13 +836,6 @@ func (*AddTalkReq) Descriptor() ([]byte, []int) {
 	return file_blog_social_proto_rawDescGZIP(), []int{12}
 }
 
-func (x *AddTalkReq) GetId() int64 {
-	if x != nil {
-		return x.Id
-	}
-	return 0
-}
-
 func (x *AddTalkReq) GetUserId() string {
 	if x != nil {
 		return x.UserId
@@ -866,11 +864,11 @@ func (x *AddTalkReq) GetIsTop() bool {
 	return false
 }
 
-func (x *AddTalkReq) GetStatus() int64 {
+func (x *AddTalkReq) GetStatus() TalkStatus {
 	if x != nil {
 		return x.Status
 	}
-	return 0
+	return TalkStatus_PUBLIC
 }
 
 type AddTalkResp struct {
@@ -919,12 +917,11 @@ func (x *AddTalkResp) GetTalk() *Talk {
 
 type UpdateTalkReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`                         // 说说id
-	UserId        string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`    // 用户id
-	Content       string                 `protobuf:"bytes,3,opt,name=content,proto3" json:"content,omitempty"`                // 说说内容
-	ImgList       []string               `protobuf:"bytes,4,rep,name=img_list,json=imgList,proto3" json:"img_list,omitempty"` // 图片URL列表
-	IsTop         bool                   `protobuf:"varint,5,opt,name=is_top,json=isTop,proto3" json:"is_top,omitempty"`      // 是否置顶
-	Status        int64                  `protobuf:"varint,6,opt,name=status,proto3" json:"status,omitempty"`                 // 状态 1.公开 2.私密
+	UserId        string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`              // 用户id
+	Content       string                 `protobuf:"bytes,3,opt,name=content,proto3" json:"content,omitempty"`                          // 说说内容
+	ImgList       []string               `protobuf:"bytes,4,rep,name=img_list,json=imgList,proto3" json:"img_list,omitempty"`           // 图片URL列表
+	IsTop         bool                   `protobuf:"varint,5,opt,name=is_top,json=isTop,proto3" json:"is_top,omitempty"`                // 是否置顶
+	Status        TalkStatus             `protobuf:"varint,6,opt,name=status,proto3,enum=socialrpc.TalkStatus" json:"status,omitempty"` // 状态 1.公开 2.私密
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -959,13 +956,6 @@ func (*UpdateTalkReq) Descriptor() ([]byte, []int) {
 	return file_blog_social_proto_rawDescGZIP(), []int{14}
 }
 
-func (x *UpdateTalkReq) GetId() int64 {
-	if x != nil {
-		return x.Id
-	}
-	return 0
-}
-
 func (x *UpdateTalkReq) GetUserId() string {
 	if x != nil {
 		return x.UserId
@@ -994,11 +984,11 @@ func (x *UpdateTalkReq) GetIsTop() bool {
 	return false
 }
 
-func (x *UpdateTalkReq) GetStatus() int64 {
+func (x *UpdateTalkReq) GetStatus() TalkStatus {
 	if x != nil {
 		return x.Status
 	}
-	return 0
+	return TalkStatus_PUBLIC
 }
 
 type UpdateTalkResp struct {
@@ -1047,7 +1037,7 @@ func (x *UpdateTalkResp) GetTalk() *Talk {
 
 type DeletesTalkReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Ids           []int64                `protobuf:"varint,1,rep,packed,name=ids,proto3" json:"ids,omitempty"` // id列表
+	Content       string                 `protobuf:"bytes,3,opt,name=content,proto3" json:"content,omitempty"` // 说说内容
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1082,16 +1072,16 @@ func (*DeletesTalkReq) Descriptor() ([]byte, []int) {
 	return file_blog_social_proto_rawDescGZIP(), []int{16}
 }
 
-func (x *DeletesTalkReq) GetIds() []int64 {
+func (x *DeletesTalkReq) GetContent() string {
 	if x != nil {
-		return x.Ids
+		return x.Content
 	}
-	return nil
+	return ""
 }
 
 type DeletesTalkResp struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	SuccessCount  int64                  `protobuf:"varint,1,opt,name=success_count,json=successCount,proto3" json:"success_count,omitempty"` // 成功数量
+	Talk          *Talk                  `protobuf:"bytes,1,opt,name=talk,proto3" json:"talk,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1126,124 +1116,35 @@ func (*DeletesTalkResp) Descriptor() ([]byte, []int) {
 	return file_blog_social_proto_rawDescGZIP(), []int{17}
 }
 
-func (x *DeletesTalkResp) GetSuccessCount() int64 {
-	if x != nil {
-		return x.SuccessCount
-	}
-	return 0
-}
-
-type GetTalkReq struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"` // 说说id
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *GetTalkReq) Reset() {
-	*x = GetTalkReq{}
-	mi := &file_blog_social_proto_msgTypes[18]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *GetTalkReq) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GetTalkReq) ProtoMessage() {}
-
-func (x *GetTalkReq) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_social_proto_msgTypes[18]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GetTalkReq.ProtoReflect.Descriptor instead.
-func (*GetTalkReq) Descriptor() ([]byte, []int) {
-	return file_blog_social_proto_rawDescGZIP(), []int{18}
-}
-
-func (x *GetTalkReq) GetId() int64 {
-	if x != nil {
-		return x.Id
-	}
-	return 0
-}
-
-type GetTalkResp struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Talk          *Talk                  `protobuf:"bytes,1,opt,name=talk,proto3" json:"talk,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *GetTalkResp) Reset() {
-	*x = GetTalkResp{}
-	mi := &file_blog_social_proto_msgTypes[19]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *GetTalkResp) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GetTalkResp) ProtoMessage() {}
-
-func (x *GetTalkResp) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_social_proto_msgTypes[19]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GetTalkResp.ProtoReflect.Descriptor instead.
-func (*GetTalkResp) Descriptor() ([]byte, []int) {
-	return file_blog_social_proto_rawDescGZIP(), []int{19}
-}
-
-func (x *GetTalkResp) GetTalk() *Talk {
+func (x *DeletesTalkResp) GetTalk() *Talk {
 	if x != nil {
 		return x.Talk
 	}
 	return nil
 }
 
-type FindTalkListReq struct {
+type GetTalkListReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Paginate      *PageReq               `protobuf:"bytes,1,opt,name=paginate,proto3" json:"paginate,omitempty"` // 分页参数
-	Status        int64                  `protobuf:"varint,2,opt,name=status,proto3" json:"status,omitempty"`    // 状态 1.公开 2.私密
+	Paginate      *PageReq               `protobuf:"bytes,1,opt,name=paginate,proto3" json:"paginate,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *FindTalkListReq) Reset() {
-	*x = FindTalkListReq{}
-	mi := &file_blog_social_proto_msgTypes[20]
+func (x *GetTalkListReq) Reset() {
+	*x = GetTalkListReq{}
+	mi := &file_blog_social_proto_msgTypes[18]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *FindTalkListReq) String() string {
+func (x *GetTalkListReq) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*FindTalkListReq) ProtoMessage() {}
+func (*GetTalkListReq) ProtoMessage() {}
 
-func (x *FindTalkListReq) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_social_proto_msgTypes[20]
+func (x *GetTalkListReq) ProtoReflect() protoreflect.Message {
+	mi := &file_blog_social_proto_msgTypes[18]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1254,48 +1155,41 @@ func (x *FindTalkListReq) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use FindTalkListReq.ProtoReflect.Descriptor instead.
-func (*FindTalkListReq) Descriptor() ([]byte, []int) {
-	return file_blog_social_proto_rawDescGZIP(), []int{20}
+// Deprecated: Use GetTalkListReq.ProtoReflect.Descriptor instead.
+func (*GetTalkListReq) Descriptor() ([]byte, []int) {
+	return file_blog_social_proto_rawDescGZIP(), []int{18}
 }
 
-func (x *FindTalkListReq) GetPaginate() *PageReq {
+func (x *GetTalkListReq) GetPaginate() *PageReq {
 	if x != nil {
 		return x.Paginate
 	}
 	return nil
 }
 
-func (x *FindTalkListReq) GetStatus() int64 {
-	if x != nil {
-		return x.Status
-	}
-	return 0
-}
-
-type FindTalkListResp struct {
+type GetTalkListResp struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Pagination    *PageResp              `protobuf:"bytes,1,opt,name=pagination,proto3" json:"pagination,omitempty"` // 分页信息
-	List          []*Talk                `protobuf:"bytes,2,rep,name=list,proto3" json:"list,omitempty"`
+	Pagination    *PageResp              `protobuf:"bytes,1,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	Talk          []*Talk                `protobuf:"bytes,2,rep,name=talk,proto3" json:"talk,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *FindTalkListResp) Reset() {
-	*x = FindTalkListResp{}
-	mi := &file_blog_social_proto_msgTypes[21]
+func (x *GetTalkListResp) Reset() {
+	*x = GetTalkListResp{}
+	mi := &file_blog_social_proto_msgTypes[19]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *FindTalkListResp) String() string {
+func (x *GetTalkListResp) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*FindTalkListResp) ProtoMessage() {}
+func (*GetTalkListResp) ProtoMessage() {}
 
-func (x *FindTalkListResp) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_social_proto_msgTypes[21]
+func (x *GetTalkListResp) ProtoReflect() protoreflect.Message {
+	mi := &file_blog_social_proto_msgTypes[19]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1306,35 +1200,35 @@ func (x *FindTalkListResp) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use FindTalkListResp.ProtoReflect.Descriptor instead.
-func (*FindTalkListResp) Descriptor() ([]byte, []int) {
-	return file_blog_social_proto_rawDescGZIP(), []int{21}
+// Deprecated: Use GetTalkListResp.ProtoReflect.Descriptor instead.
+func (*GetTalkListResp) Descriptor() ([]byte, []int) {
+	return file_blog_social_proto_rawDescGZIP(), []int{19}
 }
 
-func (x *FindTalkListResp) GetPagination() *PageResp {
+func (x *GetTalkListResp) GetPagination() *PageResp {
 	if x != nil {
 		return x.Pagination
 	}
 	return nil
 }
 
-func (x *FindTalkListResp) GetList() []*Talk {
+func (x *GetTalkListResp) GetTalk() []*Talk {
 	if x != nil {
-		return x.List
+		return x.Talk
 	}
 	return nil
 }
 
 type LikeTalkReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"` // 说说id
+	Content       string                 `protobuf:"bytes,3,opt,name=content,proto3" json:"content,omitempty"` // 说说内容
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *LikeTalkReq) Reset() {
 	*x = LikeTalkReq{}
-	mi := &file_blog_social_proto_msgTypes[22]
+	mi := &file_blog_social_proto_msgTypes[20]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1346,7 +1240,7 @@ func (x *LikeTalkReq) String() string {
 func (*LikeTalkReq) ProtoMessage() {}
 
 func (x *LikeTalkReq) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_social_proto_msgTypes[22]
+	mi := &file_blog_social_proto_msgTypes[20]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1359,25 +1253,26 @@ func (x *LikeTalkReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LikeTalkReq.ProtoReflect.Descriptor instead.
 func (*LikeTalkReq) Descriptor() ([]byte, []int) {
-	return file_blog_social_proto_rawDescGZIP(), []int{22}
+	return file_blog_social_proto_rawDescGZIP(), []int{20}
 }
 
-func (x *LikeTalkReq) GetId() int64 {
+func (x *LikeTalkReq) GetContent() string {
 	if x != nil {
-		return x.Id
+		return x.Content
 	}
-	return 0
+	return ""
 }
 
 type LikeTalkResp struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	Talk          *Talk                  `protobuf:"bytes,1,opt,name=talk,proto3" json:"talk,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *LikeTalkResp) Reset() {
 	*x = LikeTalkResp{}
-	mi := &file_blog_social_proto_msgTypes[23]
+	mi := &file_blog_social_proto_msgTypes[21]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1389,7 +1284,7 @@ func (x *LikeTalkResp) String() string {
 func (*LikeTalkResp) ProtoMessage() {}
 
 func (x *LikeTalkResp) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_social_proto_msgTypes[23]
+	mi := &file_blog_social_proto_msgTypes[21]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1402,93 +1297,12 @@ func (x *LikeTalkResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LikeTalkResp.ProtoReflect.Descriptor instead.
 func (*LikeTalkResp) Descriptor() ([]byte, []int) {
-	return file_blog_social_proto_rawDescGZIP(), []int{23}
+	return file_blog_social_proto_rawDescGZIP(), []int{21}
 }
 
-type FindUserLikeTalkReq struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"` // 用户id
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *FindUserLikeTalkReq) Reset() {
-	*x = FindUserLikeTalkReq{}
-	mi := &file_blog_social_proto_msgTypes[24]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *FindUserLikeTalkReq) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*FindUserLikeTalkReq) ProtoMessage() {}
-
-func (x *FindUserLikeTalkReq) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_social_proto_msgTypes[24]
+func (x *LikeTalkResp) GetTalk() *Talk {
 	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use FindUserLikeTalkReq.ProtoReflect.Descriptor instead.
-func (*FindUserLikeTalkReq) Descriptor() ([]byte, []int) {
-	return file_blog_social_proto_rawDescGZIP(), []int{24}
-}
-
-func (x *FindUserLikeTalkReq) GetUserId() string {
-	if x != nil {
-		return x.UserId
-	}
-	return ""
-}
-
-type FindUserLikeTalkResp struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	LikeTalkList  []int64                `protobuf:"varint,1,rep,packed,name=like_talk_list,json=likeTalkList,proto3" json:"like_talk_list,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *FindUserLikeTalkResp) Reset() {
-	*x = FindUserLikeTalkResp{}
-	mi := &file_blog_social_proto_msgTypes[25]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *FindUserLikeTalkResp) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*FindUserLikeTalkResp) ProtoMessage() {}
-
-func (x *FindUserLikeTalkResp) ProtoReflect() protoreflect.Message {
-	mi := &file_blog_social_proto_msgTypes[25]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use FindUserLikeTalkResp.ProtoReflect.Descriptor instead.
-func (*FindUserLikeTalkResp) Descriptor() ([]byte, []int) {
-	return file_blog_social_proto_rawDescGZIP(), []int{25}
-}
-
-func (x *FindUserLikeTalkResp) GetLikeTalkList() []int64 {
-	if x != nil {
-		return x.LikeTalkList
+		return x.Talk
 	}
 	return nil
 }
@@ -1497,17 +1311,15 @@ var File_blog_social_proto protoreflect.FileDescriptor
 
 const file_blog_social_proto_rawDesc = "" +
 	"\n" +
-	"\x11blog/social.proto\x12\tsocialrpc\"P\n" +
+	"\x11blog/social.proto\x12\tsocialrpc\":\n" +
 	"\aPageReq\x12\x12\n" +
 	"\x04page\x18\x01 \x01(\x03R\x04page\x12\x1b\n" +
-	"\tpage_size\x18\x02 \x01(\x03R\bpageSize\x12\x14\n" +
-	"\x05sorts\x18\x03 \x03(\tR\x05sorts\"Q\n" +
+	"\tpage_size\x18\x02 \x01(\x03R\bpageSize\"Q\n" +
 	"\bPageResp\x12\x12\n" +
 	"\x04page\x18\x01 \x01(\x03R\x04page\x12\x1b\n" +
 	"\tpage_size\x18\x02 \x01(\x03R\bpageSize\x12\x14\n" +
-	"\x05total\x18\x03 \x01(\x03R\x05total\"\xd6\x01\n" +
-	"\x06Friend\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x1b\n" +
+	"\x05total\x18\x03 \x01(\x03R\x05total\"\xc6\x01\n" +
+	"\x06Friend\x12\x1b\n" +
 	"\tlink_name\x18\x02 \x01(\tR\blinkName\x12\x1f\n" +
 	"\vlink_avatar\x18\x03 \x01(\tR\n" +
 	"linkAvatar\x12!\n" +
@@ -1517,9 +1329,8 @@ const file_blog_social_proto_rawDesc = "" +
 	"\n" +
 	"created_at\x18\x06 \x01(\x03R\tcreatedAt\x12\x1d\n" +
 	"\n" +
-	"updated_at\x18\a \x01(\x03R\tupdatedAt\"\x9e\x01\n" +
-	"\fAddFriendReq\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x1b\n" +
+	"updated_at\x18\a \x01(\x03R\tupdatedAt\"\x8e\x01\n" +
+	"\fAddFriendReq\x12\x1b\n" +
 	"\tlink_name\x18\x02 \x01(\tR\blinkName\x12\x1f\n" +
 	"\vlink_avatar\x18\x03 \x01(\tR\n" +
 	"linkAvatar\x12!\n" +
@@ -1527,9 +1338,8 @@ const file_blog_social_proto_rawDesc = "" +
 	"\n" +
 	"link_intro\x18\x05 \x01(\tR\tlinkIntro\":\n" +
 	"\rAddFriendResp\x12)\n" +
-	"\x06friend\x18\x01 \x01(\v2\x11.socialrpc.FriendR\x06friend\"\xa1\x01\n" +
-	"\x0fUpdateFriendReq\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x1b\n" +
+	"\x06friend\x18\x01 \x01(\v2\x11.socialrpc.FriendR\x06friend\"\x91\x01\n" +
+	"\x0fUpdateFriendReq\x12\x1b\n" +
 	"\tlink_name\x18\x02 \x01(\tR\blinkName\x12\x1f\n" +
 	"\vlink_avatar\x18\x03 \x01(\tR\n" +
 	"linkAvatar\x12!\n" +
@@ -1537,11 +1347,11 @@ const file_blog_social_proto_rawDesc = "" +
 	"\n" +
 	"link_intro\x18\x05 \x01(\tR\tlinkIntro\"=\n" +
 	"\x10UpdateFriendResp\x12)\n" +
-	"\x06friend\x18\x01 \x01(\v2\x11.socialrpc.FriendR\x06friend\"$\n" +
-	"\x10DeletesFriendReq\x12\x10\n" +
-	"\x03ids\x18\x01 \x03(\x03R\x03ids\"8\n" +
-	"\x11DeletesFriendResp\x12#\n" +
-	"\rsuccess_count\x18\x01 \x01(\x03R\fsuccessCount\"`\n" +
+	"\x06friend\x18\x01 \x01(\v2\x11.socialrpc.FriendR\x06friend\"/\n" +
+	"\x10DeletesFriendReq\x12\x1b\n" +
+	"\tlink_name\x18\x02 \x01(\tR\blinkName\">\n" +
+	"\x11DeletesFriendResp\x12)\n" +
+	"\x06friend\x18\x01 \x01(\v2\x11.socialrpc.FriendR\x06friend\"`\n" +
 	"\x11FindFriendListReq\x12.\n" +
 	"\bpaginate\x18\x01 \x01(\v2\x12.socialrpc.PageReqR\bpaginate\x12\x1b\n" +
 	"\tlink_name\x18\x02 \x01(\tR\blinkName\"p\n" +
@@ -1549,14 +1359,13 @@ const file_blog_social_proto_rawDesc = "" +
 	"\n" +
 	"pagination\x18\x01 \x01(\v2\x13.socialrpc.PageRespR\n" +
 	"pagination\x12%\n" +
-	"\x04list\x18\x02 \x03(\v2\x11.socialrpc.FriendR\x04list\"\x95\x02\n" +
-	"\x04Talk\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x17\n" +
+	"\x04list\x18\x02 \x03(\v2\x11.socialrpc.FriendR\x04list\"\x9c\x02\n" +
+	"\x04Talk\x12\x17\n" +
 	"\auser_id\x18\x02 \x01(\tR\x06userId\x12\x18\n" +
 	"\acontent\x18\x03 \x01(\tR\acontent\x12\x19\n" +
 	"\bimg_list\x18\x04 \x03(\tR\aimgList\x12\x15\n" +
-	"\x06is_top\x18\x05 \x01(\bR\x05isTop\x12\x16\n" +
-	"\x06status\x18\x06 \x01(\x03R\x06status\x12\x1d\n" +
+	"\x06is_top\x18\x05 \x01(\bR\x05isTop\x12-\n" +
+	"\x06status\x18\x06 \x01(\x0e2\x15.socialrpc.talkStatusR\x06status\x12\x1d\n" +
 	"\n" +
 	"created_at\x18\a \x01(\x03R\tcreatedAt\x12\x1d\n" +
 	"\n" +
@@ -1564,50 +1373,44 @@ const file_blog_social_proto_rawDesc = "" +
 	"\n" +
 	"like_count\x18\t \x01(\x03R\tlikeCount\x12#\n" +
 	"\rcomment_count\x18\n" +
-	" \x01(\x03R\fcommentCount\"\x99\x01\n" +
+	" \x01(\x03R\fcommentCount\"\xa0\x01\n" +
 	"\n" +
-	"AddTalkReq\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x17\n" +
+	"AddTalkReq\x12\x17\n" +
 	"\auser_id\x18\x02 \x01(\tR\x06userId\x12\x18\n" +
 	"\acontent\x18\x03 \x01(\tR\acontent\x12\x19\n" +
 	"\bimg_list\x18\x04 \x03(\tR\aimgList\x12\x15\n" +
-	"\x06is_top\x18\x05 \x01(\bR\x05isTop\x12\x16\n" +
-	"\x06status\x18\x06 \x01(\x03R\x06status\"2\n" +
+	"\x06is_top\x18\x05 \x01(\bR\x05isTop\x12-\n" +
+	"\x06status\x18\x06 \x01(\x0e2\x15.socialrpc.talkStatusR\x06status\"2\n" +
 	"\vAddTalkResp\x12#\n" +
-	"\x04talk\x18\x01 \x01(\v2\x0f.socialrpc.TalkR\x04talk\"\x9c\x01\n" +
-	"\rUpdateTalkReq\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x17\n" +
+	"\x04talk\x18\x01 \x01(\v2\x0f.socialrpc.TalkR\x04talk\"\xa3\x01\n" +
+	"\rUpdateTalkReq\x12\x17\n" +
 	"\auser_id\x18\x02 \x01(\tR\x06userId\x12\x18\n" +
 	"\acontent\x18\x03 \x01(\tR\acontent\x12\x19\n" +
 	"\bimg_list\x18\x04 \x03(\tR\aimgList\x12\x15\n" +
-	"\x06is_top\x18\x05 \x01(\bR\x05isTop\x12\x16\n" +
-	"\x06status\x18\x06 \x01(\x03R\x06status\"5\n" +
+	"\x06is_top\x18\x05 \x01(\bR\x05isTop\x12-\n" +
+	"\x06status\x18\x06 \x01(\x0e2\x15.socialrpc.talkStatusR\x06status\"5\n" +
 	"\x0eUpdateTalkResp\x12#\n" +
-	"\x04talk\x18\x01 \x01(\v2\x0f.socialrpc.TalkR\x04talk\"\"\n" +
-	"\x0eDeletesTalkReq\x12\x10\n" +
-	"\x03ids\x18\x01 \x03(\x03R\x03ids\"6\n" +
+	"\x04talk\x18\x01 \x01(\v2\x0f.socialrpc.TalkR\x04talk\"*\n" +
+	"\x0eDeletesTalkReq\x12\x18\n" +
+	"\acontent\x18\x03 \x01(\tR\acontent\"6\n" +
 	"\x0fDeletesTalkResp\x12#\n" +
-	"\rsuccess_count\x18\x01 \x01(\x03R\fsuccessCount\"\x1c\n" +
-	"\n" +
-	"GetTalkReq\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\"2\n" +
-	"\vGetTalkResp\x12#\n" +
-	"\x04talk\x18\x01 \x01(\v2\x0f.socialrpc.TalkR\x04talk\"Y\n" +
-	"\x0fFindTalkListReq\x12.\n" +
-	"\bpaginate\x18\x01 \x01(\v2\x12.socialrpc.PageReqR\bpaginate\x12\x16\n" +
-	"\x06status\x18\x02 \x01(\x03R\x06status\"l\n" +
-	"\x10FindTalkListResp\x123\n" +
+	"\x04talk\x18\x01 \x01(\v2\x0f.socialrpc.TalkR\x04talk\"@\n" +
+	"\x0eGetTalkListReq\x12.\n" +
+	"\bpaginate\x18\x01 \x01(\v2\x12.socialrpc.PageReqR\bpaginate\"k\n" +
+	"\x0fGetTalkListResp\x123\n" +
 	"\n" +
 	"pagination\x18\x01 \x01(\v2\x13.socialrpc.PageRespR\n" +
 	"pagination\x12#\n" +
-	"\x04list\x18\x02 \x03(\v2\x0f.socialrpc.TalkR\x04list\"\x1d\n" +
-	"\vLikeTalkReq\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\"\x0e\n" +
-	"\fLikeTalkResp\".\n" +
-	"\x13FindUserLikeTalkReq\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\"<\n" +
-	"\x14FindUserLikeTalkResp\x12$\n" +
-	"\x0elike_talk_list\x18\x01 \x03(\x03R\flikeTalkList2\x87\x06\n" +
+	"\x04talk\x18\x02 \x03(\v2\x0f.socialrpc.TalkR\x04talk\"'\n" +
+	"\vLikeTalkReq\x12\x18\n" +
+	"\acontent\x18\x03 \x01(\tR\acontent\"3\n" +
+	"\fLikeTalkResp\x12#\n" +
+	"\x04talk\x18\x01 \x01(\v2\x0f.socialrpc.TalkR\x04talk*%\n" +
+	"\n" +
+	"talkStatus\x12\n" +
+	"\n" +
+	"\x06PUBLIC\x10\x00\x12\v\n" +
+	"\aPRIVATE\x10\x012\xf1\x04\n" +
 	"\tSocialRpc\x12>\n" +
 	"\tAddFriend\x12\x17.socialrpc.AddFriendReq\x1a\x18.socialrpc.AddFriendResp\x12G\n" +
 	"\fUpdateFriend\x12\x1a.socialrpc.UpdateFriendReq\x1a\x1b.socialrpc.UpdateFriendResp\x12J\n" +
@@ -1616,11 +1419,9 @@ const file_blog_social_proto_rawDesc = "" +
 	"\aAddTalk\x12\x15.socialrpc.AddTalkReq\x1a\x16.socialrpc.AddTalkResp\x12A\n" +
 	"\n" +
 	"UpdateTalk\x12\x18.socialrpc.UpdateTalkReq\x1a\x19.socialrpc.UpdateTalkResp\x12D\n" +
-	"\vDeletesTalk\x12\x19.socialrpc.DeletesTalkReq\x1a\x1a.socialrpc.DeletesTalkResp\x128\n" +
-	"\aGetTalk\x12\x15.socialrpc.GetTalkReq\x1a\x16.socialrpc.GetTalkResp\x12G\n" +
-	"\fFindTalkList\x12\x1a.socialrpc.FindTalkListReq\x1a\x1b.socialrpc.FindTalkListResp\x12;\n" +
-	"\bLikeTalk\x12\x16.socialrpc.LikeTalkReq\x1a\x17.socialrpc.LikeTalkResp\x12S\n" +
-	"\x10FindUserLikeTalk\x12\x1e.socialrpc.FindUserLikeTalkReq\x1a\x1f.socialrpc.FindUserLikeTalkRespB\rZ\v./socialrpcb\x06proto3"
+	"\vDeletesTalk\x12\x19.socialrpc.DeletesTalkReq\x1a\x1a.socialrpc.DeletesTalkResp\x12@\n" +
+	"\aGetTalk\x12\x19.socialrpc.GetTalkListReq\x1a\x1a.socialrpc.GetTalkListResp\x12;\n" +
+	"\bLikeTalk\x12\x16.socialrpc.LikeTalkReq\x1a\x17.socialrpc.LikeTalkRespB\rZ\v./socialrpcb\x06proto3"
 
 var (
 	file_blog_social_proto_rawDescOnce sync.Once
@@ -1634,74 +1435,73 @@ func file_blog_social_proto_rawDescGZIP() []byte {
 	return file_blog_social_proto_rawDescData
 }
 
-var file_blog_social_proto_msgTypes = make([]protoimpl.MessageInfo, 26)
+var file_blog_social_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_blog_social_proto_msgTypes = make([]protoimpl.MessageInfo, 22)
 var file_blog_social_proto_goTypes = []any{
-	(*PageReq)(nil),              // 0: socialrpc.PageReq
-	(*PageResp)(nil),             // 1: socialrpc.PageResp
-	(*Friend)(nil),               // 2: socialrpc.Friend
-	(*AddFriendReq)(nil),         // 3: socialrpc.AddFriendReq
-	(*AddFriendResp)(nil),        // 4: socialrpc.AddFriendResp
-	(*UpdateFriendReq)(nil),      // 5: socialrpc.UpdateFriendReq
-	(*UpdateFriendResp)(nil),     // 6: socialrpc.UpdateFriendResp
-	(*DeletesFriendReq)(nil),     // 7: socialrpc.DeletesFriendReq
-	(*DeletesFriendResp)(nil),    // 8: socialrpc.DeletesFriendResp
-	(*FindFriendListReq)(nil),    // 9: socialrpc.FindFriendListReq
-	(*FindFriendListResp)(nil),   // 10: socialrpc.FindFriendListResp
-	(*Talk)(nil),                 // 11: socialrpc.Talk
-	(*AddTalkReq)(nil),           // 12: socialrpc.AddTalkReq
-	(*AddTalkResp)(nil),          // 13: socialrpc.AddTalkResp
-	(*UpdateTalkReq)(nil),        // 14: socialrpc.UpdateTalkReq
-	(*UpdateTalkResp)(nil),       // 15: socialrpc.UpdateTalkResp
-	(*DeletesTalkReq)(nil),       // 16: socialrpc.DeletesTalkReq
-	(*DeletesTalkResp)(nil),      // 17: socialrpc.DeletesTalkResp
-	(*GetTalkReq)(nil),           // 18: socialrpc.GetTalkReq
-	(*GetTalkResp)(nil),          // 19: socialrpc.GetTalkResp
-	(*FindTalkListReq)(nil),      // 20: socialrpc.FindTalkListReq
-	(*FindTalkListResp)(nil),     // 21: socialrpc.FindTalkListResp
-	(*LikeTalkReq)(nil),          // 22: socialrpc.LikeTalkReq
-	(*LikeTalkResp)(nil),         // 23: socialrpc.LikeTalkResp
-	(*FindUserLikeTalkReq)(nil),  // 24: socialrpc.FindUserLikeTalkReq
-	(*FindUserLikeTalkResp)(nil), // 25: socialrpc.FindUserLikeTalkResp
+	(TalkStatus)(0),            // 0: socialrpc.talkStatus
+	(*PageReq)(nil),            // 1: socialrpc.PageReq
+	(*PageResp)(nil),           // 2: socialrpc.PageResp
+	(*Friend)(nil),             // 3: socialrpc.Friend
+	(*AddFriendReq)(nil),       // 4: socialrpc.AddFriendReq
+	(*AddFriendResp)(nil),      // 5: socialrpc.AddFriendResp
+	(*UpdateFriendReq)(nil),    // 6: socialrpc.UpdateFriendReq
+	(*UpdateFriendResp)(nil),   // 7: socialrpc.UpdateFriendResp
+	(*DeletesFriendReq)(nil),   // 8: socialrpc.DeletesFriendReq
+	(*DeletesFriendResp)(nil),  // 9: socialrpc.DeletesFriendResp
+	(*FindFriendListReq)(nil),  // 10: socialrpc.FindFriendListReq
+	(*FindFriendListResp)(nil), // 11: socialrpc.FindFriendListResp
+	(*Talk)(nil),               // 12: socialrpc.Talk
+	(*AddTalkReq)(nil),         // 13: socialrpc.AddTalkReq
+	(*AddTalkResp)(nil),        // 14: socialrpc.AddTalkResp
+	(*UpdateTalkReq)(nil),      // 15: socialrpc.UpdateTalkReq
+	(*UpdateTalkResp)(nil),     // 16: socialrpc.UpdateTalkResp
+	(*DeletesTalkReq)(nil),     // 17: socialrpc.DeletesTalkReq
+	(*DeletesTalkResp)(nil),    // 18: socialrpc.DeletesTalkResp
+	(*GetTalkListReq)(nil),     // 19: socialrpc.GetTalkListReq
+	(*GetTalkListResp)(nil),    // 20: socialrpc.GetTalkListResp
+	(*LikeTalkReq)(nil),        // 21: socialrpc.LikeTalkReq
+	(*LikeTalkResp)(nil),       // 22: socialrpc.LikeTalkResp
 }
 var file_blog_social_proto_depIdxs = []int32{
-	2,  // 0: socialrpc.AddFriendResp.friend:type_name -> socialrpc.Friend
-	2,  // 1: socialrpc.UpdateFriendResp.friend:type_name -> socialrpc.Friend
-	0,  // 2: socialrpc.FindFriendListReq.paginate:type_name -> socialrpc.PageReq
-	1,  // 3: socialrpc.FindFriendListResp.pagination:type_name -> socialrpc.PageResp
-	2,  // 4: socialrpc.FindFriendListResp.list:type_name -> socialrpc.Friend
-	11, // 5: socialrpc.AddTalkResp.talk:type_name -> socialrpc.Talk
-	11, // 6: socialrpc.UpdateTalkResp.talk:type_name -> socialrpc.Talk
-	11, // 7: socialrpc.GetTalkResp.talk:type_name -> socialrpc.Talk
-	0,  // 8: socialrpc.FindTalkListReq.paginate:type_name -> socialrpc.PageReq
-	1,  // 9: socialrpc.FindTalkListResp.pagination:type_name -> socialrpc.PageResp
-	11, // 10: socialrpc.FindTalkListResp.list:type_name -> socialrpc.Talk
-	3,  // 11: socialrpc.SocialRpc.AddFriend:input_type -> socialrpc.AddFriendReq
-	5,  // 12: socialrpc.SocialRpc.UpdateFriend:input_type -> socialrpc.UpdateFriendReq
-	7,  // 13: socialrpc.SocialRpc.DeletesFriend:input_type -> socialrpc.DeletesFriendReq
-	9,  // 14: socialrpc.SocialRpc.FindFriendList:input_type -> socialrpc.FindFriendListReq
-	12, // 15: socialrpc.SocialRpc.AddTalk:input_type -> socialrpc.AddTalkReq
-	14, // 16: socialrpc.SocialRpc.UpdateTalk:input_type -> socialrpc.UpdateTalkReq
-	16, // 17: socialrpc.SocialRpc.DeletesTalk:input_type -> socialrpc.DeletesTalkReq
-	18, // 18: socialrpc.SocialRpc.GetTalk:input_type -> socialrpc.GetTalkReq
-	20, // 19: socialrpc.SocialRpc.FindTalkList:input_type -> socialrpc.FindTalkListReq
-	22, // 20: socialrpc.SocialRpc.LikeTalk:input_type -> socialrpc.LikeTalkReq
-	24, // 21: socialrpc.SocialRpc.FindUserLikeTalk:input_type -> socialrpc.FindUserLikeTalkReq
-	4,  // 22: socialrpc.SocialRpc.AddFriend:output_type -> socialrpc.AddFriendResp
-	6,  // 23: socialrpc.SocialRpc.UpdateFriend:output_type -> socialrpc.UpdateFriendResp
-	8,  // 24: socialrpc.SocialRpc.DeletesFriend:output_type -> socialrpc.DeletesFriendResp
-	10, // 25: socialrpc.SocialRpc.FindFriendList:output_type -> socialrpc.FindFriendListResp
-	13, // 26: socialrpc.SocialRpc.AddTalk:output_type -> socialrpc.AddTalkResp
-	15, // 27: socialrpc.SocialRpc.UpdateTalk:output_type -> socialrpc.UpdateTalkResp
-	17, // 28: socialrpc.SocialRpc.DeletesTalk:output_type -> socialrpc.DeletesTalkResp
-	19, // 29: socialrpc.SocialRpc.GetTalk:output_type -> socialrpc.GetTalkResp
-	21, // 30: socialrpc.SocialRpc.FindTalkList:output_type -> socialrpc.FindTalkListResp
-	23, // 31: socialrpc.SocialRpc.LikeTalk:output_type -> socialrpc.LikeTalkResp
-	25, // 32: socialrpc.SocialRpc.FindUserLikeTalk:output_type -> socialrpc.FindUserLikeTalkResp
-	22, // [22:33] is the sub-list for method output_type
-	11, // [11:22] is the sub-list for method input_type
-	11, // [11:11] is the sub-list for extension type_name
-	11, // [11:11] is the sub-list for extension extendee
-	0,  // [0:11] is the sub-list for field type_name
+	3,  // 0: socialrpc.AddFriendResp.friend:type_name -> socialrpc.Friend
+	3,  // 1: socialrpc.UpdateFriendResp.friend:type_name -> socialrpc.Friend
+	3,  // 2: socialrpc.DeletesFriendResp.friend:type_name -> socialrpc.Friend
+	1,  // 3: socialrpc.FindFriendListReq.paginate:type_name -> socialrpc.PageReq
+	2,  // 4: socialrpc.FindFriendListResp.pagination:type_name -> socialrpc.PageResp
+	3,  // 5: socialrpc.FindFriendListResp.list:type_name -> socialrpc.Friend
+	0,  // 6: socialrpc.Talk.status:type_name -> socialrpc.talkStatus
+	0,  // 7: socialrpc.AddTalkReq.status:type_name -> socialrpc.talkStatus
+	12, // 8: socialrpc.AddTalkResp.talk:type_name -> socialrpc.Talk
+	0,  // 9: socialrpc.UpdateTalkReq.status:type_name -> socialrpc.talkStatus
+	12, // 10: socialrpc.UpdateTalkResp.talk:type_name -> socialrpc.Talk
+	12, // 11: socialrpc.DeletesTalkResp.talk:type_name -> socialrpc.Talk
+	1,  // 12: socialrpc.GetTalkListReq.paginate:type_name -> socialrpc.PageReq
+	2,  // 13: socialrpc.GetTalkListResp.pagination:type_name -> socialrpc.PageResp
+	12, // 14: socialrpc.GetTalkListResp.talk:type_name -> socialrpc.Talk
+	12, // 15: socialrpc.LikeTalkResp.talk:type_name -> socialrpc.Talk
+	4,  // 16: socialrpc.SocialRpc.AddFriend:input_type -> socialrpc.AddFriendReq
+	6,  // 17: socialrpc.SocialRpc.UpdateFriend:input_type -> socialrpc.UpdateFriendReq
+	8,  // 18: socialrpc.SocialRpc.DeletesFriend:input_type -> socialrpc.DeletesFriendReq
+	10, // 19: socialrpc.SocialRpc.FindFriendList:input_type -> socialrpc.FindFriendListReq
+	13, // 20: socialrpc.SocialRpc.AddTalk:input_type -> socialrpc.AddTalkReq
+	15, // 21: socialrpc.SocialRpc.UpdateTalk:input_type -> socialrpc.UpdateTalkReq
+	17, // 22: socialrpc.SocialRpc.DeletesTalk:input_type -> socialrpc.DeletesTalkReq
+	19, // 23: socialrpc.SocialRpc.GetTalk:input_type -> socialrpc.GetTalkListReq
+	21, // 24: socialrpc.SocialRpc.LikeTalk:input_type -> socialrpc.LikeTalkReq
+	5,  // 25: socialrpc.SocialRpc.AddFriend:output_type -> socialrpc.AddFriendResp
+	7,  // 26: socialrpc.SocialRpc.UpdateFriend:output_type -> socialrpc.UpdateFriendResp
+	9,  // 27: socialrpc.SocialRpc.DeletesFriend:output_type -> socialrpc.DeletesFriendResp
+	11, // 28: socialrpc.SocialRpc.FindFriendList:output_type -> socialrpc.FindFriendListResp
+	14, // 29: socialrpc.SocialRpc.AddTalk:output_type -> socialrpc.AddTalkResp
+	16, // 30: socialrpc.SocialRpc.UpdateTalk:output_type -> socialrpc.UpdateTalkResp
+	18, // 31: socialrpc.SocialRpc.DeletesTalk:output_type -> socialrpc.DeletesTalkResp
+	20, // 32: socialrpc.SocialRpc.GetTalk:output_type -> socialrpc.GetTalkListResp
+	22, // 33: socialrpc.SocialRpc.LikeTalk:output_type -> socialrpc.LikeTalkResp
+	25, // [25:34] is the sub-list for method output_type
+	16, // [16:25] is the sub-list for method input_type
+	16, // [16:16] is the sub-list for extension type_name
+	16, // [16:16] is the sub-list for extension extendee
+	0,  // [0:16] is the sub-list for field type_name
 }
 
 func init() { file_blog_social_proto_init() }
@@ -1714,13 +1514,14 @@ func file_blog_social_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_blog_social_proto_rawDesc), len(file_blog_social_proto_rawDesc)),
-			NumEnums:      0,
-			NumMessages:   26,
+			NumEnums:      1,
+			NumMessages:   22,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
 		GoTypes:           file_blog_social_proto_goTypes,
 		DependencyIndexes: file_blog_social_proto_depIdxs,
+		EnumInfos:         file_blog_social_proto_enumTypes,
 		MessageInfos:      file_blog_social_proto_msgTypes,
 	}.Build()
 	File_blog_social_proto = out.File

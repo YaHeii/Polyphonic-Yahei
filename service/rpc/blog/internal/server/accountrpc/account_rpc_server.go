@@ -131,18 +131,6 @@ func (s *AccountRpcServer) AdminUpdateUserStatus(ctx context.Context, in *accoun
 	return l.AdminUpdateUserStatus(in)
 }
 
-// 管理员重置用户密码
-func (s *AccountRpcServer) AdminResetUserPassword(ctx context.Context, in *accountrpc.AdminResetUserPasswordReq) (*accountrpc.AdminResetUserPasswordResp, error) {
-	l := accountrpclogic.NewAdminResetUserPasswordLogic(ctx, s.svcCtx)
-	return l.AdminResetUserPassword(in)
-}
-
-// 查找用户列表
-func (s *AccountRpcServer) FindUserList(ctx context.Context, in *accountrpc.FindUserListReq) (*accountrpc.FindUserListResp, error) {
-	l := accountrpclogic.NewFindUserListLogic(ctx, s.svcCtx)
-	return l.FindUserList(in)
-}
-
 // 查找用户信息列表
 func (s *AccountRpcServer) FindUserInfoList(ctx context.Context, in *accountrpc.FindUserListReq) (*accountrpc.FindUserInfoListResp, error) {
 	l := accountrpclogic.NewFindUserInfoListLogic(ctx, s.svcCtx)
@@ -165,12 +153,6 @@ func (s *AccountRpcServer) AnalysisUser(ctx context.Context, in *accountrpc.Anal
 func (s *AccountRpcServer) AnalysisUserAreas(ctx context.Context, in *accountrpc.AnalysisUserAreasReq) (*accountrpc.AnalysisUserAreasResp, error) {
 	l := accountrpclogic.NewAnalysisUserAreasLogic(ctx, s.svcCtx)
 	return l.AnalysisUserAreas(in)
-}
-
-// 获取客户端信息
-func (s *AccountRpcServer) GetClientInfo(ctx context.Context, in *accountrpc.GetClientInfoReq) (*accountrpc.GetClientInfoResp, error) {
-	l := accountrpclogic.NewGetClientInfoLogic(ctx, s.svcCtx)
-	return l.GetClientInfo(in)
 }
 
 // 查询游客信息

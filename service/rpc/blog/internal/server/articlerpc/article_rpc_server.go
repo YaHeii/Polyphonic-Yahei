@@ -23,7 +23,7 @@ func NewArticleRpcServer(svcCtx *svc.ServiceContext) *ArticleRpcServer {
 	}
 }
 
-// 分析文章数量
+// 分析站内文章数据
 func (s *ArticleRpcServer) AnalysisArticle(ctx context.Context, in *articlerpc.AnalysisArticleReq) (*articlerpc.AnalysisArticleResp, error) {
 	l := articlerpclogic.NewAnalysisArticleLogic(ctx, s.svcCtx)
 	return l.AnalysisArticle(in)
@@ -60,7 +60,7 @@ func (s *ArticleRpcServer) UpdateArticleTop(ctx context.Context, in *articlerpc.
 }
 
 // 删除文章
-func (s *ArticleRpcServer) DeletesArticle(ctx context.Context, in *articlerpc.DeletesArticleReq) (*articlerpc.DeletesArticleResp, error) {
+func (s *ArticleRpcServer) DeletesArticle(ctx context.Context, in *articlerpc.DeleteArticleReq) (*articlerpc.DeleteArticleResp, error) {
 	l := articlerpclogic.NewDeletesArticleLogic(ctx, s.svcCtx)
 	return l.DeletesArticle(in)
 }
@@ -81,12 +81,6 @@ func (s *ArticleRpcServer) GetArticleRelation(ctx context.Context, in *articlerp
 func (s *ArticleRpcServer) FindArticleList(ctx context.Context, in *articlerpc.FindArticleListReq) (*articlerpc.FindArticleListResp, error) {
 	l := articlerpclogic.NewFindArticleListLogic(ctx, s.svcCtx)
 	return l.FindArticleList(in)
-}
-
-// 查询文章列表
-func (s *ArticleRpcServer) FindArticlePreviewList(ctx context.Context, in *articlerpc.FindArticleListReq) (*articlerpc.FindArticlePreviewListResp, error) {
-	l := articlerpclogic.NewFindArticlePreviewListLogic(ctx, s.svcCtx)
-	return l.FindArticlePreviewList(in)
 }
 
 // 点赞文章
@@ -120,7 +114,7 @@ func (s *ArticleRpcServer) GetCategory(ctx context.Context, in *articlerpc.GetCa
 }
 
 // 删除文章分类
-func (s *ArticleRpcServer) DeletesCategory(ctx context.Context, in *articlerpc.DeletesCategoryReq) (*articlerpc.DeletesCategoryResp, error) {
+func (s *ArticleRpcServer) DeletesCategory(ctx context.Context, in *articlerpc.DeleteCategoryReq) (*articlerpc.DeleteCategoryResp, error) {
 	l := articlerpclogic.NewDeletesCategoryLogic(ctx, s.svcCtx)
 	return l.DeletesCategory(in)
 }

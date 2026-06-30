@@ -25,12 +25,58 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+// ************* 相册管理 *************
+type AlbumStatus int32
+
+const (
+	AlbumStatus_PUBLIC  AlbumStatus = 0
+	AlbumStatus_PRIVATE AlbumStatus = 1
+)
+
+// Enum value maps for AlbumStatus.
+var (
+	AlbumStatus_name = map[int32]string{
+		0: "PUBLIC",
+		1: "PRIVATE",
+	}
+	AlbumStatus_value = map[string]int32{
+		"PUBLIC":  0,
+		"PRIVATE": 1,
+	}
+)
+
+func (x AlbumStatus) Enum() *AlbumStatus {
+	p := new(AlbumStatus)
+	*p = x
+	return p
+}
+
+func (x AlbumStatus) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (AlbumStatus) Descriptor() protoreflect.EnumDescriptor {
+	return file_blog_resource_proto_enumTypes[0].Descriptor()
+}
+
+func (AlbumStatus) Type() protoreflect.EnumType {
+	return &file_blog_resource_proto_enumTypes[0]
+}
+
+func (x AlbumStatus) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use AlbumStatus.Descriptor instead.
+func (AlbumStatus) EnumDescriptor() ([]byte, []int) {
+	return file_blog_resource_proto_rawDescGZIP(), []int{0}
+}
+
 // 分页请求参数
 type PageReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Page          int64                  `protobuf:"varint,1,opt,name=page,proto3" json:"page,omitempty"`                         // 页码
 	PageSize      int64                  `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"` // 每页大小
-	Sorts         []string               `protobuf:"bytes,3,rep,name=sorts,proto3" json:"sorts,omitempty"`                        // 排序字段
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -77,13 +123,6 @@ func (x *PageReq) GetPageSize() int64 {
 		return x.PageSize
 	}
 	return 0
-}
-
-func (x *PageReq) GetSorts() []string {
-	if x != nil {
-		return x.Sorts
-	}
-	return nil
 }
 
 // 分页响应参数
@@ -150,14 +189,13 @@ func (x *PageResp) GetTotal() int64 {
 // ************* 照片管理 *************
 type Photo struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`                                // 主键
-	AlbumId       int64                  `protobuf:"varint,2,opt,name=album_id,json=albumId,proto3" json:"album_id,omitempty"`       // 相册id
-	PhotoName     string                 `protobuf:"bytes,3,opt,name=photo_name,json=photoName,proto3" json:"photo_name,omitempty"`  // 照片名
-	PhotoDesc     string                 `protobuf:"bytes,4,opt,name=photo_desc,json=photoDesc,proto3" json:"photo_desc,omitempty"`  // 照片描述
-	PhotoSrc      string                 `protobuf:"bytes,5,opt,name=photo_src,json=photoSrc,proto3" json:"photo_src,omitempty"`     // 照片地址
-	IsDelete      bool                   `protobuf:"varint,6,opt,name=is_delete,json=isDelete,proto3" json:"is_delete,omitempty"`    // 是否删除
-	CreatedAt     int64                  `protobuf:"varint,7,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"` // 创建时间
-	UpdatedAt     int64                  `protobuf:"varint,8,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"` // 更新时间
+	AlbumId       int64                  `protobuf:"varint,1,opt,name=album_id,json=albumId,proto3" json:"album_id,omitempty"`       // 相册id
+	PhotoName     string                 `protobuf:"bytes,2,opt,name=photo_name,json=photoName,proto3" json:"photo_name,omitempty"`  // 照片名
+	PhotoDesc     string                 `protobuf:"bytes,3,opt,name=photo_desc,json=photoDesc,proto3" json:"photo_desc,omitempty"`  // 照片描述
+	PhotoSrc      string                 `protobuf:"bytes,4,opt,name=photo_src,json=photoSrc,proto3" json:"photo_src,omitempty"`     // 照片地址
+	IsDelete      bool                   `protobuf:"varint,5,opt,name=is_delete,json=isDelete,proto3" json:"is_delete,omitempty"`    // 是否删除
+	CreatedAt     int64                  `protobuf:"varint,6,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"` // 创建时间
+	UpdatedAt     int64                  `protobuf:"varint,7,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"` // 更新时间
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -190,13 +228,6 @@ func (x *Photo) ProtoReflect() protoreflect.Message {
 // Deprecated: Use Photo.ProtoReflect.Descriptor instead.
 func (*Photo) Descriptor() ([]byte, []int) {
 	return file_blog_resource_proto_rawDescGZIP(), []int{2}
-}
-
-func (x *Photo) GetId() int64 {
-	if x != nil {
-		return x.Id
-	}
-	return 0
 }
 
 func (x *Photo) GetAlbumId() int64 {
@@ -250,12 +281,10 @@ func (x *Photo) GetUpdatedAt() int64 {
 
 type AddPhotoReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`                               // 主键
 	AlbumId       int64                  `protobuf:"varint,2,opt,name=album_id,json=albumId,proto3" json:"album_id,omitempty"`      // 相册id
 	PhotoName     string                 `protobuf:"bytes,3,opt,name=photo_name,json=photoName,proto3" json:"photo_name,omitempty"` // 照片名
 	PhotoDesc     string                 `protobuf:"bytes,4,opt,name=photo_desc,json=photoDesc,proto3" json:"photo_desc,omitempty"` // 照片描述
 	PhotoSrc      string                 `protobuf:"bytes,5,opt,name=photo_src,json=photoSrc,proto3" json:"photo_src,omitempty"`    // 照片地址
-	IsDelete      bool                   `protobuf:"varint,6,opt,name=is_delete,json=isDelete,proto3" json:"is_delete,omitempty"`   // 是否删除
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -290,13 +319,6 @@ func (*AddPhotoReq) Descriptor() ([]byte, []int) {
 	return file_blog_resource_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *AddPhotoReq) GetId() int64 {
-	if x != nil {
-		return x.Id
-	}
-	return 0
-}
-
 func (x *AddPhotoReq) GetAlbumId() int64 {
 	if x != nil {
 		return x.AlbumId
@@ -323,13 +345,6 @@ func (x *AddPhotoReq) GetPhotoSrc() string {
 		return x.PhotoSrc
 	}
 	return ""
-}
-
-func (x *AddPhotoReq) GetIsDelete() bool {
-	if x != nil {
-		return x.IsDelete
-	}
-	return false
 }
 
 type AddPhotoResp struct {
@@ -378,12 +393,10 @@ func (x *AddPhotoResp) GetPhoto() *Photo {
 
 type UpdatePhotoReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`                               // 主键
 	AlbumId       int64                  `protobuf:"varint,2,opt,name=album_id,json=albumId,proto3" json:"album_id,omitempty"`      // 相册id
 	PhotoName     string                 `protobuf:"bytes,3,opt,name=photo_name,json=photoName,proto3" json:"photo_name,omitempty"` // 照片名
 	PhotoDesc     string                 `protobuf:"bytes,4,opt,name=photo_desc,json=photoDesc,proto3" json:"photo_desc,omitempty"` // 照片描述
 	PhotoSrc      string                 `protobuf:"bytes,5,opt,name=photo_src,json=photoSrc,proto3" json:"photo_src,omitempty"`    // 照片地址
-	IsDelete      bool                   `protobuf:"varint,6,opt,name=is_delete,json=isDelete,proto3" json:"is_delete,omitempty"`   // 是否删除
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -418,13 +431,6 @@ func (*UpdatePhotoReq) Descriptor() ([]byte, []int) {
 	return file_blog_resource_proto_rawDescGZIP(), []int{5}
 }
 
-func (x *UpdatePhotoReq) GetId() int64 {
-	if x != nil {
-		return x.Id
-	}
-	return 0
-}
-
 func (x *UpdatePhotoReq) GetAlbumId() int64 {
 	if x != nil {
 		return x.AlbumId
@@ -451,13 +457,6 @@ func (x *UpdatePhotoReq) GetPhotoSrc() string {
 		return x.PhotoSrc
 	}
 	return ""
-}
-
-func (x *UpdatePhotoReq) GetIsDelete() bool {
-	if x != nil {
-		return x.IsDelete
-	}
-	return false
 }
 
 type UpdatePhotoResp struct {
@@ -506,8 +505,7 @@ func (x *UpdatePhotoResp) GetPhoto() *Photo {
 
 type UpdatePhotoDeleteReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Ids           []int64                `protobuf:"varint,1,rep,packed,name=ids,proto3" json:"ids,omitempty"`                    // id
-	IsDelete      bool                   `protobuf:"varint,2,opt,name=is_delete,json=isDelete,proto3" json:"is_delete,omitempty"` // 是否删除
+	PhotoName     string                 `protobuf:"bytes,1,opt,name=photo_name,json=photoName,proto3" json:"photo_name,omitempty"` // 照片名
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -542,23 +540,16 @@ func (*UpdatePhotoDeleteReq) Descriptor() ([]byte, []int) {
 	return file_blog_resource_proto_rawDescGZIP(), []int{7}
 }
 
-func (x *UpdatePhotoDeleteReq) GetIds() []int64 {
+func (x *UpdatePhotoDeleteReq) GetPhotoName() string {
 	if x != nil {
-		return x.Ids
+		return x.PhotoName
 	}
-	return nil
-}
-
-func (x *UpdatePhotoDeleteReq) GetIsDelete() bool {
-	if x != nil {
-		return x.IsDelete
-	}
-	return false
+	return ""
 }
 
 type UpdatePhotoDeleteResp struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	SuccessCount  int64                  `protobuf:"varint,1,opt,name=success_count,json=successCount,proto3" json:"success_count,omitempty"` // 成功数量
+	Photo         *Photo                 `protobuf:"bytes,1,opt,name=photo,proto3" json:"photo,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -593,16 +584,16 @@ func (*UpdatePhotoDeleteResp) Descriptor() ([]byte, []int) {
 	return file_blog_resource_proto_rawDescGZIP(), []int{8}
 }
 
-func (x *UpdatePhotoDeleteResp) GetSuccessCount() int64 {
+func (x *UpdatePhotoDeleteResp) GetPhoto() *Photo {
 	if x != nil {
-		return x.SuccessCount
+		return x.Photo
 	}
-	return 0
+	return nil
 }
 
 type DeletesPhotoReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Ids           []int64                `protobuf:"varint,1,rep,packed,name=ids,proto3" json:"ids,omitempty"` // id列表
+	Ids           []int64                `protobuf:"varint,1,rep,packed,name=ids,proto3" json:"ids,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -646,7 +637,7 @@ func (x *DeletesPhotoReq) GetIds() []int64 {
 
 type DeletesPhotoResp struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	SuccessCount  int64                  `protobuf:"varint,1,opt,name=success_count,json=successCount,proto3" json:"success_count,omitempty"` // 成功数量
+	SuccessCount  int64                  `protobuf:"varint,1,opt,name=success_count,json=successCount,proto3" json:"success_count,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -800,18 +791,16 @@ func (x *FindPhotoListResp) GetList() []*Photo {
 	return nil
 }
 
-// ************* 相册管理 *************
 type Album struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`                                   // 主键
-	AlbumName     string                 `protobuf:"bytes,2,opt,name=album_name,json=albumName,proto3" json:"album_name,omitempty"`     // 相册名
-	AlbumDesc     string                 `protobuf:"bytes,3,opt,name=album_desc,json=albumDesc,proto3" json:"album_desc,omitempty"`     // 相册描述
-	AlbumCover    string                 `protobuf:"bytes,4,opt,name=album_cover,json=albumCover,proto3" json:"album_cover,omitempty"`  // 相册封面
-	IsDelete      bool                   `protobuf:"varint,5,opt,name=is_delete,json=isDelete,proto3" json:"is_delete,omitempty"`       // 是否删除
-	Status        int64                  `protobuf:"varint,6,opt,name=status,proto3" json:"status,omitempty"`                           // 状态值 1公开 2私密
-	CreatedAt     int64                  `protobuf:"varint,7,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`    // 创建时间
-	UpdatedAt     int64                  `protobuf:"varint,8,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`    // 更新时间
-	PhotoCount    int64                  `protobuf:"varint,9,opt,name=photo_count,json=photoCount,proto3" json:"photo_count,omitempty"` // 照片数量
+	AlbumName     string                 `protobuf:"bytes,2,opt,name=album_name,json=albumName,proto3" json:"album_name,omitempty"`        // 相册名
+	AlbumDesc     string                 `protobuf:"bytes,3,opt,name=album_desc,json=albumDesc,proto3" json:"album_desc,omitempty"`        // 相册描述
+	AlbumCover    string                 `protobuf:"bytes,4,opt,name=album_cover,json=albumCover,proto3" json:"album_cover,omitempty"`     // 相册封面
+	IsDelete      bool                   `protobuf:"varint,5,opt,name=is_delete,json=isDelete,proto3" json:"is_delete,omitempty"`          // 是否删除
+	Status        AlbumStatus            `protobuf:"varint,6,opt,name=status,proto3,enum=resourcerpc.AlbumStatus" json:"status,omitempty"` // 状态值 0公开 1私密
+	CreatedAt     int64                  `protobuf:"varint,7,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`       // 创建时间
+	UpdatedAt     int64                  `protobuf:"varint,8,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`       // 更新时间
+	PhotoCount    int64                  `protobuf:"varint,9,opt,name=photo_count,json=photoCount,proto3" json:"photo_count,omitempty"`    // 照片数量
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -846,13 +835,6 @@ func (*Album) Descriptor() ([]byte, []int) {
 	return file_blog_resource_proto_rawDescGZIP(), []int{13}
 }
 
-func (x *Album) GetId() int64 {
-	if x != nil {
-		return x.Id
-	}
-	return 0
-}
-
 func (x *Album) GetAlbumName() string {
 	if x != nil {
 		return x.AlbumName
@@ -881,11 +863,11 @@ func (x *Album) GetIsDelete() bool {
 	return false
 }
 
-func (x *Album) GetStatus() int64 {
+func (x *Album) GetStatus() AlbumStatus {
 	if x != nil {
 		return x.Status
 	}
-	return 0
+	return AlbumStatus_PUBLIC
 }
 
 func (x *Album) GetCreatedAt() int64 {
@@ -911,12 +893,11 @@ func (x *Album) GetPhotoCount() int64 {
 
 type AddAlbumReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`                                  // 主键
-	AlbumName     string                 `protobuf:"bytes,2,opt,name=album_name,json=albumName,proto3" json:"album_name,omitempty"`    // 相册名
-	AlbumDesc     string                 `protobuf:"bytes,3,opt,name=album_desc,json=albumDesc,proto3" json:"album_desc,omitempty"`    // 相册描述
-	AlbumCover    string                 `protobuf:"bytes,4,opt,name=album_cover,json=albumCover,proto3" json:"album_cover,omitempty"` // 相册封面
-	IsDelete      bool                   `protobuf:"varint,5,opt,name=is_delete,json=isDelete,proto3" json:"is_delete,omitempty"`      // 是否删除
-	Status        int64                  `protobuf:"varint,6,opt,name=status,proto3" json:"status,omitempty"`                          // 状态值 1公开 2私密
+	AlbumName     string                 `protobuf:"bytes,2,opt,name=album_name,json=albumName,proto3" json:"album_name,omitempty"`        // 相册名
+	AlbumDesc     string                 `protobuf:"bytes,3,opt,name=album_desc,json=albumDesc,proto3" json:"album_desc,omitempty"`        // 相册描述
+	AlbumCover    string                 `protobuf:"bytes,4,opt,name=album_cover,json=albumCover,proto3" json:"album_cover,omitempty"`     // 相册封面
+	IsDelete      bool                   `protobuf:"varint,5,opt,name=is_delete,json=isDelete,proto3" json:"is_delete,omitempty"`          // 是否删除
+	Status        AlbumStatus            `protobuf:"varint,6,opt,name=status,proto3,enum=resourcerpc.AlbumStatus" json:"status,omitempty"` // 状态值 0公开 1私密
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -951,13 +932,6 @@ func (*AddAlbumReq) Descriptor() ([]byte, []int) {
 	return file_blog_resource_proto_rawDescGZIP(), []int{14}
 }
 
-func (x *AddAlbumReq) GetId() int64 {
-	if x != nil {
-		return x.Id
-	}
-	return 0
-}
-
 func (x *AddAlbumReq) GetAlbumName() string {
 	if x != nil {
 		return x.AlbumName
@@ -986,11 +960,11 @@ func (x *AddAlbumReq) GetIsDelete() bool {
 	return false
 }
 
-func (x *AddAlbumReq) GetStatus() int64 {
+func (x *AddAlbumReq) GetStatus() AlbumStatus {
 	if x != nil {
 		return x.Status
 	}
-	return 0
+	return AlbumStatus_PUBLIC
 }
 
 type AddAlbumResp struct {
@@ -1039,12 +1013,11 @@ func (x *AddAlbumResp) GetAlbum() *Album {
 
 type UpdateAlbumReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`                                  // 主键
-	AlbumName     string                 `protobuf:"bytes,2,opt,name=album_name,json=albumName,proto3" json:"album_name,omitempty"`    // 相册名
-	AlbumDesc     string                 `protobuf:"bytes,3,opt,name=album_desc,json=albumDesc,proto3" json:"album_desc,omitempty"`    // 相册描述
-	AlbumCover    string                 `protobuf:"bytes,4,opt,name=album_cover,json=albumCover,proto3" json:"album_cover,omitempty"` // 相册封面
-	IsDelete      bool                   `protobuf:"varint,5,opt,name=is_delete,json=isDelete,proto3" json:"is_delete,omitempty"`      // 是否删除
-	Status        int64                  `protobuf:"varint,6,opt,name=status,proto3" json:"status,omitempty"`                          // 状态值 1公开 2私密
+	AlbumName     string                 `protobuf:"bytes,2,opt,name=album_name,json=albumName,proto3" json:"album_name,omitempty"`        // 相册名
+	AlbumDesc     string                 `protobuf:"bytes,3,opt,name=album_desc,json=albumDesc,proto3" json:"album_desc,omitempty"`        // 相册描述
+	AlbumCover    string                 `protobuf:"bytes,4,opt,name=album_cover,json=albumCover,proto3" json:"album_cover,omitempty"`     // 相册封面
+	IsDelete      bool                   `protobuf:"varint,5,opt,name=is_delete,json=isDelete,proto3" json:"is_delete,omitempty"`          // 是否删除
+	Status        AlbumStatus            `protobuf:"varint,6,opt,name=status,proto3,enum=resourcerpc.AlbumStatus" json:"status,omitempty"` // 状态值状态值 0公开 1私密
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1079,13 +1052,6 @@ func (*UpdateAlbumReq) Descriptor() ([]byte, []int) {
 	return file_blog_resource_proto_rawDescGZIP(), []int{16}
 }
 
-func (x *UpdateAlbumReq) GetId() int64 {
-	if x != nil {
-		return x.Id
-	}
-	return 0
-}
-
 func (x *UpdateAlbumReq) GetAlbumName() string {
 	if x != nil {
 		return x.AlbumName
@@ -1114,11 +1080,11 @@ func (x *UpdateAlbumReq) GetIsDelete() bool {
 	return false
 }
 
-func (x *UpdateAlbumReq) GetStatus() int64 {
+func (x *UpdateAlbumReq) GetStatus() AlbumStatus {
 	if x != nil {
 		return x.Status
 	}
-	return 0
+	return AlbumStatus_PUBLIC
 }
 
 type UpdateAlbumResp struct {
@@ -1167,7 +1133,7 @@ func (x *UpdateAlbumResp) GetAlbum() *Album {
 
 type UpdateAlbumDeleteReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Ids           []int64                `protobuf:"varint,1,rep,packed,name=ids,proto3" json:"ids,omitempty"`                    // 相册id
+	AlbumName     string                 `protobuf:"bytes,1,opt,name=album_name,json=albumName,proto3" json:"album_name,omitempty"`
 	IsDelete      bool                   `protobuf:"varint,2,opt,name=is_delete,json=isDelete,proto3" json:"is_delete,omitempty"` // 是否删除
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -1203,11 +1169,11 @@ func (*UpdateAlbumDeleteReq) Descriptor() ([]byte, []int) {
 	return file_blog_resource_proto_rawDescGZIP(), []int{18}
 }
 
-func (x *UpdateAlbumDeleteReq) GetIds() []int64 {
+func (x *UpdateAlbumDeleteReq) GetAlbumName() string {
 	if x != nil {
-		return x.Ids
+		return x.AlbumName
 	}
-	return nil
+	return ""
 }
 
 func (x *UpdateAlbumDeleteReq) GetIsDelete() bool {
@@ -1219,7 +1185,7 @@ func (x *UpdateAlbumDeleteReq) GetIsDelete() bool {
 
 type UpdateAlbumDeleteResp struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	SuccessCount  int64                  `protobuf:"varint,1,opt,name=success_count,json=successCount,proto3" json:"success_count,omitempty"` // 成功数量
+	Album         *Album                 `protobuf:"bytes,1,opt,name=album,proto3" json:"album,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1254,16 +1220,16 @@ func (*UpdateAlbumDeleteResp) Descriptor() ([]byte, []int) {
 	return file_blog_resource_proto_rawDescGZIP(), []int{19}
 }
 
-func (x *UpdateAlbumDeleteResp) GetSuccessCount() int64 {
+func (x *UpdateAlbumDeleteResp) GetAlbum() *Album {
 	if x != nil {
-		return x.SuccessCount
+		return x.Album
 	}
-	return 0
+	return nil
 }
 
 type GetAlbumReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"` // 相册id
+	AlbumName     string                 `protobuf:"bytes,1,opt,name=album_name,json=albumName,proto3" json:"album_name,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1298,11 +1264,11 @@ func (*GetAlbumReq) Descriptor() ([]byte, []int) {
 	return file_blog_resource_proto_rawDescGZIP(), []int{20}
 }
 
-func (x *GetAlbumReq) GetId() int64 {
+func (x *GetAlbumReq) GetAlbumName() string {
 	if x != nil {
-		return x.Id
+		return x.AlbumName
 	}
-	return 0
+	return ""
 }
 
 type GetAlbumResp struct {
@@ -1351,7 +1317,7 @@ func (x *GetAlbumResp) GetAlbum() *Album {
 
 type DeletesAlbumReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Ids           []int64                `protobuf:"varint,1,rep,packed,name=ids,proto3" json:"ids,omitempty"` // id列表
+	AlbumName     string                 `protobuf:"bytes,1,opt,name=album_name,json=albumName,proto3" json:"album_name,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1386,16 +1352,16 @@ func (*DeletesAlbumReq) Descriptor() ([]byte, []int) {
 	return file_blog_resource_proto_rawDescGZIP(), []int{22}
 }
 
-func (x *DeletesAlbumReq) GetIds() []int64 {
+func (x *DeletesAlbumReq) GetAlbumName() string {
 	if x != nil {
-		return x.Ids
+		return x.AlbumName
 	}
-	return nil
+	return ""
 }
 
 type DeletesAlbumResp struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	SuccessCount  int64                  `protobuf:"varint,1,opt,name=success_count,json=successCount,proto3" json:"success_count,omitempty"` // 成功数量
+	Album         *Album                 `protobuf:"bytes,1,opt,name=album,proto3" json:"album,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1430,11 +1396,11 @@ func (*DeletesAlbumResp) Descriptor() ([]byte, []int) {
 	return file_blog_resource_proto_rawDescGZIP(), []int{23}
 }
 
-func (x *DeletesAlbumResp) GetSuccessCount() int64 {
+func (x *DeletesAlbumResp) GetAlbum() *Album {
 	if x != nil {
-		return x.SuccessCount
+		return x.Album
 	}
-	return 0
+	return nil
 }
 
 type FindAlbumListReq struct {
@@ -1553,55 +1519,49 @@ var File_blog_resource_proto protoreflect.FileDescriptor
 
 const file_blog_resource_proto_rawDesc = "" +
 	"\n" +
-	"\x13blog/resource.proto\x12\vresourcerpc\"P\n" +
+	"\x13blog/resource.proto\x12\vresourcerpc\":\n" +
 	"\aPageReq\x12\x12\n" +
 	"\x04page\x18\x01 \x01(\x03R\x04page\x12\x1b\n" +
-	"\tpage_size\x18\x02 \x01(\x03R\bpageSize\x12\x14\n" +
-	"\x05sorts\x18\x03 \x03(\tR\x05sorts\"Q\n" +
+	"\tpage_size\x18\x02 \x01(\x03R\bpageSize\"Q\n" +
 	"\bPageResp\x12\x12\n" +
 	"\x04page\x18\x01 \x01(\x03R\x04page\x12\x1b\n" +
 	"\tpage_size\x18\x02 \x01(\x03R\bpageSize\x12\x14\n" +
-	"\x05total\x18\x03 \x01(\x03R\x05total\"\xe8\x01\n" +
-	"\x05Photo\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x19\n" +
+	"\x05total\x18\x03 \x01(\x03R\x05total\"\xd8\x01\n" +
+	"\x05Photo\x12\x19\n" +
+	"\balbum_id\x18\x01 \x01(\x03R\aalbumId\x12\x1d\n" +
+	"\n" +
+	"photo_name\x18\x02 \x01(\tR\tphotoName\x12\x1d\n" +
+	"\n" +
+	"photo_desc\x18\x03 \x01(\tR\tphotoDesc\x12\x1b\n" +
+	"\tphoto_src\x18\x04 \x01(\tR\bphotoSrc\x12\x1b\n" +
+	"\tis_delete\x18\x05 \x01(\bR\bisDelete\x12\x1d\n" +
+	"\n" +
+	"created_at\x18\x06 \x01(\x03R\tcreatedAt\x12\x1d\n" +
+	"\n" +
+	"updated_at\x18\a \x01(\x03R\tupdatedAt\"\x83\x01\n" +
+	"\vAddPhotoReq\x12\x19\n" +
 	"\balbum_id\x18\x02 \x01(\x03R\aalbumId\x12\x1d\n" +
 	"\n" +
 	"photo_name\x18\x03 \x01(\tR\tphotoName\x12\x1d\n" +
 	"\n" +
 	"photo_desc\x18\x04 \x01(\tR\tphotoDesc\x12\x1b\n" +
-	"\tphoto_src\x18\x05 \x01(\tR\bphotoSrc\x12\x1b\n" +
-	"\tis_delete\x18\x06 \x01(\bR\bisDelete\x12\x1d\n" +
-	"\n" +
-	"created_at\x18\a \x01(\x03R\tcreatedAt\x12\x1d\n" +
-	"\n" +
-	"updated_at\x18\b \x01(\x03R\tupdatedAt\"\xb0\x01\n" +
-	"\vAddPhotoReq\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x19\n" +
-	"\balbum_id\x18\x02 \x01(\x03R\aalbumId\x12\x1d\n" +
-	"\n" +
-	"photo_name\x18\x03 \x01(\tR\tphotoName\x12\x1d\n" +
-	"\n" +
-	"photo_desc\x18\x04 \x01(\tR\tphotoDesc\x12\x1b\n" +
-	"\tphoto_src\x18\x05 \x01(\tR\bphotoSrc\x12\x1b\n" +
-	"\tis_delete\x18\x06 \x01(\bR\bisDelete\"8\n" +
+	"\tphoto_src\x18\x05 \x01(\tR\bphotoSrc\"8\n" +
 	"\fAddPhotoResp\x12(\n" +
-	"\x05photo\x18\x01 \x01(\v2\x12.resourcerpc.PhotoR\x05photo\"\xb3\x01\n" +
-	"\x0eUpdatePhotoReq\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x19\n" +
+	"\x05photo\x18\x01 \x01(\v2\x12.resourcerpc.PhotoR\x05photo\"\x86\x01\n" +
+	"\x0eUpdatePhotoReq\x12\x19\n" +
 	"\balbum_id\x18\x02 \x01(\x03R\aalbumId\x12\x1d\n" +
 	"\n" +
 	"photo_name\x18\x03 \x01(\tR\tphotoName\x12\x1d\n" +
 	"\n" +
 	"photo_desc\x18\x04 \x01(\tR\tphotoDesc\x12\x1b\n" +
-	"\tphoto_src\x18\x05 \x01(\tR\bphotoSrc\x12\x1b\n" +
-	"\tis_delete\x18\x06 \x01(\bR\bisDelete\";\n" +
+	"\tphoto_src\x18\x05 \x01(\tR\bphotoSrc\";\n" +
 	"\x0fUpdatePhotoResp\x12(\n" +
-	"\x05photo\x18\x01 \x01(\v2\x12.resourcerpc.PhotoR\x05photo\"E\n" +
-	"\x14UpdatePhotoDeleteReq\x12\x10\n" +
-	"\x03ids\x18\x01 \x03(\x03R\x03ids\x12\x1b\n" +
-	"\tis_delete\x18\x02 \x01(\bR\bisDelete\"<\n" +
-	"\x15UpdatePhotoDeleteResp\x12#\n" +
-	"\rsuccess_count\x18\x01 \x01(\x03R\fsuccessCount\"#\n" +
+	"\x05photo\x18\x01 \x01(\v2\x12.resourcerpc.PhotoR\x05photo\"5\n" +
+	"\x14UpdatePhotoDeleteReq\x12\x1d\n" +
+	"\n" +
+	"photo_name\x18\x01 \x01(\tR\tphotoName\"A\n" +
+	"\x15UpdatePhotoDeleteResp\x12(\n" +
+	"\x05photo\x18\x01 \x01(\v2\x12.resourcerpc.PhotoR\x05photo\"#\n" +
 	"\x0fDeletesPhotoReq\x12\x10\n" +
 	"\x03ids\x18\x01 \x03(\x03R\x03ids\"7\n" +
 	"\x10DeletesPhotoResp\x12#\n" +
@@ -1616,60 +1576,60 @@ const file_blog_resource_proto_rawDesc = "" +
 	"\n" +
 	"pagination\x18\x01 \x01(\v2\x15.resourcerpc.PageRespR\n" +
 	"pagination\x12&\n" +
-	"\x04list\x18\x02 \x03(\v2\x12.resourcerpc.PhotoR\x04list\"\x8a\x02\n" +
-	"\x05Album\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x1d\n" +
+	"\x04list\x18\x02 \x03(\v2\x12.resourcerpc.PhotoR\x04list\"\x94\x02\n" +
+	"\x05Album\x12\x1d\n" +
 	"\n" +
 	"album_name\x18\x02 \x01(\tR\talbumName\x12\x1d\n" +
 	"\n" +
 	"album_desc\x18\x03 \x01(\tR\talbumDesc\x12\x1f\n" +
 	"\valbum_cover\x18\x04 \x01(\tR\n" +
 	"albumCover\x12\x1b\n" +
-	"\tis_delete\x18\x05 \x01(\bR\bisDelete\x12\x16\n" +
-	"\x06status\x18\x06 \x01(\x03R\x06status\x12\x1d\n" +
+	"\tis_delete\x18\x05 \x01(\bR\bisDelete\x120\n" +
+	"\x06status\x18\x06 \x01(\x0e2\x18.resourcerpc.albumStatusR\x06status\x12\x1d\n" +
 	"\n" +
 	"created_at\x18\a \x01(\x03R\tcreatedAt\x12\x1d\n" +
 	"\n" +
 	"updated_at\x18\b \x01(\x03R\tupdatedAt\x12\x1f\n" +
 	"\vphoto_count\x18\t \x01(\x03R\n" +
-	"photoCount\"\xb1\x01\n" +
-	"\vAddAlbumReq\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x1d\n" +
+	"photoCount\"\xbb\x01\n" +
+	"\vAddAlbumReq\x12\x1d\n" +
 	"\n" +
 	"album_name\x18\x02 \x01(\tR\talbumName\x12\x1d\n" +
 	"\n" +
 	"album_desc\x18\x03 \x01(\tR\talbumDesc\x12\x1f\n" +
 	"\valbum_cover\x18\x04 \x01(\tR\n" +
 	"albumCover\x12\x1b\n" +
-	"\tis_delete\x18\x05 \x01(\bR\bisDelete\x12\x16\n" +
-	"\x06status\x18\x06 \x01(\x03R\x06status\"8\n" +
+	"\tis_delete\x18\x05 \x01(\bR\bisDelete\x120\n" +
+	"\x06status\x18\x06 \x01(\x0e2\x18.resourcerpc.albumStatusR\x06status\"8\n" +
 	"\fAddAlbumResp\x12(\n" +
-	"\x05album\x18\x01 \x01(\v2\x12.resourcerpc.AlbumR\x05album\"\xb4\x01\n" +
-	"\x0eUpdateAlbumReq\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x1d\n" +
+	"\x05album\x18\x01 \x01(\v2\x12.resourcerpc.AlbumR\x05album\"\xbe\x01\n" +
+	"\x0eUpdateAlbumReq\x12\x1d\n" +
 	"\n" +
 	"album_name\x18\x02 \x01(\tR\talbumName\x12\x1d\n" +
 	"\n" +
 	"album_desc\x18\x03 \x01(\tR\talbumDesc\x12\x1f\n" +
 	"\valbum_cover\x18\x04 \x01(\tR\n" +
 	"albumCover\x12\x1b\n" +
-	"\tis_delete\x18\x05 \x01(\bR\bisDelete\x12\x16\n" +
-	"\x06status\x18\x06 \x01(\x03R\x06status\";\n" +
+	"\tis_delete\x18\x05 \x01(\bR\bisDelete\x120\n" +
+	"\x06status\x18\x06 \x01(\x0e2\x18.resourcerpc.albumStatusR\x06status\";\n" +
 	"\x0fUpdateAlbumResp\x12(\n" +
-	"\x05album\x18\x01 \x01(\v2\x12.resourcerpc.AlbumR\x05album\"E\n" +
-	"\x14UpdateAlbumDeleteReq\x12\x10\n" +
-	"\x03ids\x18\x01 \x03(\x03R\x03ids\x12\x1b\n" +
-	"\tis_delete\x18\x02 \x01(\bR\bisDelete\"<\n" +
-	"\x15UpdateAlbumDeleteResp\x12#\n" +
-	"\rsuccess_count\x18\x01 \x01(\x03R\fsuccessCount\"\x1d\n" +
-	"\vGetAlbumReq\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\"8\n" +
+	"\x05album\x18\x01 \x01(\v2\x12.resourcerpc.AlbumR\x05album\"R\n" +
+	"\x14UpdateAlbumDeleteReq\x12\x1d\n" +
+	"\n" +
+	"album_name\x18\x01 \x01(\tR\talbumName\x12\x1b\n" +
+	"\tis_delete\x18\x02 \x01(\bR\bisDelete\"A\n" +
+	"\x15UpdateAlbumDeleteResp\x12(\n" +
+	"\x05album\x18\x01 \x01(\v2\x12.resourcerpc.AlbumR\x05album\",\n" +
+	"\vGetAlbumReq\x12\x1d\n" +
+	"\n" +
+	"album_name\x18\x01 \x01(\tR\talbumName\"8\n" +
 	"\fGetAlbumResp\x12(\n" +
-	"\x05album\x18\x01 \x01(\v2\x12.resourcerpc.AlbumR\x05album\"#\n" +
-	"\x0fDeletesAlbumReq\x12\x10\n" +
-	"\x03ids\x18\x01 \x03(\x03R\x03ids\"7\n" +
-	"\x10DeletesAlbumResp\x12#\n" +
-	"\rsuccess_count\x18\x01 \x01(\x03R\fsuccessCount\"\x93\x01\n" +
+	"\x05album\x18\x01 \x01(\v2\x12.resourcerpc.AlbumR\x05album\"0\n" +
+	"\x0fDeletesAlbumReq\x12\x1d\n" +
+	"\n" +
+	"album_name\x18\x01 \x01(\tR\talbumName\"<\n" +
+	"\x10DeletesAlbumResp\x12(\n" +
+	"\x05album\x18\x01 \x01(\v2\x12.resourcerpc.AlbumR\x05album\"\x93\x01\n" +
 	"\x10FindAlbumListReq\x120\n" +
 	"\bpaginate\x18\x01 \x01(\v2\x14.resourcerpc.PageReqR\bpaginate\x12\x1d\n" +
 	"\n" +
@@ -1681,7 +1641,11 @@ const file_blog_resource_proto_rawDesc = "" +
 	"\n" +
 	"pagination\x18\x01 \x01(\v2\x15.resourcerpc.PageRespR\n" +
 	"pagination\x12&\n" +
-	"\x04list\x18\x02 \x03(\v2\x12.resourcerpc.AlbumR\x04list2\xd6\x06\n" +
+	"\x04list\x18\x02 \x03(\v2\x12.resourcerpc.AlbumR\x04list*&\n" +
+	"\valbumStatus\x12\n" +
+	"\n" +
+	"\x06PUBLIC\x10\x00\x12\v\n" +
+	"\aPRIVATE\x10\x012\xd6\x06\n" +
 	"\vResourceRpc\x12?\n" +
 	"\bAddPhoto\x12\x18.resourcerpc.AddPhotoReq\x1a\x19.resourcerpc.AddPhotoResp\x12H\n" +
 	"\vUpdatePhoto\x12\x1b.resourcerpc.UpdatePhotoReq\x1a\x1c.resourcerpc.UpdatePhotoResp\x12Z\n" +
@@ -1707,74 +1671,82 @@ func file_blog_resource_proto_rawDescGZIP() []byte {
 	return file_blog_resource_proto_rawDescData
 }
 
+var file_blog_resource_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_blog_resource_proto_msgTypes = make([]protoimpl.MessageInfo, 26)
 var file_blog_resource_proto_goTypes = []any{
-	(*PageReq)(nil),               // 0: resourcerpc.PageReq
-	(*PageResp)(nil),              // 1: resourcerpc.PageResp
-	(*Photo)(nil),                 // 2: resourcerpc.Photo
-	(*AddPhotoReq)(nil),           // 3: resourcerpc.AddPhotoReq
-	(*AddPhotoResp)(nil),          // 4: resourcerpc.AddPhotoResp
-	(*UpdatePhotoReq)(nil),        // 5: resourcerpc.UpdatePhotoReq
-	(*UpdatePhotoResp)(nil),       // 6: resourcerpc.UpdatePhotoResp
-	(*UpdatePhotoDeleteReq)(nil),  // 7: resourcerpc.UpdatePhotoDeleteReq
-	(*UpdatePhotoDeleteResp)(nil), // 8: resourcerpc.UpdatePhotoDeleteResp
-	(*DeletesPhotoReq)(nil),       // 9: resourcerpc.DeletesPhotoReq
-	(*DeletesPhotoResp)(nil),      // 10: resourcerpc.DeletesPhotoResp
-	(*FindPhotoListReq)(nil),      // 11: resourcerpc.FindPhotoListReq
-	(*FindPhotoListResp)(nil),     // 12: resourcerpc.FindPhotoListResp
-	(*Album)(nil),                 // 13: resourcerpc.Album
-	(*AddAlbumReq)(nil),           // 14: resourcerpc.AddAlbumReq
-	(*AddAlbumResp)(nil),          // 15: resourcerpc.AddAlbumResp
-	(*UpdateAlbumReq)(nil),        // 16: resourcerpc.UpdateAlbumReq
-	(*UpdateAlbumResp)(nil),       // 17: resourcerpc.UpdateAlbumResp
-	(*UpdateAlbumDeleteReq)(nil),  // 18: resourcerpc.UpdateAlbumDeleteReq
-	(*UpdateAlbumDeleteResp)(nil), // 19: resourcerpc.UpdateAlbumDeleteResp
-	(*GetAlbumReq)(nil),           // 20: resourcerpc.GetAlbumReq
-	(*GetAlbumResp)(nil),          // 21: resourcerpc.GetAlbumResp
-	(*DeletesAlbumReq)(nil),       // 22: resourcerpc.DeletesAlbumReq
-	(*DeletesAlbumResp)(nil),      // 23: resourcerpc.DeletesAlbumResp
-	(*FindAlbumListReq)(nil),      // 24: resourcerpc.FindAlbumListReq
-	(*FindAlbumListResp)(nil),     // 25: resourcerpc.FindAlbumListResp
+	(AlbumStatus)(0),              // 0: resourcerpc.albumStatus
+	(*PageReq)(nil),               // 1: resourcerpc.PageReq
+	(*PageResp)(nil),              // 2: resourcerpc.PageResp
+	(*Photo)(nil),                 // 3: resourcerpc.Photo
+	(*AddPhotoReq)(nil),           // 4: resourcerpc.AddPhotoReq
+	(*AddPhotoResp)(nil),          // 5: resourcerpc.AddPhotoResp
+	(*UpdatePhotoReq)(nil),        // 6: resourcerpc.UpdatePhotoReq
+	(*UpdatePhotoResp)(nil),       // 7: resourcerpc.UpdatePhotoResp
+	(*UpdatePhotoDeleteReq)(nil),  // 8: resourcerpc.UpdatePhotoDeleteReq
+	(*UpdatePhotoDeleteResp)(nil), // 9: resourcerpc.UpdatePhotoDeleteResp
+	(*DeletesPhotoReq)(nil),       // 10: resourcerpc.DeletesPhotoReq
+	(*DeletesPhotoResp)(nil),      // 11: resourcerpc.DeletesPhotoResp
+	(*FindPhotoListReq)(nil),      // 12: resourcerpc.FindPhotoListReq
+	(*FindPhotoListResp)(nil),     // 13: resourcerpc.FindPhotoListResp
+	(*Album)(nil),                 // 14: resourcerpc.Album
+	(*AddAlbumReq)(nil),           // 15: resourcerpc.AddAlbumReq
+	(*AddAlbumResp)(nil),          // 16: resourcerpc.AddAlbumResp
+	(*UpdateAlbumReq)(nil),        // 17: resourcerpc.UpdateAlbumReq
+	(*UpdateAlbumResp)(nil),       // 18: resourcerpc.UpdateAlbumResp
+	(*UpdateAlbumDeleteReq)(nil),  // 19: resourcerpc.UpdateAlbumDeleteReq
+	(*UpdateAlbumDeleteResp)(nil), // 20: resourcerpc.UpdateAlbumDeleteResp
+	(*GetAlbumReq)(nil),           // 21: resourcerpc.GetAlbumReq
+	(*GetAlbumResp)(nil),          // 22: resourcerpc.GetAlbumResp
+	(*DeletesAlbumReq)(nil),       // 23: resourcerpc.DeletesAlbumReq
+	(*DeletesAlbumResp)(nil),      // 24: resourcerpc.DeletesAlbumResp
+	(*FindAlbumListReq)(nil),      // 25: resourcerpc.FindAlbumListReq
+	(*FindAlbumListResp)(nil),     // 26: resourcerpc.FindAlbumListResp
 }
 var file_blog_resource_proto_depIdxs = []int32{
-	2,  // 0: resourcerpc.AddPhotoResp.photo:type_name -> resourcerpc.Photo
-	2,  // 1: resourcerpc.UpdatePhotoResp.photo:type_name -> resourcerpc.Photo
-	0,  // 2: resourcerpc.FindPhotoListReq.paginate:type_name -> resourcerpc.PageReq
-	1,  // 3: resourcerpc.FindPhotoListResp.pagination:type_name -> resourcerpc.PageResp
-	2,  // 4: resourcerpc.FindPhotoListResp.list:type_name -> resourcerpc.Photo
-	13, // 5: resourcerpc.AddAlbumResp.album:type_name -> resourcerpc.Album
-	13, // 6: resourcerpc.UpdateAlbumResp.album:type_name -> resourcerpc.Album
-	13, // 7: resourcerpc.GetAlbumResp.album:type_name -> resourcerpc.Album
-	0,  // 8: resourcerpc.FindAlbumListReq.paginate:type_name -> resourcerpc.PageReq
-	1,  // 9: resourcerpc.FindAlbumListResp.pagination:type_name -> resourcerpc.PageResp
-	13, // 10: resourcerpc.FindAlbumListResp.list:type_name -> resourcerpc.Album
-	3,  // 11: resourcerpc.ResourceRpc.AddPhoto:input_type -> resourcerpc.AddPhotoReq
-	5,  // 12: resourcerpc.ResourceRpc.UpdatePhoto:input_type -> resourcerpc.UpdatePhotoReq
-	7,  // 13: resourcerpc.ResourceRpc.UpdatePhotoDelete:input_type -> resourcerpc.UpdatePhotoDeleteReq
-	9,  // 14: resourcerpc.ResourceRpc.DeletesPhoto:input_type -> resourcerpc.DeletesPhotoReq
-	11, // 15: resourcerpc.ResourceRpc.FindPhotoList:input_type -> resourcerpc.FindPhotoListReq
-	14, // 16: resourcerpc.ResourceRpc.AddAlbum:input_type -> resourcerpc.AddAlbumReq
-	16, // 17: resourcerpc.ResourceRpc.UpdateAlbum:input_type -> resourcerpc.UpdateAlbumReq
-	18, // 18: resourcerpc.ResourceRpc.UpdateAlbumDelete:input_type -> resourcerpc.UpdateAlbumDeleteReq
-	20, // 19: resourcerpc.ResourceRpc.GetAlbum:input_type -> resourcerpc.GetAlbumReq
-	22, // 20: resourcerpc.ResourceRpc.DeletesAlbum:input_type -> resourcerpc.DeletesAlbumReq
-	24, // 21: resourcerpc.ResourceRpc.FindAlbumList:input_type -> resourcerpc.FindAlbumListReq
-	4,  // 22: resourcerpc.ResourceRpc.AddPhoto:output_type -> resourcerpc.AddPhotoResp
-	6,  // 23: resourcerpc.ResourceRpc.UpdatePhoto:output_type -> resourcerpc.UpdatePhotoResp
-	8,  // 24: resourcerpc.ResourceRpc.UpdatePhotoDelete:output_type -> resourcerpc.UpdatePhotoDeleteResp
-	10, // 25: resourcerpc.ResourceRpc.DeletesPhoto:output_type -> resourcerpc.DeletesPhotoResp
-	12, // 26: resourcerpc.ResourceRpc.FindPhotoList:output_type -> resourcerpc.FindPhotoListResp
-	15, // 27: resourcerpc.ResourceRpc.AddAlbum:output_type -> resourcerpc.AddAlbumResp
-	17, // 28: resourcerpc.ResourceRpc.UpdateAlbum:output_type -> resourcerpc.UpdateAlbumResp
-	19, // 29: resourcerpc.ResourceRpc.UpdateAlbumDelete:output_type -> resourcerpc.UpdateAlbumDeleteResp
-	21, // 30: resourcerpc.ResourceRpc.GetAlbum:output_type -> resourcerpc.GetAlbumResp
-	23, // 31: resourcerpc.ResourceRpc.DeletesAlbum:output_type -> resourcerpc.DeletesAlbumResp
-	25, // 32: resourcerpc.ResourceRpc.FindAlbumList:output_type -> resourcerpc.FindAlbumListResp
-	22, // [22:33] is the sub-list for method output_type
-	11, // [11:22] is the sub-list for method input_type
-	11, // [11:11] is the sub-list for extension type_name
-	11, // [11:11] is the sub-list for extension extendee
-	0,  // [0:11] is the sub-list for field type_name
+	3,  // 0: resourcerpc.AddPhotoResp.photo:type_name -> resourcerpc.Photo
+	3,  // 1: resourcerpc.UpdatePhotoResp.photo:type_name -> resourcerpc.Photo
+	3,  // 2: resourcerpc.UpdatePhotoDeleteResp.photo:type_name -> resourcerpc.Photo
+	1,  // 3: resourcerpc.FindPhotoListReq.paginate:type_name -> resourcerpc.PageReq
+	2,  // 4: resourcerpc.FindPhotoListResp.pagination:type_name -> resourcerpc.PageResp
+	3,  // 5: resourcerpc.FindPhotoListResp.list:type_name -> resourcerpc.Photo
+	0,  // 6: resourcerpc.Album.status:type_name -> resourcerpc.albumStatus
+	0,  // 7: resourcerpc.AddAlbumReq.status:type_name -> resourcerpc.albumStatus
+	14, // 8: resourcerpc.AddAlbumResp.album:type_name -> resourcerpc.Album
+	0,  // 9: resourcerpc.UpdateAlbumReq.status:type_name -> resourcerpc.albumStatus
+	14, // 10: resourcerpc.UpdateAlbumResp.album:type_name -> resourcerpc.Album
+	14, // 11: resourcerpc.UpdateAlbumDeleteResp.album:type_name -> resourcerpc.Album
+	14, // 12: resourcerpc.GetAlbumResp.album:type_name -> resourcerpc.Album
+	14, // 13: resourcerpc.DeletesAlbumResp.album:type_name -> resourcerpc.Album
+	1,  // 14: resourcerpc.FindAlbumListReq.paginate:type_name -> resourcerpc.PageReq
+	2,  // 15: resourcerpc.FindAlbumListResp.pagination:type_name -> resourcerpc.PageResp
+	14, // 16: resourcerpc.FindAlbumListResp.list:type_name -> resourcerpc.Album
+	4,  // 17: resourcerpc.ResourceRpc.AddPhoto:input_type -> resourcerpc.AddPhotoReq
+	6,  // 18: resourcerpc.ResourceRpc.UpdatePhoto:input_type -> resourcerpc.UpdatePhotoReq
+	8,  // 19: resourcerpc.ResourceRpc.UpdatePhotoDelete:input_type -> resourcerpc.UpdatePhotoDeleteReq
+	10, // 20: resourcerpc.ResourceRpc.DeletesPhoto:input_type -> resourcerpc.DeletesPhotoReq
+	12, // 21: resourcerpc.ResourceRpc.FindPhotoList:input_type -> resourcerpc.FindPhotoListReq
+	15, // 22: resourcerpc.ResourceRpc.AddAlbum:input_type -> resourcerpc.AddAlbumReq
+	17, // 23: resourcerpc.ResourceRpc.UpdateAlbum:input_type -> resourcerpc.UpdateAlbumReq
+	19, // 24: resourcerpc.ResourceRpc.UpdateAlbumDelete:input_type -> resourcerpc.UpdateAlbumDeleteReq
+	21, // 25: resourcerpc.ResourceRpc.GetAlbum:input_type -> resourcerpc.GetAlbumReq
+	23, // 26: resourcerpc.ResourceRpc.DeletesAlbum:input_type -> resourcerpc.DeletesAlbumReq
+	25, // 27: resourcerpc.ResourceRpc.FindAlbumList:input_type -> resourcerpc.FindAlbumListReq
+	5,  // 28: resourcerpc.ResourceRpc.AddPhoto:output_type -> resourcerpc.AddPhotoResp
+	7,  // 29: resourcerpc.ResourceRpc.UpdatePhoto:output_type -> resourcerpc.UpdatePhotoResp
+	9,  // 30: resourcerpc.ResourceRpc.UpdatePhotoDelete:output_type -> resourcerpc.UpdatePhotoDeleteResp
+	11, // 31: resourcerpc.ResourceRpc.DeletesPhoto:output_type -> resourcerpc.DeletesPhotoResp
+	13, // 32: resourcerpc.ResourceRpc.FindPhotoList:output_type -> resourcerpc.FindPhotoListResp
+	16, // 33: resourcerpc.ResourceRpc.AddAlbum:output_type -> resourcerpc.AddAlbumResp
+	18, // 34: resourcerpc.ResourceRpc.UpdateAlbum:output_type -> resourcerpc.UpdateAlbumResp
+	20, // 35: resourcerpc.ResourceRpc.UpdateAlbumDelete:output_type -> resourcerpc.UpdateAlbumDeleteResp
+	22, // 36: resourcerpc.ResourceRpc.GetAlbum:output_type -> resourcerpc.GetAlbumResp
+	24, // 37: resourcerpc.ResourceRpc.DeletesAlbum:output_type -> resourcerpc.DeletesAlbumResp
+	26, // 38: resourcerpc.ResourceRpc.FindAlbumList:output_type -> resourcerpc.FindAlbumListResp
+	28, // [28:39] is the sub-list for method output_type
+	17, // [17:28] is the sub-list for method input_type
+	17, // [17:17] is the sub-list for extension type_name
+	17, // [17:17] is the sub-list for extension extendee
+	0,  // [0:17] is the sub-list for field type_name
 }
 
 func init() { file_blog_resource_proto_init() }
@@ -1789,13 +1761,14 @@ func file_blog_resource_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_blog_resource_proto_rawDesc), len(file_blog_resource_proto_rawDesc)),
-			NumEnums:      0,
+			NumEnums:      1,
 			NumMessages:   26,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
 		GoTypes:           file_blog_resource_proto_goTypes,
 		DependencyIndexes: file_blog_resource_proto_depIdxs,
+		EnumInfos:         file_blog_resource_proto_enumTypes,
 		MessageInfos:      file_blog_resource_proto_msgTypes,
 	}.Build()
 	File_blog_resource_proto = out.File

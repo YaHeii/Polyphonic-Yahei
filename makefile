@@ -18,6 +18,9 @@ BLOG_RPC_OUT := service/rpc/blog/internal/pb
 BLOG_ZRPC_OUT := service/rpc/blog
 ETC_DIR := service/rpc/blog/etc
 BLOG_RPC_PROTO_DIR := service/rpc/blog/proto
+GO_BIN_DIR := /usr/local/go/bin
+GOCTL_BIN_DIR := /root/go/bin
+GO_BUILD_CACHE ?= /tmp/go-build
 MIGRATE_DIR := service/db/migrations
 BOOTSTRAP_SEED_DIR := service/db/seeds/bootstrap
 DB_CLI_HOST ?= 127.0.0.1
@@ -45,6 +48,8 @@ goctl-api-admin:
 
 # 根据各领域 proto 文件生成 blog RPC 的 protobuf 与 zrpc 代码。
 goctl-rpc-blog:
+	export PATH="$(GOCTL_BIN_DIR):$(GO_BIN_DIR):$$PATH"; \
+	export GOCACHE="$(GO_BUILD_CACHE)"; \
 	for file in "$(BLOG_RPC_PROTO_DIR)"/blog/*.proto; do \
 		if [ -f "$$file" ]; then \
 			goctl rpc protoc "$$file" \
@@ -58,7 +63,7 @@ goctl-rpc-blog:
 	done; \
 	rm -f "$(ETC_DIR)"/*rpc.yaml; \
 	rm -f "$(BLOG_ZRPC_OUT)"/*rpc.go
-	go mod tidy
+	PATH="$(GOCTL_BIN_DIR):$(GO_BIN_DIR):$$PATH" GOCACHE="$(GO_BUILD_CACHE)" go mod tidy
 
 # 为核心业务表生成 goctl model 代码。
 goctl-model-core:

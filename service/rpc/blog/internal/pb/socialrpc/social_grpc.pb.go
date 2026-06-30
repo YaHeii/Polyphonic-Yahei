@@ -23,17 +23,15 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	SocialRpc_AddFriend_FullMethodName        = "/socialrpc.SocialRpc/AddFriend"
-	SocialRpc_UpdateFriend_FullMethodName     = "/socialrpc.SocialRpc/UpdateFriend"
-	SocialRpc_DeletesFriend_FullMethodName    = "/socialrpc.SocialRpc/DeletesFriend"
-	SocialRpc_FindFriendList_FullMethodName   = "/socialrpc.SocialRpc/FindFriendList"
-	SocialRpc_AddTalk_FullMethodName          = "/socialrpc.SocialRpc/AddTalk"
-	SocialRpc_UpdateTalk_FullMethodName       = "/socialrpc.SocialRpc/UpdateTalk"
-	SocialRpc_DeletesTalk_FullMethodName      = "/socialrpc.SocialRpc/DeletesTalk"
-	SocialRpc_GetTalk_FullMethodName          = "/socialrpc.SocialRpc/GetTalk"
-	SocialRpc_FindTalkList_FullMethodName     = "/socialrpc.SocialRpc/FindTalkList"
-	SocialRpc_LikeTalk_FullMethodName         = "/socialrpc.SocialRpc/LikeTalk"
-	SocialRpc_FindUserLikeTalk_FullMethodName = "/socialrpc.SocialRpc/FindUserLikeTalk"
+	SocialRpc_AddFriend_FullMethodName      = "/socialrpc.SocialRpc/AddFriend"
+	SocialRpc_UpdateFriend_FullMethodName   = "/socialrpc.SocialRpc/UpdateFriend"
+	SocialRpc_DeletesFriend_FullMethodName  = "/socialrpc.SocialRpc/DeletesFriend"
+	SocialRpc_FindFriendList_FullMethodName = "/socialrpc.SocialRpc/FindFriendList"
+	SocialRpc_AddTalk_FullMethodName        = "/socialrpc.SocialRpc/AddTalk"
+	SocialRpc_UpdateTalk_FullMethodName     = "/socialrpc.SocialRpc/UpdateTalk"
+	SocialRpc_DeletesTalk_FullMethodName    = "/socialrpc.SocialRpc/DeletesTalk"
+	SocialRpc_GetTalk_FullMethodName        = "/socialrpc.SocialRpc/GetTalk"
+	SocialRpc_LikeTalk_FullMethodName       = "/socialrpc.SocialRpc/LikeTalk"
 )
 
 // SocialRpcClient is the client API for SocialRpc service.
@@ -55,13 +53,9 @@ type SocialRpcClient interface {
 	// 删除说说
 	DeletesTalk(ctx context.Context, in *DeletesTalkReq, opts ...grpc.CallOption) (*DeletesTalkResp, error)
 	// 查询说说
-	GetTalk(ctx context.Context, in *GetTalkReq, opts ...grpc.CallOption) (*GetTalkResp, error)
-	// 查询说说列表
-	FindTalkList(ctx context.Context, in *FindTalkListReq, opts ...grpc.CallOption) (*FindTalkListResp, error)
+	GetTalk(ctx context.Context, in *GetTalkListReq, opts ...grpc.CallOption) (*GetTalkListResp, error)
 	// 点赞说说
 	LikeTalk(ctx context.Context, in *LikeTalkReq, opts ...grpc.CallOption) (*LikeTalkResp, error)
-	// 用户点赞的说说
-	FindUserLikeTalk(ctx context.Context, in *FindUserLikeTalkReq, opts ...grpc.CallOption) (*FindUserLikeTalkResp, error)
 }
 
 type socialRpcClient struct {
@@ -142,20 +136,10 @@ func (c *socialRpcClient) DeletesTalk(ctx context.Context, in *DeletesTalkReq, o
 	return out, nil
 }
 
-func (c *socialRpcClient) GetTalk(ctx context.Context, in *GetTalkReq, opts ...grpc.CallOption) (*GetTalkResp, error) {
+func (c *socialRpcClient) GetTalk(ctx context.Context, in *GetTalkListReq, opts ...grpc.CallOption) (*GetTalkListResp, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetTalkResp)
+	out := new(GetTalkListResp)
 	err := c.cc.Invoke(ctx, SocialRpc_GetTalk_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *socialRpcClient) FindTalkList(ctx context.Context, in *FindTalkListReq, opts ...grpc.CallOption) (*FindTalkListResp, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(FindTalkListResp)
-	err := c.cc.Invoke(ctx, SocialRpc_FindTalkList_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -166,16 +150,6 @@ func (c *socialRpcClient) LikeTalk(ctx context.Context, in *LikeTalkReq, opts ..
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(LikeTalkResp)
 	err := c.cc.Invoke(ctx, SocialRpc_LikeTalk_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *socialRpcClient) FindUserLikeTalk(ctx context.Context, in *FindUserLikeTalkReq, opts ...grpc.CallOption) (*FindUserLikeTalkResp, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(FindUserLikeTalkResp)
-	err := c.cc.Invoke(ctx, SocialRpc_FindUserLikeTalk_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -201,13 +175,9 @@ type SocialRpcServer interface {
 	// 删除说说
 	DeletesTalk(context.Context, *DeletesTalkReq) (*DeletesTalkResp, error)
 	// 查询说说
-	GetTalk(context.Context, *GetTalkReq) (*GetTalkResp, error)
-	// 查询说说列表
-	FindTalkList(context.Context, *FindTalkListReq) (*FindTalkListResp, error)
+	GetTalk(context.Context, *GetTalkListReq) (*GetTalkListResp, error)
 	// 点赞说说
 	LikeTalk(context.Context, *LikeTalkReq) (*LikeTalkResp, error)
-	// 用户点赞的说说
-	FindUserLikeTalk(context.Context, *FindUserLikeTalkReq) (*FindUserLikeTalkResp, error)
 	mustEmbedUnimplementedSocialRpcServer()
 }
 
@@ -239,17 +209,11 @@ func (UnimplementedSocialRpcServer) UpdateTalk(context.Context, *UpdateTalkReq) 
 func (UnimplementedSocialRpcServer) DeletesTalk(context.Context, *DeletesTalkReq) (*DeletesTalkResp, error) {
 	return nil, status.Error(codes.Unimplemented, "method DeletesTalk not implemented")
 }
-func (UnimplementedSocialRpcServer) GetTalk(context.Context, *GetTalkReq) (*GetTalkResp, error) {
+func (UnimplementedSocialRpcServer) GetTalk(context.Context, *GetTalkListReq) (*GetTalkListResp, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetTalk not implemented")
-}
-func (UnimplementedSocialRpcServer) FindTalkList(context.Context, *FindTalkListReq) (*FindTalkListResp, error) {
-	return nil, status.Error(codes.Unimplemented, "method FindTalkList not implemented")
 }
 func (UnimplementedSocialRpcServer) LikeTalk(context.Context, *LikeTalkReq) (*LikeTalkResp, error) {
 	return nil, status.Error(codes.Unimplemented, "method LikeTalk not implemented")
-}
-func (UnimplementedSocialRpcServer) FindUserLikeTalk(context.Context, *FindUserLikeTalkReq) (*FindUserLikeTalkResp, error) {
-	return nil, status.Error(codes.Unimplemented, "method FindUserLikeTalk not implemented")
 }
 func (UnimplementedSocialRpcServer) mustEmbedUnimplementedSocialRpcServer() {}
 func (UnimplementedSocialRpcServer) testEmbeddedByValue()                   {}
@@ -399,7 +363,7 @@ func _SocialRpc_DeletesTalk_Handler(srv interface{}, ctx context.Context, dec fu
 }
 
 func _SocialRpc_GetTalk_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetTalkReq)
+	in := new(GetTalkListReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -411,25 +375,7 @@ func _SocialRpc_GetTalk_Handler(srv interface{}, ctx context.Context, dec func(i
 		FullMethod: SocialRpc_GetTalk_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SocialRpcServer).GetTalk(ctx, req.(*GetTalkReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _SocialRpc_FindTalkList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(FindTalkListReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(SocialRpcServer).FindTalkList(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: SocialRpc_FindTalkList_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SocialRpcServer).FindTalkList(ctx, req.(*FindTalkListReq))
+		return srv.(SocialRpcServer).GetTalk(ctx, req.(*GetTalkListReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -448,24 +394,6 @@ func _SocialRpc_LikeTalk_Handler(srv interface{}, ctx context.Context, dec func(
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(SocialRpcServer).LikeTalk(ctx, req.(*LikeTalkReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _SocialRpc_FindUserLikeTalk_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(FindUserLikeTalkReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(SocialRpcServer).FindUserLikeTalk(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: SocialRpc_FindUserLikeTalk_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SocialRpcServer).FindUserLikeTalk(ctx, req.(*FindUserLikeTalkReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -510,16 +438,8 @@ var SocialRpc_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _SocialRpc_GetTalk_Handler,
 		},
 		{
-			MethodName: "FindTalkList",
-			Handler:    _SocialRpc_FindTalkList_Handler,
-		},
-		{
 			MethodName: "LikeTalk",
 			Handler:    _SocialRpc_LikeTalk_Handler,
-		},
-		{
-			MethodName: "FindUserLikeTalk",
-			Handler:    _SocialRpc_FindUserLikeTalk_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -12,7 +12,6 @@ option go_package = "./socialrpc";
 message PageReq {
   int64 page = 1;      // 页码
   int64 page_size = 2; // 每页大小
-  repeated string sorts = 3; // 排序字段
 }
 
 // 分页响应参数
@@ -24,7 +23,6 @@ message PageResp {
 
 /************** 友链管理 **************/
 message Friend {
-  int64 id = 1;// id
   string link_name = 2;// 链接名
   string link_avatar = 3;// 链接头像
   string link_address = 4;// 链接地址
@@ -34,7 +32,6 @@ message Friend {
 }
 
 message AddFriendReq {
-  int64 id = 1;// id
   string link_name = 2;// 链接名
   string link_avatar = 3;// 链接头像
   string link_address = 4;// 链接地址
@@ -46,7 +43,6 @@ message AddFriendResp {
 }
 
 message UpdateFriendReq {
-  int64 id = 1;// id
   string link_name = 2;// 链接名
   string link_avatar = 3;// 链接头像
   string link_address = 4;// 链接地址
@@ -58,11 +54,11 @@ message UpdateFriendResp {
 }
 
 message DeletesFriendReq {
-  repeated int64 ids = 1; // id列表
+  string link_name = 2;
 }
 
 message DeletesFriendResp {
-  int64 success_count = 1; // 成功数量
+  Friend friend = 1;
 }
 
 message FindFriendListReq {
@@ -76,13 +72,17 @@ message FindFriendListResp {
 }
 
 /************** 说说管理 **************/
+enum talkStatus {
+  PUBLIC=0;
+  PRIVATE=1;
+}
+
 message Talk {
-  int64 id = 1;// 说说id
   string user_id = 2;// 用户id
   string content = 3;// 说说内容
   repeated string img_list = 4;// 图片URL列表
   bool is_top = 5;// 是否置顶
-  int64 status = 6;// 状态 1.公开 2.私密
+  talkStatus status = 6;// 状态 0.公开 1.私密
   int64 created_at = 7;// 创建时间
   int64 updated_at = 8;// 更新时间
   int64 like_count = 9;// 点赞量
@@ -90,12 +90,11 @@ message Talk {
 }
 
 message AddTalkReq {
-  int64 id = 1;// 说说id
   string user_id = 2;// 用户id
   string content = 3;// 说说内容
   repeated string img_list = 4;// 图片URL列表
   bool is_top = 5;// 是否置顶
-  int64 status = 6;// 状态 1.公开 2.私密
+  talkStatus status = 6;// 状态 0.公开 1.私密
 }
 
 message AddTalkResp {
@@ -103,12 +102,11 @@ message AddTalkResp {
 }
 
 message UpdateTalkReq {
-  int64 id = 1;// 说说id
   string user_id = 2;// 用户id
   string content = 3;// 说说内容
   repeated string img_list = 4;// 图片URL列表
   bool is_top = 5;// 是否置顶
-  int64 status = 6;// 状态 1.公开 2.私密
+  talkStatus status = 6;// 状态 1.公开 2.私密
 }
 
 message UpdateTalkResp {
@@ -116,44 +114,28 @@ message UpdateTalkResp {
 }
 
 message DeletesTalkReq {
-  repeated int64 ids = 1; // id列表
+  string content = 3;// 说说内容
 }
 
 message DeletesTalkResp {
-  int64 success_count = 1; // 成功数量
-}
-
-message GetTalkReq {
-  int64 id = 1; // 说说id
-}
-
-message GetTalkResp {
   Talk talk = 1;
 }
 
-message FindTalkListReq {
-  PageReq paginate = 1;    // 分页参数
-  int64 status = 2;// 状态 1.公开 2.私密
+message GetTalkListReq {
+  PageReq paginate = 1;  
 }
 
-message FindTalkListResp {
-  PageResp pagination = 1; // 分页信息
-  repeated Talk list = 2;
+message GetTalkListResp {
+  PageResp pagination = 1; 
+  repeated Talk talk = 2;
 }
 
 message LikeTalkReq {
-  int64 id = 1; // 说说id
+  string content = 3;// 说说内容
 }
 
 message LikeTalkResp {
-}
-
-message FindUserLikeTalkReq {
-  string user_id = 1; // 用户id
-}
-
-message FindUserLikeTalkResp {
-  repeated int64 like_talk_list = 1;
+  Talk talk = 1;
 }
 
 
@@ -175,12 +157,8 @@ service SocialRpc {
   // 删除说说
   rpc DeletesTalk(DeletesTalkReq) returns(DeletesTalkResp);
   // 查询说说
-  rpc GetTalk(GetTalkReq) returns(GetTalkResp);
-  // 查询说说列表
-  rpc FindTalkList(FindTalkListReq) returns(FindTalkListResp);
+  rpc GetTalk(GetTalkListReq) returns(GetTalkListResp);
 
   // 点赞说说
   rpc LikeTalk(LikeTalkReq) returns(LikeTalkResp);
-  // 用户点赞的说说
-  rpc FindUserLikeTalk(FindUserLikeTalkReq) returns(FindUserLikeTalkResp);
-}
+ }

@@ -14,40 +14,28 @@ import (
 )
 
 type (
-	AddCommentReq              = newsrpc.AddCommentReq
-	AddCommentResp             = newsrpc.AddCommentResp
-	AddMessageReq              = newsrpc.AddMessageReq
-	AddMessageResp             = newsrpc.AddMessageResp
-	AnalysisMessageReq         = newsrpc.AnalysisMessageReq
-	AnalysisMessageResp        = newsrpc.AnalysisMessageResp
-	DeletesCommentReq          = newsrpc.DeletesCommentReq
-	DeletesCommentResp         = newsrpc.DeletesCommentResp
-	DeletesMessageReq          = newsrpc.DeletesMessageReq
-	DeletesMessageResp         = newsrpc.DeletesMessageResp
-	FindCommentListReq         = newsrpc.FindCommentListReq
-	FindCommentListResp        = newsrpc.FindCommentListResp
-	FindCommentReplyCountsReq  = newsrpc.FindCommentReplyCountsReq
-	FindCommentReplyCountsResp = newsrpc.FindCommentReplyCountsResp
-	FindCommentReplyListReq    = newsrpc.FindCommentReplyListReq
-	FindCommentReplyListResp   = newsrpc.FindCommentReplyListResp
-	FindLikeCommentResp        = newsrpc.FindLikeCommentResp
-	FindMessageListReq         = newsrpc.FindMessageListReq
-	FindMessageListResp        = newsrpc.FindMessageListResp
-	FindUserLikeCommentReq     = newsrpc.FindUserLikeCommentReq
-	GetCommentReq              = newsrpc.GetCommentReq
-	GetCommentResp             = newsrpc.GetCommentResp
-	GetMessageReq              = newsrpc.GetMessageReq
-	GetMessageResp             = newsrpc.GetMessageResp
-	LikeCommentReq             = newsrpc.LikeCommentReq
-	LikeCommentResp            = newsrpc.LikeCommentResp
-	UpdateCommentReq           = newsrpc.UpdateCommentReq
-	UpdateCommentResp          = newsrpc.UpdateCommentResp
-	UpdateCommentStatusReq     = newsrpc.UpdateCommentStatusReq
-	UpdateCommentStatusResp    = newsrpc.UpdateCommentStatusResp
-	UpdateMessageReq           = newsrpc.UpdateMessageReq
-	UpdateMessageResp          = newsrpc.UpdateMessageResp
-	UpdateMessageStatusReq     = newsrpc.UpdateMessageStatusReq
-	UpdateMessageStatusResp    = newsrpc.UpdateMessageStatusResp
+	AddCommentReq       = newsrpc.AddCommentReq
+	AddCommentResp      = newsrpc.AddCommentResp
+	AddMessageReq       = newsrpc.AddMessageReq
+	AddMessageResp      = newsrpc.AddMessageResp
+	AnalysisMessageReq  = newsrpc.AnalysisMessageReq
+	AnalysisMessageResp = newsrpc.AnalysisMessageResp
+	DeleteCommentReq    = newsrpc.DeleteCommentReq
+	DeleteCommentResp   = newsrpc.DeleteCommentResp
+	DeleteMessageReq    = newsrpc.DeleteMessageReq
+	DeleteMessageResp   = newsrpc.DeleteMessageResp
+	FindCommentListReq  = newsrpc.FindCommentListReq
+	FindCommentListResp = newsrpc.FindCommentListResp
+	FindMessageListReq  = newsrpc.FindMessageListReq
+	FindMessageListResp = newsrpc.FindMessageListResp
+	GetCommentReq       = newsrpc.GetCommentReq
+	GetCommentResp      = newsrpc.GetCommentResp
+	GetMessageReq       = newsrpc.GetMessageReq
+	GetMessageResp      = newsrpc.GetMessageResp
+	UpdateCommentReq    = newsrpc.UpdateCommentReq
+	UpdateCommentResp   = newsrpc.UpdateCommentResp
+	UpdateMessageReq    = newsrpc.UpdateMessageReq
+	UpdateMessageResp   = newsrpc.UpdateMessageResp
 
 	NewsRpc interface {
 		// 消息数据分析
@@ -59,11 +47,9 @@ type (
 		// 查询留言
 		GetMessage(ctx context.Context, in *GetMessageReq, opts ...grpc.CallOption) (*GetMessageResp, error)
 		// 删除留言
-		DeletesMessage(ctx context.Context, in *DeletesMessageReq, opts ...grpc.CallOption) (*DeletesMessageResp, error)
+		DeletesMessage(ctx context.Context, in *DeleteMessageReq, opts ...grpc.CallOption) (*DeleteMessageResp, error)
 		// 查询留言列表
 		FindMessageList(ctx context.Context, in *FindMessageListReq, opts ...grpc.CallOption) (*FindMessageListResp, error)
-		// 更新留言状态
-		UpdateMessageStatus(ctx context.Context, in *UpdateMessageStatusReq, opts ...grpc.CallOption) (*UpdateMessageStatusResp, error)
 		// 创建评论
 		AddComment(ctx context.Context, in *AddCommentReq, opts ...grpc.CallOption) (*AddCommentResp, error)
 		// 更新评论
@@ -71,19 +57,9 @@ type (
 		// 查询评论
 		GetComment(ctx context.Context, in *GetCommentReq, opts ...grpc.CallOption) (*GetCommentResp, error)
 		// 删除评论
-		DeletesComment(ctx context.Context, in *DeletesCommentReq, opts ...grpc.CallOption) (*DeletesCommentResp, error)
+		DeletesComment(ctx context.Context, in *DeleteCommentReq, opts ...grpc.CallOption) (*DeleteCommentResp, error)
 		// 查询评论列表
 		FindCommentList(ctx context.Context, in *FindCommentListReq, opts ...grpc.CallOption) (*FindCommentListResp, error)
-		// 查询评论回复列表
-		FindCommentReplyList(ctx context.Context, in *FindCommentReplyListReq, opts ...grpc.CallOption) (*FindCommentReplyListResp, error)
-		// 查询评论回复数量
-		FindCommentReplyCounts(ctx context.Context, in *FindCommentReplyCountsReq, opts ...grpc.CallOption) (*FindCommentReplyCountsResp, error)
-		// 更新评论状态
-		UpdateCommentStatus(ctx context.Context, in *UpdateCommentStatusReq, opts ...grpc.CallOption) (*UpdateCommentStatusResp, error)
-		// 点赞评论
-		LikeComment(ctx context.Context, in *LikeCommentReq, opts ...grpc.CallOption) (*LikeCommentResp, error)
-		// 用户点赞的评论
-		FindUserLikeComment(ctx context.Context, in *FindUserLikeCommentReq, opts ...grpc.CallOption) (*FindLikeCommentResp, error)
 	}
 
 	defaultNewsRpc struct {
@@ -122,7 +98,7 @@ func (m *defaultNewsRpc) GetMessage(ctx context.Context, in *GetMessageReq, opts
 }
 
 // 删除留言
-func (m *defaultNewsRpc) DeletesMessage(ctx context.Context, in *DeletesMessageReq, opts ...grpc.CallOption) (*DeletesMessageResp, error) {
+func (m *defaultNewsRpc) DeletesMessage(ctx context.Context, in *DeleteMessageReq, opts ...grpc.CallOption) (*DeleteMessageResp, error) {
 	client := newsrpc.NewNewsRpcClient(m.cli.Conn())
 	return client.DeletesMessage(ctx, in, opts...)
 }
@@ -131,12 +107,6 @@ func (m *defaultNewsRpc) DeletesMessage(ctx context.Context, in *DeletesMessageR
 func (m *defaultNewsRpc) FindMessageList(ctx context.Context, in *FindMessageListReq, opts ...grpc.CallOption) (*FindMessageListResp, error) {
 	client := newsrpc.NewNewsRpcClient(m.cli.Conn())
 	return client.FindMessageList(ctx, in, opts...)
-}
-
-// 更新留言状态
-func (m *defaultNewsRpc) UpdateMessageStatus(ctx context.Context, in *UpdateMessageStatusReq, opts ...grpc.CallOption) (*UpdateMessageStatusResp, error) {
-	client := newsrpc.NewNewsRpcClient(m.cli.Conn())
-	return client.UpdateMessageStatus(ctx, in, opts...)
 }
 
 // 创建评论
@@ -158,7 +128,7 @@ func (m *defaultNewsRpc) GetComment(ctx context.Context, in *GetCommentReq, opts
 }
 
 // 删除评论
-func (m *defaultNewsRpc) DeletesComment(ctx context.Context, in *DeletesCommentReq, opts ...grpc.CallOption) (*DeletesCommentResp, error) {
+func (m *defaultNewsRpc) DeletesComment(ctx context.Context, in *DeleteCommentReq, opts ...grpc.CallOption) (*DeleteCommentResp, error) {
 	client := newsrpc.NewNewsRpcClient(m.cli.Conn())
 	return client.DeletesComment(ctx, in, opts...)
 }
@@ -167,34 +137,4 @@ func (m *defaultNewsRpc) DeletesComment(ctx context.Context, in *DeletesCommentR
 func (m *defaultNewsRpc) FindCommentList(ctx context.Context, in *FindCommentListReq, opts ...grpc.CallOption) (*FindCommentListResp, error) {
 	client := newsrpc.NewNewsRpcClient(m.cli.Conn())
 	return client.FindCommentList(ctx, in, opts...)
-}
-
-// 查询评论回复列表
-func (m *defaultNewsRpc) FindCommentReplyList(ctx context.Context, in *FindCommentReplyListReq, opts ...grpc.CallOption) (*FindCommentReplyListResp, error) {
-	client := newsrpc.NewNewsRpcClient(m.cli.Conn())
-	return client.FindCommentReplyList(ctx, in, opts...)
-}
-
-// 查询评论回复数量
-func (m *defaultNewsRpc) FindCommentReplyCounts(ctx context.Context, in *FindCommentReplyCountsReq, opts ...grpc.CallOption) (*FindCommentReplyCountsResp, error) {
-	client := newsrpc.NewNewsRpcClient(m.cli.Conn())
-	return client.FindCommentReplyCounts(ctx, in, opts...)
-}
-
-// 更新评论状态
-func (m *defaultNewsRpc) UpdateCommentStatus(ctx context.Context, in *UpdateCommentStatusReq, opts ...grpc.CallOption) (*UpdateCommentStatusResp, error) {
-	client := newsrpc.NewNewsRpcClient(m.cli.Conn())
-	return client.UpdateCommentStatus(ctx, in, opts...)
-}
-
-// 点赞评论
-func (m *defaultNewsRpc) LikeComment(ctx context.Context, in *LikeCommentReq, opts ...grpc.CallOption) (*LikeCommentResp, error) {
-	client := newsrpc.NewNewsRpcClient(m.cli.Conn())
-	return client.LikeComment(ctx, in, opts...)
-}
-
-// 用户点赞的评论
-func (m *defaultNewsRpc) FindUserLikeComment(ctx context.Context, in *FindUserLikeCommentReq, opts ...grpc.CallOption) (*FindLikeCommentResp, error) {
-	client := newsrpc.NewNewsRpcClient(m.cli.Conn())
-	return client.FindUserLikeComment(ctx, in, opts...)
 }

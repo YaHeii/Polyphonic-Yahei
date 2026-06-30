@@ -14,44 +14,43 @@ import (
 )
 
 type (
-	AddArticleReq              = articlerpc.AddArticleReq
-	AddArticleResp             = articlerpc.AddArticleResp
-	AddArticleVisitsReq        = articlerpc.AddArticleVisitsReq
-	AddArticleVisitsResp       = articlerpc.AddArticleVisitsResp
-	AddCategoryReq             = articlerpc.AddCategoryReq
-	AddCategoryResp            = articlerpc.AddCategoryResp
-	AnalysisArticleReq         = articlerpc.AnalysisArticleReq
-	AnalysisArticleResp        = articlerpc.AnalysisArticleResp
-	DeletesArticleReq          = articlerpc.DeletesArticleReq
-	DeletesArticleResp         = articlerpc.DeletesArticleResp
-	DeletesCategoryReq         = articlerpc.DeletesCategoryReq
-	DeletesCategoryResp        = articlerpc.DeletesCategoryResp
-	FindArticleListReq         = articlerpc.FindArticleListReq
-	FindArticleListResp        = articlerpc.FindArticleListResp
-	FindArticlePreviewListResp = articlerpc.FindArticlePreviewListResp
-	FindCategoryListReq        = articlerpc.FindCategoryListReq
-	FindCategoryListResp       = articlerpc.FindCategoryListResp
-	FindLikeArticleResp        = articlerpc.FindLikeArticleResp
-	FindUserLikeArticleReq     = articlerpc.FindUserLikeArticleReq
-	GetArticleRelationReq      = articlerpc.GetArticleRelationReq
-	GetArticleRelationResp     = articlerpc.GetArticleRelationResp
-	GetArticleReq              = articlerpc.GetArticleReq
-	GetArticleResp             = articlerpc.GetArticleResp
-	GetCategoryReq             = articlerpc.GetCategoryReq
-	GetCategoryResp            = articlerpc.GetCategoryResp
-	LikeArticleReq             = articlerpc.LikeArticleReq
-	LikeArticleResp            = articlerpc.LikeArticleResp
-	UpdateArticleDeleteReq     = articlerpc.UpdateArticleDeleteReq
-	UpdateArticleDeleteResp    = articlerpc.UpdateArticleDeleteResp
-	UpdateArticleReq           = articlerpc.UpdateArticleReq
-	UpdateArticleResp          = articlerpc.UpdateArticleResp
-	UpdateArticleTopReq        = articlerpc.UpdateArticleTopReq
-	UpdateArticleTopResp       = articlerpc.UpdateArticleTopResp
-	UpdateCategoryReq          = articlerpc.UpdateCategoryReq
-	UpdateCategoryResp         = articlerpc.UpdateCategoryResp
+	AddArticleReq           = articlerpc.AddArticleReq
+	AddArticleResp          = articlerpc.AddArticleResp
+	AddArticleVisitsReq     = articlerpc.AddArticleVisitsReq
+	AddArticleVisitsResp    = articlerpc.AddArticleVisitsResp
+	AddCategoryReq          = articlerpc.AddCategoryReq
+	AddCategoryResp         = articlerpc.AddCategoryResp
+	AnalysisArticleReq      = articlerpc.AnalysisArticleReq
+	AnalysisArticleResp     = articlerpc.AnalysisArticleResp
+	DeleteArticleReq        = articlerpc.DeleteArticleReq
+	DeleteArticleResp       = articlerpc.DeleteArticleResp
+	DeleteCategoryReq       = articlerpc.DeleteCategoryReq
+	DeleteCategoryResp      = articlerpc.DeleteCategoryResp
+	FindArticleListReq      = articlerpc.FindArticleListReq
+	FindArticleListResp     = articlerpc.FindArticleListResp
+	FindCategoryListReq     = articlerpc.FindCategoryListReq
+	FindCategoryListResp    = articlerpc.FindCategoryListResp
+	FindLikeArticleResp     = articlerpc.FindLikeArticleResp
+	FindUserLikeArticleReq  = articlerpc.FindUserLikeArticleReq
+	GetArticleRelationReq   = articlerpc.GetArticleRelationReq
+	GetArticleRelationResp  = articlerpc.GetArticleRelationResp
+	GetArticleReq           = articlerpc.GetArticleReq
+	GetArticleResp          = articlerpc.GetArticleResp
+	GetCategoryReq          = articlerpc.GetCategoryReq
+	GetCategoryResp         = articlerpc.GetCategoryResp
+	LikeArticleReq          = articlerpc.LikeArticleReq
+	LikeArticleResp         = articlerpc.LikeArticleResp
+	UpdateArticleDeleteReq  = articlerpc.UpdateArticleDeleteReq
+	UpdateArticleDeleteResp = articlerpc.UpdateArticleDeleteResp
+	UpdateArticleReq        = articlerpc.UpdateArticleReq
+	UpdateArticleResp       = articlerpc.UpdateArticleResp
+	UpdateArticleTopReq     = articlerpc.UpdateArticleTopReq
+	UpdateArticleTopResp    = articlerpc.UpdateArticleTopResp
+	UpdateCategoryReq       = articlerpc.UpdateCategoryReq
+	UpdateCategoryResp      = articlerpc.UpdateCategoryResp
 
 	ArticleRpc interface {
-		// 分析文章数量
+		// 分析站内文章数据
 		AnalysisArticle(ctx context.Context, in *AnalysisArticleReq, opts ...grpc.CallOption) (*AnalysisArticleResp, error)
 		// 添加文章访问量
 		AddArticleVisits(ctx context.Context, in *AddArticleVisitsReq, opts ...grpc.CallOption) (*AddArticleVisitsResp, error)
@@ -64,15 +63,13 @@ type (
 		// 更新文章置顶
 		UpdateArticleTop(ctx context.Context, in *UpdateArticleTopReq, opts ...grpc.CallOption) (*UpdateArticleTopResp, error)
 		// 删除文章
-		DeletesArticle(ctx context.Context, in *DeletesArticleReq, opts ...grpc.CallOption) (*DeletesArticleResp, error)
+		DeletesArticle(ctx context.Context, in *DeleteArticleReq, opts ...grpc.CallOption) (*DeleteArticleResp, error)
 		// 查询文章
 		GetArticle(ctx context.Context, in *GetArticleReq, opts ...grpc.CallOption) (*GetArticleResp, error)
 		// 查询关联文章
 		GetArticleRelation(ctx context.Context, in *GetArticleRelationReq, opts ...grpc.CallOption) (*GetArticleRelationResp, error)
 		// 查询文章列表
 		FindArticleList(ctx context.Context, in *FindArticleListReq, opts ...grpc.CallOption) (*FindArticleListResp, error)
-		// 查询文章列表
-		FindArticlePreviewList(ctx context.Context, in *FindArticleListReq, opts ...grpc.CallOption) (*FindArticlePreviewListResp, error)
 		// 点赞文章
 		LikeArticle(ctx context.Context, in *LikeArticleReq, opts ...grpc.CallOption) (*LikeArticleResp, error)
 		// 用户点赞的文章
@@ -84,7 +81,7 @@ type (
 		// 查询文章分类
 		GetCategory(ctx context.Context, in *GetCategoryReq, opts ...grpc.CallOption) (*GetCategoryResp, error)
 		// 删除文章分类
-		DeletesCategory(ctx context.Context, in *DeletesCategoryReq, opts ...grpc.CallOption) (*DeletesCategoryResp, error)
+		DeletesCategory(ctx context.Context, in *DeleteCategoryReq, opts ...grpc.CallOption) (*DeleteCategoryResp, error)
 		// 查询文章分类列表
 		FindCategoryList(ctx context.Context, in *FindCategoryListReq, opts ...grpc.CallOption) (*FindCategoryListResp, error)
 	}
@@ -100,7 +97,7 @@ func NewArticleRpc(cli zrpc.Client) ArticleRpc {
 	}
 }
 
-// 分析文章数量
+// 分析站内文章数据
 func (m *defaultArticleRpc) AnalysisArticle(ctx context.Context, in *AnalysisArticleReq, opts ...grpc.CallOption) (*AnalysisArticleResp, error) {
 	client := articlerpc.NewArticleRpcClient(m.cli.Conn())
 	return client.AnalysisArticle(ctx, in, opts...)
@@ -137,7 +134,7 @@ func (m *defaultArticleRpc) UpdateArticleTop(ctx context.Context, in *UpdateArti
 }
 
 // 删除文章
-func (m *defaultArticleRpc) DeletesArticle(ctx context.Context, in *DeletesArticleReq, opts ...grpc.CallOption) (*DeletesArticleResp, error) {
+func (m *defaultArticleRpc) DeletesArticle(ctx context.Context, in *DeleteArticleReq, opts ...grpc.CallOption) (*DeleteArticleResp, error) {
 	client := articlerpc.NewArticleRpcClient(m.cli.Conn())
 	return client.DeletesArticle(ctx, in, opts...)
 }
@@ -158,12 +155,6 @@ func (m *defaultArticleRpc) GetArticleRelation(ctx context.Context, in *GetArtic
 func (m *defaultArticleRpc) FindArticleList(ctx context.Context, in *FindArticleListReq, opts ...grpc.CallOption) (*FindArticleListResp, error) {
 	client := articlerpc.NewArticleRpcClient(m.cli.Conn())
 	return client.FindArticleList(ctx, in, opts...)
-}
-
-// 查询文章列表
-func (m *defaultArticleRpc) FindArticlePreviewList(ctx context.Context, in *FindArticleListReq, opts ...grpc.CallOption) (*FindArticlePreviewListResp, error) {
-	client := articlerpc.NewArticleRpcClient(m.cli.Conn())
-	return client.FindArticlePreviewList(ctx, in, opts...)
 }
 
 // 点赞文章
@@ -197,7 +188,7 @@ func (m *defaultArticleRpc) GetCategory(ctx context.Context, in *GetCategoryReq,
 }
 
 // 删除文章分类
-func (m *defaultArticleRpc) DeletesCategory(ctx context.Context, in *DeletesCategoryReq, opts ...grpc.CallOption) (*DeletesCategoryResp, error) {
+func (m *defaultArticleRpc) DeletesCategory(ctx context.Context, in *DeleteCategoryReq, opts ...grpc.CallOption) (*DeleteCategoryResp, error) {
 	client := articlerpc.NewArticleRpcClient(m.cli.Conn())
 	return client.DeletesCategory(ctx, in, opts...)
 }

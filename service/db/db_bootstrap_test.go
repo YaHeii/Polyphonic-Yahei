@@ -38,8 +38,6 @@ func TestServiceDBLayoutExists(t *testing.T) {
 		filepath.Join(root, "service", "db", "README.md"),
 		filepath.Join(root, "service", "db", "migrations", "000001_blog_init.up.sql"),
 		filepath.Join(root, "service", "db", "migrations", "000001_blog_init.down.sql"),
-		filepath.Join(root, "service", "db", "migrations", "000002_drop_t_page.up.sql"),
-		filepath.Join(root, "service", "db", "migrations", "000002_drop_t_page.down.sql"),
 		filepath.Join(root, "service", "db", "seeds", "bootstrap", "001_auth_bootstrap.sql"),
 		filepath.Join(root, "service", "db", "seeds", "bootstrap", "002_permission_bootstrap.sql"),
 		filepath.Join(root, "service", "db", "seeds", "bootstrap", "003_site_bootstrap.sql"),
@@ -73,6 +71,10 @@ func TestBaselineMigrationContainsOnlySchema(t *testing.T) {
 		"INSERT INTO t_article",
 		"BEGIN;",
 		"COMMIT;",
+		"CREATE TABLE t_page (",
+		"CREATE TABLE t_tag (",
+		"CREATE TRIGGER trg_t_page_set_updated_at BEFORE UPDATE ON t_page",
+		"CREATE TRIGGER trg_t_tag_set_updated_at BEFORE UPDATE ON t_tag",
 	}
 	for _, item := range forbidden {
 		if strings.Contains(upSQL, item) {
@@ -208,32 +210,42 @@ func TestRBACSchemaUsesSingleRolePerUser(t *testing.T) {
 	}
 }
 
-func TestDropPageMigrationExistsAndDropsTable(t *testing.T) {
+func TestMergedBaselineRemovesDroppedContentTables(t *testing.T) {
 	root := repoRoot(t)
-	upSQL := readFile(t, root, "service", "db", "migrations", "000002_drop_t_page.up.sql")
-	downSQL := readFile(t, root, "service", "db", "migrations", "000002_drop_t_page.down.sql")
+	upSQL := readFile(t, root, "service", "db", "migrations", "000001_blog_init.up.sql")
+	downSQL := readFile(t, root, "service", "db", "migrations", "000001_blog_init.down.sql")
 
 	requiredUp := []string{
-		"DROP TRIGGER IF EXISTS trg_t_page_set_updated_at ON t_page;",
-		"DROP TABLE IF EXISTS t_page;",
-		"DROP TRIGGER IF EXISTS trg_t_tag_set_updated_at ON t_tag;",
-		"DROP TABLE IF EXISTS t_tag;",
+		"CREATE TABLE t_article (",
+		"CREATE TABLE t_category (",
 	}
 	for _, item := range requiredUp {
 		if !strings.Contains(upSQL, item) {
-			t.Fatalf("expected drop migration up to contain %q", item)
+			t.Fatalf("expected merged baseline up to contain %q", item)
 		}
 	}
 
-	requiredDown := []string{
+	forbiddenUp := []string{
 		"CREATE TABLE t_page (",
-		"CREATE TRIGGER trg_t_page_set_updated_at BEFORE UPDATE ON t_page",
 		"CREATE TABLE t_tag (",
+		"CREATE TRIGGER trg_t_page_set_updated_at BEFORE UPDATE ON t_page",
 		"CREATE TRIGGER trg_t_tag_set_updated_at BEFORE UPDATE ON t_tag",
 	}
-	for _, item := range requiredDown {
-		if !strings.Contains(downSQL, item) {
-			t.Fatalf("expected drop migration down to contain %q", item)
+	for _, item := range forbiddenUp {
+		if strings.Contains(upSQL, item) {
+			t.Fatalf("expected merged baseline up to exclude %q", item)
+		}
+	}
+
+	forbiddenDown := []string{
+		"DROP TRIGGER IF EXISTS trg_t_page_set_updated_at ON t_page;",
+		"DROP TRIGGER IF EXISTS trg_t_tag_set_updated_at ON t_tag;",
+		"DROP TABLE IF EXISTS t_page;",
+		"DROP TABLE IF EXISTS t_tag;",
+	}
+	for _, item := range forbiddenDown {
+		if strings.Contains(downSQL, item) {
+			t.Fatalf("expected merged baseline down to exclude %q", item)
 		}
 	}
 }
